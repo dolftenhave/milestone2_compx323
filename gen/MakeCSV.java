@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
+
 /**
  * @author Dolf ten Have
  * @date 15/04/2025
@@ -8,7 +13,82 @@
  */
 
 public class MakeCSV {
+
+	private static final String usage = "usage: java MakeCSV <n-lines> <path/to/table/file> <output name>";
+	private static final int MIN_YEAR = 1925; // 100 years for now
+	private static final int fileValue = 4;
+
+	private static int length;
+	private static String outputFileName;
+	private static final int GEN_TABLE_WIDTH = 3;
+	private static int genTable[][]; // The generation table
+	private static BufferedReader files[]; // An array that contains all buffered readers that link to external files
+											// used
+
+	/**
+	 * @param args [0] number of lines to generate; [1] path to the gen table; [2]
+	 *             optional. Name of the output file
+	 */
 	public static void main(String args[]) {
 
+		try {
+			length = Integer.parseInt(args[0]);
+		} catch (Exception e) {
+			System.out.println("'" + args[0] + "' was no in the correct format");
+			System.exit(1);
+		}
+
+		if (args.length > 2) {
+			outputFileName = args[2];
+		} else {
+			System.err.println("Please supply an output name for your file");
+			System.exit(1);
+		}
+
+		initializeGenTable(args[1]);
+
+	}
+
+	/**
+	 * Reads and initialises all componenets of the gen and files arrays
+	 */
+	private static void initializeGenTable(String tablePath) {
+		BufferedReader readTable;
+		String in[];
+		int fileCount = 0; // A counter that keeps track of how many files have currently been added
+		try {
+			readTable = new BufferedReader(new FileReader(tablePath));
+
+			// Reads the file head initialisesing the gen table arrays
+			in = readTable.readLine().split(" ");
+			genTable = new int[Integer.parseInt(in[0])][GEN_TABLE_WIDTH];
+			files = new BufferedReader[Integer.parseInt(in[1])];
+
+			// Reads the rest of the file into the genTable array
+			for (int i = 0; i < genTable.length; i++) {
+				in = readTable.readLine().split(" ");
+				genTable[i][0] = Integer.parseInt(in[0]);
+				if (in.length > 1) {
+					// If this is a file line, initialise a new readed and add it to the readed
+					// array. Adding the index of the reader within that array to the gentable array
+					if (genTable[i][0] == fileValue) {
+						files[fileCount] = new BufferedReader(new FileReader(in[1]));
+						genTable[i][1] = fileCount;
+						fileCount++;
+						genTable[i][2] = Integer.parseInt(in[2]);
+						// Otherwise read the rest of the lines as normal and add them to the gentTable
+						// array
+					} else {
+						for (int j = 1; j < in.length; j++) {
+							genTable[i][j] = Integer.parseInt(in[j]);
+						}
+					}
+				}
+			}
+			readTable.close();
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
 	}
 }
