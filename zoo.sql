@@ -58,9 +58,6 @@ CREATE TABLE m2_Animal(
     enclosureID INTEGER NOT NULL,
     speciesName VARCHAR(30) NOT NULL,
 
-    CONSTRAINT sexCheck
-        CHECK (sex>=0 AND sex <= 3),
-    
     CONSTRAINT feedingIntervalCheck
         CHECK (feedingInterval > 0),
 
@@ -92,7 +89,7 @@ CREATE TABLE m2_Staff(
     clinic VARCHAR (50),
 
     CONSTRAINT reasonableStaffDateOB
-        CHECK (dob > TO_DATE('01.01.1900', 'DD.MM.YYYY'))
+        CHECK (dob > TO_DATE('1900.01.01', 'YYYY.MM.DD'))
 );
 
 CREATE TABLE m2_Oversees(
@@ -112,7 +109,7 @@ CREATE TABLE m2_Care(
     animalID INTEGER,
     dateTime TIMESTAMP,
     care VARCHAR(30) NOT NULL,
-    notes LONG,
+    notes VARCHAR(300),
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID2
         FOREIGN KEY (staffID) REFERENCES m2_Vet(sid)
