@@ -16,14 +16,14 @@ CREATE TABLE m2_SpeciesGroup(
 );
 
 CREATE TABLE m2_Zone(
-    name VARCHAR(30) PRIMARY KEY
+    name VARCHAR(30) PRIMARY KEY,
     colour VARCHAR(15)
 );
 
 CREATE TABLE m2_Enclosure(
     eid INTEGER PRIMARY KEY,
     biome VARCHAR(15),
-    size INTEGER,
+    eSize INTEGER,
     zoneName VARCHAR(30),
     CONSTRAINT zoneCheck
         FOREIGN KEY (zoneName) REFERENCES m2_Zone(name)
@@ -44,7 +44,7 @@ CREATE TABLE m2_Animal(
     aid INTEGER PRIMARY KEY,
     -- 0 for Unknown, 1 for M, 2 for F, 3 for N/A
     -- https://en.wikipedia.org/wiki/ISO/IEC_5218
-    sex TINYINT,
+    sex INTEGER,
     feedingInterval INTEGER,
     name VARCHAR(30),
     -- Heaviest land animal: elephant (can be 10t!)
@@ -88,8 +88,8 @@ CREATE TABLE m2_Staff(
     -- might need to change this.
     -- https://en.wikipedia.org/wiki/E.164
     phNumber INTEGER,
-    email VARCHAR(MAX),
-    address VARCHAR(MAX),
+    email VARCHAR(100),
+    address VARCHAR(100),
     clinic VARCHAR (50),
 
     CONSTRAINT reasonableStaffDateOB
@@ -113,7 +113,7 @@ CREATE TABLE m2_Care(
     animalID INTEGER,
     dateTime TIMESTAMP,
     care VARCHAR(30),
-    notes VARCHAR(MAX),
+    notes LONG,
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID2
         FOREIGN KEY (staffID) REFERENCES m2_Staff(sid)
@@ -132,11 +132,11 @@ CREATE TABLE m2_Ate(
     amount INTEGER,
     foodType VARCHAR(15),
     PRIMARY KEY (staffID, animalID, dateTime),
-    CONSTRAINT checkValidStaffID2
+    CONSTRAINT checkValidStaffID3
         FOREIGN KEY (staffID) REFERENCES m2_Staff(sid)
         -- can I even do this??
         ON DELETE SET NULL,
-    CONSTRAINT checkValidAnimalID
+    CONSTRAINT checkValidAnimalID2
         FOREIGN KEY (animalID) REFERENCES m2_Animal(aid)
         ON DELETE CASCADE
 );
