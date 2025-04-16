@@ -17,7 +17,8 @@ CREATE TABLE m2_SpeciesGroup(
 
 CREATE TABLE m2_Zone(
     name VARCHAR(30) PRIMARY KEY,
-    colour VARCHAR(15)
+    colour VARCHAR(15),
+    hexcode VARCHAR(6)
 );
 
 CREATE TABLE m2_Enclosure(
@@ -42,15 +43,13 @@ CREATE TABLE m2_Species(
 
 CREATE TABLE m2_Animal(
     aid INTEGER PRIMARY KEY,
-    -- 0 for Unknown, 1 for M, 2 for F, 3 for N/A
-    -- https://en.wikipedia.org/wiki/ISO/IEC_5218
-    sex INTEGER,
+    -- F for female, T for male
+    sex BOOLEAN,
     feedingInterval INTEGER,
     name VARCHAR(30),
     -- Heaviest land animal: elephant (can be 10t!)
-    -- This assumes the zoo doesn't have whales.
-    -- 4dp because of exceptionally light animals
-    weight DECIMAL(9,4),
+    -- Measured in g, to 2dp because of exceptionally light animals
+    weight DECIMAL(10,2),
     -- Follows standardised three letter codes for each country
     -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     -- For unknown origin, use code 'XXX'
@@ -80,7 +79,7 @@ CREATE TABLE m2_Animal(
         ON DELETE CASCADE
 );
 
-CREATE TABLE m2_Zookeeper(
+CREATE TABLE m2_Staff(
     sid INTEGER PRIMARY KEY,
     fName VARCHAR(20),
     lName VARCHAR(20),
@@ -88,26 +87,11 @@ CREATE TABLE m2_Zookeeper(
     -- might need to change this.
     -- https://en.wikipedia.org/wiki/E.164
     phNumber INTEGER,
-    email VARCHAR(100),
-    address VARCHAR(100),
-
-    CONSTRAINT reasonableStaffDateOB
-        CHECK (dob > TO_DATE('01.01.1900', 'DD.MM.YYYY'))
-);
-
-CREATE TABLE m2_Vet(
-    sid INTEGER PRIMARY KEY,
-    fName VARCHAR(20),
-    lName VARCHAR(20),
-    dob DATE,
-    -- might need to change this.
-    -- https://en.wikipedia.org/wiki/E.164
-    phNumber INTEGER,
-    email VARCHAR(100),
+    email VARCHAR(320),
     address VARCHAR(100),
     clinic VARCHAR (50),
 
-    CONSTRAINT reasonableStaffDateOB2
+    CONSTRAINT reasonableStaffDateOB
         CHECK (dob > TO_DATE('01.01.1900', 'DD.MM.YYYY'))
 );
 
@@ -132,24 +116,24 @@ CREATE TABLE m2_Care(
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID2
         FOREIGN KEY (staffID) REFERENCES m2_Vet(sid)
-        -- can I even do this??
+        -- Unsure about if this is valid (staffID part of primary key)
         ON DELETE SET NULL,
     CONSTRAINT checkValidAnimalID
         FOREIGN KEY (animalID) REFERENCES m2_Animal(aid)
         ON DELETE CASCADE
 );
 
-CREATE TABLE m2_Ate(
+CREATE TABLE m2_Feed(
     staffID INTEGER,
     animalID INTEGER,
     dateTime TIMESTAMP,
-    -- could swap this to a more precise numeric type?
-    amount INTEGER,
+    -- Amount in grams
+    amount DECIMAL(5,2),
     foodType VARCHAR(15),
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID3
         FOREIGN KEY (staffID) REFERENCES m2_Zookeeper(sid)
-        -- can I even do this??
+        -- Unsure about if this is valid (staffID part of primary key)
         ON DELETE SET NULL,
     CONSTRAINT checkValidAnimalID2
         FOREIGN KEY (animalID) REFERENCES m2_Animal(aid)
