@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
@@ -23,7 +24,9 @@ public class MakeCSV {
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
 	private static BufferedReader files[]; // An array that contains all buffered readers that link to external files
-											// used
+		
+	private static BufferedWriter out;
+	
 
 	/**
 	 * @param args [0] number of lines to generate; [1] path to the gen table; [2]
@@ -90,5 +93,100 @@ public class MakeCSV {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
+	}
+
+	
+	/**
+	 * This method will create the csv file, one line at a time and write it out to the file
+	 */
+	private static void makeCSV(){
+		try{
+			out = new BufferedWriter(new FileWriter(filename+".csv"));
+
+
+
+		}catch(Exception e){
+			e.printStacktrace(System.err);
+			System.exit(1);
+		}
+
+		for(int i = 0; i < length-1; i++){
+			writeLine();
+			out.newLine();	
+		}
+		writeLine();
+		out.close();
+	}
+
+
+	/**
+	 * This method sends the next item in the genTable to the right method for generating that data type
+	 */
+	private static void writeLine(){
+		
+		for(int j = 0; j < genTable.length; j++){
+		switch(int genTable[j][0]){
+			case 0:
+				varchar(j);
+				break;
+			case 1:
+				int_(j);
+				break;
+			case 2:
+				date(j);
+				break;
+			case 3:
+				time(j);
+				break;
+			case 4:
+				file(j);
+				break;
+			case 5:
+				double_(j);
+				break;
+			case default:
+				System.err.println("Uknown data type'" + genTable[j][0] + "'";
+				System.exit(1);
+				break;
+		}
+		}
+	}
+
+	/**
+	 * Writes out the given data to the csv file
+	 */
+	private static void write(Stirng s){
+		try{
+			out.writeLine(s, 0, s.length());
+			out.flush();
+		}catch (Exception e){
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+
+	}
+
+	private static void varchat(int row){
+		
+	}
+
+	private static void int_(row){
+
+	}
+
+	private static void date(int row){
+
+	}
+
+	private static void time(int row){
+
+	}
+
+	private static void file(int row){
+
+	}
+
+	private static void double_(int row){
+
 	}
 }
