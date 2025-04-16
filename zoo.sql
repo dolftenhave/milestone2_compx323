@@ -80,7 +80,22 @@ CREATE TABLE m2_Animal(
         ON DELETE CASCADE
 );
 
-CREATE TABLE m2_Staff(
+CREATE TABLE m2_Zookeeper(
+    sid INTEGER PRIMARY KEY,
+    fName VARCHAR(20),
+    lName VARCHAR(20),
+    dob DATE,
+    -- might need to change this.
+    -- https://en.wikipedia.org/wiki/E.164
+    phNumber INTEGER,
+    email VARCHAR(100),
+    address VARCHAR(100),
+
+    CONSTRAINT reasonableStaffDateOB
+        CHECK (dob > TO_DATE('01.01.1900', 'DD.MM.YYYY'))
+);
+
+CREATE TABLE m2_Vet(
     sid INTEGER PRIMARY KEY,
     fName VARCHAR(20),
     lName VARCHAR(20),
@@ -92,7 +107,7 @@ CREATE TABLE m2_Staff(
     address VARCHAR(100),
     clinic VARCHAR (50),
 
-    CONSTRAINT reasonableStaffDateOB
+    CONSTRAINT reasonableStaffDateOB2
         CHECK (dob > TO_DATE('01.01.1900', 'DD.MM.YYYY'))
 );
 
@@ -104,7 +119,7 @@ CREATE TABLE m2_Oversees(
         FOREIGN KEY (sGroupName) REFERENCES m2_SpeciesGroup(latinName)
         ON DELETE CASCADE,
     CONSTRAINT checkValidStaffID
-        FOREIGN KEY (staffID) REFERENCES m2_Staff(sid)
+        FOREIGN KEY (staffID) REFERENCES m2_Zookeeper(sid)
         ON DELETE CASCADE
 );
 
@@ -116,7 +131,7 @@ CREATE TABLE m2_Care(
     notes LONG,
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID2
-        FOREIGN KEY (staffID) REFERENCES m2_Staff(sid)
+        FOREIGN KEY (staffID) REFERENCES m2_Vet(sid)
         -- can I even do this??
         ON DELETE SET NULL,
     CONSTRAINT checkValidAnimalID
@@ -133,7 +148,7 @@ CREATE TABLE m2_Ate(
     foodType VARCHAR(15),
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID3
-        FOREIGN KEY (staffID) REFERENCES m2_Staff(sid)
+        FOREIGN KEY (staffID) REFERENCES m2_Zookeeper(sid)
         -- can I even do this??
         ON DELETE SET NULL,
     CONSTRAINT checkValidAnimalID2
