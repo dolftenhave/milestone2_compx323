@@ -12,20 +12,20 @@ DROP TABLE m2_SpeciesGroup;
 
 CREATE TABLE m2_SpeciesGroup(
     latinName VARCHAR(30) PRIMARY KEY, 
-    commonName VARCHAR(30)
+    commonName VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE m2_Zone(
     name VARCHAR(30) PRIMARY KEY,
-    colour VARCHAR(15),
-    hexcode VARCHAR(6)
+    colour VARCHAR(15) NOT NULL,
+    hexcode VARCHAR(6) NOT NULL
 );
 
 CREATE TABLE m2_Enclosure(
     eid INTEGER PRIMARY KEY,
-    biome VARCHAR(15),
-    eSize INTEGER,
-    zoneName VARCHAR(30),
+    biome VARCHAR(15) NOT NULL,
+    eSize INTEGER NOT NULL,
+    zoneName VARCHAR(30) NOT NULL,
     CONSTRAINT zoneCheck
         FOREIGN KEY (zoneName) REFERENCES m2_Zone(name)
         ON DELETE SET NULL
@@ -33,9 +33,9 @@ CREATE TABLE m2_Enclosure(
 
 CREATE TABLE m2_Species(
     latinName VARCHAR(30) PRIMARY KEY,
-    commonName VARCHAR(30),
-    requiredBiome VARCHAR(15),
-    speciesGroup VARCHAR(30),
+    commonName VARCHAR(30) NOT NULL,
+    requiredBiome VARCHAR(15) NOT NULL,
+    speciesGroup VARCHAR(30) NOT NULL,
     CONSTRAINT speciesGroupCheck
         FOREIGN KEY (speciesGroup) REFERENCES m2_SpeciesGroup(latinName)
         ON DELETE CASCADE
@@ -44,19 +44,19 @@ CREATE TABLE m2_Species(
 CREATE TABLE m2_Animal(
     aid INTEGER PRIMARY KEY,
     -- F for female, T for male
-    sex BOOLEAN,
-    feedingInterval INTEGER,
-    name VARCHAR(30),
+    sex BOOLEAN NOT NULL,
+    feedingInterval INTEGER NOT NULL,
+    name VARCHAR(30) NOT NULL,
     -- Heaviest land animal: elephant (can be 10t!)
     -- Measured in g, to 2dp because of exceptionally light animals
-    weight DECIMAL(10,2),
+    weight DECIMAL(10,2) NOT NULL,
     -- Follows standardised three letter codes for each country
     -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     -- For unknown origin, use code 'XXX'
-    originCountry CHAR(3),
+    originCountry CHAR(3) NOT NULL,
     dob DATE,
-    enclosureID INTEGER,
-    speciesName VARCHAR(30),
+    enclosureID INTEGER NOT NULL,
+    speciesName VARCHAR(30) NOT NULL,
 
     CONSTRAINT sexCheck
         CHECK (sex>=0 AND sex <= 3),
@@ -81,14 +81,14 @@ CREATE TABLE m2_Animal(
 
 CREATE TABLE m2_Staff(
     sid INTEGER PRIMARY KEY,
-    fName VARCHAR(20),
-    lName VARCHAR(20),
-    dob DATE,
+    fName VARCHAR(20) NOT NULL,
+    lName VARCHAR(20) NOT NULL,
+    dob DATE NOT NULL,
     -- might need to change this.
     -- https://en.wikipedia.org/wiki/E.164
     phNumber INTEGER,
     email VARCHAR(320),
-    address VARCHAR(100),
+    address VARCHAR(100) NOT NULL,
     clinic VARCHAR (50),
 
     CONSTRAINT reasonableStaffDateOB
@@ -111,7 +111,7 @@ CREATE TABLE m2_Care(
     staffID INTEGER,
     animalID INTEGER,
     dateTime TIMESTAMP,
-    care VARCHAR(30),
+    care VARCHAR(30) NOT NULL,
     notes LONG,
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID2
@@ -128,8 +128,8 @@ CREATE TABLE m2_Feed(
     animalID INTEGER,
     dateTime TIMESTAMP,
     -- Amount in grams
-    amount DECIMAL(5,2),
-    foodType VARCHAR(15),
+    amount DECIMAL(5,2) NOT NULL,
+    foodType VARCHAR(15) NOT NULL,
     PRIMARY KEY (staffID, animalID, dateTime),
     CONSTRAINT checkValidStaffID3
         FOREIGN KEY (staffID) REFERENCES m2_Zookeeper(sid)
