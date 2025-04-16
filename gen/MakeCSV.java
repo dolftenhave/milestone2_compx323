@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.RandomAccessFile;
 import java.io.Reader;
+import java.util.Random;
 
 /**
  * @author Dolf ten Have
@@ -23,17 +26,17 @@ public class MakeCSV {
 	private static String outputFileName;
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
-	private static BufferedReader files[]; // An array that contains all buffered readers that link to external files
-		
-	private static BufferedWriter out;
-	
+	private static RandomAccessFile files[]; // An array that contains all buffered readers that link to external files
 
+	private static BufferedWriter out;
+	private static int row; // The index of the genTable row that the program is currently on
+
+	private static Random rand;
 	/**
 	 * @param args [0] number of lines to generate; [1] path to the gen table; [2]
 	 *             optional. Name of the output file
 	 */
 	public static void main(String args[]) {
-
 		try {
 			length = Integer.parseInt(args[0]);
 		} catch (Exception e) {
@@ -49,7 +52,7 @@ public class MakeCSV {
 		}
 
 		initializeGenTable(args[1]);
-
+		makeCSV();
 	}
 
 	/**
@@ -65,17 +68,17 @@ public class MakeCSV {
 			// Reads the file head initialisesing the gen table arrays
 			in = readTable.readLine().split(" ");
 			genTable = new int[Integer.parseInt(in[0])][GEN_TABLE_WIDTH];
-			files = new BufferedReader[Integer.parseInt(in[1])];
+			files = new RandomAccessFile[Integer.parseInt(in[1])];
 
 			// Reads the rest of the file into the genTable array
 			for (int i = 0; i < genTable.length; i++) {
 				in = readTable.readLine().split(" ");
 				genTable[i][0] = Integer.parseInt(in[0]);
 				if (in.length > 1) {
-					// If this is a file line, initialise a new readed and add it to the readed
+					// If this is a file line, initialise a new reader and add it to the readed
 					// array. Adding the index of the reader within that array to the gentable array
 					if (genTable[i][0] == fileValue) {
-						files[fileCount] = new BufferedReader(new FileReader(in[1]));
+						files[fileCount] = new RandomAccessFile(in[1],"r");
 						genTable[i][1] = fileCount;
 						fileCount++;
 						genTable[i][2] = Integer.parseInt(in[2]);
@@ -95,98 +98,114 @@ public class MakeCSV {
 		}
 	}
 
-	
 	/**
-	 * This method will create the csv file, one line at a time and write it out to the file
+	 * This method will create the csv file, one line at a time and write it out to
+	 * the file
 	 */
-	private static void makeCSV(){
-		try{
-			out = new BufferedWriter(new FileWriter(filename+".csv"));
+	private static void makeCSV() {
 
-
-
-		}catch(Exception e){
-			e.printStacktrace(System.err);
-			System.exit(1);
-		}
-
-		for(int i = 0; i < length-1; i++){
+		rand = new Random();
+		try {
+			out = new BufferedWriter(new FileWriter(outputFileName + ".csv"));
+			for (int i = 0; i < length - 1; i++) {
+				writeLine();
+				out.newLine();
+			}
 			writeLine();
-			out.newLine();	
-		}
-		writeLine();
-		out.close();
-	}
+			out.close();
 
-
-	/**
-	 * This method sends the next item in the genTable to the right method for generating that data type
-	 */
-	private static void writeLine(){
-		
-		for(int j = 0; j < genTable.length; j++){
-		switch(int genTable[j][0]){
-			case 0:
-				varchar(j);
-				break;
-			case 1:
-				int_(j);
-				break;
-			case 2:
-				date(j);
-				break;
-			case 3:
-				time(j);
-				break;
-			case 4:
-				file(j);
-				break;
-			case 5:
-				double_(j);
-				break;
-			case default:
-				System.err.println("Uknown data type'" + genTable[j][0] + "'";
-				System.exit(1);
-				break;
-		}
-		}
-	}
-
-	/**
-	 * Writes out the given data to the csv file
-	 */
-	private static void write(Stirng s){
-		try{
-			out.writeLine(s, 0, s.length());
-			out.flush();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
 
 	}
 
-	private static void varchat(int row){
+	/**
+	 * This method sends the next item in the genTable to the right method for
+	 * generating that data type
+	 */
+	private static void writeLine() {
+
+		for (int j = 0; j < genTable.length; j++) {
+			row = j;
+			switch (genTable[j][0]) {
+				case 0:
+					varchar();
+					break;
+				case 1:
+					int_();
+					break;
+				case 2:
+					date();
+					break;
+				case 3:
+					time();
+					break;
+				case 4:
+					file();
+					break;
+				case 5:
+					double_();
+					break;
+				default:
+					System.err.println("Uknown data type'" + genTable[j][0] + "'");
+					System.exit(1);
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Writes out the given data to the csv file
+	 */
+	private static void write(String s) {
+		try {
+			out.write(s, 0, s.length());
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+
+	}
+
+	private static void varchar() {
 		
 	}
 
-	private static void int_(row){
+	private static void int_() {
 
 	}
 
-	private static void date(int row){
+	/**
+	 * Writes a random date 
+	 */
+	private static void date() {
+		write(rand.nextInt(1, 28)+"-"+rand.nextInt(1,12)+"-"+rand.nextInt(MIN_YEAR, 2025));
+	}
+
+	private static void time() {
 
 	}
 
-	private static void time(int row){
+	/**
+	 * reades data from a random line in a file that is then written out to a specific column in that file
+	 */
+	private static void file() {
+		try{
+			//Use Random access file to search untill the end of the line. Then read the line into here
+			//Then use that line too write into the new file.
 
+			String line[] = files[genTable[row][2]].readLine().split(",");
+			out.write(line[genTable[row][3]]);
+		}catch(Exception e){
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
 	}
 
-	private static void file(int row){
-
-	}
-
-	private static void double_(int row){
+	private static void double_() {
 
 	}
 }
