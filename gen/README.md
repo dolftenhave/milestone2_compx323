@@ -18,6 +18,11 @@ There are several different type of arguments used to greate the data
 - **time** `-t` will generate a random time
 - **file** `-f <path to file> <column to choose the data from>` will take data from a specified column of another csv file and insert it into this column. This is used in instances of foreign keys.
 - **double** `-o <length> <delimiter position>` will generate a dounle with the length and position of the delimiter.
+- **sequential int** `-I <staring number>` will generate a sequential integer for each line
+- **sequntial varchar** `-V <length>` will generate sequential varchar character for each line. Starting with *AAAA, AAAB, AAAC, ... , zzzz*. This will be done based on the ascii value of the letters.
+- **sequential file** `-F <path to file> <column to choose from>` Will take data from the file starting from the top of the file untill the end. It will loop if the end is reached.
+
+*Note:* Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
 ## MakeCSV
 
@@ -26,3 +31,21 @@ This program will generate lines of CSV data in the pattern layed in a table fil
 usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 
 *Both parseArgs & MakeCSV were created by Dolf ten Have for Compx323-25A*
+
+### genTable structure:
+```
++-------------+-------+---+------------------------+---------------+
+|    Type     | index | 0 |           1            |       2       |
++-------------+-------+---+------------------------+---------------+
+| varchar     |     0 | 0 | length                 |               |
+| int         |     1 | 1 | length                 |               |
+| date        |     2 | 2 |                        |               |
+| time        |     3 | 3 |                        |               |
+| file        |     4 | 4 | index in 'files' array | col of data   |
+| double      |     5 | 5 | len                    | delimiter pos |
+| seq int     |     6 | 6 | count                  |               |
+| seq varchar |     7 | 7 | seqVarchar array index |               |
+| seq file    |     8 | 8 | seqFiles array index   | col of data   |
++-------------+-------+---+------------------------+---------------+
+```
+
