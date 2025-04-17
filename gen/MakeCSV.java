@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 /**
@@ -21,17 +22,22 @@ public class MakeCSV {
 	private static final String usage = "usage: java MakeCSV <n-lines> <path/to/table/file> <output name>";
 	private static final int MIN_YEAR = 1925; // 100 years for now
 	private static final int fileValue = 4;
+	private static final String charSet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
 	private static int length;
 	private static String outputFileName;
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
 	private static RandomAccessFile files[]; // An array that contains all buffered readers that link to external files
+	private static BufferedReader seqFiles[]; // An array that contains the requential file readers
+	private static int seqVarchar[][];
+
 
 	private static BufferedWriter out;
 	private static int row; // The index of the genTable row that the program is currently on
 
 	private static Random rand;
+
 	/**
 	 * @param args [0] number of lines to generate; [1] path to the gen table; [2]
 	 *             optional. Name of the output file
@@ -78,7 +84,7 @@ public class MakeCSV {
 					// If this is a file line, initialise a new reader and add it to the readed
 					// array. Adding the index of the reader within that array to the gentable array
 					if (genTable[i][0] == fileValue) {
-						files[fileCount] = new RandomAccessFile(in[1],"r");
+						files[fileCount] = new RandomAccessFile(in[1], "r");
 						genTable[i][1] = fileCount;
 						fileCount++;
 						genTable[i][2] = Integer.parseInt(in[2]);
@@ -131,10 +137,10 @@ public class MakeCSV {
 			row = j;
 			switch (genTable[j][0]) {
 				case 0:
-					varchar();
+					varchar(genTable[j][1]);
 					break;
 				case 1:
-					int_();
+					int_(genTable[j][1]);
 					break;
 				case 2:
 					date();
@@ -147,6 +153,15 @@ public class MakeCSV {
 					break;
 				case 5:
 					double_();
+					break;
+				case 6:
+					seqInt();
+					break;
+				case 7:
+					seqVarchar();
+					break;
+				case 8:
+					seqFile();
 					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
@@ -170,42 +185,94 @@ public class MakeCSV {
 
 	}
 
-	private static void varchar() {
-		
-	}
-
-	private static void int_() {
-
+	/**
+	 * Writes aphabetical letters to the file of length Length
+	 * @param length the lenght of the random String 
+	 */
+	private static void varchar(int length) {
+		for(int i = 0; i < length; i++){
+			write(charSet[rand.nextInt(charSet.length)]);
+		}
 	}
 
 	/**
-	 * Writes a random date 
+	 * Writes a random integer between 0 and the max Length
+	 * @param maxSize the maximum length of the integer
+	 */
+	private static void int_(int maxSize) {
+		write(String.valueOf(rand.nextInt(maxSize + 1)));
+	}
+
+	/**
+	 * Writes a random date
 	 */
 	private static void date() {
-		write(rand.nextInt(1, 28)+"-"+rand.nextInt(1,12)+"-"+rand.nextInt(MIN_YEAR, 2025));
+		write(rand.nextInt(1, 28) + "-" + rand.nextInt(1, 12) + "-" + rand.nextInt(MIN_YEAR, 2025));
 	}
-
+	
+	/**
+	 * Writes a random time value in the format HH:MM:SS 
+	 */
 	private static void time() {
-
+		int_(rand.nextInt(24));
+		write(":");
+		int_(rand.nextInt(60));
+		write(":");
+		int_(rand.nextInt(60));
 	}
 
 	/**
-	 * reades data from a random line in a file that is then written out to a specific column in that file
+	 * reades data from a random line in a file that is then written out to a
+	 * specific column in that file
 	 */
 	private static void file() {
-		try{
-			//Use Random access file to search untill the end of the line. Then read the line into here
-			//Then use that line too write into the new file.
+		try {
+			// Use Random access file to search untill the end of the line. Then read the
+			// line into here
+			// Then use that line too write into the new file.
 
 			String line[] = files[genTable[row][2]].readLine().split(",");
 			out.write(line[genTable[row][3]]);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
 	}
-
+	
+	/**
+	 * writes arandom double
+	 */
 	private static void double_() {
+		int_(genTable[row][1]);
+		write(".");
+		int_(genTable[row][2]);
+	}
+
+	/**
+	 * writes the current value of the int in the genTable and then increases the count
+	 */
+	private static void seqInt(){
+		write(String.valueOf(genTable[row][1]));
+		genTable[row][1]++;
+	}
+
+	/**
+	 * Writes a sequential string of varchar characters of a fixed length
+	 */
+	private static void seqVarchar(){
+		int p = genTable[row][1];
+		for(int i = 0; i < seqVarchar[p].length; i++){
+			write(charSet[seqVarchar[p][i]]);
+			seqVarchar[p][i]++;
+
+			//If the current number rolls over back to zero, then increase the next number in array by 1
+			if(seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0){
+				seqVarchar[p][(i + 1) %genTable[row][2]]++;
+			}
+		}
+	}
+
+	private static void seqFile(){
 
 	}
 }
