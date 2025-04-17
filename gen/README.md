@@ -32,6 +32,9 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 
 *Both parseArgs & MakeCSV were created by Dolf ten Have for Compx323-25A*
 
+The header of the table file has the following structure:<br />
+`<num rows> <num fileRefs> <num seq varchars> <num seq fileRefs>`
+
 ### genTable structure:
 ```
 +-------------+-------+---+------------------------+---------------+
@@ -44,7 +47,7 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 | file        |     4 | 4 | index in 'files' array | col of data   |
 | double      |     5 | 5 | pre delimiter len      | post delimiter|
 | seq int     |     6 | 6 | count                  |               |
-| seq varchar |     7 | 7 | seqVarchar array index |               |
+| seq varchar |     7 | 7 | seqVarchar array index | array len     |
 | seq file    |     8 | 8 | seqFiles array index   | col of data   |
 +-------------+-------+---+------------------------+---------------+
 ```
