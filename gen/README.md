@@ -33,7 +33,7 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 *Both parseArgs & MakeCSV were created by Dolf ten Have for Compx323-25A*
 
 The header of the table file has the following structure:<br />
-`<num rows> <num fileRefs> <num seq varchars> <num seq fileRefs>`
+`<num rows> <num fileRefs> <num seq varchars> <max seq varchar len> <num seq fileRefs>`
 
 ### genTable structure:
 ```

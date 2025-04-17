@@ -17,8 +17,8 @@ public class parseArgs {
 
 	private static int fileRefs = 0; // The number of external files refferenced for data.
 	private static int nSeqVarchars = 0;
+	private static int maxSeqVarcharLen = 0;
 	private static int seqFileRefs = 0;
-
 
 	private static ArrayList<String> table; // a "buffer" array that holds the table data before it is written;
 
@@ -84,7 +84,7 @@ public class parseArgs {
 		try {
 			out = new BufferedWriter(new FileWriter(_args[0] + "_table.txt"));
 
-			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + seqFileRefs;
+			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + maxSeqVarcharLen + " " + seqFileRefs;
 			out.write(head, 0, head.length());
 			out.newLine();
 			out.flush();
@@ -164,7 +164,7 @@ public class parseArgs {
 	 */
 	private static void seqInt_() {
 		table.add("6 " + _args[p + 1]);
-		p+=2;
+		p += 2;
 	}
 
 	/**
@@ -174,7 +174,16 @@ public class parseArgs {
 	private static void seqVarchar() {
 		table.add("7 " + _args[p + 1]);
 		nSeqVarchars++;
-		p+=2;
+		try {
+			int i = Integer.parseInt(_args[p + 1]);
+			if (i > nSeqVarchars)
+				nSeqVarchars = i;
+
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+		p += 2;
 	}
 
 	/**
@@ -184,6 +193,6 @@ public class parseArgs {
 	private static void seqFile() {
 		table.add("8" + _args[p + 1] + _args[p + 2]);
 		seqFileRefs++;
-		p+=3;
+		p += 3;
 	}
 }
