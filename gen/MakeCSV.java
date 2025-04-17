@@ -22,7 +22,11 @@ public class MakeCSV {
 	private static final String usage = "usage: java MakeCSV <n-lines> <path/to/table/file> <output name>";
 	private static final int MIN_YEAR = 1925; // 100 years for now
 	private static final int fileValue = 4;
-	private static final String charSet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+	private static final int seqVarcharValue = 7;
+	private static final int seqFileValue = 8;
+	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
 
 	private static int length;
 	private static String outputFileName;
@@ -31,7 +35,6 @@ public class MakeCSV {
 	private static RandomAccessFile files[]; // An array that contains all buffered readers that link to external files
 	private static BufferedReader seqFiles[]; // An array that contains the requential file readers
 	private static int seqVarchar[][];
-
 
 	private static BufferedWriter out;
 	private static int row; // The index of the genTable row that the program is currently on
@@ -68,13 +71,17 @@ public class MakeCSV {
 		BufferedReader readTable;
 		String in[];
 		int fileCount = 0; // A counter that keeps track of how many files have currently been added
+		int seqFileCount = 0;
+		int seqVarcharCount = 0;
 		try {
 			readTable = new BufferedReader(new FileReader(tablePath));
 
 			// Reads the file head initialisesing the gen table arrays
 			in = readTable.readLine().split(" ");
 			genTable = new int[Integer.parseInt(in[0])][GEN_TABLE_WIDTH];
-			files = new RandomAccessFile[Integer.parseInt(in[1])];
+			files = new RandomAccessFile[Integer.parseInt((in[1]))];
+			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
+			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
 
 			// Reads the rest of the file into the genTable array
 			for (int i = 0; i < genTable.length; i++) {
@@ -90,6 +97,15 @@ public class MakeCSV {
 						genTable[i][2] = Integer.parseInt(in[2]);
 						// Otherwise read the rest of the lines as normal and add them to the gentTable
 						// array
+					} else if (genTable[i][0] == seqFileValue) {
+						seqFiles[seqFileCount] = new BufferedReader(new FileReader(in[1]));
+						genTable[i][1] = seqFileCount;
+						seqFileCount++;
+						genTable[i][2] = Integer.parseInt(in[2]);
+					} else if (genTable[i][0] == seqVarcharValue) {
+						genTable[i][2] = Integer.parseInt(in[1]);
+						genTable[i][1] = seqVarcharCount;
+						seqVarcharCount++;
 					} else {
 						for (int j = 1; j < in.length; j++) {
 							genTable[i][j] = Integer.parseInt(in[j]);
@@ -187,16 +203,18 @@ public class MakeCSV {
 
 	/**
 	 * Writes aphabetical letters to the file of length Length
-	 * @param length the lenght of the random String 
+	 * 
+	 * @param length the lenght of the random String
 	 */
 	private static void varchar(int length) {
-		for(int i = 0; i < length; i++){
+		for (int i = 0; i < length; i++) {
 			write(charSet[rand.nextInt(charSet.length)]);
 		}
 	}
 
 	/**
 	 * Writes a random integer between 0 and the max Length
+	 * 
 	 * @param maxSize the maximum length of the integer
 	 */
 	private static void int_(int maxSize) {
@@ -209,9 +227,9 @@ public class MakeCSV {
 	private static void date() {
 		write(rand.nextInt(1, 28) + "-" + rand.nextInt(1, 12) + "-" + rand.nextInt(MIN_YEAR, 2025));
 	}
-	
+
 	/**
-	 * Writes a random time value in the format HH:MM:SS 
+	 * Writes a random time value in the format HH:MM:SS
 	 */
 	private static void time() {
 		int_(rand.nextInt(24));
@@ -238,7 +256,7 @@ public class MakeCSV {
 			System.exit(1);
 		}
 	}
-	
+
 	/**
 	 * writes arandom double
 	 */
@@ -249,9 +267,10 @@ public class MakeCSV {
 	}
 
 	/**
-	 * writes the current value of the int in the genTable and then increases the count
+	 * writes the current value of the int in the genTable and then increases the
+	 * count
 	 */
-	private static void seqInt(){
+	private static void seqInt() {
 		write(String.valueOf(genTable[row][1]));
 		genTable[row][1]++;
 	}
@@ -259,20 +278,21 @@ public class MakeCSV {
 	/**
 	 * Writes a sequential string of varchar characters of a fixed length
 	 */
-	private static void seqVarchar(){
+	private static void seqVarchar() {
 		int p = genTable[row][1];
-		for(int i = 0; i < seqVarchar[p].length; i++){
+		for (int i = 0; i < seqVarchar[p].length; i++) {
 			write(charSet[seqVarchar[p][i]]);
 			seqVarchar[p][i]++;
 
-			//If the current number rolls over back to zero, then increase the next number in array by 1
-			if(seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0){
-				seqVarchar[p][(i + 1) %genTable[row][2]]++;
+			// If the current number rolls over back to zero, then increase the next number
+			// in array by 1
+			if (seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0) {
+				seqVarchar[p][(i + 1) % genTable[row][2]]++;
 			}
 		}
 	}
 
-	private static void seqFile(){
+	private static void seqFile() {
 
 	}
 }
