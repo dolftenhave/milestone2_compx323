@@ -42,7 +42,7 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 | date        |     2 | 2 |                        |               |
 | time        |     3 | 3 |                        |               |
 | file        |     4 | 4 | index in 'files' array | col of data   |
-| double      |     5 | 5 | len                    | delimiter pos |
+| double      |     5 | 5 | pre delimiter len      | post delimiter|
 | seq int     |     6 | 6 | count                  |               |
 | seq varchar |     7 | 7 | seqVarchar array index |               |
 | seq file    |     8 | 8 | seqFiles array index   | col of data   |
