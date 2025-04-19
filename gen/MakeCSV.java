@@ -27,6 +27,7 @@ public class MakeCSV {
 	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
 			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+	private static final int COMMA_VALUE = 10;
 
 	private static int length;
 	private static String outputFileName;
@@ -78,13 +79,14 @@ public class MakeCSV {
 
 			// Reads the file head initialisesing the gen table arrays
 			in = readTable.readLine().split(" ");
-			genTable = new int[Integer.parseInt(in[0])][GEN_TABLE_WIDTH];
+			genTable = new int[Integer.parseInt(in[0])][(GEN_TABLE_WIDTH * 2) -1];
 			files = new RandomAccessFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
 			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
 
 			// Reads the rest of the file into the genTable array
 			for (int i = 0; i < genTable.length; i++) {
+				if((i % 2) == 0){
 				in = readTable.readLine().split(" ");
 				genTable[i][0] = Integer.parseInt(in[0]);
 				if (in.length > 1) {
@@ -111,6 +113,9 @@ public class MakeCSV {
 							genTable[i][j] = Integer.parseInt(in[j]);
 						}
 					}
+				}
+				}else{
+					gentable[i][0] = COMMA_VALUE;
 				}
 			}
 			readTable.close();
@@ -179,8 +184,14 @@ public class MakeCSV {
 				case 8:
 					seqFile();
 					break;
+				case 9:
+					timestamp();
+					break;
+				case 10:
+					comma();
+					break;
 				default:
-					System.err.println("Uknown data type'" + genTable[j][0] + "'");
+					System.err.printl;n("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
 					break;
 			}
@@ -294,5 +305,22 @@ public class MakeCSV {
 
 	private static void seqFile() {
 
+	}
+
+
+	/**
+	 * Writes a timestamp in the format 'YYYY:MM-DD HH:MM:SS'
+	 */
+	private static void timestamp(){
+		date();
+		write(" ");
+		time();
+	}
+
+	/**
+	 * Write a comma value
+	 */
+	private static void comma(){
+		write(",");
 	}
 }
