@@ -79,7 +79,7 @@ public class MakeCSV {
 
 			// Reads the file head initialisesing the gen table arrays
 			in = readTable.readLine().split(" ");
-			genTable = new int[Integer.parseInt(in[0])][(GEN_TABLE_WIDTH * 2) -1];
+			genTable = new int[(Integer.parseInt(in[0]) * 2) - 1][GEN_TABLE_WIDTH];
 			files = new RandomAccessFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
 			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
@@ -122,6 +122,17 @@ public class MakeCSV {
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 			System.exit(1);
+		}
+		printArray();
+	}
+
+	private static void printArray(){
+		for(int i = 0; i < genTable.length; i++){
+			for(int j = 0; j < genTable[0].length; j++){
+				System.out.print(genTable[i][j]);
+				System.out.print(" ");
+			}
+			System.out.println("");
 		}
 	}
 
@@ -292,17 +303,19 @@ public class MakeCSV {
 	 */
 	private static void seqVarchar() {
 		int p = genTable[row][1];
-		for (int i = 0; i < seqVarchar[p].length; i++) {
-			write(charSet[seqVarchar[p][i]]);
-			if(i == 0)
-				seqVarchar[p][0]++;
+		for (int i = 0; i < seqVarchar[0].length; i++) {
 
-			// If the current number rolls over back to zero, then increase the next number
+			write(charSet[seqVarchar[p][i] % 52]);
+			if(i == seqVarchar[p].length-1)
+				seqVarchar[p][seqVarchar[p].length - 1]++;
+// If the current number rolls over back to zero, then increase the next number
 			// in array by 1
 			if (seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0) {
-				seqVarchar[p][(i + 1) % genTable[row][2]]++;
+				if(i != 0)
+					seqVarchar[p][(i - 1) % genTable[row][2]]++;
 			}
-		}
+
+					}
 	}
 
 	private static void seqFile() {
