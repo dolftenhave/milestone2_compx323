@@ -26,9 +26,12 @@ public class parseArgs {
 		_args = args;
 		table = new ArrayList<String>();
 		createTable();
+		writeTable();
+		System.out.println("parseArgs: Done."
 	}
 
 	private static void createTable() {
+		System.out.println("parseArgs: Making Table");
 		while (p < _args.length) {
 			switch (_args[p]) {
 				// varchar
@@ -71,8 +74,6 @@ public class parseArgs {
 					break;
 			}
 		}
-
-		writeTable();
 	}
 
 	/**
@@ -81,6 +82,7 @@ public class parseArgs {
 	 * Then writes the content of table line for line to the file
 	 */
 	private static void writeTable() {
+		SYstem.out.println("parseArgs: Writing Table");
 		try {
 			out = new BufferedWriter(new FileWriter(_args[0] + "_table.txt"));
 
@@ -96,7 +98,7 @@ public class parseArgs {
 			}
 			out.write(table.get(table.size() - 1), 0, table.get(table.size() - 1).length());
 			out.flush();
-
+			System.out.println("parseArgs: Created '" + _args[0] + "_table.txt'"); 
 			out.close();
 
 		} catch (Exception e) {
