@@ -51,4 +51,5 @@ The header of the table file has the following structure:<br />
 | seq file    |     8 | 8 | seqFiles array index   | col of data   |
 +-------------+-------+---+------------------------+---------------+
 ```
-
+9 timestamp
+10 ,
