@@ -82,7 +82,7 @@ public class parseArgs {
 	 * Then writes the content of table line for line to the file
 	 */
 	private static void writeTable() {
-		SYstem.out.println("parseArgs: Writing Table");
+		System.out.println("parseArgs: Writing Table");
 		try {
 			out = new BufferedWriter(new FileWriter(_args[0] + "_table.txt"));
 
