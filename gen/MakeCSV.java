@@ -50,7 +50,7 @@ public class MakeCSV {
 		try {
 			length = Integer.parseInt(args[0]);
 		} catch (Exception e) {
-			System.out.println("'" + args[0] + "' was no in the correct format");
+			System.out.println("'" + args[0] + "' is not a valid length.");
 			System.exit(1);
 		}
 
