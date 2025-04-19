@@ -115,7 +115,7 @@ public class MakeCSV {
 					}
 				}
 				}else{
-					gentable[i][0] = COMMA_VALUE;
+					genTable[i][0] = COMMA_VALUE;
 				}
 			}
 			readTable.close();
@@ -191,7 +191,7 @@ public class MakeCSV {
 					comma();
 					break;
 				default:
-					System.err.printl;n("Uknown data type'" + genTable[j][0] + "'");
+					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
 					break;
 			}
@@ -288,12 +288,14 @@ public class MakeCSV {
 
 	/**
 	 * Writes a sequential string of varchar characters of a fixed length
+	 * TODO
 	 */
 	private static void seqVarchar() {
 		int p = genTable[row][1];
 		for (int i = 0; i < seqVarchar[p].length; i++) {
 			write(charSet[seqVarchar[p][i]]);
-			seqVarchar[p][i]++;
+			if(i == 0)
+				seqVarchar[p][0]++;
 
 			// If the current number rolls over back to zero, then increase the next number
 			// in array by 1
