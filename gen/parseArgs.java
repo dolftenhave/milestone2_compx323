@@ -178,8 +178,8 @@ public class parseArgs {
 		nSeqVarchars++;
 		try {
 			int i = Integer.parseInt(_args[p + 1]);
-			if (i > nSeqVarchars)
-				nSeqVarchars = i;
+			if (i > maxSeqVarcharLen)
+				maxSeqVarcharLen = i;
 
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
