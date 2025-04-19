@@ -27,7 +27,7 @@ public class parseArgs {
 		table = new ArrayList<String>();
 		createTable();
 		writeTable();
-		System.out.println("parseArgs: Done."
+		System.out.println("parseArgs: Done.");
 	}
 
 	private static void createTable() {
