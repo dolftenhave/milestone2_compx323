@@ -35,7 +35,7 @@ public class MakeCSV {
 	private static String outputFileName;
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
-	private static RandomAccessFile files[]; // An array that contains all buffered readers that link to external files
+	private static csvFile files[]; // An array that contains all buffered readers that link to external files
 	private static BufferedReader seqFiles[]; // An array that contains the requential file readers
 	private static String seqFilePaths[];
 	private static String line[];
@@ -86,7 +86,7 @@ public class MakeCSV {
 			// Reads the file head initialisesing the gen table arrays
 			in = readTable.readLine().split(" ");
 			genTable = new int[(Integer.parseInt(in[0]) * 2) - 1][GEN_TABLE_WIDTH];
-			files = new RandomAccessFile[Integer.parseInt((in[1]))];
+			files = new csvFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
 			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
 			seqFilePaths = new String[Integer.parseInt(in[4])];
@@ -100,7 +100,7 @@ public class MakeCSV {
 						// If this is a file line, initialise a new reader and add it to the readed
 						// array. Adding the index of the reader within that array to the gentable array
 						if (genTable[i][0] == fileValue) {
-							files[fileCount] = new RandomAccessFile(in[1], "r");
+							files[fileCount] = new csvFile(in[1], new int[]{Integer.parseInt(in[2])});
 							genTable[i][1] = fileCount;
 							fileCount++;
 							genTable[i][2] = Integer.parseInt(in[2]);
@@ -149,11 +149,6 @@ public class MakeCSV {
 	 */
 	private static void closeFiles() {
 		try {
-			if (files != null) {
-				for (int i = 0; i < files.length; i++) {
-					files[i].close();
-				}
-			}
 			if (seqFiles != null) {
 				for (int i = 0; i < seqFiles.length; i++) {
 					seqFiles[i].close();
@@ -296,12 +291,7 @@ public class MakeCSV {
 	 */
 	private static void file() {
 		try {
-			// Use Random access file to search untill the end of the line. Then read the
-			// line into here
-			// Then use that line too write into the new file.
-
-			String line[] = files[genTable[row][2]].readLine().split(",");
-			out.write(line[genTable[row][3]]);
+			out.write(files[genTable[row][1]].getRandomLine(genTable[row][2]));
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 			System.exit(1);

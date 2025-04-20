@@ -56,15 +56,16 @@ class csvFile {
 					eof = true;
 				}
 			}
+			in.close();
 		}catch(Exception e){
 			e.printStackTrace(System.err);
+		}
 	}
 	
 	/**
 	 * Returns a random element from the speciefied row
 	 * @param column the column in the csv file the data is in 
 	 */
-	 }
 	public String getRandomLine(int column){
 		String line[] = data.get(rand.nextInt(data.size()));
 		return line[col.get(column)];
