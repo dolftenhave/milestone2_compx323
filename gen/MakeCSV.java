@@ -8,6 +8,7 @@ import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Random;
+import java.util.Arrays;
 
 /**
  * @author Dolf ten Have
@@ -66,6 +67,7 @@ public class MakeCSV {
 
 		initializeGenTable(args[1]);
 		makeCSV();
+		closeFiles();
 		System.out.println("MakeCSV: data written too '" + outputFileName + ".csv'");
 	}
 
@@ -140,6 +142,27 @@ public class MakeCSV {
 			}
 			System.out.println("");
 		}
+	}
+
+	/**
+	 * Closes all external files that are still Open
+	 */
+	private static void closeFiles() {
+		try {
+			if (files != null) {
+				for (int i = 0; i < files.length; i++) {
+					files[i].close();
+				}
+			}
+			if (seqFiles != null) {
+				for (int i = 0; i < seqFiles.length; i++) {
+					seqFiles[i].close();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+
 	}
 
 	/**
@@ -326,22 +349,24 @@ public class MakeCSV {
 	}
 
 	/**
-	 * Will requentially read from another a column in another file until the end is reached. At that point it will start from the top again 
+	 * Will requentially read from another a column in another file until the end is
+	 * reached. At that point it will start from the top again
 	 */
 	private static void seqFile() {
-			String in;
-		try{
+		String in;
+		try {
 			in = seqFiles[row].readLine();
-			if(in != null){
+			if (in != null) {
 				line = in.split(",");
 				write(line[genTable[row][2]]);
-			//If the the end of the file is reached "reset" and start reading again from the top 
-			}else{
+				// If the the end of the file is reached "reset" and start reading again from
+				// the top
+			} else {
 				seqFiles[row].close();
-			seqFiles[row] = new BufferedReader(new FileReader(seqFilePaths[row]));
-			seqFile();
+				seqFiles[row] = new BufferedReader(new FileReader(seqFilePaths[row]));
+				seqFile();
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
 	}
