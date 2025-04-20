@@ -108,7 +108,7 @@ public class MakeCSV {
 							// array
 						} else if (genTable[i][0] == seqFileValue) {
 							seqFiles[seqFileCount] = new BufferedReader(new FileReader(in[1]));
-							seqFilePaths[i] = in[1];
+							seqFilePaths[seqFileCount] = in[1];
 							genTable[i][1] = seqFileCount;
 							seqFileCount++;
 							genTable[i][2] = Integer.parseInt(in[2]);

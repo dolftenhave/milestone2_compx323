@@ -17,6 +17,7 @@ class csvFile {
 	 * @param col[] the columns of the file that you want to keep
 	 */
 	public csvFile(String path, int columns[]){
+		rand = new Random();
 		createPathTranslator(columns);		
 		readAllData(path,columns);
 	}
