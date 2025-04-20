@@ -67,6 +67,9 @@ public class parseArgs {
 				case "-F":
 					seqFile();
 					break;
+				case "-T":
+					timeStamp();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("The input '" + _args[p] + "' was not int the correct format");
@@ -196,5 +199,10 @@ public class parseArgs {
 		table.add("8 " + _args[p + 1] + " " + _args[p + 2]);
 		seqFileRefs++;
 		p += 3;
+	}
+
+	private static void timeStamp(){
+		table.add("9");
+		p++;
 	}
 }
