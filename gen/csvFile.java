@@ -42,9 +42,10 @@ class csvFile {
 			String split[];
 			String save[];
 			boolean eof = false;
+			int lines = 0;
 			data = new ArrayList<String[]>();
 
-			while(eof){
+			while(!eof){
 				line = in.readLine();
 				if(line != null){
 					split = line.split(",");	
@@ -53,13 +54,16 @@ class csvFile {
 						save[i] = split[col.get(columns[i])];
 					}
 					data.add(save);
+					lines++;
 				}else{
 					eof = true;
 				}
 			}
+			System.out.println("csvFile: read " + lines);
 			in.close();
 		}catch(Exception e){
 			e.printStackTrace(System.err);
+			System.exit(1);
 		}
 	}
 	

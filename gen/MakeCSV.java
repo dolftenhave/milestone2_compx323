@@ -345,15 +345,15 @@ public class MakeCSV {
 	private static void seqFile() {
 		String in;
 		try {
-			in = seqFiles[row].readLine();
+			in = seqFiles[genTable[row][2]].readLine();
 			if (in != null) {
 				line = in.split(",");
-				write(line[genTable[row][2]]);
+				write(line[genTable[row][1]]);
 				// If the the end of the file is reached "reset" and start reading again from
 				// the top
 			} else {
-				seqFiles[row].close();
-				seqFiles[row] = new BufferedReader(new FileReader(seqFilePaths[row]));
+				seqFiles[genTable[row][2]].close();
+				seqFiles[genTable[row][2]] = new BufferedReader(new FileReader(seqFilePaths[genTable[row][2]]));
 				seqFile();
 			}
 		} catch (Exception e) {
