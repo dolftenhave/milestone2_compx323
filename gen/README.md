@@ -53,3 +53,17 @@ The header of the table file has the following structure:<br />
 ```
 9 timestamp
 10 ,
+
+### csvFile
+
+A wrapper class that contains all lines of a csv fil but only stores the specified columns
+
+#### Methods
+
+##### csvFile(String path/to/file, int columns[])
+
+a contructor class that loads the data of all specified columns into an arrayList for later usage.
+
+##### getRandom(int *column*)
+
+returns a random random line of data frm the specified column.
