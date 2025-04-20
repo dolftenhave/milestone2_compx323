@@ -193,7 +193,7 @@ public class parseArgs {
 	 * The next value indicates the path/to/file followed bu the column of the data
 	 */
 	private static void seqFile() {
-		table.add("8" + _args[p + 1] + _args[p + 2]);
+		table.add("8 " + _args[p + 1] + " " + _args[p + 2]);
 		seqFileRefs++;
 		p += 3;
 	}

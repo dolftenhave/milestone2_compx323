@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -35,6 +36,8 @@ public class MakeCSV {
 	private static int genTable[][]; // The generation table
 	private static RandomAccessFile files[]; // An array that contains all buffered readers that link to external files
 	private static BufferedReader seqFiles[]; // An array that contains the requential file readers
+	private static String seqFilePaths[];
+	private static String line[];
 	private static int seqVarchar[][];
 
 	private static BufferedWriter out;
@@ -63,6 +66,7 @@ public class MakeCSV {
 
 		initializeGenTable(args[1]);
 		makeCSV();
+		System.out.println("MakeCSV: data written too '" + outputFileName + ".csv'");
 	}
 
 	/**
@@ -83,38 +87,40 @@ public class MakeCSV {
 			files = new RandomAccessFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
 			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
+			seqFilePaths = new String[Integer.parseInt(in[4])];
 
 			// Reads the rest of the file into the genTable array
 			for (int i = 0; i < genTable.length; i++) {
-				if((i % 2) == 0){
-				in = readTable.readLine().split(" ");
-				genTable[i][0] = Integer.parseInt(in[0]);
-				if (in.length > 1) {
-					// If this is a file line, initialise a new reader and add it to the readed
-					// array. Adding the index of the reader within that array to the gentable array
-					if (genTable[i][0] == fileValue) {
-						files[fileCount] = new RandomAccessFile(in[1], "r");
-						genTable[i][1] = fileCount;
-						fileCount++;
-						genTable[i][2] = Integer.parseInt(in[2]);
-						// Otherwise read the rest of the lines as normal and add them to the gentTable
-						// array
-					} else if (genTable[i][0] == seqFileValue) {
-						seqFiles[seqFileCount] = new BufferedReader(new FileReader(in[1]));
-						genTable[i][1] = seqFileCount;
-						seqFileCount++;
-						genTable[i][2] = Integer.parseInt(in[2]);
-					} else if (genTable[i][0] == seqVarcharValue) {
-						genTable[i][2] = Integer.parseInt(in[1]);
-						genTable[i][1] = seqVarcharCount;
-						seqVarcharCount++;
-					} else {
-						for (int j = 1; j < in.length; j++) {
-							genTable[i][j] = Integer.parseInt(in[j]);
+				if ((i % 2) == 0) {
+					in = readTable.readLine().split(" ");
+					genTable[i][0] = Integer.parseInt(in[0]);
+					if (in.length > 1) {
+						// If this is a file line, initialise a new reader and add it to the readed
+						// array. Adding the index of the reader within that array to the gentable array
+						if (genTable[i][0] == fileValue) {
+							files[fileCount] = new RandomAccessFile(in[1], "r");
+							genTable[i][1] = fileCount;
+							fileCount++;
+							genTable[i][2] = Integer.parseInt(in[2]);
+							// Otherwise read the rest of the lines as normal and add them to the gentTable
+							// array
+						} else if (genTable[i][0] == seqFileValue) {
+							seqFiles[seqFileCount] = new BufferedReader(new FileReader(in[1]));
+							seqFilePaths[i] = in[1];
+							genTable[i][1] = seqFileCount;
+							seqFileCount++;
+							genTable[i][2] = Integer.parseInt(in[2]);
+						} else if (genTable[i][0] == seqVarcharValue) {
+							genTable[i][2] = Integer.parseInt(in[1]);
+							genTable[i][1] = seqVarcharCount;
+							seqVarcharCount++;
+						} else {
+							for (int j = 1; j < in.length; j++) {
+								genTable[i][j] = Integer.parseInt(in[j]);
+							}
 						}
 					}
-				}
-				}else{
+				} else {
 					genTable[i][0] = COMMA_VALUE;
 				}
 			}
@@ -126,9 +132,9 @@ public class MakeCSV {
 		printArray();
 	}
 
-	private static void printArray(){
-		for(int i = 0; i < genTable.length; i++){
-			for(int j = 0; j < genTable[0].length; j++){
+	private static void printArray() {
+		for (int i = 0; i < genTable.length; i++) {
+			for (int j = 0; j < genTable[0].length; j++) {
 				System.out.print(genTable[i][j]);
 				System.out.print(" ");
 			}
@@ -306,27 +312,44 @@ public class MakeCSV {
 		for (int i = 0; i < seqVarchar[0].length; i++) {
 
 			write(charSet[seqVarchar[p][i] % 52]);
-			if(i == seqVarchar[p].length-1)
+			if (i == seqVarchar[p].length - 1)
 				seqVarchar[p][seqVarchar[p].length - 1]++;
-// If the current number rolls over back to zero, then increase the next number
-			// in array by 1
+			// If the current number rolls over back to zero, then increase the previous
+			// number
+			// in array by 1. Unless this is the last position
 			if (seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0) {
-				if(i != 0)
+				if (i != 0)
 					seqVarchar[p][(i - 1) % genTable[row][2]]++;
 			}
 
-					}
+		}
 	}
 
+	/**
+	 * Will requentially read from another a column in another file until the end is reached. At that point it will start from the top again 
+	 */
 	private static void seqFile() {
-
+			String in;
+		try{
+			in = seqFiles[row].readLine();
+			if(in != null){
+				line = in.split(",");
+				write(line[genTable[row][2]]);
+			//If the the end of the file is reached "reset" and start reading again from the top 
+			}else{
+				seqFiles[row].close();
+			seqFiles[row] = new BufferedReader(new FileReader(seqFilePaths[row]));
+			seqFile();
+			}
+		}catch(Exception e){
+			e.printStackTrace(System.err);
+		}
 	}
-
 
 	/**
 	 * Writes a timestamp in the format 'YYYY:MM-DD HH:MM:SS'
 	 */
-	private static void timestamp(){
+	private static void timestamp() {
 		date();
 		write(" ");
 		time();
@@ -335,7 +358,7 @@ public class MakeCSV {
 	/**
 	 * Write a comma value
 	 */
-	private static void comma(){
+	private static void comma() {
 		write(",");
 	}
 }
