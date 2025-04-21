@@ -71,7 +71,7 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <output name>`
 +-------------+-------+----+------------------------+--------------------+
 ```
 
-### csvFile
+## csvFile
 
 A wrapper class that contains all lines of a csv file but only stores the specified columns
 
@@ -86,7 +86,8 @@ a contructor class that loads the data of all specified columns into an arrayLis
 returns a random random line of data frm the specified column.
 
 ## Refferences
-(slim-3)[slim-3.csv] was taken from (lukes/ISO-3166-Countries-with-Regional-Codes)[https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes] under the creative commons licence.
+
+[slim-3](slim-3.csv) was taken from [lukes/ISO-3166-Countries-with-Regional-Codes](https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes) under the creative commons licence.
 
 
 
@@ -94,4 +95,5 @@ _All other files in gen/ were created by Dolf ten Have for Compx323-25A_
 
 
 ## Final notes. 
+
 csvFile was originally designed with the idea that I would be reading multiple columns of data from the same csv file in once. Hence it accepts an int array of the columns. However, in practice this will never occur with our dataset. Therefore I did not implement the feature properly and only one column will be used at a time. Implementing this would requre a header rework, requiring a partial rewrite of parseArgs and MakeTable.
