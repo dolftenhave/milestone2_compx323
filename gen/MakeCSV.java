@@ -367,7 +367,7 @@ public class MakeCSV {
 			}
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
-			Systme.exit(1);
+			System.exit(1);
 		}
 	}
 
