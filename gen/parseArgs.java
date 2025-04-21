@@ -73,6 +73,9 @@ public class parseArgs {
 				case "-h":
 					hex();
 					break;
+				case "-e":
+					email();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("The input '" + _args[p] + "' was not int the correct format");
@@ -220,5 +223,10 @@ public class parseArgs {
 	private static void hex() {
 		table.add("11 " + _args[p + 1]);
 		p += 2;
+	}
+
+	private static void email(){
+		table.add("12");
+		p++;
 	}
 }

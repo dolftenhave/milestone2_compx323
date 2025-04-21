@@ -22,6 +22,7 @@ There are several different type of arguments used to greate the data
 - **sequntial varchar** `-V <length>` will generate sequential varchar character for each line. Starting with _AAAA, AAAB, AAAC, ... , zzzz_. This will be done based on the ascii value of the letters.
 - **sequential file** `-F <path to file> <column to choose from>` Will take data from the file starting from the top of the file untill the end. It will loop if the end is reached.
 - **Hexadecimal Value** `-h <length>` will generate a hexademimal value of length _length_. e.g. length 5 will could create _F86A1_.
+- **email** `-e` will generate a fake email using random character with one @ followed by one .
 
 _Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
@@ -57,6 +58,7 @@ The header of the table file has the following structure:<br />
 **9** `timestamp`<br />
 **10** `,` <br />
 **11** `hexValue` <br />
+**12** `email`
 
 ### csvFile
 

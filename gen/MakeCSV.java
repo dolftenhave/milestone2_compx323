@@ -224,6 +224,9 @@ public class MakeCSV {
 				case 11:
 					hex();
 					break;
+				case 12:
+					email();
+					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
@@ -382,5 +385,17 @@ public class MakeCSV {
 		for (int i = 0; i < (genTable[row][1]); i++) {
 			write(hexSet[rand.nextInt(hexSet.length)]);
 		}
+	}
+
+	/**
+	 * Creates a psuedo email address that validates the requirements for a valid
+	 * email but will most likely not exist
+	 */
+	private static void email() {
+		varchar(rand.nextInt(1, 40));
+		write("@");
+		varchar(rand.nextInt(1, 40));
+		write(".");
+		varchar(rand.nextInt(2, 4));
 	}
 }
