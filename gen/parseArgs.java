@@ -16,6 +16,9 @@ public class parseArgs {
 	private static BufferedWriter out;
 
 	private static int fileRefs = 0; // The number of external files refferenced for data.
+	private static int nSeqVarchars = 0;
+	private static int maxSeqVarcharLen = 0;
+	private static int seqFileRefs = 0;
 
 	private static ArrayList<String> table; // a "buffer" array that holds the table data before it is written;
 
@@ -23,9 +26,16 @@ public class parseArgs {
 		_args = args;
 		table = new ArrayList<String>();
 		createTable();
+		writeTable();
+		System.out.println("parseArgs: Done.");
 	}
 
+	/**
+	 * Selects the argument type and passes it on to the matching method for
+	 * processing
+	 */
 	private static void createTable() {
+		System.out.println("parseArgs: Making Table");
 		while (p < _args.length) {
 			switch (_args[p]) {
 				// varchar
@@ -52,6 +62,27 @@ public class parseArgs {
 				case "-o":
 					double_();
 					break;
+				case "-I":
+					seqInt_();
+					break;
+				case "-V":
+					seqVarchar();
+					break;
+				case "-F":
+					seqFile();
+					break;
+				case "-T":
+					timeStamp();
+					break;
+				case "-h":
+					hex();
+					break;
+				case "-e":
+					email();
+					break;
+				case "-b":
+					bool();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("The input '" + _args[p] + "' was not int the correct format");
@@ -59,8 +90,6 @@ public class parseArgs {
 					break;
 			}
 		}
-
-		writeTable();
 	}
 
 	/**
@@ -69,10 +98,12 @@ public class parseArgs {
 	 * Then writes the content of table line for line to the file
 	 */
 	private static void writeTable() {
+		System.out.println("parseArgs: Writing Table");
 		try {
 			out = new BufferedWriter(new FileWriter(_args[0] + "_table.txt"));
 
-			String head = table.size() + " " + fileRefs;
+			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + maxSeqVarcharLen + " "
+					+ seqFileRefs;
 			out.write(head, 0, head.length());
 			out.newLine();
 			out.flush();
@@ -84,7 +115,7 @@ public class parseArgs {
 			}
 			out.write(table.get(table.size() - 1), 0, table.get(table.size() - 1).length());
 			out.flush();
-
+			System.out.println("parseArgs: Created '" + _args[0] + "_table.txt'");
 			out.close();
 
 		} catch (Exception e) {
@@ -144,5 +175,77 @@ public class parseArgs {
 	private static void double_() {
 		table.add("5 " + _args[p + 1] + " " + _args[p + 2]);
 		p += 3;
+	}
+
+	/**
+	 * Writes a line to the jump table which indicated type sequentia integer
+	 * The next value indicates the starting value of the integer
+	 */
+	private static void seqInt_() {
+		table.add("6 " + _args[p + 1]);
+		p += 2;
+	}
+
+	/**
+	 * Writes a line to the the jump table that indicates type sequential varchar
+	 * The next value indicates the length of the varchar
+	 */
+	private static void seqVarchar() {
+		table.add("7 " + _args[p + 1]);
+		nSeqVarchars++;
+		try {
+			int i = Integer.parseInt(_args[p + 1]);
+			if (i > maxSeqVarcharLen)
+				maxSeqVarcharLen = i;
+
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+		p += 2;
+	}
+
+	/**
+	 * Writes a line to the jump table which indicates type sequential varchar
+	 * The next value indicates the path/to/file followed bu the column of the data
+	 */
+	private static void seqFile() {
+		table.add("8 " + _args[p + 1] + " " + _args[p + 2]);
+		seqFileRefs++;
+		p += 3;
+	}
+
+	/**
+	 * Writes a line to the jump table which indicates type Timestamp
+	 */
+	private static void timeStamp() {
+		table.add("9");
+		p++;
+	}
+
+	/**
+	 * Writes a line to the jump table which indicates the type hex value
+	 * the next value indicates the length of the hex value
+	 */
+	private static void hex() {
+		table.add("11 " + _args[p + 1]);
+		p += 2;
+	}
+
+	/**
+	 * Writes a random email type that validates the requrements for an email but is
+	 * made of completely random character
+	 */
+	private static void email() {
+		table.add("12");
+		p++;
+	}
+
+	/**
+	 * Creates a random boolean type represented by an integer
+	 */
+	private static void bool() {
+		table.add("13");
+		p++;
 	}
 }

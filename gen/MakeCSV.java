@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.Reader;
+import java.io.FileWriter;
+import java.util.Random;
 
 /**
  * @author Dolf ten Have
@@ -14,27 +15,43 @@ import java.io.Reader;
 
 public class MakeCSV {
 
-	private static final String usage = "usage: java MakeCSV <n-lines> <path/to/table/file> <output name>";
+	// private static final String usage = "usage: java MakeCSV <n-lines>
+	// <path/to/table/file> <output name>";
 	private static final int MIN_YEAR = 1925; // 100 years for now
 	private static final int fileValue = 4;
+	private static final int seqVarcharValue = 7;
+	private static final int seqFileValue = 8;
+	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
+			"F" };
+	private static final int COMMA_VALUE = 10;
 
 	private static int length;
 	private static String outputFileName;
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
-	private static BufferedReader files[]; // An array that contains all buffered readers that link to external files
-											// used
+	private static csvFile files[]; // An array that contains all buffered readers that link to external files
+	private static BufferedReader seqFiles[]; // An array that contains the requential file readers
+	private static String seqFilePaths[];
+	private static String line[];
+	private static int seqVarchar[][];
+
+	private static BufferedWriter out;
+	private static int row; // The index of the genTable row that the program is currently on
+
+	private static Random rand;
 
 	/**
 	 * @param args [0] number of lines to generate; [1] path to the gen table; [2]
 	 *             optional. Name of the output file
 	 */
 	public static void main(String args[]) {
-
 		try {
 			length = Integer.parseInt(args[0]);
 		} catch (Exception e) {
-			System.out.println("'" + args[0] + "' was no in the correct format");
+			System.out.println("'" + args[0] + "' is not a valid length.");
 			System.exit(1);
 		}
 
@@ -46,43 +63,66 @@ public class MakeCSV {
 		}
 
 		initializeGenTable(args[1]);
-
+		makeCSV();
+		closeFiles();
+		System.out.println("MakeCSV: data written too '" + outputFileName + ".csv'");
 	}
 
 	/**
 	 * Reads and initialises all componenets of the gen and files arrays
+	 * 
+	 * @param tablePath the path to the genTable file
 	 */
 	private static void initializeGenTable(String tablePath) {
 		BufferedReader readTable;
 		String in[];
 		int fileCount = 0; // A counter that keeps track of how many files have currently been added
+		int seqFileCount = 0;
+		int seqVarcharCount = 0;
 		try {
 			readTable = new BufferedReader(new FileReader(tablePath));
 
 			// Reads the file head initialisesing the gen table arrays
 			in = readTable.readLine().split(" ");
-			genTable = new int[Integer.parseInt(in[0])][GEN_TABLE_WIDTH];
-			files = new BufferedReader[Integer.parseInt(in[1])];
+			genTable = new int[(Integer.parseInt(in[0]) * 2) - 1][GEN_TABLE_WIDTH];
+			files = new csvFile[Integer.parseInt((in[1]))];
+			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
+			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
+			seqFilePaths = new String[Integer.parseInt(in[4])];
 
 			// Reads the rest of the file into the genTable array
 			for (int i = 0; i < genTable.length; i++) {
-				in = readTable.readLine().split(" ");
-				genTable[i][0] = Integer.parseInt(in[0]);
-				if (in.length > 1) {
-					// If this is a file line, initialise a new readed and add it to the readed
-					// array. Adding the index of the reader within that array to the gentable array
-					if (genTable[i][0] == fileValue) {
-						files[fileCount] = new BufferedReader(new FileReader(in[1]));
-						genTable[i][1] = fileCount;
-						fileCount++;
-						genTable[i][2] = Integer.parseInt(in[2]);
-						// Otherwise read the rest of the lines as normal and add them to the gentTable
-						// array
-					} else {
-						for (int j = 1; j < in.length; j++) {
-							genTable[i][j] = Integer.parseInt(in[j]);
+				if ((i % 2) == 0) {
+					in = readTable.readLine().split(" ");
+					genTable[i][0] = Integer.parseInt(in[0]);
+					if (in.length > 1) {
+						// If this is a file line, initialise a new reader and add it to the readed
+						// array. Adding the index of the reader within that array to the gentable array
+						if (genTable[i][0] == fileValue) {
+							files[fileCount] = new csvFile(in[1], new int[] { Integer.parseInt(in[2]) });
+							genTable[i][1] = fileCount;
+							fileCount++;
+							genTable[i][2] = Integer.parseInt(in[2]);
+							// Otherwise read the rest of the lines as normal and add them to the gentTable
+							// array
+						} else if (genTable[i][0] == seqFileValue) {
+							seqFiles[seqFileCount] = new BufferedReader(new FileReader(in[1]));
+							seqFilePaths[seqFileCount] = in[1];
+							genTable[i][1] = seqFileCount;
+							seqFileCount++;
+							genTable[i][2] = Integer.parseInt(in[2]);
+						} else if (genTable[i][0] == seqVarcharValue) {
+							genTable[i][2] = Integer.parseInt(in[1]);
+							genTable[i][1] = seqVarcharCount;
+							seqVarcharCount++;
+						} else {
+							for (int j = 1; j < in.length; j++) {
+								genTable[i][j] = Integer.parseInt(in[j]);
+							}
 						}
 					}
+				} else {
+					genTable[i][0] = COMMA_VALUE;
 				}
 			}
 			readTable.close();
@@ -90,5 +130,295 @@ public class MakeCSV {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
+	}
+
+	/**
+	 * Prints the content of the genTable array.
+	 *
+	 * This is used for the purposes of debugging and not in the final project
+	 */
+	private static void printArray() {
+		for (int i = 0; i < genTable.length; i++) {
+			for (int j = 0; j < genTable[0].length; j++) {
+				System.out.print(genTable[i][j]);
+				System.out.print(" ");
+			}
+			System.out.println("");
+		}
+	}
+
+	/**
+	 * Closes all external files that are still Open
+	 */
+	private static void closeFiles() {
+		try {
+			if (seqFiles != null) {
+				for (int i = 0; i < seqFiles.length; i++) {
+					seqFiles[i].close();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+
+	}
+
+	/**
+	 * This method will create the csv file, one line at a time and write it out to
+	 * the file
+	 */
+	private static void makeCSV() {
+		rand = new Random();
+		try {
+			out = new BufferedWriter(new FileWriter(outputFileName + ".csv"));
+			for (int i = 0; i < length - 1; i++) {
+				writeLine();
+				out.newLine();
+			}
+			writeLine();
+			out.close();
+
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+	}
+
+	/**
+	 * This method sends the next item in the genTable to the right method for
+	 * generating that data type
+	 */
+	private static void writeLine() {
+		for (int j = 0; j < genTable.length; j++) {
+			row = j;
+			switch (genTable[j][0]) {
+				case 0:
+					varchar(rand.nextInt(1, genTable[j][1] + 1));
+					break;
+				case 1:
+					int_(genTable[j][1]);
+					break;
+				case 2:
+					date();
+					break;
+				case 3:
+					time();
+					break;
+				case 4:
+					file();
+					break;
+				case 5:
+					double_();
+					break;
+				case 6:
+					seqInt();
+					break;
+				case 7:
+					seqVarchar();
+					break;
+				case 8:
+					seqFile();
+					break;
+				case 9:
+					timestamp();
+					break;
+				case 10:
+					comma();
+					break;
+				case 11:
+					hex();
+					break;
+				case 12:
+					email();
+					break;
+				// Writes a random boolean integer 0 or 1
+				case 13:
+					int_(2);
+					break;
+				default:
+					System.err.println("Uknown data type'" + genTable[j][0] + "'");
+					System.exit(1);
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Writes out the given data to the csv file
+	 */
+	private static void write(String s) {
+		try {
+			out.write(s, 0, s.length());
+			out.flush();
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+
+	}
+
+	/**
+	 * Writes aphabetical letters to the file of of a length between 1 and length
+	 * 
+	 * @param length the maximum length of the random String
+	 */
+	private static void varchar(int length) {
+		for (int i = 0; i < length; i++) {
+			write(charSet[rand.nextInt(charSet.length)]);
+		}
+	}
+
+	/**
+	 * Writes a random integer between 0 and the max Length
+	 * 
+	 * @param maxSize the maximum length of the integer
+	 */
+	private static void int_(int maxSize) {
+		write(getRandomInt(maxSize));
+	}
+
+	/**
+	 * Writes a random date
+	 */
+	private static void date() {
+		write(rand.nextInt(1, 28) + "-" + rand.nextInt(1, 12) + "-" + rand.nextInt(MIN_YEAR, 2025));
+	}
+
+	/**
+	 * Writes a random time value in the format HH:MM:SS
+	 */
+	private static void time() {
+		int_(rand.nextInt(24));
+		write(":");
+		int_(rand.nextInt(60));
+		write(":");
+		int_(rand.nextInt(60));
+	}
+
+	/**
+	 * reades data from a random line in a file that is then written out to a
+	 * specific column in that file
+	 */
+	private static void file() {
+		try {
+			out.write(files[genTable[row][1]].getRandomLine(genTable[row][2]));
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			System.exit(1);
+		}
+	}
+
+	/**
+	 * writes arandom double
+	 */
+	private static void double_() {
+		write(getRandomInt(genTable[row][1]));
+		write(".");
+		write(getRandomInt(genTable[row][2]));
+	}
+
+	/**
+	 * writes the current value of the int in the genTable and then increases the
+	 * count
+	 */
+	private static void seqInt() {
+		write(String.valueOf(genTable[row][1]));
+		genTable[row][1]++;
+	}
+
+	/**
+	 * Writes a sequential string of varchar characters of a fixed length
+	 */
+	private static void seqVarchar() {
+		int p = genTable[row][1];
+		for (int i = 0; i < seqVarchar[0].length; i++) {
+
+			write(charSet[seqVarchar[p][i] % 52]);
+			if (i == seqVarchar[p].length - 1)
+				seqVarchar[p][seqVarchar[p].length - 1]++;
+			// If the current number rolls over back to zero, then increase the previous
+			// number
+			// in array by 1. Unless this is the last position
+			if (seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0) {
+				if (i != 0)
+					seqVarchar[p][(i - 1) % genTable[row][2]]++;
+			}
+
+		}
+	}
+
+	/**
+	 * Will requentially read from another a column in another file until the end is
+	 * reached. At that point it will start from the top again
+	 */
+	private static void seqFile() {
+		String in;
+		try {
+			in = seqFiles[genTable[row][2]].readLine();
+			if (in != null) {
+				line = in.split(",");
+				write(line[genTable[row][1]]);
+				// If the the end of the file is reached "reset" and start reading again from
+				// the top
+			} else {
+				seqFiles[genTable[row][2]].close();
+				seqFiles[genTable[row][2]] = new BufferedReader(new FileReader(seqFilePaths[genTable[row][2]]));
+				seqFile();
+			}
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			Systme.exit(1);
+		}
+	}
+
+	/**
+	 * Writes a timestamp in the format 'YYYY:MM-DD HH:MM:SS'
+	 */
+	private static void timestamp() {
+		date();
+		write(" ");
+		time();
+	}
+
+	/**
+	 * Write a comma value
+	 */
+	private static void comma() {
+		write(",");
+	}
+
+	/**
+	 * Writes a random hex value of the specified length
+	 */
+	private static void hex() {
+		for (int i = 0; i < (genTable[row][1]); i++) {
+			write(hexSet[rand.nextInt(hexSet.length)]);
+		}
+	}
+
+	/**
+	 * Creates a psuedo email address that validates the requirements for a valid
+	 * email but will most likely not exist
+	 */
+	private static void email() {
+		varchar(rand.nextInt(1, 40));
+		write("@");
+		varchar(rand.nextInt(1, 40));
+		write(".");
+		varchar(rand.nextInt(2, 4));
+	}
+
+	/**
+	 * Returns a random Integer integer between 1 and length digits long
+	 * 
+	 * @param length the maximum number of digits the int may contain (inclusive)
+	 */
+	private static String getRandomInt(int length) {
+		int return_length = rand.nextInt(1, length + 1);
+		String _int = "";
+		for (int i = 0; i < return_length; i++) {
+			_int += hexSet[rand.nextInt(10)];
+		}
+		return _int;
 	}
 }
