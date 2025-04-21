@@ -34,38 +34,42 @@ This program will generate lines of CSV data in the pattern layed in a table fil
 
 usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 
-_Both parseArgs & MakeCSV were created by Dolf ten Have for Compx323-25A_
+#### The header of the table file has the following structure:<br />
 
-The header of the table file has the following structure:<br />
-`<num rows> <num fileRefs> <num seq varchars> <max seq varchar len> <num seq fileRefs>`
+```
++-------+----------+--------------+------------------+---------------------+------------------+
+| index |     0    |       1      |         2        |          3          |         4        |
++-------+----------+--------------+------------------+---------------------+------------------+
+| data  | num rows | num foleRefs | num seq varchars | max seq varchar len | num seq fileRefs |
++-------+----------+--------------+------------------+---------------------+------------------+
+```
 
 ### genTable structure:
 
 ```
-+-------------+-------+---+------------------------+---------------+
-|    Type     | index | 0 |           1            |       2       |
-+-------------+-------+---+------------------------+---------------+
-| varchar     |     0 | 0 | length                 |               |
-| int         |     1 | 1 | length                 |               |
-| date        |     2 | 2 |                        |               |
-| time        |     3 | 3 |                        |               |
-| file        |     4 | 4 | index in 'files' array | col of data   |
-| double      |     5 | 5 | pre delimiter len      | post delimiter|
-| seq int     |     6 | 6 | count                  |               |
-| seq varchar |     7 | 7 | seqVarchar array index | array len     |
-| seq file    |     8 | 8 | seqFiles array index   | col of data   |
-+-------------+-------+---+------------------------+---------------+
++-------------+-------+----+------------------------+--------------------+
+|     Type    | index | 0  |            1           |          2         |
++-------------+-------+----+------------------------+--------------------+
+| varchar     |     0 | 0  | max len                | -                  |
+| int         |     1 | 1  | max len                | -                  |
+| date        |     2 | 2  | -                      | -                  |
+| time        |     3 | 3  | -                      | -                  |
+| file        |     4 | 4  | files array index      | col of data        |
+| double      |     5 | 5  | len                    | post delimiter len |
+| seq int     |     6 | 6  | count                  | -                  |
+| seq varchar |     7 | 7  | seqVarchar array index | array len          |
+| seq file    |     8 | 8  | seqFiles array index   | col of data        |
+| timestamp   |     9 | 9  | -                      | -                  |
+| comma < , > |    10 | 10 | -                      | -                  |
+| hexValue    |    11 | 11 | len                    | -                  |
+| email       |    12 | 12 | -                      | -                  |
+| bool        |    13 | 13 | -                      | -                  |
++-------------+-------+----+------------------------+--------------------+
 ```
-
-**9** `timestamp`<br />
-**10** `,` <br />
-**11** `hexValue` <br />
-**12** `email`<br />
-**13** `bool`
 
 ### csvFile
 
-A wrapper class that contains all lines of a csv fil but only stores the specified columns
+A wrapper class that contains all lines of a csv file but only stores the specified columns
 
 #### Methods
 
@@ -76,3 +80,10 @@ a contructor class that loads the data of all specified columns into an arrayLis
 ##### getRandom(int _column_)
 
 returns a random random line of data frm the specified column.
+
+## Refferences
+(slim-3)[slim-3.csv] was taken from (lukes/ISO-3166-Countries-with-Regional-Codes)[https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes] under the creative commons licence.
+
+
+
+_All other files in gen/ were created by Dolf ten Have for Compx323-25A_
