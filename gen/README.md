@@ -13,16 +13,17 @@ This program generates a pre defined table that will be used by MakeCSV to gener
 There are several different type of arguments used to greate the data
 
 - **varchar** `-v <length>` legnth 1 to n.
-- **integer** `-i <length>` lengtth 0 will auto increment starting form 1. A fixed lenth will generate a random number with that many digits *e.g. 2 will generate a number 10-99*
+- **integer** `-i <length>` lengtth 0 will auto increment starting form 1. A fixed lenth will generate a random number with that many digits _e.g. 2 will generate a number 10-99_
 - **date** `-d` will generate a random date in the format DD/MM/YYYY
 - **time** `-t` will generate a random time
 - **file** `-f <path to file> <column to choose the data from>` will take data from a specified column of another csv file and insert it into this column. This is used in instances of foreign keys.
 - **double** `-o <length> <delimiter position>` will generate a dounle with the length and position of the delimiter.
 - **sequential int** `-I <staring number>` will generate a sequential integer for each line
-- **sequntial varchar** `-V <length>` will generate sequential varchar character for each line. Starting with *AAAA, AAAB, AAAC, ... , zzzz*. This will be done based on the ascii value of the letters.
+- **sequntial varchar** `-V <length>` will generate sequential varchar character for each line. Starting with _AAAA, AAAB, AAAC, ... , zzzz_. This will be done based on the ascii value of the letters.
 - **sequential file** `-F <path to file> <column to choose from>` Will take data from the file starting from the top of the file untill the end. It will loop if the end is reached.
+- **Hexadecimal Value** `-h <length>` will generate a hexademimal value of length _length_. e.g. length 5 will could create _F86A1_.
 
-*Note:* Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
+_Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
 ## MakeCSV
 
@@ -30,12 +31,13 @@ This program will generate lines of CSV data in the pattern layed in a table fil
 
 usage `java MakeCSV <n-lines> <path/to/table/file> <optional, output name>`
 
-*Both parseArgs & MakeCSV were created by Dolf ten Have for Compx323-25A*
+_Both parseArgs & MakeCSV were created by Dolf ten Have for Compx323-25A_
 
 The header of the table file has the following structure:<br />
 `<num rows> <num fileRefs> <num seq varchars> <max seq varchar len> <num seq fileRefs>`
 
 ### genTable structure:
+
 ```
 +-------------+-------+---+------------------------+---------------+
 |    Type     | index | 0 |           1            |       2       |
@@ -51,8 +53,10 @@ The header of the table file has the following structure:<br />
 | seq file    |     8 | 8 | seqFiles array index   | col of data   |
 +-------------+-------+---+------------------------+---------------+
 ```
-9 timestamp
-10 ,
+
+**9** `timestamp`<br />
+**10** `,` <br />
+**11** `hexValue` <br />
 
 ### csvFile
 
@@ -64,6 +68,6 @@ A wrapper class that contains all lines of a csv fil but only stores the specifi
 
 a contructor class that loads the data of all specified columns into an arrayList for later usage.
 
-##### getRandom(int *column*)
+##### getRandom(int _column_)
 
 returns a random random line of data frm the specified column.
