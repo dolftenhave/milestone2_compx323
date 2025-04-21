@@ -23,8 +23,7 @@ public class MakeCSV {
 	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
 			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
-	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
-			"F" };
+	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",	"F" };
 	private static final int COMMA_VALUE = 10;
 
 	private static int length;
@@ -227,7 +226,7 @@ public class MakeCSV {
 				case 12:
 					email();
 					break;
-				//Writes a random boolean integer 0 or 1
+				// Writes a random boolean integer 0 or 1
 				case 13:
 					int_(2);
 					break;
@@ -270,7 +269,7 @@ public class MakeCSV {
 	 * @param maxSize the maximum length of the integer
 	 */
 	private static void int_(int maxSize) {
-		write(String.valueOf(rand.nextInt(maxSize + 1)));
+		write(getRandomInt(maxSize));
 	}
 
 	/**
@@ -308,9 +307,9 @@ public class MakeCSV {
 	 * writes arandom double
 	 */
 	private static void double_() {
-		int_(genTable[row][1]);
+		write(getRandomInt(genTable[row][1]));
 		write(".");
-		int_(genTable[row][2]);
+		write(getRandomInt(genTable[row][2]));
 	}
 
 	/**
@@ -401,5 +400,18 @@ public class MakeCSV {
 		varchar(rand.nextInt(1, 40));
 		write(".");
 		varchar(rand.nextInt(2, 4));
+	}
+
+	/**
+	 * Returns a random Integer integer between 1 and length digits long
+	 * @param length the maximum number of digits the int may contain (inclusive)
+	 */
+	private static String getRandomInt(int length){
+		int return_length = rand.nextInt(1,length+1);
+		String _int = "";
+		for(int i = 0; i < return_length; i++){
+			_int += hexSet[rand.nextInt(10)];
+		}
+		return _int;
 	}
 }
