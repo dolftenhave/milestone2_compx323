@@ -30,6 +30,10 @@ public class parseArgs {
 		System.out.println("parseArgs: Done.");
 	}
 
+	/**
+	 * Selects the argument type and passes it on to the matching method for
+	 * processing
+	 */
 	private static void createTable() {
 		System.out.println("parseArgs: Making Table");
 		while (p < _args.length) {
