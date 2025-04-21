@@ -15,7 +15,8 @@ import java.util.Random;
 
 public class MakeCSV {
 
-	private static final String usage = "usage: java MakeCSV <n-lines> <path/to/table/file> <output name>";
+	// private static final String usage = "usage: java MakeCSV <n-lines>
+	// <path/to/table/file> <output name>";
 	private static final int MIN_YEAR = 1925; // 100 years for now
 	private static final int fileValue = 4;
 	private static final int seqVarcharValue = 7;
@@ -23,7 +24,8 @@ public class MakeCSV {
 	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
 			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
-	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",	"F" };
+	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
+			"F" };
 	private static final int COMMA_VALUE = 10;
 
 	private static int length;
@@ -68,6 +70,8 @@ public class MakeCSV {
 
 	/**
 	 * Reads and initialises all componenets of the gen and files arrays
+	 * 
+	 * @param tablePath the path to the genTable file
 	 */
 	private static void initializeGenTable(String tablePath) {
 		BufferedReader readTable;
@@ -126,9 +130,13 @@ public class MakeCSV {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
-		printArray();
 	}
 
+	/**
+	 * Prints the content of the genTable array.
+	 *
+	 * This is used for the purposes of debugging and not in the final project
+	 */
 	private static void printArray() {
 		for (int i = 0; i < genTable.length; i++) {
 			for (int j = 0; j < genTable[0].length; j++) {
@@ -160,7 +168,6 @@ public class MakeCSV {
 	 * the file
 	 */
 	private static void makeCSV() {
-
 		rand = new Random();
 		try {
 			out = new BufferedWriter(new FileWriter(outputFileName + ".csv"));
@@ -175,7 +182,6 @@ public class MakeCSV {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
-
 	}
 
 	/**
@@ -183,12 +189,11 @@ public class MakeCSV {
 	 * generating that data type
 	 */
 	private static void writeLine() {
-
 		for (int j = 0; j < genTable.length; j++) {
 			row = j;
 			switch (genTable[j][0]) {
 				case 0:
-					varchar(rand.nextInt(1,genTable[j][1] + 1));
+					varchar(rand.nextInt(1, genTable[j][1] + 1));
 					break;
 				case 1:
 					int_(genTable[j][1]);
@@ -253,9 +258,9 @@ public class MakeCSV {
 	}
 
 	/**
-	 * Writes aphabetical letters to the file of length Length
+	 * Writes aphabetical letters to the file of of a length between 1 and length
 	 * 
-	 * @param length the lenght of the random String
+	 * @param length the maximum length of the random String
 	 */
 	private static void varchar(int length) {
 		for (int i = 0; i < length; i++) {
@@ -362,6 +367,7 @@ public class MakeCSV {
 			}
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
+			Systme.exit(1);
 		}
 	}
 
@@ -404,12 +410,13 @@ public class MakeCSV {
 
 	/**
 	 * Returns a random Integer integer between 1 and length digits long
+	 * 
 	 * @param length the maximum number of digits the int may contain (inclusive)
 	 */
-	private static String getRandomInt(int length){
-		int return_length = rand.nextInt(1,length+1);
+	private static String getRandomInt(int length) {
+		int return_length = rand.nextInt(1, length + 1);
 		String _int = "";
-		for(int i = 0; i < return_length; i++){
+		for (int i = 0; i < return_length; i++) {
 			_int += hexSet[rand.nextInt(10)];
 		}
 		return _int;
