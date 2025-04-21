@@ -13,6 +13,12 @@ java parseArgs Care -F Staff.csv 0 -F Animal.csv 0 -T -v 20 -v 200
 java parseArgs Feed -F Staff.csv 0 -F Animal.csv 0 -T -o 5 2 -v 5
 
 # Creation of mock data
-# java MakeCSV 1000 SpeciesGroup_table.txt SpeciesGroup
-# java MakeCSV 1000 Zone_table.txt Zone
-# java MakeCSV 30000 Enclosure_table.txt Enclosure
+java MakeCSV 1000 SpeciesGroup_table.txt SpeciesGroup
+java MakeCSV 1000 Zone_table.txt Zone
+java MakeCSV 3000 Enclosure_table.txt Enclosure
+java MakeCSV 3000 Species_table.txt Species
+java MakeCSV 5000 Animal_table.txt Animal
+java MakeCSV 1000 Staff_table.txt Staff
+java MakeCSV 8000 Oversees_table.txt Oversees
+java MakeCSV 10000 Care_table.txt Care
+java MakeCSV 30000 Feed_table.txt Feed
