@@ -188,7 +188,7 @@ public class MakeCSV {
 			row = j;
 			switch (genTable[j][0]) {
 				case 0:
-					varchar(genTable[j][1]);
+					varchar(rand.nextInt(1,genTable[j][1] + 1));
 					break;
 				case 1:
 					int_(genTable[j][1]);
