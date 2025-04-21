@@ -21,6 +21,7 @@ There are several different type of arguments used to greate the data
 - **sequential int** `-I <staring number>` will generate a sequential integer for each line
 - **sequntial varchar** `-V <length>` will generate sequential varchar character for each line. Starting with _AAAA, AAAB, AAAC, ... , zzzz_. This will be done based on the ascii value of the letters.
 - **sequential file** `-F <path to file> <column to choose from>` Will take data from the file starting from the top of the file untill the end. It will loop if the end is reached.
+- **timestamp** `-T` Adds a timestamp value in the fromat YYYY-MM-DD HH:MM:SS.
 - **Hexadecimal Value** `-h <length>` will generate a hexademimal value of length _length_. e.g. length 5 will could create _F86A1_.
 - **email** `-e` will generate a fake email using random character with one @ followed by one .
 - **bool** `-b` will generate a random integer boolean 0 or 1.
