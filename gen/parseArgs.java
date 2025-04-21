@@ -76,6 +76,9 @@ public class parseArgs {
 				case "-e":
 					email();
 					break;
+				case "-b":
+					bool();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("The input '" + _args[p] + "' was not int the correct format");
@@ -215,7 +218,7 @@ public class parseArgs {
 		table.add("9");
 		p++;
 	}
-	
+
 	/**
 	 * Writes a line to the jump table which indicates the type hex value
 	 * the next value indicates the length of the hex value
@@ -225,8 +228,20 @@ public class parseArgs {
 		p += 2;
 	}
 
-	private static void email(){
+	/**
+	 * Writes a random email type that validates the requrements for an email but is
+	 * made of completely random character
+	 */
+	private static void email() {
 		table.add("12");
+		p++;
+	}
+
+	/**
+	 * Creates a random boolean type represented by an integer
+	 */
+	private static void bool() {
+		table.add("13");
 		p++;
 	}
 }

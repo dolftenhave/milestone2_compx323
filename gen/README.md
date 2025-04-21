@@ -23,6 +23,7 @@ There are several different type of arguments used to greate the data
 - **sequential file** `-F <path to file> <column to choose from>` Will take data from the file starting from the top of the file untill the end. It will loop if the end is reached.
 - **Hexadecimal Value** `-h <length>` will generate a hexademimal value of length _length_. e.g. length 5 will could create _F86A1_.
 - **email** `-e` will generate a fake email using random character with one @ followed by one .
+- **bool** `-b` will generate a random integer boolean 0 or 1.
 
 _Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
@@ -58,7 +59,8 @@ The header of the table file has the following structure:<br />
 **9** `timestamp`<br />
 **10** `,` <br />
 **11** `hexValue` <br />
-**12** `email`
+**12** `email`<br />
+**13** `bool`
 
 ### csvFile
 

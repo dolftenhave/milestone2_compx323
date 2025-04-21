@@ -227,6 +227,10 @@ public class MakeCSV {
 				case 12:
 					email();
 					break;
+				//Writes a random boolean integer 0 or 1
+				case 13:
+					int_(2);
+					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
