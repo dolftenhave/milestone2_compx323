@@ -1,14 +1,8 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.RandomAccessFile;
-import java.io.Reader;
-import java.nio.charset.Charset;
 import java.util.Random;
-import java.util.Arrays;
 
 /**
  * @author Dolf ten Have
@@ -29,6 +23,8 @@ public class MakeCSV {
 	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
 			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
+			"F" };
 	private static final int COMMA_VALUE = 10;
 
 	private static int length;
@@ -100,7 +96,7 @@ public class MakeCSV {
 						// If this is a file line, initialise a new reader and add it to the readed
 						// array. Adding the index of the reader within that array to the gentable array
 						if (genTable[i][0] == fileValue) {
-							files[fileCount] = new csvFile(in[1], new int[]{Integer.parseInt(in[2])});
+							files[fileCount] = new csvFile(in[1], new int[] { Integer.parseInt(in[2]) });
 							genTable[i][1] = fileCount;
 							fileCount++;
 							genTable[i][2] = Integer.parseInt(in[2]);
@@ -225,6 +221,9 @@ public class MakeCSV {
 				case 10:
 					comma();
 					break;
+				case 11:
+					hex();
+					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
@@ -318,7 +317,6 @@ public class MakeCSV {
 
 	/**
 	 * Writes a sequential string of varchar characters of a fixed length
-	 * TODO
 	 */
 	private static void seqVarchar() {
 		int p = genTable[row][1];
@@ -375,5 +373,14 @@ public class MakeCSV {
 	 */
 	private static void comma() {
 		write(",");
+	}
+
+	/**
+	 * Writes a random hex value of the specified length
+	 */
+	private static void hex() {
+		for (int i = 0; i < (genTable[row][1]); i++) {
+			write(hexSet[rand.nextInt(hexSet.length)]);
+		}
 	}
 }

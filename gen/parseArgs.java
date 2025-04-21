@@ -70,6 +70,9 @@ public class parseArgs {
 				case "-T":
 					timeStamp();
 					break;
+				case "-h":
+					hex();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("The input '" + _args[p] + "' was not int the correct format");
@@ -89,7 +92,8 @@ public class parseArgs {
 		try {
 			out = new BufferedWriter(new FileWriter(_args[0] + "_table.txt"));
 
-			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + maxSeqVarcharLen + " " + seqFileRefs;
+			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + maxSeqVarcharLen + " "
+					+ seqFileRefs;
 			out.write(head, 0, head.length());
 			out.newLine();
 			out.flush();
@@ -101,7 +105,7 @@ public class parseArgs {
 			}
 			out.write(table.get(table.size() - 1), 0, table.get(table.size() - 1).length());
 			out.flush();
-			System.out.println("parseArgs: Created '" + _args[0] + "_table.txt'"); 
+			System.out.println("parseArgs: Created '" + _args[0] + "_table.txt'");
 			out.close();
 
 		} catch (Exception e) {
@@ -201,8 +205,20 @@ public class parseArgs {
 		p += 3;
 	}
 
-	private static void timeStamp(){
+	/**
+	 * Writes a line to the jump table which indicates type Timestamp
+	 */
+	private static void timeStamp() {
 		table.add("9");
 		p++;
+	}
+	
+	/**
+	 * Writes a line to the jump table which indicates the type hex value
+	 * the next value indicates the length of the hex value
+	 */
+	private static void hex() {
+		table.add("11 " + _args[p + 1]);
+		p += 2;
 	}
 }
