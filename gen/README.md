@@ -2,6 +2,10 @@
 
 This application is designed to generate large amounts of csv data.
 
+## makeZoo
+
+A script file that automates the creation of all tables and csv files.
+
 ## parseArgs
 
 This program generates a pre defined table that will be used by MakeCSV to generate a bunch of random csv data
@@ -87,3 +91,7 @@ returns a random random line of data frm the specified column.
 
 
 _All other files in gen/ were created by Dolf ten Have for Compx323-25A_
+
+
+## Final notes. 
+csvFile was originally designed with the idea that I would be reading multiple columns of data from the same csv file in once. Hence it accepts an int array of the columns. However, in practice this will never occur with our dataset. Therefore I did not implement the feature properly and only one column will be used at a time. Implementing this would requre a header rework, requiring a partial rewrite of parseArgs and MakeTable.
