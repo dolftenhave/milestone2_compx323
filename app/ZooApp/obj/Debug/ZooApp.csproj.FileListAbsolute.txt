@@ -1,0 +1,11 @@
+C:\Users\minso\Desktop\Compex323\app\ZooApp\bin\Debug\ZooApp.exe.config
+C:\Users\minso\Desktop\Compex323\app\ZooApp\bin\Debug\ZooApp.exe
+C:\Users\minso\Desktop\Compex323\app\ZooApp\bin\Debug\ZooApp.pdb
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.csproj.AssemblyReference.cache
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.csproj.SuggestedBindingRedirects.cache
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.MainForm.resources
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.Properties.Resources.resources
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.csproj.GenerateResource.cache
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.csproj.CoreCompileInputs.cache
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.exe
+C:\Users\minso\Desktop\Compex323\app\ZooApp\obj\Debug\ZooApp.pdb
