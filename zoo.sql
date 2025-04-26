@@ -54,7 +54,7 @@ CREATE TABLE m2_Animal(
     -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     -- For unknown origin, use code 'XXX'
     originCountry CHAR(3) NOT NULL,
-    dob DATE,
+    dob DATE NOT NULL,
     enclosureID INTEGER NOT NULL,
     speciesName VARCHAR(30) NOT NULL,
 
@@ -81,9 +81,9 @@ CREATE TABLE m2_Staff(
     fName VARCHAR(20) NOT NULL,
     lName VARCHAR(20) NOT NULL,
     dob DATE NOT NULL,
-    -- might need to change this.
-    -- https://en.wikipedia.org/wiki/E.164
-    phNumber INTEGER,
+    -- Phone number is vharchar because of the posibility of '+' or leading 0's 
+	-- In new zealand the maxum length of a phone number is 0+10 digits. In the case of a leading international number th e0 is replaced with +64 to indicate New Zealand. Hence the length of 13.
+    phNumber VARCHAR(13) NOT NULL,
     email VARCHAR(320),
     address VARCHAR(100) NOT NULL,
     clinic VARCHAR (50),
