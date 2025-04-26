@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app"
+    "\\app",
+    "\\app\\ZooApp"
   ],
-  "SelectedNode": "\\app\\Main.cs",
+  "SelectedNode": "\\app\\ZooApp\\ZooApp.sln",
   "PreviewInSolutionExplorer": false
 }

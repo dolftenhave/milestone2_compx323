@@ -46,6 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAnimalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddAnimalForm.Designer.cs">
+      <DependentUpon>AddAnimalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddStaffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddStaffForm.Designer.cs">
+      <DependentUpon>AddStaffForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FeedingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FeedingForm.Designer.cs">
+      <DependentUpon>FeedingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VetForm.Designer.cs">
+      <DependentUpon>VetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +78,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddAnimalForm.resx">
+      <DependentUpon>AddAnimalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddStaffForm.resx">
+      <DependentUpon>AddStaffForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeedingForm.resx">
+      <DependentUpon>FeedingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VetForm.resx">
+      <DependentUpon>VetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
