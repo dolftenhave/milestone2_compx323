@@ -84,7 +84,7 @@ CREATE TABLE m2_Staff(
     -- Phone number is vharchar because of the posibility of '+' or leading 0's 
 	-- In new zealand the maxum length of a phone number is 0+10 digits. In the case of a leading international number th e0 is replaced with +64 to indicate New Zealand. Hence the length of 13.
     phNumber VARCHAR(13) NOT NULL,
-    email VARCHAR(320),
+    email VARCHAR(320) NOT NULL,
 
 	-- Normalised address
 	streetNumber INT NOT NULL,
