@@ -85,7 +85,14 @@ CREATE TABLE m2_Staff(
 	-- In new zealand the maxum length of a phone number is 0+10 digits. In the case of a leading international number th e0 is replaced with +64 to indicate New Zealand. Hence the length of 13.
     phNumber VARCHAR(13) NOT NULL,
     email VARCHAR(320),
-    address VARCHAR(100) NOT NULL,
+
+	-- Normalised address
+	streetNumber INT NOT NULL,
+	streetName VARCHAR(30) NOT NULL,
+	suburb VARCHAR(30) NOT NULL,
+	city VARCHAR(30) NOT NULL,
+	postCode VARCHAR (4) NOT NULL,
+
     clinic VARCHAR (50),
 
     CONSTRAINT reasonableStaffDateOB
