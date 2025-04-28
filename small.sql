@@ -58,11 +58,11 @@ INSERT INTO m2s_Animal VALUES (23, 0, 12, "Stella", 401400.0, "NAM", to_date("20
 INSERT INTO m2s_Animal VALUES (24, 0, 12, "Bertha", 1450000.0, "ZAF", to_date("1985-04-23", "YYYY-MM-DD"), 2, "Diceros bicornis");
 
 -- Staff
-INSERT INTO m2s_Staff VALUES ( 1, "Sam", "Cotton", to_date("1986-04-01", "YYYY-MM-DD"), "0223278952","Sam.C@zoo.com","32 Rim Road, Claudlands, Hamilton, 3216", NULL);
-INSERT INTO m2s_Staff VALUES ( 2, "Grace", "White", to_date("1996-07-24", "YYYY-MM-DD"), "0246549875","GraceWhite547@hotmail.com","7396 SH1, Karapiro, Waikato, 3472","Karapiro Vets");
-INSERT INTO m2s_Staff VALUES ( 3, "Bruce", "Batton", to_date("1975-07-13", "YYYY-MM-DD"), "0225768945","BrucieTheBest@gmail.com","32 Masters Ave, Silverdale, Hamilton 3216", NULL);
-INSERT INTO m2s_Staff VALUES ( 4, "Bryce", "Trainer", to_date("1998-17-24", "YYYY-MM-DD"), "0224519736","BryceTrainsALot@outlook.com","54 Hillcrest rd, Hillcrest, Hamilton 3216","Newstead Vets");
-INSERT INTO m2s_Staff VALUES ( 5, "Kendal", "Tanner", to_date("2001-01-16", "YYYY-MM-DD"), "0219843275","kt175@notReal.students.waikato.ac.nz","03 Paul Close, Hillcrest, Hamilton 3216",NULL);
+INSERT INTO m2s_Staff VALUES ( 1, "Sam", "Cotton", to_date("1986-04-01", "YYYY-MM-DD"), "+64223278952","Sam.C@zoo.com",32, "Rim Road", "Claudlands", "Hamilton", "3216", NULL);
+INSERT INTO m2s_Staff VALUES ( 2, "Grace", "White", to_date("1996-07-24", "YYYY-MM-DD"), "0246549875","GraceWhite547@hotmail.com",7396, "SH1", "Karapiro", "Waikato", "3472","Karapiro Vets");
+INSERT INTO m2s_Staff VALUES ( 3, "Bruce", "Batton", to_date("1975-07-13", "YYYY-MM-DD"), "0225768945","BrucieTheBest@gmail.com",32, "Masters Ave", "Silverdale", "Hamilton", "3216", NULL);
+INSERT INTO m2s_Staff VALUES ( 4, "Bryce", "Trainer", to_date("1998-17-24", "YYYY-MM-DD"), "0224519736","BryceTrainsALot@outlook.com", 54, "Hillcrest rd", "Hillcrest", "Hamilton", "3216","Newstead Vets");
+INSERT INTO m2s_Staff VALUES ( 5, "Kendal", "Tanner", to_date("2001-01-16", "YYYY-MM-DD"), "0219843275","kt175@notReal.students.waikato.ac.nz",03, "Paul Close", "Hillcrest", "Hamilton", "3216",NULL);
 
 -- Oversees 
 INSERT INTO m2s_Oversees VALUES ("Arachnida", 1);
