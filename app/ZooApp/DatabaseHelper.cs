@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Data;
-using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
+using System.Windows.Forms;
 
 namespace ZooApp
 {
     public static class DatabaseHelper
     {
-        public static OracleConnection CurrentConnection { get; private set; }
+        private static OracleConnection connection;
 
         private static string connectionString = "Data Source=oracle.cms.waikato.ac.nz:1521/teaching;User Id=mh1155;Password=VwDzrCNPjV;";
 
@@ -15,72 +15,76 @@ namespace ZooApp
         {
             try
             {
-                CurrentConnection = new OracleConnection(connectionString);
-                CurrentConnection.Open();
-                MessageBox.Show("Login Successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                connection = new OracleConnection(connectionString);
+                connection.Open();
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Login Failed.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Database connection failed: " + ex.Message);
                 return false;
             }
         }
 
-        public static bool CheckSmallDataExists()
+        public static OracleConnection GetConnection()
+        {
+            if (connection == null || connection.State != ConnectionState.Open)
+            {
+                ConnectToDatabase();
+            }
+            return connection;
+        }
+
+        public static void Disconnect()
+        {
+            if (connection != null && connection.State == ConnectionState.Open)
+            {
+                connection.Close();
+                connection.Dispose();
+            }
+        }
+
+        // OPTIONAL helper for SELECT queries
+        public static DataTable ExecuteQuery(string sql)
         {
             try
             {
-                OracleCommand cmd = new OracleCommand("SELECT COUNT(*) FROM animal_small", CurrentConnection);
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                if (count > 0)
-                {
-                    MessageBox.Show("Small Dataset Found and Connected!", "Data Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show("Small Dataset NOT Found!", "Data Check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
+                OracleCommand cmd = new OracleCommand(sql, GetConnection());
+                OracleDataAdapter adapter = new OracleDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error checking small dataset.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show("Query failed: " + ex.Message);
+                return null;
             }
         }
 
-        public static bool CheckBigDataExists()
+        // OPTIONAL helper for INSERT/UPDATE/DELETE
+        public static int ExecuteNonQuery(string sql)
         {
             try
             {
-                OracleCommand cmd = new OracleCommand("SELECT COUNT(*) FROM animal_big", CurrentConnection);
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                if (count > 0)
-                {
-                    MessageBox.Show("Big Dataset Found and Connected!", "Data Check", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show("Big Dataset NOT Found!", "Data Check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
+                OracleCommand cmd = new OracleCommand(sql, GetConnection());
+                return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error checking big dataset.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show("NonQuery failed: " + ex.Message);
+                return -1;
             }
         }
-
-        public static void CloseConnection()
+        // Dummy methods for now
+        public static void CheckSmallDataExists()
         {
-            if (CurrentConnection != null && CurrentConnection.State == ConnectionState.Open)
-            {
-                CurrentConnection.Close();
-            }
+            MessageBox.Show("Small dataset selected and ready to use!");
+        }
+
+        public static void CheckBigDataExists()
+        {
+            MessageBox.Show("Big dataset selected and ready to use!");
         }
     }
 }

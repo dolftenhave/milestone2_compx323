@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
+using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
@@ -15,6 +17,11 @@ namespace ZooApp
             if (DatabaseHelper.ConnectToDatabase())
             {
                 DatabaseHelper.CheckSmallDataExists();
+
+                this.Hide();
+                MainForm mainForm = new MainForm();
+                mainForm.ShowDialog();
+                this.Close();
             }
         }
 
@@ -23,9 +30,13 @@ namespace ZooApp
             if (DatabaseHelper.ConnectToDatabase())
             {
                 DatabaseHelper.CheckBigDataExists();
+
+                this.Hide();
+                MainForm mainForm = new MainForm();
+                mainForm.ShowDialog();
+                this.Close();
             }
         }
-
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
