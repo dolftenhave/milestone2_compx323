@@ -1,90 +1,76 @@
 ﻿using System;
 using System.Data;
-using Oracle.ManagedDataAccess.Client;
 using System.Windows.Forms;
+using Oracle.ManagedDataAccess.Client;
 
-namespace ZooApp
+public static class DatabaseHelper
 {
-    public static class DatabaseHelper
+    private static string connectionString = "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+
+    public static DataTable ExecuteQuery(string query)
     {
-        private static OracleConnection connection;
+        DataTable dataTable = new DataTable();
 
-        private static string connectionString = "Data Source=oracle.cms.waikato.ac.nz:1521/teaching;User Id=mh1155;Password=VwDzrCNPjV;";
-
-        public static bool ConnectToDatabase()
+        try
         {
-            try
+            using (OracleConnection conn = new OracleConnection(connectionString))
             {
-                connection = new OracleConnection(connectionString);
-                connection.Open();
+                conn.Open();
+                using (OracleCommand cmd = new OracleCommand(query, conn))
+                {
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
+                    {
+                        adapter.Fill(dataTable);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Windows.Forms.MessageBox.Show($"Database error: {ex.Message}", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+        }
+
+        return dataTable;
+    }
+
+    public static int ExecuteNonQuery(string query)
+    {
+        int rowsAffected = 0;
+
+        try
+        {
+            using (OracleConnection conn = new OracleConnection(connectionString))
+            {
+                conn.Open();
+                using (OracleCommand cmd = new OracleCommand(query, conn))
+                {
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Windows.Forms.MessageBox.Show($"Database error: {ex.Message}", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+        }
+
+        return rowsAffected;
+    }
+    public static bool TestConnection()
+    {
+        try
+        {
+            using (OracleConnection conn = new OracleConnection(connectionString))
+            {
+                conn.Open();
+                MessageBox.Show("✅ Connection to Oracle is successful!", "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Database connection failed: " + ex.Message);
-                return false;
-            }
         }
-
-        public static OracleConnection GetConnection()
+        catch (Exception ex)
         {
-            if (connection == null || connection.State != ConnectionState.Open)
-            {
-                ConnectToDatabase();
-            }
-            return connection;
-        }
-
-        public static void Disconnect()
-        {
-            if (connection != null && connection.State == ConnectionState.Open)
-            {
-                connection.Close();
-                connection.Dispose();
-            }
-        }
-
-        // OPTIONAL helper for SELECT queries
-        public static DataTable ExecuteQuery(string sql)
-        {
-            try
-            {
-                OracleCommand cmd = new OracleCommand(sql, GetConnection());
-                OracleDataAdapter adapter = new OracleDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Query failed: " + ex.Message);
-                return null;
-            }
-        }
-
-        // OPTIONAL helper for INSERT/UPDATE/DELETE
-        public static int ExecuteNonQuery(string sql)
-        {
-            try
-            {
-                OracleCommand cmd = new OracleCommand(sql, GetConnection());
-                return cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("NonQuery failed: " + ex.Message);
-                return -1;
-            }
-        }
-        // Dummy methods for now
-        public static void CheckSmallDataExists()
-        {
-            MessageBox.Show("Small dataset selected and ready to use!");
-        }
-
-        public static void CheckBigDataExists()
-        {
-            MessageBox.Show("Big dataset selected and ready to use!");
+            MessageBox.Show($"❌ Connection failed: {ex.Message}", "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
         }
     }
+
 }

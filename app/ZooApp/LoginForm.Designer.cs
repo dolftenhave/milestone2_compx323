@@ -16,6 +16,7 @@
         {
             this.btnSmallDataset = new System.Windows.Forms.Button();
             this.btnBigDataset = new System.Windows.Forms.Button();
+            this.btnLogin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSmallDataset
@@ -36,9 +37,20 @@
             this.btnBigDataset.Text = "Connect to Big Dataset";
             this.btnBigDataset.Click += new System.EventHandler(this.btnBigDataset_Click);
             // 
+            // btnLogin
+            // 
+            this.btnLogin.Location = new System.Drawing.Point(80, 12);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(180, 32);
+            this.btnLogin.TabIndex = 2;
+            this.btnLogin.Text = "Login to Database";
+            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
             // LoginForm
             // 
             this.ClientSize = new System.Drawing.Size(340, 230);
+            this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.btnSmallDataset);
             this.Controls.Add(this.btnBigDataset);
             this.Name = "LoginForm";
@@ -47,5 +59,7 @@
             this.ResumeLayout(false);
 
         }
+
+        private System.Windows.Forms.Button btnLogin;
     }
 }

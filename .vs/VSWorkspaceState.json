@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\ZooApp"
   ],
-  "SelectedNode": "\\H:\\COMPX323\\Project",
+  "SelectedNode": "\\app\\ZooApp\\LoginForm.Designer.cs",
   "PreviewInSolutionExplorer": false
 }
