@@ -5,7 +5,20 @@ using Oracle.ManagedDataAccess.Client;
 
 public static class DatabaseHelper
 {
-    private static string connectionString = "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+    private static string connectionString =
+        "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+
+    private static string datasetPrefix = "M2S"; // default to small
+
+    public static void SetDatasetMode(string prefix)
+    {
+        datasetPrefix = prefix;
+    }
+
+    public static string Table(string baseName)
+    {
+        return $"{datasetPrefix}_{baseName}";
+    }
 
     public static DataTable ExecuteQuery(string query)
     {
@@ -27,15 +40,26 @@ public static class DatabaseHelper
         }
         catch (Exception ex)
         {
-            System.Windows.Forms.MessageBox.Show($"Database error: {ex.Message}", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         return dataTable;
     }
-
-    public static int ExecuteNonQuery(string query)
+    public static void ExecuteNonQuery(string query, OracleParameter[] parameters)
     {
-        int rowsAffected = 0;
+        using (OracleConnection conn = new OracleConnection(connectionString))
+        {
+            conn.Open();
+            using (OracleCommand cmd = new OracleCommand(query, conn))
+            {
+                cmd.Parameters.AddRange(parameters);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+    public static DataTable ExecuteQuery(string query, OracleParameter[] parameters)
+    {
+        DataTable dataTable = new DataTable();
 
         try
         {
@@ -44,33 +68,23 @@ public static class DatabaseHelper
                 conn.Open();
                 using (OracleCommand cmd = new OracleCommand(query, conn))
                 {
-                    rowsAffected = cmd.ExecuteNonQuery();
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
+                    {
+                        adapter.Fill(dataTable);
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-            System.Windows.Forms.MessageBox.Show($"Database error: {ex.Message}", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        return rowsAffected;
+        return dataTable;
     }
-    public static bool TestConnection()
-    {
-        try
-        {
-            using (OracleConnection conn = new OracleConnection(connectionString))
-            {
-                conn.Open();
-                MessageBox.Show("✅ Connection to Oracle is successful!", "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true;
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"❌ Connection failed: {ex.Message}", "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
-        }
-    }
+
 
 }

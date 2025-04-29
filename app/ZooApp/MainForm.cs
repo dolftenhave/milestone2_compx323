@@ -19,14 +19,24 @@ namespace ZooApp
             LoadFeedings();
         }
 
-        private void LoadAnimals()
+        private void LoadAnimals(string filter = "")
         {
-            string query = "SELECT * FROM M2S_ANIMAL";
+            string query = $"SELECT * FROM {DatabaseHelper.Table("ANIMAL")}";
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                query += $" WHERE LOWER(NAME) LIKE '%{filter.ToLower()}%'";
+            }
+
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             animalsDataGridView.DataSource = dt;
         }
 
-
+        private void btnSearchAnimal_Click_1(object sender, EventArgs e)
+        {
+            string searchTerm = txtAnimalSearch.Text.Trim();
+            LoadAnimals(searchTerm);
+        }
 
         private void LoadEnclosures()
         {
@@ -51,18 +61,18 @@ namespace ZooApp
             feedingDataGridView.DataSource = dt;
         }
 
+        private void btnAddAnimal_Click(object sender, EventArgs e)
+        {
+            var form = new AddAnimalForm();
+            form.ShowDialog();
+            LoadAnimals(); // Refresh list after add
+        }
 
-        // Button Handlers
-        private void btnRefreshAnimals_Click(object sender, EventArgs e) => LoadAnimals();
-        private void btnRefreshEnclosures_Click(object sender, EventArgs e) => LoadEnclosures();
-        private void btnRefreshStaff_Click(object sender, EventArgs e) => LoadStaff();
-        private void btnRecordFeeding_Click(object sender, EventArgs e) => new FeedingForm().ShowDialog();
-        private void btnRecordCare_Click(object sender, EventArgs e) => new VetForm().ShowDialog();
-        private void btnAddAnimal_Click(object sender, EventArgs e) => new AddAnimalForm().ShowDialog();
-        private void btnAddStaff_Click(object sender, EventArgs e) => new AddStaffForm().ShowDialog();
-        private void btnOpenChecklist_Click(object sender, EventArgs e) => new ChecklistForm().ShowDialog();
-        private void btnOpenStaffActivity_Click(object sender, EventArgs e) => new StaffActivityForm().ShowDialog();
-        private void btnOpenSkills_Click(object sender, EventArgs e) => new ZookeeperSkillsForm().ShowDialog();
-        private void btnOpenZoneCoverage_Click(object sender, EventArgs e) => new ZoneCoverageForm().ShowDialog();
+        private void btnAddEnclosure_Click(object sender, EventArgs e)
+        {
+            new AddEnclosureForm().ShowDialog();
+            LoadEnclosures();  // Refresh after closing
+        }
+
     }
 }

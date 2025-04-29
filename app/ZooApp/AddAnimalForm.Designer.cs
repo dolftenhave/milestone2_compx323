@@ -6,7 +6,10 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) { components.Dispose(); }
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
@@ -24,7 +27,6 @@
             this.txtCountry = new System.Windows.Forms.TextBox();
             this.btnSubmit = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-
             this.lblAnimalName = new System.Windows.Forms.Label();
             this.lblSpecies = new System.Windows.Forms.Label();
             this.lblDOB = new System.Windows.Forms.Label();
@@ -33,72 +35,115 @@
             this.lblFeedingInterval = new System.Windows.Forms.Label();
             this.lblWeight = new System.Windows.Forms.Label();
             this.lblCountry = new System.Windows.Forms.Label();
-
             this.SuspendLayout();
-
-            // Labels and TextBoxes
-
-            this.lblAnimalName.Text = "Animal Name:";
-            this.lblAnimalName.Location = new System.Drawing.Point(20, 20);
-            this.lblAnimalName.AutoSize = true;
+            // 
+            // txtAnimalName
+            // 
             this.txtAnimalName.Location = new System.Drawing.Point(150, 20);
-            this.txtAnimalName.Width = 200;
-
-            this.lblSpecies.Text = "Species:";
-            this.lblSpecies.Location = new System.Drawing.Point(20, 60);
-            this.lblSpecies.AutoSize = true;
+            this.txtAnimalName.Name = "txtAnimalName";
+            this.txtAnimalName.Size = new System.Drawing.Size(200, 20);
+            this.txtAnimalName.TabIndex = 0;
+            // 
+            // cbSpecies
+            // 
             this.cbSpecies.Location = new System.Drawing.Point(150, 60);
-            this.cbSpecies.Width = 200;
-
-            this.lblDOB.Text = "Date of Birth:";
-            this.lblDOB.Location = new System.Drawing.Point(20, 100);
-            this.lblDOB.AutoSize = true;
-            this.dtpDOB.Location = new System.Drawing.Point(150, 100);
+            this.cbSpecies.Name = "cbSpecies";
+            this.cbSpecies.Size = new System.Drawing.Size(200, 21);
+            this.cbSpecies.TabIndex = 1;
+            // 
+            // dtpDOB
+            // 
             this.dtpDOB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-
-            this.lblSex.Text = "Sex:";
-            this.lblSex.Location = new System.Drawing.Point(20, 140);
-            this.lblSex.AutoSize = true;
+            this.dtpDOB.Location = new System.Drawing.Point(150, 100);
+            this.dtpDOB.Name = "dtpDOB";
+            this.dtpDOB.Size = new System.Drawing.Size(200, 20);
+            this.dtpDOB.TabIndex = 2;
+            // 
+            // cbSex
+            // 
             this.cbSex.Location = new System.Drawing.Point(150, 140);
-            this.cbSex.Width = 200;
-            this.cbSex.Items.AddRange(new string[] { "Male", "Female" });
-
-            this.lblEnclosure.Text = "Enclosure:";
-            this.lblEnclosure.Location = new System.Drawing.Point(20, 180);
-            this.lblEnclosure.AutoSize = true;
+            this.cbSex.Name = "cbSex";
+            this.cbSex.Size = new System.Drawing.Size(200, 21);
+            this.cbSex.TabIndex = 3;
+            // 
+            // cbEnclosure
+            // 
             this.cbEnclosure.Location = new System.Drawing.Point(150, 180);
-            this.cbEnclosure.Width = 200;
-
-            this.lblFeedingInterval.Text = "Feeding Interval (days):";
-            this.lblFeedingInterval.Location = new System.Drawing.Point(20, 220);
-            this.lblFeedingInterval.AutoSize = true;
+            this.cbEnclosure.Name = "cbEnclosure";
+            this.cbEnclosure.Size = new System.Drawing.Size(200, 21);
+            this.cbEnclosure.TabIndex = 4;
+            // 
+            // txtFeedingInterval
+            // 
             this.txtFeedingInterval.Location = new System.Drawing.Point(150, 220);
-            this.txtFeedingInterval.Width = 200;
-
-            this.lblWeight.Text = "Weight (kg):";
-            this.lblWeight.Location = new System.Drawing.Point(20, 260);
-            this.lblWeight.AutoSize = true;
+            this.txtFeedingInterval.Name = "txtFeedingInterval";
+            this.txtFeedingInterval.Size = new System.Drawing.Size(200, 20);
+            this.txtFeedingInterval.TabIndex = 5;
+            // 
+            // txtWeight
+            // 
             this.txtWeight.Location = new System.Drawing.Point(150, 260);
-            this.txtWeight.Width = 200;
-
-            this.lblCountry.Text = "Country of Origin:";
-            this.lblCountry.Location = new System.Drawing.Point(20, 300);
-            this.lblCountry.AutoSize = true;
+            this.txtWeight.Name = "txtWeight";
+            this.txtWeight.Size = new System.Drawing.Size(200, 20);
+            this.txtWeight.TabIndex = 6;
+            // 
+            // txtCountry
+            // 
             this.txtCountry.Location = new System.Drawing.Point(150, 300);
-            this.txtCountry.Width = 200;
-
-            // Submit and Cancel buttons
-
-            this.btnSubmit.Text = "Submit";
-            this.btnSubmit.Location = new System.Drawing.Point(100, 350);
+            this.txtCountry.Name = "txtCountry";
+            this.txtCountry.Size = new System.Drawing.Size(200, 20);
+            this.txtCountry.TabIndex = 7;
+            // 
+            // btnSubmit
+            // 
+            this.btnSubmit.Location = new System.Drawing.Point(90, 350);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(100, 30);
+            this.btnSubmit.TabIndex = 8;
+            this.btnSubmit.Text = "Add Animal";
+            this.btnSubmit.UseVisualStyleBackColor = true;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
-
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(220, 350);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
+            this.btnCancel.TabIndex = 9;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.Location = new System.Drawing.Point(200, 350);
+            this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // Labels
+            // 
+            this.lblAnimalName.AutoSize = true;
+            this.lblAnimalName.Location = new System.Drawing.Point(20, 20);
+            this.lblAnimalName.Text = "Animal Name:";
+            this.lblSpecies.AutoSize = true;
+            this.lblSpecies.Location = new System.Drawing.Point(20, 60);
+            this.lblSpecies.Text = "Species (Latin):";
+            this.lblDOB.AutoSize = true;
+            this.lblDOB.Location = new System.Drawing.Point(20, 100);
+            this.lblDOB.Text = "Date of Birth:";
+            this.lblSex.AutoSize = true;
+            this.lblSex.Location = new System.Drawing.Point(20, 140);
+            this.lblSex.Text = "Sex:";
+            this.lblEnclosure.AutoSize = true;
+            this.lblEnclosure.Location = new System.Drawing.Point(20, 180);
+            this.lblEnclosure.Text = "Enclosure:";
+            this.lblFeedingInterval.AutoSize = true;
+            this.lblFeedingInterval.Location = new System.Drawing.Point(20, 220);
+            this.lblFeedingInterval.Text = "Feeding Interval:";
+            this.lblWeight.AutoSize = true;
+            this.lblWeight.Location = new System.Drawing.Point(20, 260);
+            this.lblWeight.Text = "Weight (kg):";
+            this.lblCountry.AutoSize = true;
+            this.lblCountry.Location = new System.Drawing.Point(20, 300);
+            this.lblCountry.Text = "Country of Origin (3-letter):";
 
-            // Form settings
-
+            // 
+            // AddAnimalForm
+            // 
             this.ClientSize = new System.Drawing.Size(400, 420);
             this.Controls.Add(this.lblAnimalName);
             this.Controls.Add(this.txtAnimalName);

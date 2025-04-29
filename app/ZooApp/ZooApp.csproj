@@ -92,6 +92,12 @@
     <Compile Include="AddAnimalForm.Designer.cs">
       <DependentUpon>AddAnimalForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEnclosureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEnclosureForm.Designer.cs">
+      <DependentUpon>AddEnclosureForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddStaffForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -12,85 +12,56 @@ namespace ZooApp
             InitializeComponent();
         }
 
-        private void btnSmallDataset_Click(object sender, EventArgs e)
+        private void btnSmallDataset_Click_1(object sender, EventArgs e)
         {
             try
             {
-                string query = "SELECT COUNT(*) FROM M2S_ANIMAL"; // Fix table name
+                DatabaseHelper.SetDatasetMode("M2S"); // Set prefix for small dataset
+
+                string query = "SELECT COUNT(*) FROM M2S_ANIMAL";
                 DataTable dt = DatabaseHelper.ExecuteQuery(query);
 
-                if (dt.Rows.Count > 0)
-                {
-                    int count = Convert.ToInt32(dt.Rows[0][0]);
+                int count = Convert.ToInt32(dt.Rows[0][0]);
 
-                    if (count <= 100)
-                    {
-                        MessageBox.Show($"Small dataset loaded. {count} records found in Animal table.", "Small Dataset Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Warning: {count} records found. This looks bigger than a small dataset!", "Small Dataset Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No records found in the Animal table.", "Small Dataset Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error checking small dataset: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+                MessageBox.Show($"Small dataset loaded. {count} animals found.",
+                    "Dataset Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-        private void btnBigDataset_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string query = "SELECT COUNT(*) FROM Animal"; // Or a big table like AnimalLarge if you have it
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
-
-                if (dt.Rows.Count > 0)
-                {
-                    int count = Convert.ToInt32(dt.Rows[0][0]);
-                    MessageBox.Show($"Animal table has {count} records loaded.", "Big Dataset Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("No records found.", "Big Dataset Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading big dataset: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-
-        }
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-            if (DatabaseHelper.TestConnection())
-            {
-                // Connection successful: Open MainForm
                 MainForm mainForm = new MainForm();
                 this.Hide();
                 mainForm.ShowDialog();
                 this.Close();
             }
-            else
+            catch (Exception ex)
             {
-                // Connection failed: Stay on LoginForm
-                MessageBox.Show("Failed to connect to the database. Please check your credentials or try again.",
-                                "Login Failed",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading small dataset: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void btnBigDataset_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                DatabaseHelper.SetDatasetMode("M21"); // Set prefix for big dataset
+
+                string query = "SELECT COUNT(*) FROM M21_ANIMAL";
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+
+                MessageBox.Show($"Big dataset loaded. {count} animals found.",
+                    "Dataset Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MainForm mainForm = new MainForm();
+                this.Hide();
+                mainForm.ShowDialog();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading big dataset: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@ C:\Users\minso\Desktop\compx323\app\ZooApp\bin\Debug\System.Text.Encodings.Web.x
 C:\Users\minso\Desktop\compx323\app\ZooApp\bin\Debug\System.Text.Json.xml
 C:\Users\minso\Desktop\compx323\app\ZooApp\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\minso\Desktop\compx323\app\ZooApp\obj\Debug\ZooApp.csproj.CopyComplete
+H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Numerics.Vectors.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\ZooApp.exe.config
 H:\COMPX323\Project\app\ZooApp\bin\Debug\ZooApp.exe
 H:\COMPX323\Project\app\ZooApp\bin\Debug\ZooApp.pdb
@@ -68,7 +69,6 @@ H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Diagnostics.DiagnosticSource.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Formats.Asn1.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\System.IO.Pipelines.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Memory.dll
-H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Numerics.Vectors.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Text.Encodings.Web.dll
 H:\COMPX323\Project\app\ZooApp\bin\Debug\System.Text.Json.dll
