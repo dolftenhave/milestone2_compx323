@@ -98,7 +98,7 @@ public class parseArgs {
 					break;
 				// Unrecognised argument
 				default:
-					System.err.println("Argument " + p + ", '" + _args[p] + "' was not int the correct format");
+					System.err.println("Argument " + p + ", '" + _args[p] + "' was not in the correct format");
 					System.exit(1);
 					break;
 			}

@@ -135,7 +135,7 @@ public class MakeCSV {
 	}
 
 	private static void updateBar() {
-		System.out.println("MakeCSV: " + level + "%");
+		System.out.println("MakeCSV: " + level + "% (" + ((length/10) * level) + " lines).");
 		level += 10;
 	}
 
