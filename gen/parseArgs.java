@@ -111,7 +111,7 @@ public class parseArgs {
 		System.out.println("parseArgs: Writing Table");
 		try {
 			File files_dir = new File("tables");
-			if(!files_dir.exists())
+			if (!files_dir.exists())
 				files_dir.mkdirs();
 			out = new BufferedWriter(new FileWriter("tables/" + _args[0] + ".tab"));
 
@@ -145,7 +145,7 @@ public class parseArgs {
 
 			out.write(table.get(table.size() - 1), 0, table.get(table.size() - 1).length());
 			out.flush();
-			System.out.println("parseArgs: Created '" + _args[0] + "_table.txt'");
+			System.out.println("parseArgs: Created 'tables/" + _args[0] + ".tab'");
 			out.close();
 
 		} catch (Exception e) {
@@ -202,7 +202,7 @@ public class parseArgs {
 	 */
 	private static int addFile(String type) {
 		int row = 0;
-		//TODO check if col is already being used
+		// TODO check if col is already being used
 		// If the files list contains the file, then just add the wanted column to the
 		// end of the cols array
 		if (files.contains(_args[p + 1])) {
@@ -222,13 +222,26 @@ public class parseArgs {
 		return row;
 	}
 
-
 	/**
 	 * Writes a line to the jump table which indicates the type double, followed by
 	 * the length of the double and where the seperator should be
 	 */
 	private static void double_() {
-		table.add("5 " + _args[p + 1] + " " + _args[p + 2]);
+		int a = 0;
+		int b;
+		try{
+			a = Integer.parseInt(_args[p+1]);
+			b = Integer.parseInt(_args[p+2]);
+			a = a - b;
+
+			if(a < 1){
+				System.err.println("parseArgs: Error. The double '" + a+" " +b + "' has a delimiter our of range of the length. Please correct this.");
+				System.exit(1);
+			}
+		}catch(Exception e){
+			e.printStackTrace(System.err);
+		}
+		table.add("5 " + a + " " + _args[p + 2]);
 		p += 3;
 	}
 
@@ -310,7 +323,7 @@ public class parseArgs {
 		table.add("14");
 		p++;
 	}
-	
+
 	/**
 	 * A testing method to print the content of a String array
 	 */

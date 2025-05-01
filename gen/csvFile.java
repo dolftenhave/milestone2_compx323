@@ -13,10 +13,10 @@ import java.util.Random;
  */
 class csvFile {
 
-	private Hashtable<Integer, Integer> col;
+	private Hashtable<Integer, Integer> col; // A translator between stored and requested column
 	private Random rand;
-	private ArrayList<String[]> data;
-	private int columnCount[];
+	private ArrayList<String[]> data; // An array of lines that store the data
+	private int lineCount[];
 
 	/**
 	 * Creates a new csvFile object that contains the data from the speciefied
@@ -26,7 +26,7 @@ class csvFile {
 	 * @param columns the columns of the file that you want to keep
 	 */
 	public csvFile(String path, int columns[]) {
-		columnCount = new int[columns.length];
+		lineCount = new int[columns.length];
 		rand = new Random();
 		createPathTranslator(columns);
 		readAllData(path, columns);
@@ -60,7 +60,6 @@ class csvFile {
 			String split[];
 			String save[];
 			boolean eof = false;
-			int lines = 0;
 			data = new ArrayList<String[]>();
 
 			while (!eof) {
@@ -72,12 +71,10 @@ class csvFile {
 						save[i] = split[col.get(columns[i])];
 					}
 					data.add(save);
-					lines++;
 				} else {
 					eof = true;
 				}
 			}
-			System.out.println("csvFile: read " + lines);
 			in.close();
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
@@ -102,8 +99,20 @@ class csvFile {
 	 * @return The next item in the file from the column
 	 */
 	public String getNextLine(int column) {
-		if (columnCount[col.get(column)] == data.size())
-			columnCount[col.get(column)] = 0;
-		return data.get(columnCount[col.get(column)])[col.get(column)];
+		if (lineCount[col.get(column)] == data.size())
+			lineCount[col.get(column)] = 0;
+		String line = data.get(lineCount[col.get(column)])[col.get(column)];
+		lineCount[col.get(column)]++;
+		//printLineCount();
+		//System.out.println("getNextLine: col=" + col.get(column) + " column=" + column + " lineCount="+lineCount[col.get(column)]);
+		return line;
+	}
+
+	private void printLineCount(){
+		System.out.print("[");
+		for(int i = 0; i < lineCount.length - 1; i++){
+			System.out.print(lineCount[i] + ",");	
+		}
+		System.out.println(lineCount[lineCount.length - 1]+"]");
 	}
 }

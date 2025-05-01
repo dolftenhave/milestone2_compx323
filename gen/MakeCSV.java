@@ -20,9 +20,7 @@ public class MakeCSV {
 	// private static final String usage = "usage: java MakeCSV <n-lines>
 	// <path/to/table/file> <output name>";
 	private static final int MIN_YEAR = 1925; // 100 years for now
-	private static final int fileValue = 4;
 	private static final int seqVarcharValue = 7;
-	private static final int seqFileValue = 8;
 	private static final String charSet[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
 			"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
@@ -37,9 +35,6 @@ public class MakeCSV {
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
 	private static csvFile files[]; // An array that contains all buffered readers that link to external files
-	private static BufferedReader seqFiles[]; // An array that contains the requential file readers
-	private static String seqFilePaths[];
-	private static String line[];
 	private static int seqVarchar[][];
 
 	private static BufferedWriter out;
@@ -68,8 +63,7 @@ public class MakeCSV {
 
 		initializeGenTable(args[1]);
 		makeCSV();
-		closeFiles();
-		System.out.println("MakeCSV: data written too '" + outputFileName + ".csv'");
+		System.out.println("MakeCSV: data written too 'csv/" + outputFileName + ".csv'");
 	}
 
 	/**
@@ -152,10 +146,10 @@ public class MakeCSV {
 			System.out.println("");
 		}
 	}
-
 	/**
+**
 	 * Closes all external files that are still Open
-	 */
+	 *
 	private static void closeFiles() {
 		try {
 			if (seqFiles != null) {
@@ -168,7 +162,7 @@ public class MakeCSV {
 		}
 
 	}
-
+*/
 	/**
 	 * This method will create the csv file, one line at a time and write it out to
 	 * the file
@@ -241,9 +235,11 @@ public class MakeCSV {
 				case 12:
 					email();
 					break;
-				// Writes a random boolean integer 0 or 1
 				case 13:
-					int_(2);
+					bool();
+					break;
+				case 14:
+					sex();
 					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
@@ -291,18 +287,14 @@ public class MakeCSV {
 	 * Writes a random date
 	 */
 	private static void date() {
-		write(rand.nextInt(1, 28) + "-" + rand.nextInt(1, 12) + "-" + rand.nextInt(MIN_YEAR, 2025));
+		write(rand.nextInt(1, 29) + "-" + rand.nextInt(1, 13) + "-" + rand.nextInt(MIN_YEAR, 2025));
 	}
 
 	/**
 	 * Writes a random time value in the format HH:MM:SS
 	 */
 	private static void time() {
-		int_(rand.nextInt(24));
-		write(":");
-		int_(rand.nextInt(60));
-		write(":");
-		int_(rand.nextInt(60));
+		write(String.valueOf(rand.nextInt(24)) + ":" + String.valueOf(rand.nextInt(60)) + ":" +String.valueOf(rand.nextInt(60)));
 	}
 
 	/**
@@ -317,9 +309,7 @@ public class MakeCSV {
 	 * writes arandom double
 	 */
 	private static void double_() {
-		write(getRandomInt(genTable[row][1]));
-		write(".");
-		write(getRandomInt(genTable[row][2]));
+		write(getRandomInt(genTable[row][1]) + "." + getRandomInt(genTable[row][2]));
 	}
 
 	/**
@@ -357,27 +347,7 @@ public class MakeCSV {
 	 * reached. At that point it will start from the top again
 	 */
 	private static void seqFile() {
-		/**
-		 * String in;
-		try {
-			in = seqFiles[genTable[row][2]].readLine();
-			if (in != null) {
-				line = in.split(",");
-				write(line[genTable[row][1]]);
-				// If the the end of the file is reached "reset" and start reading again from
-				// the top
-			} else {
-				seqFiles[genTable[row][2]].close();
-				seqFiles[genTable[row][2]] = new BufferedReader(new FileReader(seqFilePaths[genTable[row][2]]));
-				seqFile();
-			}
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-			System.exit(1);
-		}
-*/
 		write(files[genTable[row][1]].getNextLine(genTable[row][2]));
-
 	}
 
 	/**
@@ -429,6 +399,7 @@ public class MakeCSV {
 	 * Returns a random Integer integer between 1 and length digits long
 	 * 
 	 * @param length the maximum number of digits the int may contain (inclusive)
+	 * @return A stirng that that represents an integer of a random length between 1 and length
 	 */
 	private static String getRandomInt(int length) {
 		int return_length = rand.nextInt(1, length + 1);
