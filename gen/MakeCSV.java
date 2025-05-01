@@ -27,9 +27,9 @@ public class MakeCSV {
 	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
 			"F" };
 	private static final int COMMA_VALUE = 10;
-	private static final String bools[] = {"True", "False"};
-	private static final String sexes[] = {"F", "M"};
-	private static final String PHONE_PRIFIX[] = {"+61", "+64", "021", "022", "027", "021", "026", "029"};
+	private static final String bools[] = { "True", "False" };
+	private static final String sexes[] = { "F", "M" };
+	private static final String PHONE_PRIFIX[] = { "+61", "+64", "021", "022", "027", "021", "026", "029" };
 
 	private static int length;
 	private static String outputFileName;
@@ -37,6 +37,7 @@ public class MakeCSV {
 	private static int genTable[][]; // The generation table
 	private static csvFile files[]; // An array that contains all buffered readers that link to external files
 	private static int seqVarchar[][];
+	private static int level = 10;
 
 	private static BufferedWriter out;
 	private static int row; // The index of the genTable row that the program is currently on
@@ -101,7 +102,7 @@ public class MakeCSV {
 				}
 				files[n] = new csvFile(in[0], csvCols);
 			}
-			
+
 			readTable.readLine();
 
 			// Reads the rest of the file into the genTable array
@@ -133,6 +134,11 @@ public class MakeCSV {
 		}
 	}
 
+	private static void updateBar() {
+		System.out.println("MakeCSV: " + level + "%");
+		level += 10;
+	}
+
 	/**
 	 * Prints the content of the genTable array.
 	 *
@@ -147,23 +153,24 @@ public class MakeCSV {
 			System.out.println("");
 		}
 	}
+
 	/**
-**
+	 **
 	 * Closes all external files that are still Open
 	 *
-	private static void closeFiles() {
-		try {
-			if (seqFiles != null) {
-				for (int i = 0; i < seqFiles.length; i++) {
-					seqFiles[i].close();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-		}
-
-	}
-*/
+	 * private static void closeFiles() {
+	 * try {
+	 * if (seqFiles != null) {
+	 * for (int i = 0; i < seqFiles.length; i++) {
+	 * seqFiles[i].close();
+	 * }
+	 * }
+	 * } catch (Exception e) {
+	 * e.printStackTrace(System.err);
+	 * }
+	 * 
+	 * }
+	 */
 	/**
 	 * This method will create the csv file, one line at a time and write it out to
 	 * the file
@@ -172,11 +179,18 @@ public class MakeCSV {
 		rand = new Random();
 		try {
 			File csvDir = new File("csv/");
-			if(!csvDir.exists())
+			if (!csvDir.exists())
 				csvDir.mkdirs();
 
 			out = new BufferedWriter(new FileWriter("csv/" + outputFileName + ".csv"));
+			int progress = length / 10;
+			int total = progress;
+
 			for (int i = 0; i < length - 1; i++) {
+				if (i == progress) {
+					progress = progress + total;
+					updateBar();
+				}
 				writeLine();
 				out.newLine();
 			}
@@ -195,6 +209,7 @@ public class MakeCSV {
 	 */
 	private static void writeLine() {
 		for (int j = 0; j < genTable.length; j++) {
+
 			row = j;
 			switch (genTable[j][0]) {
 				case 0:
@@ -298,7 +313,8 @@ public class MakeCSV {
 	 * Writes a random time value in the format HH:MM:SS
 	 */
 	private static void time() {
-		write(String.valueOf(rand.nextInt(24)) + ":" + String.valueOf(rand.nextInt(60)) + ":" +String.valueOf(rand.nextInt(60)));
+		write(rand.nextInt(24) + ":" + rand.nextInt(60) + ":"
+				+ rand.nextInt(60));
 	}
 
 	/**
@@ -306,7 +322,7 @@ public class MakeCSV {
 	 * specific column in that file
 	 */
 	private static void file() {
-			write(files[genTable[row][1]].getRandomLine(genTable[row][2]));
+		write(files[genTable[row][1]].getRandomLine(genTable[row][2]));
 	}
 
 	/**
@@ -314,6 +330,7 @@ public class MakeCSV {
 	 */
 	private static void double_() {
 		write(getRandomInt(1, genTable[row][1]) + "." + getRandomInt(1, genTable[row][2]));
+		//System.out.println(genTable[row][1] + ":" + genTable[row][2]);
 	}
 
 	/**
@@ -391,28 +408,30 @@ public class MakeCSV {
 		varchar(rand.nextInt(2, 4));
 	}
 
-	private static void bool(){
+	private static void bool() {
 		write(bools[rand.nextInt(bools.length)]);
 	}
 
-	private static void sex(){
+	private static void sex() {
 		write(sexes[rand.nextInt(sexes.length)]);
 	}
 
-	private static void phone(){
+	private static void phone() {
 		write(PHONE_PRIFIX[rand.nextInt(PHONE_PRIFIX.length)]);
-		write(getRandomInt(10,10));
+		write(getRandomInt(10, 10));
 	}
 
 	/**
 	 * Returns a random Integer integer between 1 and length digits long
 	 * 
-	 * @param minLength the minimum length of the digits the int may contain (inclusive)
-	 * @param length the maximum number of digits the int may contain (inclusive)
-	 * @return A stirng that that represents an integer of a random length between 1 and length
+	 * @param minLength the minimum length of the digits the int may contain
+	 *                  (inclusive)
+	 * @param length    the maximum number of digits the int may contain (inclusive)
+	 * @return A stirng that that represents an integer of a random length between 1
+	 *         and length
 	 */
 	private static String getRandomInt(int minLength, int maxLength) {
-		int return_length = rand.nextInt(minLength, length + 1);
+		int return_length = rand.nextInt(minLength, maxLength + 1);
 		String _int = "";
 		for (int i = 0; i < return_length; i++) {
 			_int += hexSet[rand.nextInt(10)];
