@@ -5,13 +5,13 @@
 # Initialization of all the table files
 java parseArgs SpeciesGroup -V 10 -v 30
 java parseArgs Zone -V 10 -v 15 -h 6
-java parseArgs Enclosure -I 0 -v 15 -i 1000 -F Zone.csv 0 
-java parseArgs Species -V 20 -v 30 -f Enclosure.csv 2 -F SpeciesGroup.csv 0
-java parseArgs Animal -I 0 -b -i 48 -v 10 -o 10 2 -f slim-3.csv 1 -d -F Enclosure.csv 0 -F Species.csv 0
-java parseArgs Staff -I 0 -v 6 -v 10 -d -i 99999999 -e -v 15 -v 20
-java parseArgs Oversees -F SpeciesGroup.csv 0 -F Staff.csv 0
-java parseArgs Care -F Staff.csv 0 -F Animal.csv 0 -T -v 20 -v 200
-java parseArgs Feed -F Staff.csv 0 -F Animal.csv 0 -T -o 5 2 -v 5
+java parseArgs Enclosure -I 1 -v 15 -i 4 -F "csv/Zone.csv" 0 
+java parseArgs Species -V 20 -v 30 -f "csv/Enclosure.csv" 2 -F "csv/SpeciesGroup.csv" 0
+java parseArgs Staff -I 1 -v 6 -v 10 -d -p -e -i 3 -v 6 -v 7 -v 8 -i 4 -v 0 -s
+java parseArgs Animal -I 1 -s -i 2 -v 8 -o 10 2 -f "csv/slim-3.csv" 1 -d -F "csv/Enclosure.csv" 0 -F "csv/Species.csv" 0
+java parseArgs Oversees -F "csv/SpeciesGroup.csv" 0 -F "csv/Staff.csv" 0
+java parseArgs Care -F "csv/Staff.csv" 0 -F "csv/Animal.csv" 0 -T -F "csv/care.csv" -v 200
+java parseArgs Feed -F "csv/Staff.csv" 0 -F "csv/Animal.csv" 0 -T -o 5 2 -F "csv/food.csv" 0
 
 # Creation of mock data
 java MakeCSV 1000 SpeciesGroup_table.txt SpeciesGroup
