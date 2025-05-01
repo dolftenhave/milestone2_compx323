@@ -93,6 +93,9 @@ public class parseArgs {
 				case "-g":
 					sex();
 					break;
+				case "-p":
+					phone();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("Argument " + p + ", '" + _args[p] + "' was not int the correct format");
@@ -321,6 +324,11 @@ public class parseArgs {
 	 */
 	private static void sex() {
 		table.add("14");
+		p++;
+	}
+
+	private static void phone(){
+		table.add("15");
 		p++;
 	}
 

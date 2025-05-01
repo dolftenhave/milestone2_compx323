@@ -29,6 +29,7 @@ public class MakeCSV {
 	private static final int COMMA_VALUE = 10;
 	private static final String bools[] = {"True", "False"};
 	private static final String sexes[] = {"F", "M"};
+	private static final String PHONE_PRIFIX[] = {"+61", "+64", "021", "022", "027", "021", "026", "029"};
 
 	private static int length;
 	private static String outputFileName;
@@ -241,6 +242,9 @@ public class MakeCSV {
 				case 14:
 					sex();
 					break;
+				case 15:
+					phone();
+					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
@@ -280,7 +284,7 @@ public class MakeCSV {
 	 * @param maxSize the maximum length of the integer
 	 */
 	private static void int_(int maxSize) {
-		write(getRandomInt(maxSize));
+		write(getRandomInt(1, maxSize));
 	}
 
 	/**
@@ -309,7 +313,7 @@ public class MakeCSV {
 	 * writes arandom double
 	 */
 	private static void double_() {
-		write(getRandomInt(genTable[row][1]) + "." + getRandomInt(genTable[row][2]));
+		write(getRandomInt(1, genTable[row][1]) + "." + getRandomInt(1, genTable[row][2]));
 	}
 
 	/**
@@ -395,14 +399,20 @@ public class MakeCSV {
 		write(sexes[rand.nextInt(sexes.length)]);
 	}
 
+	private static void phone(){
+		write(PHONE_PRIFIX[rand.nextInt(PHONE_PRIFIX.length)]);
+		write(getRandomInt(10,10));
+	}
+
 	/**
 	 * Returns a random Integer integer between 1 and length digits long
 	 * 
+	 * @param minLength the minimum length of the digits the int may contain (inclusive)
 	 * @param length the maximum number of digits the int may contain (inclusive)
 	 * @return A stirng that that represents an integer of a random length between 1 and length
 	 */
-	private static String getRandomInt(int length) {
-		int return_length = rand.nextInt(1, length + 1);
+	private static String getRandomInt(int minLength, int maxLength) {
+		int return_length = rand.nextInt(minLength, length + 1);
 		String _int = "";
 		for (int i = 0; i < return_length; i++) {
 			_int += hexSet[rand.nextInt(10)];
