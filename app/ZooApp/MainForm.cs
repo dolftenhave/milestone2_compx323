@@ -9,70 +9,154 @@ namespace ZooApp
     {
         public MainForm()
         {
+
             InitializeComponent();
         }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadAnimals();
             LoadEnclosures();
             LoadStaff();
             LoadFeedings();
+            LoadRoles();
         }
 
-        private void LoadAnimals(string filter = "")
+        private void LoadAnimals()
         {
             string query = $"SELECT * FROM {DatabaseHelper.Table("ANIMAL")}";
-
-            if (!string.IsNullOrWhiteSpace(filter))
-            {
-                query += $" WHERE LOWER(NAME) LIKE '%{filter.ToLower()}%'";
-            }
-
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             animalsDataGridView.DataSource = dt;
         }
 
-        private void btnSearchAnimal_Click_1(object sender, EventArgs e)
-        {
-            string searchTerm = txtAnimalSearch.Text.Trim();
-            LoadAnimals(searchTerm);
-        }
-
         private void LoadEnclosures()
         {
-            string query = "SELECT * FROM M2S_ENCLOSURE";
+            string query = $"SELECT * FROM {DatabaseHelper.Table("ENCLOSURE")}";
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             enclosuresDataGridView.DataSource = dt;
         }
 
-
-        private void LoadStaff()
+        private void LoadStaff(string nameFilter = "", string roleFilter = "")
         {
-            string query = "SELECT * FROM M2S_STAFF";
+            string query = $"SELECT * FROM {DatabaseHelper.Table("STAFF")} WHERE 1=1";
+
+            if (!string.IsNullOrWhiteSpace(nameFilter))
+            {
+                query += $" AND (LOWER(fName) LIKE '%{nameFilter.ToLower()}%' OR LOWER(lName) LIKE '%{nameFilter.ToLower()}%')";
+            }
+
+            if (!string.IsNullOrWhiteSpace(roleFilter) && roleFilter != "All")
+            {
+                query += $" AND LOWER(clinic) = '{roleFilter.ToLower()}'";
+            }
+
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             staffDataGridView.DataSource = dt;
         }
 
-
         private void LoadFeedings()
         {
-            string query = "SELECT * FROM M2S_CARE";  // or "M2S_FEED" if you prefer feeding records
+            string query = $"SELECT * FROM {DatabaseHelper.Table("CARE")}"; // or FEED
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.DataSource = dt;
         }
 
-        private void btnAddAnimal_Click(object sender, EventArgs e)
+        private void btnRefreshAnimals_Click(object sender, EventArgs e) => LoadAnimals();
+        private void btnRefreshEnclosures_Click(object sender, EventArgs e) => LoadEnclosures();
+        private void btnRefreshStaff_Click(object sender, EventArgs e) => LoadStaff();
+
+        private void btnRecordFeeding_Click(object sender, EventArgs e) => new FeedingForm().ShowDialog();
+        private void btnRecordCare_Click(object sender, EventArgs e) => new VetForm().ShowDialog();
+        private void btnAddAnimal_Click(object sender, EventArgs e) => new AddAnimalForm().ShowDialog();
+        private void btnAddStaff_Click(object sender, EventArgs e)
         {
-            var form = new AddAnimalForm();
-            form.ShowDialog();
-            LoadAnimals(); // Refresh list after add
+            using (AddStaffForm staffForm = new AddStaffForm())
+            {
+                staffForm.ShowDialog();
+                LoadStaff(); // Refresh the staff table after closing
+            }
         }
 
-        private void btnAddEnclosure_Click(object sender, EventArgs e)
+        private void btnOpenChecklist_Click(object sender, EventArgs e) => new ChecklistForm().ShowDialog();
+        private void btnOpenStaffActivity_Click(object sender, EventArgs e) => new StaffActivityForm().ShowDialog();
+        private void btnOpenSkills_Click(object sender, EventArgs e) => new ZookeeperSkillsForm().ShowDialog();
+        private void btnOpenZoneCoverage_Click(object sender, EventArgs e) => new ZoneCoverageForm().ShowDialog();
+
+        private void btnSearchAnimal_Click(object sender, EventArgs e)
         {
-            new AddEnclosureForm().ShowDialog();
-            LoadEnclosures();  // Refresh after closing
+
+        }
+
+        private void btnSearchStaff_Click(object sender, EventArgs e)
+        {
+            string name = txtStaffSearch.Text.Trim();
+            string role = cbStaffRoleFilter.SelectedItem?.ToString();
+            LoadStaff(name, role);
+        }
+
+        private void cbStaffRoleFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string name = txtStaffSearch?.Text.Trim();
+            string role = cbStaffRoleFilter.SelectedItem?.ToString();
+            LoadStaff(name, role);
+        }
+
+        private void LoadRoles()
+        {
+            string query = $"SELECT DISTINCT clinic FROM {DatabaseHelper.Table("STAFF")}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+
+            cbStaffRoleFilter.Items.Clear();
+            cbStaffRoleFilter.Items.Add("All");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                cbStaffRoleFilter.Items.Add(row["clinic"].ToString());
+            }
+
+            cbStaffRoleFilter.SelectedIndex = 0;
+        }
+
+        private void btnEditStaff_Click(object sender, EventArgs e)
+        {
+            if (staffDataGridView.SelectedRows.Count > 0)
+            {
+                DataRowView drv = staffDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+                if (drv != null)
+                {
+                    using (var form = new AddStaffForm(drv.Row))
+                    {
+                        form.ShowDialog();
+                        LoadStaff(); // Refresh the table
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a staff member to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnEditAnimal_Click(object sender, EventArgs e)
+        {
+            if (animalsDataGridView.SelectedRows.Count > 0)
+            {
+                DataRowView rowView = animalsDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+                if (rowView != null)
+                {
+                    using (var form = new AddAnimalForm(rowView.Row))
+                    {
+                        form.ShowDialog();
+                        LoadAnimals(); // Refresh after edit
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select an animal to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
     }
 }
+

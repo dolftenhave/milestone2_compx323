@@ -117,11 +117,11 @@
     <Compile Include="FeedingForm.Designer.cs">
       <DependentUpon>FeedingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="LoginForms.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="LoginForms.Designer.cs">
+      <DependentUpon>LoginForms.cs</DependentUpon>
     </Compile>
     <Compile Include="StaffActivityForm.cs">
       <SubType>Form</SubType>
@@ -167,8 +167,8 @@
     <EmbeddedResource Include="FeedingForm.resx">
       <DependentUpon>FeedingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <EmbeddedResource Include="LoginForms.resx">
+      <DependentUpon>LoginForms.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StaffActivityForm.resx">
       <DependentUpon>StaffActivityForm.cs</DependentUpon>

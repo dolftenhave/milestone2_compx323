@@ -1,68 +1,34 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Data;
-using System.Windows.Forms;
-using Oracle.ManagedDataAccess.Client;
 
-public static class DatabaseHelper
+namespace ZooApp
 {
-    private static string connectionString =
-        "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
-
-    private static string datasetPrefix = "M2S"; // default to small
-
-    public static void SetDatasetMode(string prefix)
+    public static class DatabaseHelper
     {
-        datasetPrefix = prefix;
-    }
+        // Default prefix for M2S_ tables; can be updated at login
+        private static string currentTablePrefix = "M2S";
 
-    public static string Table(string baseName)
-    {
-        return $"{datasetPrefix}_{baseName}";
-    }
+        // Change this to your actual connection string
+        public static string connectionString = "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
 
-    public static DataTable ExecuteQuery(string query)
-    {
-        DataTable dataTable = new DataTable();
-
-        try
+        // Used to switch between datasets (M2S, M21, etc.)
+        public static void SetTablePrefix(string prefix)
         {
-            using (OracleConnection conn = new OracleConnection(connectionString))
-            {
-                conn.Open();
-                using (OracleCommand cmd = new OracleCommand(query, conn))
-                {
-                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
-                    {
-                        adapter.Fill(dataTable);
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            currentTablePrefix = prefix;
         }
 
-        return dataTable;
-    }
-    public static void ExecuteNonQuery(string query, OracleParameter[] parameters)
-    {
-        using (OracleConnection conn = new OracleConnection(connectionString))
+        // Returns a table name like "M2S_ANIMAL"
+        public static string Table(string baseName)
         {
-            conn.Open();
-            using (OracleCommand cmd = new OracleCommand(query, conn))
-            {
-                cmd.Parameters.AddRange(parameters);
-                cmd.ExecuteNonQuery();
-            }
+            return $"{currentTablePrefix}_{baseName}";
         }
-    }
-    public static DataTable ExecuteQuery(string query, OracleParameter[] parameters)
-    {
-        DataTable dataTable = new DataTable();
 
-        try
+        // Executes a SELECT and returns a filled DataTable
+        public static DataTable ExecuteQuery(string query, OracleParameter[] parameters = null)
         {
+            DataTable dt = new DataTable();
+
             using (OracleConnection conn = new OracleConnection(connectionString))
             {
                 conn.Open();
@@ -73,18 +39,45 @@ public static class DatabaseHelper
 
                     using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
                     {
-                        adapter.Fill(dataTable);
+                        adapter.Fill(dt);
                     }
                 }
             }
+
+            return dt;
         }
-        catch (Exception ex)
+
+        // Executes INSERT, UPDATE, or DELETE with parameters
+        public static void ExecuteNonQuery(string query, OracleParameter[] parameters)
         {
-            MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            using (OracleConnection conn = new OracleConnection(connectionString))
+            {
+                conn.Open();
+                using (OracleCommand cmd = new OracleCommand(query, conn))
+                {
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
-        return dataTable;
+        // Tests if database connection is valid
+        public static bool TestConnection()
+        {
+            try
+            {
+                using (OracleConnection conn = new OracleConnection(connectionString))
+                {
+                    conn.Open();
+                    return conn.State == ConnectionState.Open;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
-
-
 }
