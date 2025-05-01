@@ -1,5 +1,7 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 
 /**
@@ -18,13 +20,18 @@ public class parseArgs {
 	private static int fileRefs = 0; // The number of external files refferenced for data.
 	private static int nSeqVarchars = 0;
 	private static int maxSeqVarcharLen = 0;
-	private static int seqFileRefs = 0;
 
 	private static ArrayList<String> table; // a "buffer" array that holds the table data before it is written;
+	private static ArrayList<String> files; // The path to the requested file
+	private static ArrayList<String> fileType; // The type of file. 0 for file, 1 for seqFile
+	private static ArrayList<String[]> cols; // The columns used by that file
 
 	public static void main(String args[]) {
 		_args = args;
 		table = new ArrayList<String>();
+		files = new ArrayList<String>();
+		fileType = new ArrayList<String>();
+		cols = new ArrayList<String[]>();
 		createTable();
 		writeTable();
 		System.out.println("parseArgs: Done.");
@@ -83,9 +90,12 @@ public class parseArgs {
 				case "-b":
 					bool();
 					break;
+				case "-g":
+					sex();
+					break;
 				// Unrecognised argument
 				default:
-					System.err.println("The input '" + _args[p] + "' was not int the correct format");
+					System.err.println("Argument " + p + ", '" + _args[p] + "' was not int the correct format");
 					System.exit(1);
 					break;
 			}
@@ -100,11 +110,30 @@ public class parseArgs {
 	private static void writeTable() {
 		System.out.println("parseArgs: Writing Table");
 		try {
-			out = new BufferedWriter(new FileWriter(_args[0] + "_table.txt"));
+			File files_dir = new File("tables");
+			if(!files_dir.exists())
+				files_dir.mkdirs();
+			out = new BufferedWriter(new FileWriter("tables/" + _args[0] + ".tab"));
 
-			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + maxSeqVarcharLen + " "
-					+ seqFileRefs;
+			String head = table.size() + " " + fileRefs + " " + nSeqVarchars + " " + maxSeqVarcharLen;
 			out.write(head, 0, head.length());
+			out.newLine();
+			out.flush();
+
+			for (int i = 0; i < files.size(); i++) {
+				out.newLine();
+				out.write(files.get(i));
+				out.write(",");
+				out.write(fileType.get(i));
+				out.write(",");
+				for (int j = 0; j < cols.get(i).length - 1; j++) {
+					out.write(cols.get(i)[j]);
+					out.write(",");
+				}
+				out.write(cols.get(i)[cols.get(i).length - 1]);
+				out.flush();
+			}
+			out.newLine();
 			out.newLine();
 			out.flush();
 
@@ -113,6 +142,7 @@ public class parseArgs {
 				out.newLine();
 				out.flush();
 			}
+
 			out.write(table.get(table.size() - 1), 0, table.get(table.size() - 1).length());
 			out.flush();
 			System.out.println("parseArgs: Created '" + _args[0] + "_table.txt'");
@@ -163,10 +193,35 @@ public class parseArgs {
 	 * column of the data and then the directory of the file and the
 	 */
 	private static void file() {
-		table.add("4 " + _args[p + 1] + " " + _args[p + 2]);
+		table.add("4 " + addFile("0") + " " + _args[p + 2]);
 		p += 3;
-		fileRefs++;
 	}
+
+	/**
+	 * Adds a file to the file array
+	 */
+	private static int addFile(String type) {
+		int row = 0;
+
+		// If the files list contains the file, then just add the wanted column to the
+		// end of the cols array
+		if (files.contains(_args[p + 1])) {
+			row = files.indexOf(_args[p + 1]);
+			String col[] = new String[cols.get(row).length + 1];
+			col[col.length - 1] = _args[p + 2];
+			System.arraycopy(cols.get(row), 0, col, 0, cols.get(row).length);
+			cols.set(row, col);
+		} else {
+			// Otherwise add the new file
+			files.add(_args[p + 1]);
+			row = files.size() - 1;
+			fileType.add(type);
+			cols.add(new String[] { _args[p + 2] });
+			fileRefs++;
+		}
+		return row;
+	}
+
 
 	/**
 	 * Writes a line to the jump table which indicates the type double, followed by
@@ -210,8 +265,7 @@ public class parseArgs {
 	 * The next value indicates the path/to/file followed bu the column of the data
 	 */
 	private static void seqFile() {
-		table.add("8 " + _args[p + 1] + " " + _args[p + 2]);
-		seqFileRefs++;
+		table.add("8 " + addFile("1") + " " + _args[p + 2]);
 		p += 3;
 	}
 
@@ -248,4 +302,31 @@ public class parseArgs {
 		table.add("13");
 		p++;
 	}
+
+	/**
+	 * Creates a a char that is restricted to 'M' or 'F'
+	 */
+	private static void sex() {
+		table.add("14");
+		p++;
+	}
+	
+	/**
+	 * A testing method to print the content of a String array
+	 */
+	private static void printArray(String name, String[] arr) {
+		System.out.print("Arr '" + name + "'");
+		if (arr != null) {
+			System.out.println(" len: " + arr.length);
+			System.out.print("[");
+			for (int i = 0; i < arr.length - 1; i++) {
+				System.out.print(arr[i]);
+				System.out.print(",");
+			}
+			System.out.println(arr[arr.length - 1] + "]");
+		} else {
+			System.out.println(" is Null");
+		}
+	}
+
 }
