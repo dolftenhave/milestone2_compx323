@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -27,6 +29,8 @@ public class MakeCSV {
 	private static final String hexSet[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
 			"F" };
 	private static final int COMMA_VALUE = 10;
+	private static final String bools[] = {"True", "False"};
+	private static final String sexes[] = {"F", "M"};
 
 	private static int length;
 	private static String outputFileName;
@@ -76,9 +80,8 @@ public class MakeCSV {
 	private static void initializeGenTable(String tablePath) {
 		BufferedReader readTable;
 		String in[];
-		int fileCount = 0; // A counter that keeps track of how many files have currently been added
-		int seqFileCount = 0;
 		int seqVarcharCount = 0;
+		ArrayList<Integer> cols;
 		try {
 			readTable = new BufferedReader(new FileReader(tablePath));
 
@@ -87,8 +90,24 @@ public class MakeCSV {
 			genTable = new int[(Integer.parseInt(in[0]) * 2) - 1][GEN_TABLE_WIDTH];
 			files = new csvFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
-			seqFiles = new BufferedReader[Integer.parseInt(in[4])];
-			seqFilePaths = new String[Integer.parseInt(in[4])];
+
+			readTable.readLine();
+
+			// Reads all the file data
+			for (int n = 0; n < files.length; n++) {
+				in = readTable.readLine().split(",");
+				cols = new ArrayList<Integer>();
+				for (int i = 2; i < in.length; i++) {
+					cols.add(Integer.parseInt(in[i]));
+				}
+				int[] csvCols = new int[cols.size()];
+				for (int x = 0; x < csvCols.length; x++) {
+					csvCols[x] = cols.get(x);
+				}
+				files[n] = new csvFile(in[0], csvCols);
+			}
+			
+			readTable.readLine();
 
 			// Reads the rest of the file into the genTable array
 			for (int i = 0; i < genTable.length; i++) {
@@ -98,20 +117,7 @@ public class MakeCSV {
 					if (in.length > 1) {
 						// If this is a file line, initialise a new reader and add it to the readed
 						// array. Adding the index of the reader within that array to the gentable array
-						if (genTable[i][0] == fileValue) {
-							files[fileCount] = new csvFile(in[1], new int[] { Integer.parseInt(in[2]) });
-							genTable[i][1] = fileCount;
-							fileCount++;
-							genTable[i][2] = Integer.parseInt(in[2]);
-							// Otherwise read the rest of the lines as normal and add them to the gentTable
-							// array
-						} else if (genTable[i][0] == seqFileValue) {
-							seqFiles[seqFileCount] = new BufferedReader(new FileReader(in[1]));
-							seqFilePaths[seqFileCount] = in[1];
-							genTable[i][1] = seqFileCount;
-							seqFileCount++;
-							genTable[i][2] = Integer.parseInt(in[2]);
-						} else if (genTable[i][0] == seqVarcharValue) {
+						if (genTable[i][0] == seqVarcharValue) {
 							genTable[i][2] = Integer.parseInt(in[1]);
 							genTable[i][1] = seqVarcharCount;
 							seqVarcharCount++;
@@ -170,7 +176,11 @@ public class MakeCSV {
 	private static void makeCSV() {
 		rand = new Random();
 		try {
-			out = new BufferedWriter(new FileWriter(outputFileName + ".csv"));
+			File csvDir = new File("csv/");
+			if(!csvDir.exists())
+				csvDir.mkdirs();
+
+			out = new BufferedWriter(new FileWriter("csv/" + outputFileName + ".csv"));
 			for (int i = 0; i < length - 1; i++) {
 				writeLine();
 				out.newLine();
@@ -300,12 +310,7 @@ public class MakeCSV {
 	 * specific column in that file
 	 */
 	private static void file() {
-		try {
-			out.write(files[genTable[row][1]].getRandomLine(genTable[row][2]));
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-			System.exit(1);
-		}
+			write(files[genTable[row][1]].getRandomLine(genTable[row][2]));
 	}
 
 	/**
@@ -352,7 +357,8 @@ public class MakeCSV {
 	 * reached. At that point it will start from the top again
 	 */
 	private static void seqFile() {
-		String in;
+		/**
+		 * String in;
 		try {
 			in = seqFiles[genTable[row][2]].readLine();
 			if (in != null) {
@@ -369,6 +375,9 @@ public class MakeCSV {
 			e.printStackTrace(System.err);
 			System.exit(1);
 		}
+*/
+		write(files[genTable[row][1]].getNextLine(genTable[row][2]));
+
 	}
 
 	/**
@@ -406,6 +415,14 @@ public class MakeCSV {
 		varchar(rand.nextInt(1, 40));
 		write(".");
 		varchar(rand.nextInt(2, 4));
+	}
+
+	private static void bool(){
+		write(bools[rand.nextInt(bools.length)]);
+	}
+
+	private static void sex(){
+		write(sexes[rand.nextInt(sexes.length)]);
 	}
 
 	/**

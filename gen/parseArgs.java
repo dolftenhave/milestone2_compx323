@@ -202,7 +202,7 @@ public class parseArgs {
 	 */
 	private static int addFile(String type) {
 		int row = 0;
-
+		//TODO check if col is already being used
 		// If the files list contains the file, then just add the wanted column to the
 		// end of the cols array
 		if (files.contains(_args[p + 1])) {
