@@ -16,6 +16,7 @@ class csvFile {
 	private Hashtable<Integer, Integer> col;
 	private Random rand;
 	private ArrayList<String[]> data;
+	private int columnCount[];
 
 	/**
 	 * Creates a new csvFile object that contains the data from the speciefied
@@ -25,6 +26,7 @@ class csvFile {
 	 * @param columns the columns of the file that you want to keep
 	 */
 	public csvFile(String path, int columns[]) {
+		columnCount = new int[columns.length];
 		rand = new Random();
 		createPathTranslator(columns);
 		readAllData(path, columns);
@@ -89,7 +91,19 @@ class csvFile {
 	 * @param column the column in the csv file the data is in
 	 */
 	public String getRandomLine(int column) {
-		String line[] = data.get(rand.nextInt(data.size()));
-		return line[col.get(column)];
+		return data.get(rand.nextInt(data.size()))[col.get(column)];
+	}
+
+	/**
+	 * Returns the next element from the column
+	 * If the end is reached, it will restart from the top
+	 *
+	 * @param column the column of the data in the file
+	 * @return The next item in the file from the column
+	 */
+	public String getNextLine(int column) {
+		if (columnCount[col.get(column)] == data.size())
+			columnCount[col.get(column)] = 0;
+		return data.get(columnCount[col.get(column)])[col.get(column)];
 	}
 }
