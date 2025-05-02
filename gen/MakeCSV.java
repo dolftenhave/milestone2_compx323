@@ -266,6 +266,9 @@ public class MakeCSV {
 				case 15:
 					phone();
 					break;
+				case 16:
+					feedInterval();
+					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
@@ -425,6 +428,10 @@ public class MakeCSV {
 	private static void phone() {
 		write(PHONE_PRIFIX[rand.nextInt(PHONE_PRIFIX.length)]);
 		write(getRandomInt(10, 10));
+	}
+
+	private static void feedInterval(){
+		write(hours[rand.nextInt(1, hours.length)]);
 	}
 
 	/**
