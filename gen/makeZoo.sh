@@ -3,7 +3,7 @@
 # @author Dolf ten Have
 
 # Initialization of all the table files
-java parseArgs SpeciesGroup lastname commonName -V 10 -v 30
+java parseArgs SpeciesGroup latinName commonName -V 10 -v 30
 java parseArgs Zone name colour hexCode -V 10 -v 15 -h 6
 java parseArgs Enclosure eid biome eSize zoneName -I 1 -v 15 -i 4 -F "Zone.csv" 0
 java parseArgs Species latinName commonName requiredBiome speciesGroup -V 20 -v 30 -f "Enclosure.csv" 2 -F "SpeciesGroup.csv" 0
