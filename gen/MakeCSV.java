@@ -30,10 +30,12 @@ public class MakeCSV {
 	private static final String bools[] = { "True", "False" };
 	private static final String sexes[] = { "F", "M" };
 	private static final String PHONE_PRIFIX[] = { "+61", "+64", "021", "022", "027", "021", "026", "029" };
+	private static final String hours[] = { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
+			"12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" };
 
 	private static int length;
 	private static String outputFileName;
-	private static String csvHeader; //Descrives the column names
+	private static String csvHeader; // Descrives the column names
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
 	private static csvFile files[]; // An array that contains all buffered readers that link to external files
@@ -87,7 +89,7 @@ public class MakeCSV {
 			genTable = new int[(Integer.parseInt(in[0]) * 2) - 1][GEN_TABLE_WIDTH];
 			files = new csvFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
-			
+
 			csvHeader = readTable.readLine();
 
 			readTable.readLine();
@@ -138,7 +140,7 @@ public class MakeCSV {
 	}
 
 	private static void updateBar() {
-		System.out.println("MakeCSV: " + level + "% (" + ((length/10) * level) + " lines).");
+		System.out.println("MakeCSV: " + level + "% (" + ((length / 10) * level) + " lines).");
 		level += 10;
 	}
 
@@ -310,15 +312,15 @@ public class MakeCSV {
 	 * Writes a random date
 	 */
 	private static void date() {
-		write(rand.nextInt(1, 29) + "-" + rand.nextInt(1, 13) + "-" + rand.nextInt(MIN_YEAR, 2025));
+		write(rand.nextInt(MIN_YEAR, 2025) + "-" + rand.nextInt(1, 13) + "-" + rand.nextInt(1, 29));
 	}
 
 	/**
 	 * Writes a random time value in the format HH:MM:SS
 	 */
 	private static void time() {
-		write(rand.nextInt(60) + ":" + rand.nextInt(60) + ":"
-				+ rand.nextInt(24));
+		write(hours[rand.nextInt(hours.length)] + ":" + rand.nextInt(6) + rand.nextInt(10) + ":"
+				+ rand.nextInt(6) + rand.nextInt(10));
 	}
 
 	/**
@@ -334,7 +336,7 @@ public class MakeCSV {
 	 */
 	private static void double_() {
 		write(getRandomInt(1, genTable[row][1]) + "." + getRandomInt(1, genTable[row][2]));
-		//System.out.println(genTable[row][1] + ":" + genTable[row][2]);
+		// System.out.println(genTable[row][1] + ":" + genTable[row][2]);
 	}
 
 	/**
