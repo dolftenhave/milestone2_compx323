@@ -24,3 +24,6 @@ java MakeCSV 30 "tables/Oversees.tab" Oversees
 java MakeCSV 50 "tables/Care.tab" Care
 java MakeCSV 50 "tables/Feed.tab" Feed
 # total 957,000 lines
+
+rm -r small/*.csv
+mv *.csv small/
