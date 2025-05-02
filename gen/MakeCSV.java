@@ -453,7 +453,9 @@ public class MakeCSV {
 	private static String getRandomInt(int minLength, int maxLength) {
 		int return_length = rand.nextInt(minLength, maxLength + 1);
 		String _int = "";
-		for (int i = 0; i < return_length; i++) {
+		//Ensures that there is at least one value above 1
+		_int += hexSet[rand.nextInt(1,10)];
+		for (int i = 0; i < return_length - 1; i++) {
 			_int += hexSet[rand.nextInt(10)];
 		}
 		return _int;
