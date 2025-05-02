@@ -33,6 +33,7 @@ There are several different type of arguments used to greate the data
 - **bool** `-b` will generate a random integer boolean 0 or 1.
 - **sex** `-g` will add a single char for sex constrained to 'M' or 'F'
 - **phone** `-p` will add a random NZ based phone number (with the exception of an australian country code).
+- **feedInterval** `-x` will add a random hour between 1 and 23.
 
 _Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
@@ -102,6 +103,7 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <output name>`
 | bool        |     13 | 13 | -                      | -                  |
 | sex         |     14 | 14 | -                      | -                  |
 | phone       |     15 | 15 | -                      | -                  |
+| feedInterval|     16 | 16 | -                      | -                  |
 +-------------+--------+----+------------------------+--------------------+
 ```
 
