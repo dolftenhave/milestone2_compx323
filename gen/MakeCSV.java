@@ -33,6 +33,7 @@ public class MakeCSV {
 
 	private static int length;
 	private static String outputFileName;
+	private static String csvHeader; //Descrives the column names
 	private static final int GEN_TABLE_WIDTH = 3;
 	private static int genTable[][]; // The generation table
 	private static csvFile files[]; // An array that contains all buffered readers that link to external files
@@ -86,6 +87,8 @@ public class MakeCSV {
 			genTable = new int[(Integer.parseInt(in[0]) * 2) - 1][GEN_TABLE_WIDTH];
 			files = new csvFile[Integer.parseInt((in[1]))];
 			seqVarchar = new int[Integer.parseInt(in[2])][Integer.parseInt(in[3])];
+			
+			csvHeader = readTable.readLine();
 
 			readTable.readLine();
 
@@ -183,6 +186,11 @@ public class MakeCSV {
 				csvDir.mkdirs();
 
 			out = new BufferedWriter(new FileWriter("csv/" + outputFileName + ".csv"));
+
+			write(csvHeader);
+			out.newLine();
+			out.flush();
+
 			int progress = length / 10;
 			int total = progress;
 
