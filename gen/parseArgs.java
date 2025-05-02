@@ -22,6 +22,7 @@ public class parseArgs {
 	private static int maxSeqVarcharLen = 0;
 
 	private static ArrayList<String> table; // a "buffer" array that holds the table data before it is written;
+	private static ArrayList<String> csvHeader; //Contrains the column names used by the csv header
 	private static ArrayList<String> files; // The path to the requested file
 	private static ArrayList<String> fileType; // The type of file. 0 for file, 1 for seqFile
 	private static ArrayList<String[]> cols; // The columns used by that file
@@ -29,13 +30,31 @@ public class parseArgs {
 	public static void main(String args[]) {
 		_args = args;
 		table = new ArrayList<String>();
+		csvHeader = new ArrayList<String>();
 		files = new ArrayList<String>();
 		fileType = new ArrayList<String>();
 		cols = new ArrayList<String[]>();
+		readHeaderNames();
 		createTable();
 		writeTable();
 		System.out.println("parseArgs: Done.");
 	}
+
+	/**
+	 * Collects the names of the columns of the csv data
+	 */
+	private static void readHeaderNames(){
+		boolean readAllNames = false;
+		while(!readAllNames){
+			if(_args[p].substring(0,1).compareTo("-") == 0){
+				readAllNames = true;
+			}else{
+				csvHeader.add(_args[p]);
+				p++;
+			}	
+		}
+	}
+
 
 	/**
 	 * Selects the argument type and passes it on to the matching method for
@@ -122,6 +141,14 @@ public class parseArgs {
 			out.write(head, 0, head.length());
 			out.newLine();
 			out.flush();
+
+			for(int i = 0; i < csvHeader.size()-1; i++){
+				out.write(csvHeader.get(i));
+				out.write(",");
+			}
+			out.write(csvHeader.get(csvHeader.size()-1));
+			out.flush();
+			out.newLine();
 
 			for (int i = 0; i < files.size(); i++) {
 				out.newLine();
