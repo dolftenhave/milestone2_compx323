@@ -61,7 +61,7 @@ class csvFile {
 			String save[];
 			boolean eof = false;
 			data = new ArrayList<String[]>();
-			in.readLine(); //skips the header line of the file
+
 			while (!eof) {
 				line = in.readLine();
 				if (line != null) {

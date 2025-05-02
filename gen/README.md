@@ -29,8 +29,38 @@ There are several different type of arguments used to greate the data
 - **Hexadecimal Value** `-h <length>` will generate a hexademimal value of length _length_. e.g. length 5 will could create _F86A1_.
 - **email** `-e` will generate a fake email using random character with one @ followed by one .
 - **bool** `-b` will generate a random integer boolean 0 or 1.
+- **sex** `-g` will add a single char for sex constrained to 'M' or 'F'
+- **phone** `-p` will add a random NZ based phone number (with the exception of an australian country code).
 
 _Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
+
+#### <name>_table.txt Structure
+```
++-----------+------+----------+------------+---------------------+
+|           | 0    | 1        | 2          | 3                   |
++===========+======+==========+============+=====================+
+| Header    | rows | fileRefs | seqVarchar | max seq varchar len |
++-----------+------+----------+------------+---------------------+
+|                           blank line                           |
++-----------+------+----------+------------+---------------------+
+| File Refs | path | fileType | <cols>     |                     |
++-----------+------+----------+------------+---------------------+
+|                           blank line                           |
++-----------+----------------------------------------------------+
+| genTable  | genTable content                                   |
++-----------+----------------------------------------------------+
+```
+
+- **Header** Contains information used to generate the relevent arrays
+    - `rows`the number or rows in the genTable.
+    - `fileRefs` The number of external files used.
+    - `seqVarchar` the number of sequential varchars. 
+    - `maxSeqVarcharLen` the maximum length of a sequential varchar
+- **File Refs** Contains the path/to/file for all the files specified
+    - `path` path/to/file
+    - `fileType` `0` for normal and `1` for sequential
+    - `<cols>` A list of columns used from that file
+- **genTable** The gentable array explained down below
 
 ## MakeCSV
 
@@ -41,34 +71,36 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <output name>`
 #### The header of the table file has the following structure:<br />
 
 ```
-+-------+----------+--------------+------------------+---------------------+------------------+
-| index |     0    |       1      |         2        |          3          |         4        |
-+-------+----------+--------------+------------------+---------------------+------------------+
-| data  | num rows | num foleRefs | num seq varchars | max seq varchar len | num seq fileRefs |
-+-------+----------+--------------+------------------+---------------------+------------------+
++-------+----------+--------------+------------------+---------------------+
+| index |      0   |        1     |          2       |           3         |
++=======+==========+==============+==================+=====================+
+| data  | num rows | num fileRefs | num seq varchars | max seq varchar len |
++-------+----------+--------------+------------------+---------------------+
 ```
 
 ### genTable structure:
 
 ```
-+-------------+-------+----+------------------------+--------------------+
-|     Type    | index | 0  |            1           |          2         |
-+-------------+-------+----+------------------------+--------------------+
-| varchar     |     0 | 0  | max len                | -                  |
-| int         |     1 | 1  | max len                | -                  |
-| date        |     2 | 2  | -                      | -                  |
-| time        |     3 | 3  | -                      | -                  |
-| file        |     4 | 4  | files array index      | col of data        |
-| double      |     5 | 5  | len                    | post delimiter len |
-| seq int     |     6 | 6  | count                  | -                  |
-| seq varchar |     7 | 7  | seqVarchar array index | array len          |
-| seq file    |     8 | 8  | seqFiles array index   | col of data        |
-| timestamp   |     9 | 9  | -                      | -                  |
-| comma < , > |    10 | 10 | -                      | -                  |
-| hexValue    |    11 | 11 | len                    | -                  |
-| email       |    12 | 12 | -                      | -                  |
-| bool        |    13 | 13 | -                      | -                  |
-+-------------+-------+----+------------------------+--------------------+
++-------------+--------+----+------------------------+--------------------+
+|      Type   | index  | 0  |             1          |           2        |
++=============+========+====+========================+====================+
+| varchar     |      0 | 0  | max len                | -                  |
+| int         |      1 | 1  | max len                | -                  |
+| date        |      2 | 2  | -                      | -                  |
+| time        |      3 | 3  | -                      | -                  |
+| file        |      4 | 4  | files array index      | col of data        |
+| double      |      5 | 5  | len                    | post delimiter len |
+| seq int     |      6 | 6  | count                  | -                  |
+| seq varchar |      7 | 7  | seqVarchar array index | array len          |
+| seq file    |      8 | 8  | files array index      | col of data        |
+| timestamp   |      9 | 9  | -                      | -                  |
+| comma < , > |     10 | 10 | -                      | -                  |
+| hexValue    |     11 | 11 | len                    | -                  |
+| email       |     12 | 12 | -                      | -                  |
+| bool        |     13 | 13 | -                      | -                  |
+| sex         |     14 | 14 | -                      | -                  |
+| phone       |     15 | 15 | -                      | -                  |
++-------------+--------+----+------------------------+--------------------+
 ```
 
 ## csvFile
