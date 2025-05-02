@@ -15,7 +15,7 @@ java parseArgs Feed staffID animalID dateTime amount foodType -F "Staff.csv" 0 -
 
 
 # Creation of mock data
-java MakeCSV 10000 "tables/SpeciesGroup.tab" SpeciesGroup
+java MakeCSV 10001 "tables/SpeciesGroup.tab" SpeciesGroup
 java MakeCSV 5000 "tables/Zone.tab" Zone
 java MakeCSV 60000 "tables/Enclosure.tab" Enclosure
 java MakeCSV 30000 "tables/Species.tab" Species
