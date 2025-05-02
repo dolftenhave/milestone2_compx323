@@ -26,5 +26,5 @@ Run `./createImportSQL.sh` and bam! Your file is ready.
 
 #### Windows
 
-Open the file explorer and navigate to the folder containing the csv files and script. Right click on an empty spot in the folder. Select 'More Options' -> 'Git Bash' (NOT Git cmd!). A terminal window should open up. Run `./createImportSQL.sh'. This will create a new import sql file in that folder. 
+Open the file explorer and navigate to the folder containing the csv files and script. Right click on an empty spot in the folder. Select 'More Options' -> 'Git Bash' (NOT Git cmd!). A terminal window should open up. Run `./createImportSQL.sh`. This will create a new import sql file in that folder. 
 
