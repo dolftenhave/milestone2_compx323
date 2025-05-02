@@ -61,7 +61,7 @@ INSERT INTO m2s_Animal VALUES (24, 'F', 12, 'Bertha', 1450000.0, 'ZAF', TO_DATE(
 INSERT INTO m2s_Staff VALUES ( 1, 'Sam', 'Cotton', TO_DATE('1986-04-01', 'YYYY-MM-DD'), '+64223278952','Sam.C@zoo.com',32, 'Rim Road', 'Claudlands', 'Hamilton', '3216', '','M');
 INSERT INTO m2s_Staff VALUES ( 2, 'Grace', 'White', TO_DATE('1996-07-24', 'YYYY-MM-DD'), '0246549875','GraceWhite547@hotmail.com',7396, 'SH1', 'Karapiro', 'Waikato', '3472','Karapiro Vets','F');
 INSERT INTO m2s_Staff VALUES ( 3, 'Bruce', 'Batton', TO_DATE('1975-07-13', 'YYYY-MM-DD'), '0225768945','BrucieTheBest@gmail.com',32, 'Masters Ave', 'Silverdale', 'Hamilton', '3216', '','M');
-INSERT INTO m2s_Staff VALUES ( 4, 'Bryce', 'Trainer', TO_DATE('1998-17-24', 'YYYY-MM-DD'), '0224519736','BryceTrainsALot@outlook.com', 54, 'Hillcrest rd', 'Hillcrest', 'Hamilton', '3216','Newstead Vets','F');
+INSERT INTO m2s_Staff VALUES ( 4, 'Bryce', 'Trainer', TO_DATE('1998-07-24', 'YYYY-MM-DD'), '0224519736','BryceTrainsALot@outlook.com', 54, 'Hillcrest rd', 'Hillcrest', 'Hamilton', '3216','Newstead Vets','F');
 INSERT INTO m2s_Staff VALUES ( 5, 'Kendal', 'Tanner', TO_DATE('2001-01-16', 'YYYY-MM-DD'), '0219843275','kt175@notReal.students.waikato.ac.nz',03, 'Paul Close', 'Hillcrest', 'Hamilton', '3216','','F');
 
 -- Oversees 
