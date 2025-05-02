@@ -59,7 +59,7 @@ class csvFile {
 			String line;
 			String split[];
 			String save[];
-			boolean eof = false;
+			boolean eof = false;//End of File
 			data = new ArrayList<String[]>();
 			in.readLine(); //skips the header line of the file
 			while (!eof) {
@@ -68,7 +68,7 @@ class csvFile {
 					split = line.split(",");
 					save = new String[col.size()];
 					for (int i = 0; i < col.size(); i++) {
-						save[i] = split[col.get(columns[i])];
+						save[i] = split[columns[i]];
 					}
 					data.add(save);
 				} else {
