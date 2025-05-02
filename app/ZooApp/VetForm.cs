@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Data;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ZooApp
 {
@@ -12,51 +15,65 @@ namespace ZooApp
 
         private void VetForm_Load(object sender, EventArgs e)
         {
-            // Dummy staff and animal data
-            string[,] staffData = new string[,]
-            {
-                { "101", "Mary", "Brown", "Vet" },
-                { "102", "John", "Smith", "Zookeeper" },
-                { "103", "Alice", "Green", "General Staff" },
-                { "104", "Zane", "Taylor", "Zookeeper" }
-            };
+            LoadAnimals();
+            LoadStaff();
+        }
 
-            string[] animals = { "Leo", "Tina", "Zara" };
+        private void LoadAnimals()
+        {
+            string query = $"SELECT aid, name FROM {DatabaseHelper.Table("ANIMAL")}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            cbAnimal.DisplayMember = "name";
+            cbAnimal.ValueMember = "aid";
+            cbAnimal.DataSource = dt;
+        }
 
-            // Populate Vet dropdown
-            for (int i = 0; i < staffData.GetLength(0); i++)
-            {
-                if (staffData[i, 3] == "Vet")
-                {
-                    cbVet.Items.Add($"{staffData[i, 1]} {staffData[i, 2]}"); // e.g., "Mary Brown"
-                }
-            }
-
-            // Populate Animal dropdown
-            cbAnimal.Items.AddRange(animals);
-
-            cbVet.SelectedIndex = 0;
-            cbAnimal.SelectedIndex = 0;
+        private void LoadStaff()
+        {
+            string query = $"SELECT sid, fName || ' ' || lName AS FullName FROM {DatabaseHelper.Table("STAFF")}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            cbVet.DisplayMember = "FullName";
+            cbVet.ValueMember = "sid";
+            cbVet.DataSource = dt;
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            string vet = cbVet.SelectedItem?.ToString();
-            string animal = cbAnimal.SelectedItem?.ToString();
-            string careType = txtCareType.Text.Trim();
-            string notes = txtNotes.Text.Trim();
-            DateTime date = dtpDate.Value;
-            DateTime time = dtpTime.Value;
-
-            if (string.IsNullOrEmpty(vet) || string.IsNullOrEmpty(animal) || string.IsNullOrEmpty(careType))
+            try
             {
-                MessageBox.Show("Please complete all required fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                int animalId = Convert.ToInt32(cbAnimal.SelectedValue);
+                int staffId = Convert.ToInt32(cbVet.SelectedValue);
+                DateTime careTime = dtpTime.Value;
+                string careType = txtCareType.Text.Trim();
+                string notes = txtNotes.Text.Trim();
 
-            // TODO: Insert into database
-            MessageBox.Show("Animal health activity recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
+                if (string.IsNullOrWhiteSpace(careType))
+                {
+                    MessageBox.Show("Care type is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string query = $"INSERT INTO {DatabaseHelper.Table("CARE")} (animalID, staffID, datetime, care, notes) " +
+                               "VALUES (:animalID, :staffID, :datetime, :care, :notes)";
+
+                OracleParameter[] parameters = new OracleParameter[]
+                {
+                    new OracleParameter("animalID", animalId),
+                    new OracleParameter("staffID", staffId),
+                    new OracleParameter("datetime", careTime),
+                    new OracleParameter("care", careType),
+                    new OracleParameter("notes", notes)
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
+
+                MessageBox.Show("Care record added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

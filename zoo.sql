@@ -204,3 +204,6 @@ VALUES (3, 'M', 24, 'Skippy', 18000, 'AUS', TO_DATE('2018-08-20', 'YYYY-MM-DD'),
 Select * from m2s_SpeciesGroup;
 Select * from M2S_ANIMAL;
 Select * from m2s_Zone;
+Select * from m2s_Enclosure;
+
+

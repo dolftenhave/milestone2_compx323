@@ -1,73 +1,89 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
     public partial class AddEnclosureForm : Form
     {
+        private bool isEdit = false;
+        private int editingEid;
+
         public AddEnclosureForm()
         {
             InitializeComponent();
         }
 
-        private void AddEnclosureForm_Load(object sender, EventArgs e)
+        public AddEnclosureForm(DataRow row) : this()
         {
-            try
+            if (row != null)
             {
-                string query = "SELECT name FROM m2s_zone";
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
-                cbZone.DisplayMember = "name";
-                cbZone.ValueMember = "name";
-                cbZone.DataSource = dt;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to load zones: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                isEdit = true;
+                editingEid = Convert.ToInt32(row["eid"]);
+                txtBiome.Text = row["biome"].ToString();
+                txtZone.Text = row["zoneName"].ToString();
+                txtZoneSize.Text = row["zoneSize"].ToString();
+                this.Text = "Edit Enclosure";
+                btnSubmit.Text = "Update";
             }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            string biome = txtBiome.Text.Trim();
+            string zone = txtZone.Text.Trim();
+            string zoneSizeText = txtZoneSize.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(biome) || string.IsNullOrWhiteSpace(zone) || string.IsNullOrWhiteSpace(zoneSizeText))
+            {
+                MessageBox.Show("All fields must be filled.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(zoneSizeText, out decimal zoneSize))
+            {
+                MessageBox.Show("Zone size must be a number.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string table = DatabaseHelper.Table("ENCLOSURE");
+
             try
             {
-                string biome = txtBiome.Text.Trim();
-                string zoneName = cbZone.SelectedValue?.ToString();
-
-                if (!int.TryParse(txtSize.Text.Trim(), out int size))
+                if (isEdit)
                 {
-                    MessageBox.Show("Size must be a valid number.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    string update = $"UPDATE {table} SET biome = :biome, zoneName = :zone, zoneSize = :zoneSize WHERE eid = :eid";
+                    OracleParameter[] parameters = {
+                        new OracleParameter("biome", biome),
+                        new OracleParameter("zone", zone),
+                        new OracleParameter("zoneSize", zoneSize),
+                        new OracleParameter("eid", editingEid)
+                    };
+                    DatabaseHelper.ExecuteNonQuery(update, parameters);
+                    MessageBox.Show("Enclosure updated successfully.");
+                }
+                else
+                {
+                    string getEid = $"SELECT NVL(MAX(eid), 0) + 1 FROM {table}";
+                    int newEid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(getEid).Rows[0][0]);
+
+                    string insert = $"INSERT INTO {table} (eid, biome, zoneName, zoneSize) VALUES (:eid, :biome, :zone, :zoneSize)";
+                    OracleParameter[] parameters = {
+                        new OracleParameter("eid", newEid),
+                        new OracleParameter("biome", biome),
+                        new OracleParameter("zone", zone),
+                        new OracleParameter("zoneSize", zoneSize)
+                    };
+                    DatabaseHelper.ExecuteNonQuery(insert, parameters);
+                    MessageBox.Show("Enclosure added successfully.");
                 }
 
-                if (string.IsNullOrWhiteSpace(biome) || string.IsNullOrWhiteSpace(zoneName))
-                {
-                    MessageBox.Show("Please fill in all fields.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Get new EID
-                string getEidQuery = "SELECT NVL(MAX(eid), 0) + 1 FROM m2s_enclosure";
-                DataTable dt = DatabaseHelper.ExecuteQuery(getEidQuery);
-                int newEid = Convert.ToInt32(dt.Rows[0][0]);
-
-                string insertQuery = "INSERT INTO m2s_enclosure (eid, biome, eSize, zoneName) VALUES (:eid, :biome, :eSize, :zoneName)";
-                OracleParameter[] parameters = new OracleParameter[]
-                {
-                    new OracleParameter("eid", newEid),
-                    new OracleParameter("biome", biome),
-                    new OracleParameter("eSize", size),
-                    new OracleParameter("zoneName", zoneName)
-                };
-
-                DatabaseHelper.ExecuteNonQuery(insertQuery, parameters);
-                MessageBox.Show("Enclosure added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to add enclosure: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 

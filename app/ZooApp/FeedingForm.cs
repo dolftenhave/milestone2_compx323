@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
+using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
@@ -12,63 +14,68 @@ namespace ZooApp
 
         private void FeedingForm_Load(object sender, EventArgs e)
         {
-            // Dummy staff data
-            string[,] staffData = new string[,]
+            try
             {
-                { "101", "Mary", "Brown", "Vet" },
-                { "102", "John", "Smith", "Zookeeper" },
-                { "103", "Alice", "Green", "General Staff" },
-                { "104", "Zane", "Taylor", "Zookeeper" }
-            };
+                // Load animals
+                string animalQuery = $"SELECT aid, name FROM {DatabaseHelper.Table("ANIMAL")} ORDER BY name";
+                DataTable animalTable = DatabaseHelper.ExecuteQuery(animalQuery);
+                cbAnimal.DisplayMember = "name";
+                cbAnimal.ValueMember = "aid";
+                cbAnimal.DataSource = animalTable;
 
-            // Dummy animal list
-            string[] animals = { "Leo", "Tina", "Zara" };
-
-            // Populate dropdowns
-            for (int i = 0; i < staffData.GetLength(0); i++)
-            {
-                if (staffData[i, 3] == "Zookeeper")
-                {
-                    cbZookeeper.Items.Add($"{staffData[i, 1]} {staffData[i, 2]}");
-                }
+                // Load staff
+                string staffQuery = $"SELECT sid, fName || ' ' || lName AS fullName FROM {DatabaseHelper.Table("STAFF")} ORDER BY fName";
+                DataTable staffTable = DatabaseHelper.ExecuteQuery(staffQuery);
+                cbStaff.DisplayMember = "fullName";
+                cbStaff.ValueMember = "sid";
+                cbStaff.DataSource = staffTable;
             }
-
-            cbAnimal.Items.AddRange(animals);
-
-            cbZookeeper.SelectedIndex = 0;
-            cbAnimal.SelectedIndex = 0;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading data: " + ex.Message);
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            string keeper = cbZookeeper.SelectedItem?.ToString();
-            string animal = cbAnimal.SelectedItem?.ToString();
-            string foodType = txtFoodType.Text.Trim();
-            string amountText = txtAmount.Text.Trim();
-            DateTime date = dtpDate.Value;
-            DateTime time = dtpTime.Value;
-
-            if (string.IsNullOrEmpty(keeper) || string.IsNullOrEmpty(animal) ||
-                string.IsNullOrEmpty(foodType) || string.IsNullOrEmpty(amountText))
+            try
             {
-                MessageBox.Show("Please complete all fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                int animalId = Convert.ToInt32(cbAnimal.SelectedValue);
+                int staffId = Convert.ToInt32(cbStaff.SelectedValue);
+                DateTime dateTime = dtpDate.Value;
+                decimal amount = decimal.Parse(txtAmount.Text);
+                string foodType = txtFood.Text.Trim();
 
-            if (!double.TryParse(amountText, out double amount))
+                string query = $"INSERT INTO {DatabaseHelper.Table("FEED")} (animalId, staffId, dateTime, amount, foodType) " +
+                               "VALUES (:animalId, :staffId, :dateTime, :amount, :foodType)";
+
+                OracleParameter[] parameters = new OracleParameter[]
+                {
+                    new OracleParameter("animalId", animalId),
+                    new OracleParameter("staffId", staffId),
+                    new OracleParameter("dateTime", dateTime),
+                    new OracleParameter("amount", amount),
+                    new OracleParameter("foodType", foodType)
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                MessageBox.Show("Feeding record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Amount must be a valid number.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("Error saving feeding record: " + ex.Message);
             }
-
-            // TODO: Add insert to database logic here
-            MessageBox.Show("Feeding record saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FeedingForm_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

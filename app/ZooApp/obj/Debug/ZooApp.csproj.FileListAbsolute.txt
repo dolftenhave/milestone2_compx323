@@ -103,3 +103,4 @@ H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.csproj.CoreCompileInputs.cache
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.csproj.CopyComplete
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.exe
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.pdb
+H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddEnclosureForm.resources
