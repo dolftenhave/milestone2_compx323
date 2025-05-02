@@ -115,6 +115,9 @@ public class parseArgs {
 				case "-p":
 					phone();
 					break;
+				case "-x":
+					feedInterval();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("Argument " + p + ", '" + _args[p] + "' was not in the correct format");
@@ -356,6 +359,11 @@ public class parseArgs {
 
 	private static void phone(){
 		table.add("15");
+		p++;
+	}
+
+	private static void feedInterval(){
+		table.add("16");
 		p++;
 	}
 

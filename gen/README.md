@@ -12,7 +12,9 @@ This program generates a pre defined table that will be used by MakeCSV to gener
 
 #### Usage
 
-`parseArgs <table name> <arguments>`
+`parseArgs <table name> <column names> <arguments>`
+
+_e.g. `java parseArgs out col1 col2 col3 -v 20 -1 10 -F "path/to/file" 3`_
 
 There are several different type of arguments used to greate the data
 
@@ -31,6 +33,7 @@ There are several different type of arguments used to greate the data
 - **bool** `-b` will generate a random integer boolean 0 or 1.
 - **sex** `-g` will add a single char for sex constrained to 'M' or 'F'
 - **phone** `-p` will add a random NZ based phone number (with the exception of an australian country code).
+- **feedInterval** `-x` will add a random hour between 1 and 23.
 
 _Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
@@ -100,6 +103,7 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <output name>`
 | bool        |     13 | 13 | -                      | -                  |
 | sex         |     14 | 14 | -                      | -                  |
 | phone       |     15 | 15 | -                      | -                  |
+| feedInterval|     16 | 16 | -                      | -                  |
 +-------------+--------+----+------------------------+--------------------+
 ```
 
