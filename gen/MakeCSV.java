@@ -66,7 +66,7 @@ public class MakeCSV {
 
 		initializeGenTable(args[1]);
 		makeCSV();
-		System.out.println("MakeCSV: data written too 'csv/" + outputFileName + ".csv'");
+		System.out.println("MakeCSV: data written too '" + outputFileName + ".csv'");
 	}
 
 	/**
@@ -181,11 +181,7 @@ public class MakeCSV {
 	private static void makeCSV() {
 		rand = new Random();
 		try {
-			File csvDir = new File("csv/");
-			if (!csvDir.exists())
-				csvDir.mkdirs();
-
-			out = new BufferedWriter(new FileWriter("csv/" + outputFileName + ".csv"));
+			out = new BufferedWriter(new FileWriter(outputFileName + ".csv"));
 
 			write(csvHeader);
 			out.newLine();
