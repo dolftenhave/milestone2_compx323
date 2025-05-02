@@ -12,7 +12,9 @@ This program generates a pre defined table that will be used by MakeCSV to gener
 
 #### Usage
 
-`parseArgs <table name> <arguments>`
+`parseArgs <table name> <column names> <arguments>`
+
+_e.g. `java parseArgs out col1 col2 col3 -v 20 -1 10 -F "path/to/file" 3`_
 
 There are several different type of arguments used to greate the data
 
