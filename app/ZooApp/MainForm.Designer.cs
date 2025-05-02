@@ -18,31 +18,33 @@
         private void InitializeComponent()
         {
             this.tabFeedingCare = new System.Windows.Forms.TabPage();
-            this.btnRecordCare = new System.Windows.Forms.Button();
-            this.btnRecordFeeding = new System.Windows.Forms.Button();
             this.feedingDataGridView = new System.Windows.Forms.DataGridView();
+            this.btnRecordFeeding = new System.Windows.Forms.Button();
+            this.btnRecordCare = new System.Windows.Forms.Button();
             this.tabStaff = new System.Windows.Forms.TabPage();
-            this.btnAddStaff = new System.Windows.Forms.Button();
-            this.btnRefreshStaff = new System.Windows.Forms.Button();
-            this.cbStaffRoleFilter = new System.Windows.Forms.ComboBox();
-            this.staffDataGridView = new System.Windows.Forms.DataGridView();
-            this.btnSearchStaff = new System.Windows.Forms.Button();
-            this.txtStaffSearch = new System.Windows.Forms.TextBox();
-            this.btnEditStaff = new System.Windows.Forms.Button();
             this.btnZoneCoverage = new System.Windows.Forms.Button();
+            this.btnEditStaff = new System.Windows.Forms.Button();
+            this.txtStaffSearch = new System.Windows.Forms.TextBox();
+            this.btnSearchStaff = new System.Windows.Forms.Button();
+            this.staffDataGridView = new System.Windows.Forms.DataGridView();
+            this.cbStaffRoleFilter = new System.Windows.Forms.ComboBox();
+            this.btnRefreshStaff = new System.Windows.Forms.Button();
+            this.btnAddStaff = new System.Windows.Forms.Button();
             this.tabEnclosures = new System.Windows.Forms.TabPage();
-            this.btnRefreshEnclosures = new System.Windows.Forms.Button();
-            this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
-            this.enclosuresDataGridView = new System.Windows.Forms.DataGridView();
-            this.btnEditEnclosure = new System.Windows.Forms.Button();
+            this.txtSearchEnclosure = new System.Windows.Forms.TextBox();
+            this.btnSearchEnclosures = new System.Windows.Forms.Button();
             this.btnAddEnclosure_Click = new System.Windows.Forms.Button();
+            this.btnEditEnclosure = new System.Windows.Forms.Button();
+            this.enclosuresDataGridView = new System.Windows.Forms.DataGridView();
+            this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
+            this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.tabAnimals = new System.Windows.Forms.TabPage();
-            this.btnRefreshAnimals = new System.Windows.Forms.Button();
-            this.animalsDataGridView = new System.Windows.Forms.DataGridView();
-            this.btnSearchAnimal = new System.Windows.Forms.Button();
-            this.btnAddAnimal = new System.Windows.Forms.Button();
-            this.txtAnimalSearch = new System.Windows.Forms.TextBox();
             this.btnEditAnimal = new System.Windows.Forms.Button();
+            this.txtAnimalSearch = new System.Windows.Forms.TextBox();
+            this.btnAddAnimal = new System.Windows.Forms.Button();
+            this.btnSearchAnimal = new System.Windows.Forms.Button();
+            this.animalsDataGridView = new System.Windows.Forms.DataGridView();
+            this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
@@ -62,18 +64,16 @@
             this.tabFeedingCare.Controls.Add(this.btnRecordCare);
             this.tabFeedingCare.Location = new System.Drawing.Point(4, 22);
             this.tabFeedingCare.Name = "tabFeedingCare";
-            this.tabFeedingCare.Size = new System.Drawing.Size(852, 474);
+            this.tabFeedingCare.Size = new System.Drawing.Size(1177, 767);
             this.tabFeedingCare.TabIndex = 3;
             this.tabFeedingCare.Text = "Feeding / Care";
             // 
-            // btnRecordCare
+            // feedingDataGridView
             // 
-            this.btnRecordCare.Location = new System.Drawing.Point(160, 20);
-            this.btnRecordCare.Name = "btnRecordCare";
-            this.btnRecordCare.Size = new System.Drawing.Size(120, 23);
-            this.btnRecordCare.TabIndex = 2;
-            this.btnRecordCare.Text = "Record Vet Care";
-            this.btnRecordCare.Click += new System.EventHandler(this.btnRecordCare_Click);
+            this.feedingDataGridView.Location = new System.Drawing.Point(20, 60);
+            this.feedingDataGridView.Name = "feedingDataGridView";
+            this.feedingDataGridView.Size = new System.Drawing.Size(1137, 690);
+            this.feedingDataGridView.TabIndex = 0;
             // 
             // btnRecordFeeding
             // 
@@ -84,12 +84,14 @@
             this.btnRecordFeeding.Text = "Record Feeding";
             this.btnRecordFeeding.Click += new System.EventHandler(this.btnRecordFeeding_Click);
             // 
-            // feedingDataGridView
+            // btnRecordCare
             // 
-            this.feedingDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.feedingDataGridView.Name = "feedingDataGridView";
-            this.feedingDataGridView.Size = new System.Drawing.Size(800, 400);
-            this.feedingDataGridView.TabIndex = 0;
+            this.btnRecordCare.Location = new System.Drawing.Point(160, 20);
+            this.btnRecordCare.Name = "btnRecordCare";
+            this.btnRecordCare.Size = new System.Drawing.Size(120, 23);
+            this.btnRecordCare.TabIndex = 2;
+            this.btnRecordCare.Text = "Record Vet Care";
+            this.btnRecordCare.Click += new System.EventHandler(this.btnRecordCare_Click);
             // 
             // tabStaff
             // 
@@ -103,69 +105,9 @@
             this.tabStaff.Controls.Add(this.btnAddStaff);
             this.tabStaff.Location = new System.Drawing.Point(4, 22);
             this.tabStaff.Name = "tabStaff";
-            this.tabStaff.Size = new System.Drawing.Size(852, 474);
+            this.tabStaff.Size = new System.Drawing.Size(1177, 767);
             this.tabStaff.TabIndex = 2;
             this.tabStaff.Text = "Staff";
-            // 
-            // btnAddStaff
-            // 
-            this.btnAddStaff.Location = new System.Drawing.Point(730, 25);
-            this.btnAddStaff.Name = "btnAddStaff";
-            this.btnAddStaff.Size = new System.Drawing.Size(90, 23);
-            this.btnAddStaff.TabIndex = 3;
-            this.btnAddStaff.Text = "Add Staff";
-            this.btnAddStaff.Click += new System.EventHandler(this.btnAddStaff_Click);
-            // 
-            // btnRefreshStaff
-            // 
-            this.btnRefreshStaff.Location = new System.Drawing.Point(411, 25);
-            this.btnRefreshStaff.Name = "btnRefreshStaff";
-            this.btnRefreshStaff.Size = new System.Drawing.Size(75, 23);
-            this.btnRefreshStaff.TabIndex = 2;
-            this.btnRefreshStaff.Text = "Refresh";
-            // 
-            // cbStaffRoleFilter
-            // 
-            this.cbStaffRoleFilter.Location = new System.Drawing.Point(285, 25);
-            this.cbStaffRoleFilter.Name = "cbStaffRoleFilter";
-            this.cbStaffRoleFilter.Size = new System.Drawing.Size(120, 21);
-            this.cbStaffRoleFilter.TabIndex = 1;
-            this.cbStaffRoleFilter.Text = "Role Filter";
-            this.cbStaffRoleFilter.SelectedIndexChanged += new System.EventHandler(this.cbStaffRoleFilter_SelectedIndexChanged);
-            // 
-            // staffDataGridView
-            // 
-            this.staffDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.staffDataGridView.Name = "staffDataGridView";
-            this.staffDataGridView.Size = new System.Drawing.Size(800, 400);
-            this.staffDataGridView.TabIndex = 0;
-            // 
-            // btnSearchStaff
-            // 
-            this.btnSearchStaff.Location = new System.Drawing.Point(204, 23);
-            this.btnSearchStaff.Name = "btnSearchStaff";
-            this.btnSearchStaff.Size = new System.Drawing.Size(75, 23);
-            this.btnSearchStaff.TabIndex = 4;
-            this.btnSearchStaff.Text = "Search";
-            this.btnSearchStaff.UseVisualStyleBackColor = true;
-            this.btnSearchStaff.Click += new System.EventHandler(this.btnSearchStaff_Click);
-            // 
-            // txtStaffSearch
-            // 
-            this.txtStaffSearch.Location = new System.Drawing.Point(20, 23);
-            this.txtStaffSearch.Name = "txtStaffSearch";
-            this.txtStaffSearch.Size = new System.Drawing.Size(178, 20);
-            this.txtStaffSearch.TabIndex = 5;
-            // 
-            // btnEditStaff
-            // 
-            this.btnEditStaff.Location = new System.Drawing.Point(649, 25);
-            this.btnEditStaff.Name = "btnEditStaff";
-            this.btnEditStaff.Size = new System.Drawing.Size(75, 23);
-            this.btnEditStaff.TabIndex = 6;
-            this.btnEditStaff.Text = "Edit Staff";
-            this.btnEditStaff.UseVisualStyleBackColor = true;
-            this.btnEditStaff.Click += new System.EventHandler(this.btnEditStaff_Click);
             // 
             // btnZoneCoverage
             // 
@@ -177,8 +119,70 @@
             this.btnZoneCoverage.UseVisualStyleBackColor = true;
             this.btnZoneCoverage.Click += new System.EventHandler(this.btnZoneCoverage_Click);
             // 
+            // btnEditStaff
+            // 
+            this.btnEditStaff.Location = new System.Drawing.Point(987, 13);
+            this.btnEditStaff.Name = "btnEditStaff";
+            this.btnEditStaff.Size = new System.Drawing.Size(75, 41);
+            this.btnEditStaff.TabIndex = 6;
+            this.btnEditStaff.Text = "Edit Staff";
+            this.btnEditStaff.UseVisualStyleBackColor = true;
+            this.btnEditStaff.Click += new System.EventHandler(this.btnEditStaff_Click);
+            // 
+            // txtStaffSearch
+            // 
+            this.txtStaffSearch.Location = new System.Drawing.Point(20, 23);
+            this.txtStaffSearch.Name = "txtStaffSearch";
+            this.txtStaffSearch.Size = new System.Drawing.Size(178, 20);
+            this.txtStaffSearch.TabIndex = 5;
+            // 
+            // btnSearchStaff
+            // 
+            this.btnSearchStaff.Location = new System.Drawing.Point(204, 23);
+            this.btnSearchStaff.Name = "btnSearchStaff";
+            this.btnSearchStaff.Size = new System.Drawing.Size(75, 23);
+            this.btnSearchStaff.TabIndex = 4;
+            this.btnSearchStaff.Text = "Search";
+            this.btnSearchStaff.UseVisualStyleBackColor = true;
+            this.btnSearchStaff.Click += new System.EventHandler(this.btnSearchStaff_Click);
+            // 
+            // staffDataGridView
+            // 
+            this.staffDataGridView.Location = new System.Drawing.Point(20, 60);
+            this.staffDataGridView.Name = "staffDataGridView";
+            this.staffDataGridView.Size = new System.Drawing.Size(1138, 694);
+            this.staffDataGridView.TabIndex = 0;
+            // 
+            // cbStaffRoleFilter
+            // 
+            this.cbStaffRoleFilter.Location = new System.Drawing.Point(285, 25);
+            this.cbStaffRoleFilter.Name = "cbStaffRoleFilter";
+            this.cbStaffRoleFilter.Size = new System.Drawing.Size(120, 21);
+            this.cbStaffRoleFilter.TabIndex = 1;
+            this.cbStaffRoleFilter.Text = "Role Filter";
+            this.cbStaffRoleFilter.SelectedIndexChanged += new System.EventHandler(this.cbStaffRoleFilter_SelectedIndexChanged);
+            // 
+            // btnRefreshStaff
+            // 
+            this.btnRefreshStaff.Location = new System.Drawing.Point(411, 25);
+            this.btnRefreshStaff.Name = "btnRefreshStaff";
+            this.btnRefreshStaff.Size = new System.Drawing.Size(75, 23);
+            this.btnRefreshStaff.TabIndex = 2;
+            this.btnRefreshStaff.Text = "Refresh";
+            // 
+            // btnAddStaff
+            // 
+            this.btnAddStaff.Location = new System.Drawing.Point(1068, 13);
+            this.btnAddStaff.Name = "btnAddStaff";
+            this.btnAddStaff.Size = new System.Drawing.Size(90, 41);
+            this.btnAddStaff.TabIndex = 3;
+            this.btnAddStaff.Text = "Add Staff";
+            this.btnAddStaff.Click += new System.EventHandler(this.btnAddStaff_Click);
+            // 
             // tabEnclosures
             // 
+            this.tabEnclosures.Controls.Add(this.txtSearchEnclosure);
+            this.tabEnclosures.Controls.Add(this.btnSearchEnclosures);
             this.tabEnclosures.Controls.Add(this.btnAddEnclosure_Click);
             this.tabEnclosures.Controls.Add(this.btnEditEnclosure);
             this.tabEnclosures.Controls.Add(this.enclosuresDataGridView);
@@ -186,51 +190,72 @@
             this.tabEnclosures.Controls.Add(this.btnRefreshEnclosures);
             this.tabEnclosures.Location = new System.Drawing.Point(4, 22);
             this.tabEnclosures.Name = "tabEnclosures";
-            this.tabEnclosures.Size = new System.Drawing.Size(852, 474);
+            this.tabEnclosures.Size = new System.Drawing.Size(1177, 767);
             this.tabEnclosures.TabIndex = 1;
             this.tabEnclosures.Text = "Enclosures";
             // 
-            // btnRefreshEnclosures
+            // txtSearchEnclosure
             // 
-            this.btnRefreshEnclosures.Location = new System.Drawing.Point(160, 20);
-            this.btnRefreshEnclosures.Name = "btnRefreshEnclosures";
-            this.btnRefreshEnclosures.Size = new System.Drawing.Size(75, 23);
-            this.btnRefreshEnclosures.TabIndex = 2;
-            this.btnRefreshEnclosures.Text = "Refresh";
+            this.txtSearchEnclosure.Location = new System.Drawing.Point(16, 20);
+            this.txtSearchEnclosure.Name = "txtSearchEnclosure";
+            this.txtSearchEnclosure.Size = new System.Drawing.Size(148, 20);
+            this.txtSearchEnclosure.TabIndex = 6;
             // 
-            // cbBiomeFilter
+            // btnSearchEnclosures
             // 
-            this.cbBiomeFilter.Location = new System.Drawing.Point(20, 20);
-            this.cbBiomeFilter.Name = "cbBiomeFilter";
-            this.cbBiomeFilter.Size = new System.Drawing.Size(120, 21);
-            this.cbBiomeFilter.TabIndex = 1;
+            this.btnSearchEnclosures.Location = new System.Drawing.Point(170, 19);
+            this.btnSearchEnclosures.Name = "btnSearchEnclosures";
+            this.btnSearchEnclosures.Size = new System.Drawing.Size(75, 23);
+            this.btnSearchEnclosures.TabIndex = 5;
+            this.btnSearchEnclosures.Text = "Search";
+            this.btnSearchEnclosures.UseVisualStyleBackColor = true;
+            this.btnSearchEnclosures.Click += new System.EventHandler(this.btnSearchEnclosures_Click);
             // 
-            // enclosuresDataGridView
+            // btnAddEnclosure_Click
             // 
-            this.enclosuresDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.enclosuresDataGridView.Name = "enclosuresDataGridView";
-            this.enclosuresDataGridView.Size = new System.Drawing.Size(800, 400);
-            this.enclosuresDataGridView.TabIndex = 0;
+            this.btnAddEnclosure_Click.Location = new System.Drawing.Point(1061, 20);
+            this.btnAddEnclosure_Click.Name = "btnAddEnclosure_Click";
+            this.btnAddEnclosure_Click.Size = new System.Drawing.Size(89, 34);
+            this.btnAddEnclosure_Click.TabIndex = 4;
+            this.btnAddEnclosure_Click.Text = "Add Enclosure";
+            this.btnAddEnclosure_Click.UseVisualStyleBackColor = true;
+            this.btnAddEnclosure_Click.Click += new System.EventHandler(this.btnAddEnclosure_Click_Click);
             // 
             // btnEditEnclosure
             // 
-            this.btnEditEnclosure.Location = new System.Drawing.Point(636, 31);
+            this.btnEditEnclosure.Location = new System.Drawing.Point(966, 20);
             this.btnEditEnclosure.Name = "btnEditEnclosure";
-            this.btnEditEnclosure.Size = new System.Drawing.Size(89, 23);
+            this.btnEditEnclosure.Size = new System.Drawing.Size(89, 34);
             this.btnEditEnclosure.TabIndex = 3;
             this.btnEditEnclosure.Text = "Edit Enclosure";
             this.btnEditEnclosure.UseVisualStyleBackColor = true;
             this.btnEditEnclosure.Click += new System.EventHandler(this.btnEditEnclosure_Click);
             // 
-            // btnAddEnclosure_Click
+            // enclosuresDataGridView
             // 
-            this.btnAddEnclosure_Click.Location = new System.Drawing.Point(731, 31);
-            this.btnAddEnclosure_Click.Name = "btnAddEnclosure_Click";
-            this.btnAddEnclosure_Click.Size = new System.Drawing.Size(89, 23);
-            this.btnAddEnclosure_Click.TabIndex = 4;
-            this.btnAddEnclosure_Click.Text = "Add Enclosure";
-            this.btnAddEnclosure_Click.UseVisualStyleBackColor = true;
-            this.btnAddEnclosure_Click.Click += new System.EventHandler(this.btnAddEnclosure_Click_Click);
+            this.enclosuresDataGridView.Location = new System.Drawing.Point(-4, 60);
+            this.enclosuresDataGridView.Name = "enclosuresDataGridView";
+            this.enclosuresDataGridView.Size = new System.Drawing.Size(1154, 688);
+            this.enclosuresDataGridView.TabIndex = 0;
+            // 
+            // cbBiomeFilter
+            // 
+            this.cbBiomeFilter.DisplayMember = "cbBiome Filter";
+            this.cbBiomeFilter.Location = new System.Drawing.Point(332, 19);
+            this.cbBiomeFilter.Name = "cbBiomeFilter";
+            this.cbBiomeFilter.Size = new System.Drawing.Size(120, 21);
+            this.cbBiomeFilter.TabIndex = 1;
+            this.cbBiomeFilter.Text = " Filter By Biome";
+            this.cbBiomeFilter.ValueMember = "Biome";
+            // 
+            // btnRefreshEnclosures
+            // 
+            this.btnRefreshEnclosures.Location = new System.Drawing.Point(251, 20);
+            this.btnRefreshEnclosures.Name = "btnRefreshEnclosures";
+            this.btnRefreshEnclosures.Size = new System.Drawing.Size(75, 23);
+            this.btnRefreshEnclosures.TabIndex = 2;
+            this.btnRefreshEnclosures.Text = "Refresh";
+            this.btnRefreshEnclosures.Click += new System.EventHandler(this.btnRefreshEnclosures_Click_1);
             // 
             // tabAnimals
             // 
@@ -242,42 +267,19 @@
             this.tabAnimals.Controls.Add(this.btnRefreshAnimals);
             this.tabAnimals.Location = new System.Drawing.Point(4, 22);
             this.tabAnimals.Name = "tabAnimals";
-            this.tabAnimals.Size = new System.Drawing.Size(852, 474);
+            this.tabAnimals.Size = new System.Drawing.Size(1177, 767);
             this.tabAnimals.TabIndex = 0;
             this.tabAnimals.Text = "Animals";
             // 
-            // btnRefreshAnimals
+            // btnEditAnimal
             // 
-            this.btnRefreshAnimals.Location = new System.Drawing.Point(267, 17);
-            this.btnRefreshAnimals.Name = "btnRefreshAnimals";
-            this.btnRefreshAnimals.Size = new System.Drawing.Size(75, 23);
-            this.btnRefreshAnimals.TabIndex = 3;
-            this.btnRefreshAnimals.Text = "Refresh";
-            // 
-            // animalsDataGridView
-            // 
-            this.animalsDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.animalsDataGridView.Name = "animalsDataGridView";
-            this.animalsDataGridView.Size = new System.Drawing.Size(800, 400);
-            this.animalsDataGridView.TabIndex = 0;
-            // 
-            // btnSearchAnimal
-            // 
-            this.btnSearchAnimal.Location = new System.Drawing.Point(186, 17);
-            this.btnSearchAnimal.Name = "btnSearchAnimal";
-            this.btnSearchAnimal.Size = new System.Drawing.Size(75, 23);
-            this.btnSearchAnimal.TabIndex = 5;
-            this.btnSearchAnimal.Text = "Search";
-            this.btnSearchAnimal.Click += new System.EventHandler(this.btnSearchAnimal_Click);
-            // 
-            // btnAddAnimal
-            // 
-            this.btnAddAnimal.Location = new System.Drawing.Point(730, 18);
-            this.btnAddAnimal.Name = "btnAddAnimal";
-            this.btnAddAnimal.Size = new System.Drawing.Size(90, 23);
-            this.btnAddAnimal.TabIndex = 4;
-            this.btnAddAnimal.Text = "Add Animal";
-            this.btnAddAnimal.Click += new System.EventHandler(this.btnAddAnimal_Click);
+            this.btnEditAnimal.Location = new System.Drawing.Point(984, 17);
+            this.btnEditAnimal.Name = "btnEditAnimal";
+            this.btnEditAnimal.Size = new System.Drawing.Size(75, 37);
+            this.btnEditAnimal.TabIndex = 6;
+            this.btnEditAnimal.Text = "Edit Animal";
+            this.btnEditAnimal.UseVisualStyleBackColor = true;
+            this.btnEditAnimal.Click += new System.EventHandler(this.btnEditAnimal_Click);
             // 
             // txtAnimalSearch
             // 
@@ -286,16 +288,44 @@
             this.txtAnimalSearch.Size = new System.Drawing.Size(160, 20);
             this.txtAnimalSearch.TabIndex = 0;
             this.txtAnimalSearch.Text = "Search Animal here";
+            this.txtAnimalSearch.MouseEnter += new System.EventHandler(this.txtAnimalSearch_Enter);
+            this.txtAnimalSearch.MouseLeave += new System.EventHandler(this.txtAnimalSearch_Leave);
             // 
-            // btnEditAnimal
+            // btnAddAnimal
             // 
-            this.btnEditAnimal.Location = new System.Drawing.Point(649, 19);
-            this.btnEditAnimal.Name = "btnEditAnimal";
-            this.btnEditAnimal.Size = new System.Drawing.Size(75, 23);
-            this.btnEditAnimal.TabIndex = 6;
-            this.btnEditAnimal.Text = "Edit Animal";
-            this.btnEditAnimal.UseVisualStyleBackColor = true;
-            this.btnEditAnimal.Click += new System.EventHandler(this.btnEditAnimal_Click);
+            this.btnAddAnimal.Location = new System.Drawing.Point(1065, 17);
+            this.btnAddAnimal.Name = "btnAddAnimal";
+            this.btnAddAnimal.Size = new System.Drawing.Size(90, 37);
+            this.btnAddAnimal.TabIndex = 4;
+            this.btnAddAnimal.Text = "Add Animal";
+            this.btnAddAnimal.Click += new System.EventHandler(this.btnAddAnimal_Click);
+            // 
+            // btnSearchAnimal
+            // 
+            this.btnSearchAnimal.Location = new System.Drawing.Point(186, 17);
+            this.btnSearchAnimal.Name = "btnSearchAnimal";
+            this.btnSearchAnimal.Size = new System.Drawing.Size(75, 22);
+            this.btnSearchAnimal.TabIndex = 5;
+            this.btnSearchAnimal.Text = "Search";
+            this.btnSearchAnimal.Click += new System.EventHandler(this.btnSearchAnimal_Click);
+            // 
+            // animalsDataGridView
+            // 
+            this.animalsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.animalsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.animalsDataGridView.Location = new System.Drawing.Point(20, 60);
+            this.animalsDataGridView.Name = "animalsDataGridView";
+            this.animalsDataGridView.Size = new System.Drawing.Size(1135, 695);
+            this.animalsDataGridView.TabIndex = 0;
+            // 
+            // btnRefreshAnimals
+            // 
+            this.btnRefreshAnimals.Location = new System.Drawing.Point(267, 17);
+            this.btnRefreshAnimals.Name = "btnRefreshAnimals";
+            this.btnRefreshAnimals.Size = new System.Drawing.Size(75, 22);
+            this.btnRefreshAnimals.TabIndex = 3;
+            this.btnRefreshAnimals.Text = "Refresh";
+            this.btnRefreshAnimals.Click += new System.EventHandler(this.btnRefreshAnimals_Click_1);
             // 
             // tabMain
             // 
@@ -306,12 +336,12 @@
             this.tabMain.Location = new System.Drawing.Point(12, 12);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(860, 500);
+            this.tabMain.Size = new System.Drawing.Size(1185, 793);
             this.tabMain.TabIndex = 0;
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(884, 561);
+            this.ClientSize = new System.Drawing.Size(1209, 817);
             this.Controls.Add(this.tabMain);
             this.Name = "MainForm";
             this.Text = "Zoo Management System";
@@ -322,6 +352,7 @@
             this.tabStaff.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.staffDataGridView)).EndInit();
             this.tabEnclosures.ResumeLayout(false);
+            this.tabEnclosures.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.enclosuresDataGridView)).EndInit();
             this.tabAnimals.ResumeLayout(false);
             this.tabAnimals.PerformLayout();
@@ -361,5 +392,7 @@
         private System.Windows.Forms.DataGridView animalsDataGridView;
         private System.Windows.Forms.Button btnRefreshAnimals;
         private System.Windows.Forms.TabControl tabMain;
+        private System.Windows.Forms.Button btnSearchEnclosures;
+        private System.Windows.Forms.TextBox txtSearchEnclosure;
     }
 }

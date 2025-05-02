@@ -1,6 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ZooApp
@@ -26,23 +27,61 @@ namespace ZooApp
             {
                 MessageBox.Show($"Failed to load data: {ex.Message}", "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            txtAnimalSearch.Text = "Search Animal here";
+            txtAnimalSearch.ForeColor = Color.Gray;
         }
 
         // --------- Loaders ---------
-        private void LoadAnimals()
+        private void LoadAnimals(string nameFilter = "")
         {
-            string query = $"SELECT * FROM {DatabaseHelper.Table("ANIMAL")}";
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            animalsDataGridView.AutoGenerateColumns = true;
-            animalsDataGridView.DataSource = dt;
+            try
+            {
+                string query = $@"
+                    SELECT 
+                        a.aid,
+                        a.name,
+                        a.sex,
+                        a.dob,
+                        a.weight,
+                        a.feedingInterval,
+                        a.originCountry,
+                        a.enclosureID,
+                        e.biome,
+                        e.zoneName,
+                        a.speciesName,
+                        sg.commonName AS speciesGroup
+                    FROM {DatabaseHelper.Table("ANIMAL")} a
+                    LEFT JOIN {DatabaseHelper.Table("ENCLOSURE")} e ON a.enclosureID = e.eid
+                    LEFT JOIN {DatabaseHelper.Table("SPECIES")} s ON a.speciesName = s.latinName
+                    LEFT JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg ON s.speciesGroup = sg.latinName
+                    WHERE 1=1";
+
+                if (!string.IsNullOrWhiteSpace(nameFilter))
+                {
+                    query += $" AND LOWER(a.name) LIKE '%{nameFilter.ToLower()}%'";
+                }
+
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                animalsDataGridView.AutoGenerateColumns = true;
+                animalsDataGridView.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading animals: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void LoadEnclosures()
         {
-            string query = $"SELECT * FROM {DatabaseHelper.Table("ENCLOSURE")}";
+            string query = $"SELECT e.eid, e.biome, e.esize, z.name AS zoneName " +
+                           $"FROM {DatabaseHelper.Table("ENCLOSURE")} e " +
+                           $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name";
+
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            enclosuresDataGridView.AutoGenerateColumns = true;
             enclosuresDataGridView.DataSource = dt;
+            
+            PopulateBiomeFilter(); // include this here
         }
 
         private void LoadStaff(string nameFilter = "", string roleFilter = "")
@@ -226,7 +265,8 @@ namespace ZooApp
 
         private void btnSearchAnimal_Click(object sender, EventArgs e)
         {
-            // Optional: implement animal search by name
+            string searchName = txtAnimalSearch.Text.Trim();
+            LoadAnimals(searchName);
         }
 
         private void btnAddEnclosure_Click_Click(object sender, EventArgs e)
@@ -274,5 +314,76 @@ namespace ZooApp
             new ZoneCoverageForm(sid).ShowDialog();
         }
 
+        private void txtAnimalSearch_Enter(object sender, EventArgs e)
+        {
+            if (txtAnimalSearch.Text == "Search Animal here")
+            {
+                txtAnimalSearch.Text = "";
+                txtAnimalSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtAnimalSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtAnimalSearch.Text))
+            {
+                txtAnimalSearch.Text = "Search Animal here";
+                txtAnimalSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void btnRefreshAnimals_Click_1(object sender, EventArgs e)
+        {
+            txtAnimalSearch.Text = "Search Animal here";
+            txtAnimalSearch.ForeColor = Color.Gray;
+            LoadAnimals(); 
+        }
+
+
+        private void btnSearchEnclosures_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearchEnclosure.Text.Trim().ToLower();
+            string selectedBiome = cbBiomeFilter.SelectedItem?.ToString();
+
+            string query = $"SELECT e.eid, e.biome, e.esize, z.name AS zoneName " +
+                           $"FROM {DatabaseHelper.Table("ENCLOSURE")} e " +
+                           $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name " +
+                           $"WHERE 1=1 ";
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                query += $"AND (LOWER(e.biome) LIKE '%{searchText}%' OR LOWER(z.name) LIKE '%{searchText}%') ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(selectedBiome) && selectedBiome != "All")
+            {
+                query += $"AND e.biome = '{selectedBiome}' ";
+            }
+
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            enclosuresDataGridView.DataSource = dt;
+        }
+        private void PopulateBiomeFilter()
+        {
+            string query = $"SELECT DISTINCT biome FROM {DatabaseHelper.Table("ENCLOSURE")}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+
+            cbBiomeFilter.Items.Clear();
+            cbBiomeFilter.Items.Add("All");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                cbBiomeFilter.Items.Add(row["biome"].ToString());
+            }
+
+            cbBiomeFilter.SelectedIndex = 0;
+        }
+
+        private void btnRefreshEnclosures_Click_1(object sender, EventArgs e)
+        {
+            txtSearchEnclosure.Clear();
+            cbBiomeFilter.SelectedIndex = 0;
+            LoadEnclosures();
+        }
     }
 }

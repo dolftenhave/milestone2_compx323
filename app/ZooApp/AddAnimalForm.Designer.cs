@@ -61,6 +61,7 @@
             // 
             // cbSex
             // 
+            this.cbSex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSex.Location = new System.Drawing.Point(150, 140);
             this.cbSex.Name = "cbSex";
             this.cbSex.Size = new System.Drawing.Size(200, 21);
@@ -68,6 +69,7 @@
             // 
             // cbEnclosure
             // 
+            this.cbEnclosure.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEnclosure.Location = new System.Drawing.Point(150, 180);
             this.cbEnclosure.Name = "cbEnclosure";
             this.cbEnclosure.Size = new System.Drawing.Size(200, 21);
@@ -114,33 +116,77 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // Labels
+            // lblAnimalName
             // 
             this.lblAnimalName.AutoSize = true;
             this.lblAnimalName.Location = new System.Drawing.Point(20, 20);
+            this.lblAnimalName.Name = "lblAnimalName";
+            this.lblAnimalName.Size = new System.Drawing.Size(72, 13);
+            this.lblAnimalName.TabIndex = 0;
             this.lblAnimalName.Text = "Animal Name:";
+            // 
+            // lblSpecies
+            // 
             this.lblSpecies.AutoSize = true;
             this.lblSpecies.Location = new System.Drawing.Point(20, 60);
+            this.lblSpecies.Name = "lblSpecies";
+            this.lblSpecies.Size = new System.Drawing.Size(80, 13);
+            this.lblSpecies.TabIndex = 1;
             this.lblSpecies.Text = "Species (Latin):";
+            // 
+            // lblDOB
+            // 
             this.lblDOB.AutoSize = true;
             this.lblDOB.Location = new System.Drawing.Point(20, 100);
+            this.lblDOB.Name = "lblDOB";
+            this.lblDOB.Size = new System.Drawing.Size(69, 13);
+            this.lblDOB.TabIndex = 2;
             this.lblDOB.Text = "Date of Birth:";
+            // 
+            // lblSex
+            // 
             this.lblSex.AutoSize = true;
             this.lblSex.Location = new System.Drawing.Point(20, 140);
+            this.lblSex.Name = "lblSex";
+            this.lblSex.Size = new System.Drawing.Size(28, 13);
+            this.lblSex.TabIndex = 3;
             this.lblSex.Text = "Sex:";
+            // 
+            // lblEnclosure
+            // 
             this.lblEnclosure.AutoSize = true;
             this.lblEnclosure.Location = new System.Drawing.Point(20, 180);
+            this.lblEnclosure.Name = "lblEnclosure";
+            this.lblEnclosure.Size = new System.Drawing.Size(57, 13);
+            this.lblEnclosure.TabIndex = 4;
             this.lblEnclosure.Text = "Enclosure:";
+            // 
+            // lblFeedingInterval
+            // 
             this.lblFeedingInterval.AutoSize = true;
             this.lblFeedingInterval.Location = new System.Drawing.Point(20, 220);
+            this.lblFeedingInterval.Name = "lblFeedingInterval";
+            this.lblFeedingInterval.Size = new System.Drawing.Size(86, 13);
+            this.lblFeedingInterval.TabIndex = 5;
             this.lblFeedingInterval.Text = "Feeding Interval:";
+            // 
+            // lblWeight
+            // 
             this.lblWeight.AutoSize = true;
             this.lblWeight.Location = new System.Drawing.Point(20, 260);
+            this.lblWeight.Name = "lblWeight";
+            this.lblWeight.Size = new System.Drawing.Size(65, 13);
+            this.lblWeight.TabIndex = 6;
             this.lblWeight.Text = "Weight (kg):";
+            // 
+            // lblCountry
+            // 
             this.lblCountry.AutoSize = true;
             this.lblCountry.Location = new System.Drawing.Point(20, 300);
+            this.lblCountry.Name = "lblCountry";
+            this.lblCountry.Size = new System.Drawing.Size(129, 13);
+            this.lblCountry.TabIndex = 7;
             this.lblCountry.Text = "Country of Origin (3-letter):";
-
             // 
             // AddAnimalForm
             // 
@@ -168,6 +214,7 @@
             this.Load += new System.EventHandler(this.AddAnimalForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

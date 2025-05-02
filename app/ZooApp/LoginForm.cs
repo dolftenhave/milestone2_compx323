@@ -15,7 +15,7 @@ namespace ZooApp
         private void LoginForm_Load(object sender, EventArgs e)
         {
             cbDataset.Items.Add("Small Dataset (M2S)");
-            cbDataset.Items.Add("Big Dataset (M21)");
+            cbDataset.Items.Add("Large Dataset (M2L)");
             cbDataset.SelectedIndex = 0;
         }
 
@@ -24,7 +24,7 @@ namespace ZooApp
             try
             {
                 string selected = cbDataset.SelectedItem.ToString();
-                string prefix = selected.Contains("M21") ? "M21" : "M2S";
+                string prefix = selected.Contains("M2L") ? "M2L" : "M2S";
 
                 DatabaseHelper.SetTablePrefix(prefix);
                 string query = $"SELECT COUNT(*) FROM {DatabaseHelper.Table("ANIMAL")}";
