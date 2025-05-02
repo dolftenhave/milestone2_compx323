@@ -357,18 +357,25 @@ public class MakeCSV {
 	private static void seqVarchar() {
 		int p = genTable[row][1];
 		for (int i = 0; i < seqVarchar[0].length; i++) {
-
 			write(charSet[seqVarchar[p][i] % 52]);
-			if (i == seqVarchar[p].length - 1)
-				seqVarchar[p][seqVarchar[p].length - 1]++;
-			// If the current number rolls over back to zero, then increase the previous
-			// number
-			// in array by 1. Unless this is the last position
-			if (seqVarchar[p][i] > 0 && seqVarchar[p][i] % charSet.length == 0) {
-				if (i != 0)
-					seqVarchar[p][(i - 1) % genTable[row][2]]++;
-			}
+		}
+		
+		//attempt to increase thenext character
+		increaseChar(p, genTable[row][2] -1);
+	}
 
+	private static void increaseChar(int p, int i){
+		//If the last item in the list is reached, call the first item instead.
+		if(i < 0)
+			increaseChar(p, genTable[row][2] - 1);
+
+		//Increase the count of the current item
+		seqVarchar[p][i]++;
+
+		//If the character is back to the start character but it has been incremented before
+		//Increase the next character
+		if(seqVarchar[p][i] % charSet.length == 0 && seqVarchar[p][i] > 0){
+			increaseChar(p,i-1);
 		}
 	}
 
