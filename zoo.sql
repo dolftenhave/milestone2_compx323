@@ -1,19 +1,63 @@
-/*
-DROP TABLE m2s_Ate;
-DROP TABLE m2s_Care;
-DROP TABLE m2s_Oversees;
-DROP TABLE m2s_Staff;
-DROP TABLE m2s_Animal;
-DROP TABLE m2s_Species;
-DROP TABLE m2s_Enclosure;
-DROP TABLE m2s_Zone;
-DROP TABLE m2s_SpeciesGroup;
-*/
+-- Drop tables safely (if they exist)
+BEGIN
+
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Feed CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Care CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Oversees CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Animal CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Species CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Enclosure CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Zone CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_SpeciesGroup CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2s_Staff CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
 
 CREATE TABLE m2s_SpeciesGroup(
     latinName VARCHAR(30) PRIMARY KEY, 
     commonName VARCHAR(30) NOT NULL
-;
+);
 
 CREATE TABLE m2s_Zone(
     name VARCHAR(30) PRIMARY KEY,
@@ -26,7 +70,7 @@ CREATE TABLE m2s_Enclosure(
     biome VARCHAR(15) NOT NULL,
     eSize INTEGER NOT NULL,
     zoneName VARCHAR(30) NOT NULL,
-    CONSTRAINT zoneCheck
+    CONSTRAINT m2s_Enclosure_zoneCheck
         FOREIGN KEY (zoneName) REFERENCES m2s_Zone(name)
         ON DELETE SET NULL
 );
@@ -36,78 +80,55 @@ CREATE TABLE m2s_Species(
     commonName VARCHAR(30) NOT NULL,
     requiredBiome VARCHAR(15) NOT NULL,
     speciesGroup VARCHAR(30) NOT NULL,
-    CONSTRAINT speciesGroupCheck
+    CONSTRAINT m2s_Species_speciesGroupCheck
         FOREIGN KEY (speciesGroup) REFERENCES m2s_SpeciesGroup(latinName)
         ON DELETE CASCADE
 );
 
-CREATE TABLE m2s_Animal(
-    aid INTEGER PRIMARY KEY,
-    -- F for female, T for male
-    sex BOOLEAN NOT NULL,
-    feedingInterval INTEGER NOT NULL,
-    name VARCHAR(30) NOT NULL,
-    -- Heaviest land animal: elephant (can be 10t!)
-    -- Measured in g, to 2dp because of exceptionally light animals
-    weight DECIMAL(10,2) NOT NULL,
-    -- Follows standardised three letter codes for each country
-    -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-    -- For unknown origin, use code 'XXX'
-    originCountry CHAR(3) NOT NULL,
+CREATE TABLE m2s_Staff(
+	sid INTEGER PRIMARY KEY,
+    fName VARCHAR2(20) NOT NULL,
+    lName VARCHAR2(20) NOT NULL,
     dob DATE NOT NULL,
-    enclosureID INTEGER NOT NULL,
-    speciesName VARCHAR(30) NOT NULL,
-
-    CONSTRAINT feedingIntervalCheck
-        CHECK (feedingInterval > 0),
-
-    CONSTRAINT weightCheck
-        CHECK (weight > 0),
-
-    CONSTRAINT countryCodeLengthCheck
-        CHECK (length(originCountry) = 3),
-
-    CONSTRAINT animalEnclosureCheck
-        FOREIGN KEY (enclosureID) REFERENCES m2s_Enclosure(eid)
-        ON DELETE SET NULL,
-
-    CONSTRAINT speciesNameCheck
-        FOREIGN KEY (speciesName) REFERENCES m2s_Species(latinName)
-        ON DELETE CASCADE
+   
+    phNumber VARCHAR2(13) NOT NULL,
+    email VARCHAR2(320) NOT NULL,
+    streetNumber INTEGER NOT NULL,
+    streetName VARCHAR2(30) NOT NULL,
+    suburb VARCHAR2(30) NOT NULL,
+    city VARCHAR2(30) NOT NULL,
+    postCode VARCHAR2(4) NOT NULL,
+    clinic VARCHAR2(50),
+    sex CHAR(1) CHECK (sex IN ('F','M')) NOT NULL,
+    CONSTRAINT m2s_staff_dobCheck CHECK (dob > TO_DATE('1900-01-01', 'YYYY-MM-DD'))
 );
 
-CREATE TABLE m2s_Staff(
-    sid INTEGER PRIMARY KEY,
-    fName VARCHAR(20) NOT NULL,
-    lName VARCHAR(20) NOT NULL,
+CREATE TABLE m2s_Animal(
+    aid INTEGER PRIMARY KEY,
+    sex CHAR(1) CHECK (sex IN ('F','M')) NOT NULL,
+    feedingInterval INTEGER NOT NULL,
+    name VARCHAR2(30) NOT NULL,
+    weight DECIMAL(10,2) NOT NULL,
+    originCountry CHAR(3) NOT NULL,
     dob DATE NOT NULL,
-    -- Phone number is vharchar because of the posibility of '+' or leading 0's 
-	-- In new zealand the maxum length of a phone number is 0+10 digits. In the case of a leading international number th e0 is replaced with +64 to indicate New Zealand. Hence the length of 13.
-    phNumber VARCHAR(13) NOT NULL,
-    email VARCHAR(320) NOT NULL,
-
-	-- Normalised address
-	streetNumber INT NOT NULL,
-	streetName VARCHAR(30) NOT NULL,
-	suburb VARCHAR(30) NOT NULL,
-	city VARCHAR(30) NOT NULL,
-	postCode VARCHAR (4) NOT NULL,
-
-    clinic VARCHAR (50),
-
-    CONSTRAINT reasonableStaffDateOB
-        CHECK (dob > TO_DATE('1900.01.01', 'YYYY.MM.DD'))
+    enclosureID INTEGER,
+    speciesName VARCHAR2(30) NOT NULL,
+    CONSTRAINT m2s_Animal_feedingInterval CHECK (feedingInterval > 0),
+    CONSTRAINT m2s_Animal_weight CHECK (weight > 0),
+    CONSTRAINT m2s_Animal_originCountry CHECK (LENGTH(originCountry) = 3),
+    CONSTRAINT m2s_Animal_enclosureID FOREIGN KEY (enclosureID) REFERENCES m2s_Enclosure(eid) ON DELETE SET NULL,
+    CONSTRAINT m2s_Animal_speciesName FOREIGN KEY (speciesName) REFERENCES m2s_Species(latinName) ON DELETE CASCADE
 );
 
 CREATE TABLE m2s_Oversees(
     sGroupName VARCHAR(30),
     staffID INTEGER,
     PRIMARY KEY (sGroupName, staffID),
-    CONSTRAINT checkValidSGroup
+    CONSTRAINT m2s_Oversees_checkValidSGroup
         FOREIGN KEY (sGroupName) REFERENCES m2s_SpeciesGroup(latinName)
         ON DELETE CASCADE,
-    CONSTRAINT checkValidStaffID
-        FOREIGN KEY (staffID) REFERENCES m2s_Zookeeper(sid)
+    CONSTRAINT m2s_Oversees_checkValidStaffID
+        FOREIGN KEY (staffID) REFERENCES m2s_Staff(sid)
         ON DELETE CASCADE
 );
 
@@ -115,54 +136,87 @@ CREATE TABLE m2s_Care(
     staffID INTEGER,
     animalID INTEGER,
     dateTime TIMESTAMP,
-    care VARCHAR(30) NOT NULL,
-    notes VARCHAR(300),
+    care VARCHAR2(30) NOT NULL,
+    notes VARCHAR2(300),
     PRIMARY KEY (staffID, animalID, dateTime),
-    CONSTRAINT checkValidStaffID2
-        FOREIGN KEY (staffID) REFERENCES m2s_Vet(sid)
-        -- Unsure about if this is valid (staffID part of primary key)
-        ON DELETE SET NULL,
-    CONSTRAINT checkValidAnimalID
-        FOREIGN KEY (animalID) REFERENCES m2s_Animal(aid)
-        ON DELETE CASCADE
+    CONSTRAINT m2s_fk_staffID_care FOREIGN KEY (staffID) REFERENCES m2s_Staff(sid) ON DELETE SET NULL,
+    CONSTRAINT m2s_fk_animalID_care FOREIGN KEY (animalID) REFERENCES m2s_Animal(aid) ON DELETE CASCADE
 );
 
 CREATE TABLE m2s_Feed(
     staffID INTEGER,
     animalID INTEGER,
     dateTime TIMESTAMP,
-    -- Amount in grams
     amount DECIMAL(5,2) NOT NULL,
-    foodType VARCHAR(15) NOT NULL,
+    foodType VARCHAR2(15) NOT NULL,
     PRIMARY KEY (staffID, animalID, dateTime),
-    CONSTRAINT checkValidStaffID3
-        FOREIGN KEY (staffID) REFERENCES m2s_Zookeeper(sid)
-        -- Unsure about if this is valid (staffID part of primary key)
-        ON DELETE SET NULL,
-    CONSTRAINT checkValidAnimalID2
-        FOREIGN KEY (animalID) REFERENCES m2s_Animal(aid)
-        ON DELETE CASCADE
+    CONSTRAINT m2s_feed_StaffIdCheck FOREIGN KEY (staffID) REFERENCES m2s_Staff(sid) ON DELETE SET NULL,
+    CONSTRAINT m2s_feed_animalID FOREIGN KEY (animalID) REFERENCES m2s_Animal(aid) ON DELETE CASCADE
 );
 
 --------------------------------------------------
 -- Tables for large dataset
 -------------------------------------------------
-/*
-DROP TABLE m2l_Ate;
-DROP TABLE m2l_Care;
-DROP TABLE m2l_Oversees;
-DROP TABLE m2l_Staff;
-DROP TABLE m2l_Animal;
-DROP TABLE m2l_Species;
-DROP TABLE m2l_Enclosure;
-DROP TABLE m2l_Zone;
-DROP TABLE m2l_SpeciesGroup;
-*/
+-- Drop tables safely (if they exist)
+BEGIN
+
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Feed CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Care CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Oversees CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Animal CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Species CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Enclosure CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Zone CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_SpeciesGroup CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE m2l_Staff CASCADE CONSTRAINTS';
+EXCEPTION WHEN OTHERS THEN NULL;
+END;
+/
 
 CREATE TABLE m2l_SpeciesGroup(
     latinName VARCHAR(30) PRIMARY KEY, 
     commonName VARCHAR(30) NOT NULL
-;
+);
 
 CREATE TABLE m2l_Zone(
     name VARCHAR(30) PRIMARY KEY,
@@ -175,7 +229,7 @@ CREATE TABLE m2l_Enclosure(
     biome VARCHAR(15) NOT NULL,
     eSize INTEGER NOT NULL,
     zoneName VARCHAR(30) NOT NULL,
-    CONSTRAINT zoneCheck
+    CONSTRAINT m2l_Enclosure_zoneCheck
         FOREIGN KEY (zoneName) REFERENCES m2l_Zone(name)
         ON DELETE SET NULL
 );
@@ -185,78 +239,55 @@ CREATE TABLE m2l_Species(
     commonName VARCHAR(30) NOT NULL,
     requiredBiome VARCHAR(15) NOT NULL,
     speciesGroup VARCHAR(30) NOT NULL,
-    CONSTRAINT speciesGroupCheck
+    CONSTRAINT m2l_Species_speciesGroupCheck
         FOREIGN KEY (speciesGroup) REFERENCES m2l_SpeciesGroup(latinName)
         ON DELETE CASCADE
 );
 
-CREATE TABLE m2l_Animal(
-    aid INTEGER PRIMARY KEY,
-    -- F for female, T for male
-    sex BOOLEAN NOT NULL,
-    feedingInterval INTEGER NOT NULL,
-    name VARCHAR(30) NOT NULL,
-    -- Heaviest land animal: elephant (can be 10t!)
-    -- Measured in g, to 2dp because of exceptionally light animals
-    weight DECIMAL(10,2) NOT NULL,
-    -- Follows standardised three letter codes for each country
-    -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-    -- For unknown origin, use code 'XXX'
-    originCountry CHAR(3) NOT NULL,
+CREATE TABLE m2l_Staff(
+	sid INTEGER PRIMARY KEY,
+    fName VARCHAR2(20) NOT NULL,
+    lName VARCHAR2(20) NOT NULL,
     dob DATE NOT NULL,
-    enclosureID INTEGER NOT NULL,
-    speciesName VARCHAR(30) NOT NULL,
-
-    CONSTRAINT feedingIntervalCheck
-        CHECK (feedingInterval > 0),
-
-    CONSTRAINT weightCheck
-        CHECK (weight > 0),
-
-    CONSTRAINT countryCodeLengthCheck
-        CHECK (length(originCountry) = 3),
-
-    CONSTRAINT animalEnclosureCheck
-        FOREIGN KEY (enclosureID) REFERENCES m2l_Enclosure(eid)
-        ON DELETE SET NULL,
-
-    CONSTRAINT speciesNameCheck
-        FOREIGN KEY (speciesName) REFERENCES m2l_Species(latinName)
-        ON DELETE CASCADE
+   
+    phNumber VARCHAR2(13) NOT NULL,
+    email VARCHAR2(320) NOT NULL,
+    streetNumber INTEGER NOT NULL,
+    streetName VARCHAR2(30) NOT NULL,
+    suburb VARCHAR2(30) NOT NULL,
+    city VARCHAR2(30) NOT NULL,
+    postCode VARCHAR2(4) NOT NULL,
+    clinic VARCHAR2(50),
+    sex CHAR(1) CHECK (sex IN ('F','M')) NOT NULL,
+    CONSTRAINT m2l_staff_dobCheck CHECK (dob > TO_DATE('1900-01-01', 'YYYY-MM-DD'))
 );
 
-CREATE TABLE m2l_Staff(
-    sid INTEGER PRIMARY KEY,
-    fName VARCHAR(20) NOT NULL,
-    lName VARCHAR(20) NOT NULL,
+CREATE TABLE m2l_Animal(
+    aid INTEGER PRIMARY KEY,
+    sex CHAR(1) CHECK (sex IN ('F','M')) NOT NULL,
+    feedingInterval INTEGER NOT NULL,
+    name VARCHAR2(30) NOT NULL,
+    weight DECIMAL(10,2) NOT NULL,
+    originCountry CHAR(3) NOT NULL,
     dob DATE NOT NULL,
-    -- Phone number is vharchar because of the posibility of '+' or leading 0's 
-	-- In new zealand the maxum length of a phone number is 0+10 digits. In the case of a leading international number th e0 is replaced with +64 to indicate New Zealand. Hence the length of 13.
-    phNumber VARCHAR(13) NOT NULL,
-    email VARCHAR(320) NOT NULL,
-
-	-- Normalised address
-	streetNumber INT NOT NULL,
-	streetName VARCHAR(30) NOT NULL,
-	suburb VARCHAR(30) NOT NULL,
-	city VARCHAR(30) NOT NULL,
-	postCode VARCHAR (4) NOT NULL,
-
-    clinic VARCHAR (50),
-
-    CONSTRAINT reasonableStaffDateOB
-        CHECK (dob > TO_DATE('1900.01.01', 'YYYY.MM.DD'))
+    enclosureID INTEGER,
+    speciesName VARCHAR2(30) NOT NULL,
+    CONSTRAINT m2l_Animal_feedingInterval CHECK (feedingInterval > 0),
+    CONSTRAINT m2l_Animal_weight CHECK (weight > 0),
+    CONSTRAINT m2l_Animal_originCountry CHECK (LENGTH(originCountry) = 3),
+    CONSTRAINT m2l_Animal_enclosureID FOREIGN KEY (enclosureID) REFERENCES m2l_Enclosure(eid) ON DELETE SET NULL,
+    CONSTRAINT m2l_Animal_speciesName FOREIGN KEY (speciesName) REFERENCES m2l_Species(latinName) ON DELETE CASCADE
 );
 
 CREATE TABLE m2l_Oversees(
     sGroupName VARCHAR(30),
     staffID INTEGER,
     PRIMARY KEY (sGroupName, staffID),
-    CONSTRAINT checkValidSGroup
+    CONSTRAINT m2l_Oversees_checkValidSGroup
         FOREIGN KEY (sGroupName) REFERENCES m2l_SpeciesGroup(latinName)
         ON DELETE CASCADE,
-    CONSTRAINT checkValidStaffID
-        FOREIGN KEY (staffID) REFERENCES m2l_Zookeeper(sid)
+    CONSTRAINT m2l_Oversees_checkValidStaffID
+        FOREIGN KEY (staffID) REFERENCES m2l_Staff(sid)
         ON DELETE CASCADE
 );
 
@@ -264,31 +295,20 @@ CREATE TABLE m2l_Care(
     staffID INTEGER,
     animalID INTEGER,
     dateTime TIMESTAMP,
-    care VARCHAR(30) NOT NULL,
-    notes VARCHAR(300),
+    care VARCHAR2(30) NOT NULL,
+    notes VARCHAR2(300),
     PRIMARY KEY (staffID, animalID, dateTime),
-    CONSTRAINT checkValidStaffID2
-        FOREIGN KEY (staffID) REFERENCES m2l_Vet(sid)
-        -- Unsure about if this is valid (staffID part of primary key)
-        ON DELETE SET NULL,
-    CONSTRAINT checkValidAnimalID
-        FOREIGN KEY (animalID) REFERENCES m2l_Animal(aid)
-        ON DELETE CASCADE
+    CONSTRAINT m2l_fk_staffID_care FOREIGN KEY (staffID) REFERENCES m2l_Staff(sid) ON DELETE SET NULL,
+    CONSTRAINT m2l_fk_animalID_care FOREIGN KEY (animalID) REFERENCES m2l_Animal(aid) ON DELETE CASCADE
 );
 
 CREATE TABLE m2l_Feed(
     staffID INTEGER,
     animalID INTEGER,
     dateTime TIMESTAMP,
-    -- Amount in grams
     amount DECIMAL(5,2) NOT NULL,
-    foodType VARCHAR(15) NOT NULL,
+    foodType VARCHAR2(15) NOT NULL,
     PRIMARY KEY (staffID, animalID, dateTime),
-    CONSTRAINT checkValidStaffID3
-        FOREIGN KEY (staffID) REFERENCES m2l_Zookeeper(sid)
-        -- Unsure about if this is valid (staffID part of primary key)
-        ON DELETE SET NULL,
-    CONSTRAINT checkValidAnimalID2
-        FOREIGN KEY (animalID) REFERENCES m2l_Animal(aid)
-        ON DELETE CASCADE
+    CONSTRAINT m2l_feed_StaffIdCheck FOREIGN KEY (staffID) REFERENCES m2l_Staff(sid) ON DELETE SET NULL,
+    CONSTRAINT m2l_feed_animalID FOREIGN KEY (animalID) REFERENCES m2l_Animal(aid) ON DELETE CASCADE
 );
