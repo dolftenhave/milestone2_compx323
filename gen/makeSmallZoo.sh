@@ -8,7 +8,7 @@ java parseArgs Zone name colour hexCode -V 10 -v 15 -h 6
 java parseArgs Enclosure eid biome eSize zoneName -I 1 -v 15 -i 4 -F "Zone.csv" 0 
 java parseArgs Species latinName commonName requiredBiome speciesGroup -V 20 -v 30 -f "Enclosure.csv" 2 -F "SpeciesGroup.csv" 0
 java parseArgs Staff sid fName lName dob phNumber email streetNumber streetName suburb city postCode clinic sex -I 1 -v 6 -v 10 -d -p -e -i 3 -v 6 -v 7 -v 8 -i 4 -v 1 -g
-java parseArgs Animal aid sex feedingInterval name weight originCountry dob enclosureID speciesName -I 1 -g -i 2 -v 8 -o 10 2 -f "data/slim-3.csv" 1 -d -F "Enclosure.csv" 0 -F "Species.csv" 0
+java parseArgs Animal aid sex feedingInterval name weight originCountry dob enclosureID speciesName -I 1 -g -x -v 8 -o 10 2 -f "data/slim-3.csv" 1 -d -F "Enclosure.csv" 0 -F "Species.csv" 0
 java parseArgs Oversees sGroupName staffID -F "SpeciesGroup.csv" 0 -F "Staff.csv" 0
 java parseArgs Care staffID animalID dateTime care notes -F "Staff.csv" 0 -F "Animal.csv" 0 -T -F "data/care.csv" 0 -v 20
 java parseArgs Feed staffID animalID dateTime amount foodType -F "Staff.csv" 0 -F "Animal.csv" 0 -T -o 5 2 -F "data/food.csv" 0
