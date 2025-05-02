@@ -317,8 +317,8 @@ public class MakeCSV {
 	 * Writes a random time value in the format HH:MM:SS
 	 */
 	private static void time() {
-		write(rand.nextInt(24) + ":" + rand.nextInt(60) + ":"
-				+ rand.nextInt(60));
+		write(rand.nextInt(60) + ":" + rand.nextInt(60) + ":"
+				+ rand.nextInt(24));
 	}
 
 	/**
