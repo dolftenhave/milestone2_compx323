@@ -68,6 +68,7 @@ namespace ZooApp
                 string phone = txtPhone.Text.Trim();
                 string email = txtEmail.Text.Trim();
                 string sex = cbSex.SelectedItem?.ToString() == "Male" ? "M" : "F";
+                string role = cbRole.SelectedItem?.ToString();  // New line
 
                 if (!int.TryParse(txtStreetNumber.Text, out int streetNumber))
                     throw new Exception("Invalid street number");
@@ -78,36 +79,37 @@ namespace ZooApp
                 string postCode = txtPostCode.Text.Trim();
                 string clinic = txtClinic.Text.Trim();
 
-                if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname) || string.IsNullOrWhiteSpace(email))
+                if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(role))
                 {
-                    MessageBox.Show("First name, last name, and email are required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("First name, last name, email, and role are required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (isEditMode)
                 {
                     string update = @"UPDATE m2s_staff SET fName = :fName, lName = :lName, dob = :dob, phNumber = :phNumber,
-                                      email = :email, streetNumber = :streetNumber, streetName = :streetName, suburb = :suburb,
-                                      city = :city, postCode = :postCode, clinic = :clinic, sex = :sex WHERE sid = :sid";
+                              email = :email, streetNumber = :streetNumber, streetName = :streetName, suburb = :suburb,
+                              city = :city, postCode = :postCode, clinic = :clinic, sex = :sex WHERE sid = :sid";
 
                     OracleParameter[] updateParams = new OracleParameter[]
                     {
-                        new OracleParameter("fName", fname),
-                        new OracleParameter("lName", lname),
-                        new OracleParameter("dob", dob),
-                        new OracleParameter("phNumber", phone),
-                        new OracleParameter("email", email),
-                        new OracleParameter("streetNumber", streetNumber),
-                        new OracleParameter("streetName", streetName),
-                        new OracleParameter("suburb", suburb),
-                        new OracleParameter("city", city),
-                        new OracleParameter("postCode", postCode),
-                        new OracleParameter("clinic", clinic),
-                        new OracleParameter("sex", sex),
-                        new OracleParameter("sid", editingSid)
+                new OracleParameter("fName", fname),
+                new OracleParameter("lName", lname),
+                new OracleParameter("dob", dob),
+                new OracleParameter("phNumber", phone),
+                new OracleParameter("email", email),
+                new OracleParameter("streetNumber", streetNumber),
+                new OracleParameter("streetName", streetName),
+                new OracleParameter("suburb", suburb),
+                new OracleParameter("city", city),
+                new OracleParameter("postCode", postCode),
+                new OracleParameter("clinic", clinic),
+                new OracleParameter("sex", sex),
+                new OracleParameter("sid", editingSid)
                     };
 
                     DatabaseHelper.ExecuteNonQuery(update, updateParams);
+
                     MessageBox.Show("Staff updated successfully!", "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -116,26 +118,43 @@ namespace ZooApp
                     int newSid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(getSidQuery).Rows[0][0]);
 
                     string insert = @"INSERT INTO m2s_staff (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, clinic, sex)
-                                      VALUES (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :clinic, :sex)";
+                              VALUES (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :clinic, :sex)";
 
                     OracleParameter[] insertParams = new OracleParameter[]
                     {
-                        new OracleParameter("sid", newSid),
-                        new OracleParameter("fName", fname),
-                        new OracleParameter("lName", lname),
-                        new OracleParameter("dob", dob),
-                        new OracleParameter("phNumber", phone),
-                        new OracleParameter("email", email),
-                        new OracleParameter("streetNumber", streetNumber),
-                        new OracleParameter("streetName", streetName),
-                        new OracleParameter("suburb", suburb),
-                        new OracleParameter("city", city),
-                        new OracleParameter("postCode", postCode),
-                        new OracleParameter("clinic", clinic),
-                        new OracleParameter("sex", sex)
+                new OracleParameter("sid", newSid),
+                new OracleParameter("fName", fname),
+                new OracleParameter("lName", lname),
+                new OracleParameter("dob", dob),
+                new OracleParameter("phNumber", phone),
+                new OracleParameter("email", email),
+                new OracleParameter("streetNumber", streetNumber),
+                new OracleParameter("streetName", streetName),
+                new OracleParameter("suburb", suburb),
+                new OracleParameter("city", city),
+                new OracleParameter("postCode", postCode),
+                new OracleParameter("clinic", clinic),
+                new OracleParameter("sex", sex)
                     };
 
                     DatabaseHelper.ExecuteNonQuery(insert, insertParams);
+
+                    // 🆕 Assign Role Logic (Zookeeper or Vet)
+                    if (role == "Zookeeper")
+                    {
+                        string feedDummy = $"INSERT INTO {DatabaseHelper.Table("FEED")} (staffID, animalID, dateTime, amount, foodType) " +
+                                           "VALUES (:sid, NULL, SYSDATE, NULL, NULL)";
+                        OracleParameter[] feedParams = { new OracleParameter("sid", newSid) };
+                        DatabaseHelper.ExecuteNonQuery(feedDummy, feedParams);
+                    }
+                    else if (role == "Vet")
+                    {
+                        string careDummy = $"INSERT INTO {DatabaseHelper.Table("CARE")} (staffID, animalID, dateTime, care, notes) " +
+                                           "VALUES (:sid, NULL, SYSDATE, NULL, NULL)";
+                        OracleParameter[] careParams = { new OracleParameter("sid", newSid) };
+                        DatabaseHelper.ExecuteNonQuery(careDummy, careParams);
+                    }
+
                     MessageBox.Show("Staff added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 

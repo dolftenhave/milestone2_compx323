@@ -52,23 +52,23 @@ namespace ZooApp
             string careTable = DatabaseHelper.Table("CARE");
 
             string query = $@"
-SELECT
-    s.sid,
-    s.fName || ' ' || s.lName AS fullName,
-    s.dob,
-    s.sex,
-    s.phNumber,
-    s.email,
-    s.streetNumber || ' ' || s.streetName || ', ' || s.suburb || ', ' || s.city || ' ' || s.postCode AS address,
-    s.clinic,
-    CASE
-        WHEN EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid) THEN 'Zookeeper'
-        WHEN EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid) THEN 'Vet'
-        ELSE 'Unknown'
-    END AS role
-FROM {table} s
-WHERE 1=1
-";
+            SELECT
+                s.sid,
+                s.fName || ' ' || s.lName AS fullName,
+                s.dob,
+                s.sex,
+                s.phNumber,
+                s.email,
+                s.streetNumber || ' ' || s.streetName || ', ' || s.suburb || ', ' || s.city || ' ' || s.postCode AS address,
+                s.clinic,
+                CASE
+                    WHEN EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid) THEN 'Zookeeper'
+                    WHEN EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid) THEN 'Vet'
+                    ELSE 'Unknown'
+                END AS role
+            FROM {table} s
+            WHERE 1=1
+            ";
 
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
@@ -86,6 +86,7 @@ WHERE 1=1
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             staffDataGridView.DataSource = dt;
             staffDataGridView.AutoGenerateColumns = true;
+
         }
 
         private void LoadFeedingAndCare()
@@ -155,7 +156,6 @@ WHERE 1=1
         private void btnOpenChecklist_Click(object sender, EventArgs e) => new ChecklistForm().ShowDialog();
         private void btnOpenStaffActivity_Click(object sender, EventArgs e) => new StaffActivityForm().ShowDialog();
         private void btnOpenSkills_Click(object sender, EventArgs e) => new ZookeeperSkillsForm().ShowDialog();
-        private void btnOpenZoneCoverage_Click(object sender, EventArgs e) => new ZoneCoverageForm().ShowDialog();
         private void btnRecordFeeding_Click(object sender, EventArgs e) => new FeedingForm().ShowDialog();
         private void btnRecordCare_Click(object sender, EventArgs e) => new VetForm().ShowDialog();
 
@@ -257,6 +257,21 @@ WHERE 1=1
                 MessageBox.Show("Please select an enclosure to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
+        }
+
+        private void btnZoneCoverage_Click(object sender, EventArgs e)
+        {
+            if (staffDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a staff member first.", "No Staff Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataRowView drv = staffDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            if (drv == null) return;
+
+            int sid = Convert.ToInt32(drv["sid"]);
+            new ZoneCoverageForm(sid).ShowDialog();
         }
 
     }
