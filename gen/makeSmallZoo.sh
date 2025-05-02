@@ -14,7 +14,7 @@ java parseArgs Care staffID animalID dateTime care notes -F "Staff.csv" 0 -F "An
 java parseArgs Feed staffID animalID dateTime amount foodType -F "Staff.csv" 0 -F "Animal.csv" 0 -T -o 5 2 -F "data/food.csv" 0
 
 # Creation of mock data
-java MakeCSV 10 "tables/SpeciesGroup.tab" SpeciesGroup
+java MakeCSV 11 "tables/SpeciesGroup.tab" SpeciesGroup
 java MakeCSV 5 "tables/Zone.tab" Zone
 java MakeCSV 20 "tables/Enclosure.tab" Enclosure
 java MakeCSV 20 "tables/Species.tab" Species
