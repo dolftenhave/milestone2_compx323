@@ -15,3 +15,16 @@ This project contains all the code used to creat Milestone 2 for Compx323-25A at
 - [app/](./app) - Contains the Application.
 - [gen/](./gen) - Contains the data generation code.
 - [createImportSQL.sh](createImportSQL.sh) - If placed inside the directly of your csv files, it will generate an import sql file to load all the files into the database. 
+
+### createImportSQL
+Run the file inside of the directory containing your csv files. This will create an sql file that will import all of the data for you. (As long as your tables already exist).
+#### Linux
+
+Open a terminal window and navigate to the directory containing the csv files and the script.
+
+Run `./createImportSQL.sh` and bam! Your file is ready.
+
+#### Windows
+
+Open the file explorer and navigate to the folder containing the csv files and script. Right click on an empty spot in the folder. Select 'More Options' -> 'Git Bash' (NOT Git cmd!). A terminal window should open up. Run `./createImportSQL.sh'. This will create a new import sql file in that folder. 
+
