@@ -17,10 +17,6 @@
 
         private void InitializeComponent()
         {
-            this.tabZoneCoverage = new System.Windows.Forms.TabPage();
-            this.btnOpenZoneCoverage = new System.Windows.Forms.Button();
-            this.tabChecklist = new System.Windows.Forms.TabPage();
-            this.btnOpenChecklist = new System.Windows.Forms.Button();
             this.tabFeedingCare = new System.Windows.Forms.TabPage();
             this.btnRecordCare = new System.Windows.Forms.Button();
             this.btnRecordFeeding = new System.Windows.Forms.Button();
@@ -33,6 +29,7 @@
             this.btnSearchStaff = new System.Windows.Forms.Button();
             this.txtStaffSearch = new System.Windows.Forms.TextBox();
             this.btnEditStaff = new System.Windows.Forms.Button();
+            this.btnZoneCoverage = new System.Windows.Forms.Button();
             this.tabEnclosures = new System.Windows.Forms.TabPage();
             this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
@@ -47,8 +44,6 @@
             this.txtAnimalSearch = new System.Windows.Forms.TextBox();
             this.btnEditAnimal = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
-            this.tabZoneCoverage.SuspendLayout();
-            this.tabChecklist.SuspendLayout();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -59,40 +54,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).BeginInit();
             this.tabMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tabZoneCoverage
-            // 
-            this.tabZoneCoverage.Controls.Add(this.btnOpenZoneCoverage);
-            this.tabZoneCoverage.Location = new System.Drawing.Point(4, 22);
-            this.tabZoneCoverage.Name = "tabZoneCoverage";
-            this.tabZoneCoverage.Size = new System.Drawing.Size(852, 474);
-            this.tabZoneCoverage.TabIndex = 7;
-            this.tabZoneCoverage.Text = "Zone Coverage";
-            // 
-            // btnOpenZoneCoverage
-            // 
-            this.btnOpenZoneCoverage.Location = new System.Drawing.Point(20, 20);
-            this.btnOpenZoneCoverage.Name = "btnOpenZoneCoverage";
-            this.btnOpenZoneCoverage.Size = new System.Drawing.Size(250, 40);
-            this.btnOpenZoneCoverage.TabIndex = 0;
-            this.btnOpenZoneCoverage.Text = "Calculate Zone Coverage";
-            // 
-            // tabChecklist
-            // 
-            this.tabChecklist.Controls.Add(this.btnOpenChecklist);
-            this.tabChecklist.Location = new System.Drawing.Point(4, 22);
-            this.tabChecklist.Name = "tabChecklist";
-            this.tabChecklist.Size = new System.Drawing.Size(852, 474);
-            this.tabChecklist.TabIndex = 4;
-            this.tabChecklist.Text = "Checklist";
-            // 
-            // btnOpenChecklist
-            // 
-            this.btnOpenChecklist.Location = new System.Drawing.Point(20, 20);
-            this.btnOpenChecklist.Name = "btnOpenChecklist";
-            this.btnOpenChecklist.Size = new System.Drawing.Size(200, 40);
-            this.btnOpenChecklist.TabIndex = 0;
-            this.btnOpenChecklist.Text = "Open Daily Checklist";
             // 
             // tabFeedingCare
             // 
@@ -132,6 +93,7 @@
             // 
             // tabStaff
             // 
+            this.tabStaff.Controls.Add(this.btnZoneCoverage);
             this.tabStaff.Controls.Add(this.btnEditStaff);
             this.tabStaff.Controls.Add(this.txtStaffSearch);
             this.tabStaff.Controls.Add(this.btnSearchStaff);
@@ -147,7 +109,7 @@
             // 
             // btnAddStaff
             // 
-            this.btnAddStaff.Location = new System.Drawing.Point(730, 31);
+            this.btnAddStaff.Location = new System.Drawing.Point(730, 25);
             this.btnAddStaff.Name = "btnAddStaff";
             this.btnAddStaff.Size = new System.Drawing.Size(90, 23);
             this.btnAddStaff.TabIndex = 3;
@@ -197,13 +159,23 @@
             // 
             // btnEditStaff
             // 
-            this.btnEditStaff.Location = new System.Drawing.Point(649, 31);
+            this.btnEditStaff.Location = new System.Drawing.Point(649, 25);
             this.btnEditStaff.Name = "btnEditStaff";
             this.btnEditStaff.Size = new System.Drawing.Size(75, 23);
             this.btnEditStaff.TabIndex = 6;
             this.btnEditStaff.Text = "Edit Staff";
             this.btnEditStaff.UseVisualStyleBackColor = true;
             this.btnEditStaff.Click += new System.EventHandler(this.btnEditStaff_Click);
+            // 
+            // btnZoneCoverage
+            // 
+            this.btnZoneCoverage.Location = new System.Drawing.Point(492, 23);
+            this.btnZoneCoverage.Name = "btnZoneCoverage";
+            this.btnZoneCoverage.Size = new System.Drawing.Size(151, 23);
+            this.btnZoneCoverage.TabIndex = 7;
+            this.btnZoneCoverage.Text = "Catculate Zone Coverage";
+            this.btnZoneCoverage.UseVisualStyleBackColor = true;
+            this.btnZoneCoverage.Click += new System.EventHandler(this.btnZoneCoverage_Click);
             // 
             // tabEnclosures
             // 
@@ -331,8 +303,6 @@
             this.tabMain.Controls.Add(this.tabEnclosures);
             this.tabMain.Controls.Add(this.tabStaff);
             this.tabMain.Controls.Add(this.tabFeedingCare);
-            this.tabMain.Controls.Add(this.tabChecklist);
-            this.tabMain.Controls.Add(this.tabZoneCoverage);
             this.tabMain.Location = new System.Drawing.Point(12, 12);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
@@ -346,8 +316,6 @@
             this.Name = "MainForm";
             this.Text = "Zoo Management System";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.tabZoneCoverage.ResumeLayout(false);
-            this.tabChecklist.ResumeLayout(false);
             this.tabFeedingCare.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).EndInit();
             this.tabStaff.ResumeLayout(false);
@@ -366,15 +334,12 @@
         #endregion
 
         private System.Windows.Forms.Button btnAddEnclosure;
-        private System.Windows.Forms.TabPage tabZoneCoverage;
-        private System.Windows.Forms.Button btnOpenZoneCoverage;
-        private System.Windows.Forms.TabPage tabChecklist;
-        private System.Windows.Forms.Button btnOpenChecklist;
         private System.Windows.Forms.TabPage tabFeedingCare;
         private System.Windows.Forms.DataGridView feedingDataGridView;
         private System.Windows.Forms.Button btnRecordFeeding;
         private System.Windows.Forms.Button btnRecordCare;
         private System.Windows.Forms.TabPage tabStaff;
+        private System.Windows.Forms.Button btnZoneCoverage;
         private System.Windows.Forms.Button btnEditStaff;
         private System.Windows.Forms.TextBox txtStaffSearch;
         private System.Windows.Forms.Button btnSearchStaff;

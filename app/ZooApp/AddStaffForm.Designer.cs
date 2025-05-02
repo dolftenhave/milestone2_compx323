@@ -43,20 +43,22 @@
             this.lblPostCode = new System.Windows.Forms.Label();
             this.lblClinic = new System.Windows.Forms.Label();
             this.lblSex = new System.Windows.Forms.Label();
+            this.cbRole = new System.Windows.Forms.ComboBox();
+            this.lblRole = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtFirstName
             // 
             this.txtFirstName.Location = new System.Drawing.Point(150, 20);
             this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(200, 20);
+            this.txtFirstName.Size = new System.Drawing.Size(206, 20);
             this.txtFirstName.TabIndex = 1;
             // 
             // txtLastName
             // 
             this.txtLastName.Location = new System.Drawing.Point(150, 50);
             this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(200, 20);
+            this.txtLastName.Size = new System.Drawing.Size(206, 20);
             this.txtLastName.TabIndex = 3;
             // 
             // dtpDOB
@@ -64,63 +66,63 @@
             this.dtpDOB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpDOB.Location = new System.Drawing.Point(150, 80);
             this.dtpDOB.Name = "dtpDOB";
-            this.dtpDOB.Size = new System.Drawing.Size(200, 20);
+            this.dtpDOB.Size = new System.Drawing.Size(206, 20);
             this.dtpDOB.TabIndex = 5;
             // 
             // txtPhone
             // 
             this.txtPhone.Location = new System.Drawing.Point(150, 110);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(200, 20);
+            this.txtPhone.Size = new System.Drawing.Size(206, 20);
             this.txtPhone.TabIndex = 7;
             // 
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(150, 140);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(200, 20);
+            this.txtEmail.Size = new System.Drawing.Size(206, 20);
             this.txtEmail.TabIndex = 9;
             // 
             // txtStreetNumber
             // 
             this.txtStreetNumber.Location = new System.Drawing.Point(150, 170);
             this.txtStreetNumber.Name = "txtStreetNumber";
-            this.txtStreetNumber.Size = new System.Drawing.Size(200, 20);
+            this.txtStreetNumber.Size = new System.Drawing.Size(206, 20);
             this.txtStreetNumber.TabIndex = 11;
             // 
             // txtStreetName
             // 
             this.txtStreetName.Location = new System.Drawing.Point(150, 200);
             this.txtStreetName.Name = "txtStreetName";
-            this.txtStreetName.Size = new System.Drawing.Size(200, 20);
+            this.txtStreetName.Size = new System.Drawing.Size(206, 20);
             this.txtStreetName.TabIndex = 13;
             // 
             // txtSuburb
             // 
             this.txtSuburb.Location = new System.Drawing.Point(150, 230);
             this.txtSuburb.Name = "txtSuburb";
-            this.txtSuburb.Size = new System.Drawing.Size(200, 20);
+            this.txtSuburb.Size = new System.Drawing.Size(206, 20);
             this.txtSuburb.TabIndex = 15;
             // 
             // txtCity
             // 
             this.txtCity.Location = new System.Drawing.Point(150, 260);
             this.txtCity.Name = "txtCity";
-            this.txtCity.Size = new System.Drawing.Size(200, 20);
+            this.txtCity.Size = new System.Drawing.Size(206, 20);
             this.txtCity.TabIndex = 17;
             // 
             // txtPostCode
             // 
             this.txtPostCode.Location = new System.Drawing.Point(150, 290);
             this.txtPostCode.Name = "txtPostCode";
-            this.txtPostCode.Size = new System.Drawing.Size(200, 20);
+            this.txtPostCode.Size = new System.Drawing.Size(206, 20);
             this.txtPostCode.TabIndex = 19;
             // 
             // txtClinic
             // 
             this.txtClinic.Location = new System.Drawing.Point(150, 320);
             this.txtClinic.Name = "txtClinic";
-            this.txtClinic.Size = new System.Drawing.Size(200, 20);
+            this.txtClinic.Size = new System.Drawing.Size(206, 20);
             this.txtClinic.TabIndex = 21;
             // 
             // cbSex
@@ -131,12 +133,12 @@
             "Female"});
             this.cbSex.Location = new System.Drawing.Point(150, 350);
             this.cbSex.Name = "cbSex";
-            this.cbSex.Size = new System.Drawing.Size(200, 21);
+            this.cbSex.Size = new System.Drawing.Size(206, 21);
             this.cbSex.TabIndex = 23;
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(80, 390);
+            this.btnSubmit.Location = new System.Drawing.Point(150, 419);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(100, 25);
             this.btnSubmit.TabIndex = 24;
@@ -145,7 +147,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(200, 390);
+            this.btnCancel.Location = new System.Drawing.Point(256, 419);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 25);
             this.btnCancel.TabIndex = 25;
@@ -248,9 +250,28 @@
             this.lblSex.TabIndex = 22;
             this.lblSex.Text = "Sex:";
             // 
+            // cbRole
+            // 
+            this.cbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRole.Items.AddRange(new object[] {"Zookeeper","Vet"});
+            this.cbRole.Location = new System.Drawing.Point(150, 380);
+            this.cbRole.Name = "cbRole";
+            this.cbRole.Size = new System.Drawing.Size(206, 21);
+            this.cbRole.TabIndex = 0;
+            // 
+            // lblRole
+            // 
+            this.lblRole.Location = new System.Drawing.Point(20, 378);
+            this.lblRole.Name = "lblRole";
+            this.lblRole.Size = new System.Drawing.Size(100, 23);
+            this.lblRole.TabIndex = 1;
+            this.lblRole.Text = "Role:";
+            // 
             // AddStaffForm
             // 
-            this.ClientSize = new System.Drawing.Size(400, 450);
+            this.ClientSize = new System.Drawing.Size(400, 478);
+            this.Controls.Add(this.cbRole);
+            this.Controls.Add(this.lblRole);
             this.Controls.Add(this.lblFirstName);
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.lblLastName);
@@ -301,6 +322,7 @@
         private System.Windows.Forms.ComboBox cbSex;
         private System.Windows.Forms.Button btnSubmit;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ComboBox cbRole;
 
         private System.Windows.Forms.Label lblFirstName;
         private System.Windows.Forms.Label lblLastName;
@@ -314,5 +336,7 @@
         private System.Windows.Forms.Label lblPostCode;
         private System.Windows.Forms.Label lblClinic;
         private System.Windows.Forms.Label lblSex;
+        private System.Windows.Forms.Label lblRole;
+
     }
 }
