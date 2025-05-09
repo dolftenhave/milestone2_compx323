@@ -8,6 +8,22 @@ namespace ZooApp
 {
     public partial class MainForm : Form
     {
+        // Variables to allow paging through large datasets.
+        // Could potentially be moved to another class that manages state.
+        private const int PAGE_SIZE = 50;
+        private int
+            animalDataTablePos,
+            enclosureDataTablePos,
+            staffDataTablePos,
+            feedingCareDataTablePos,
+            rolesDataTablePos;
+        private DataTable
+            animalsDt,
+            enclosureDt,
+            staffDt,
+            feedingCareDt,
+            rolesDt;
+
         public MainForm()
         {
             InitializeComponent();
@@ -61,9 +77,9 @@ namespace ZooApp
                     query += $" AND LOWER(a.name) LIKE '%{nameFilter.ToLower()}%'";
                 }
 
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                animalsDt = DatabaseHelper.ExecuteQuery(query);
                 animalsDataGridView.AutoGenerateColumns = true;
-                animalsDataGridView.DataSource = dt;
+                animalsDataGridView.DataSource = GetDataTableSubset(animalsDt, 0, PAGE_SIZE);
             }
             catch (Exception ex)
             {
@@ -71,6 +87,25 @@ namespace ZooApp
             }
         }
 
+        /// <summary>
+        /// Method to get a subset of a DataTable, e.g. Rows 50-100, returned as a new DataTable.
+        /// 
+        /// TODO: Error Checking on edge cases
+        /// </summary>
+        /// <param name="dt">The DataTable to take the subset from.</param>
+        /// <param name="start">The starting index, inclusive</param>
+        /// <param name="end">The ending index, exclusive</param>
+        /// <returns></returns>
+        private DataTable GetDataTableSubset(DataTable dt, int start, int end)
+        {
+            DataTable returnDt = dt.Clone();
+            for (int i = start; i < end; i++)
+            {
+                DataRow row = dt.Rows[i];
+                returnDt.Rows.Add(row.ItemArray);
+            }
+            return returnDt;
+        }
 
         private void LoadEnclosures()
         {
@@ -78,8 +113,8 @@ namespace ZooApp
                            $"FROM {DatabaseHelper.Table("ENCLOSURE")} e " +
                            $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name";
 
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            enclosuresDataGridView.DataSource = dt;
+            enclosureDt = DatabaseHelper.ExecuteQuery(query);
+            enclosuresDataGridView.DataSource = GetDataTableSubset(enclosureDt, 0, PAGE_SIZE);
             
             PopulateBiomeFilter(); // include this here
         }
@@ -122,10 +157,9 @@ namespace ZooApp
                     query += $" AND EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid)";
             }
 
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            staffDataGridView.DataSource = dt;
+            staffDt = DatabaseHelper.ExecuteQuery(query);
             staffDataGridView.AutoGenerateColumns = true;
-
+            staffDataGridView.DataSource = GetDataTableSubset(staffDt, 0, PAGE_SIZE);
         }
 
         private void LoadFeedingAndCare()
@@ -165,20 +199,20 @@ namespace ZooApp
 
         ORDER BY dateTime DESC";
 
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            feedingDataGridView.DataSource = dt;
+            feedingCareDt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.AutoGenerateColumns = true;
+            feedingDataGridView.DataSource = GetDataTableSubset(feedingCareDt, 0, PAGE_SIZE);
         }
 
         private void LoadRoles()
         {
             string query = $"SELECT DISTINCT clinic FROM {DatabaseHelper.Table("STAFF")}";
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            rolesDt = DatabaseHelper.ExecuteQuery(query);
 
             cbStaffRoleFilter.Items.Clear();
             cbStaffRoleFilter.Items.Add("All");
 
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in rolesDt.Rows)
             {
                 cbStaffRoleFilter.Items.Add(row["clinic"].ToString());
             }
