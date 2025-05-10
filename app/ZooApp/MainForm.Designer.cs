@@ -328,6 +328,7 @@
             this.textBox_pageNum.Name = "textBox_pageNum";
             this.textBox_pageNum.Size = new System.Drawing.Size(100, 20);
             this.textBox_pageNum.TabIndex = 1;
+            this.textBox_pageNum.TextChanged += new System.EventHandler(this.textBox_pageNum_TextChanged);
             // 
             // label_pageNum
             // 

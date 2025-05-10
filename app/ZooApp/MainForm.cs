@@ -73,7 +73,7 @@ namespace ZooApp
             // Make sure that the panel containing the page info is always available!
             panel_pageControl.Parent = tabMain.TabPages[index];
             label_pageInfo.Text = String.Format("Displaying page {0}, with {1} items.", (currPage + 1), PAGE_SIZE);
-            textBox_pageNum.Text = currPage.ToString() + 1;
+            textBox_pageNum.Text = (currPage + 1).ToString();
         }
 
         private void LoadAnimals(string nameFilter = "")
@@ -117,6 +117,15 @@ namespace ZooApp
         }
 
         /// <summary>
+        /// Refresh the data using the already obtained data from the query.
+        /// </summary>
+        private void RefreshAnimals()
+        {
+            animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.TabIndex]);
+            LoadPageInfo();
+        }
+
+        /// <summary>
         /// Method to get a subset of a DataTable, e.g. Rows 50-100, returned as a new DataTable.
         /// 
         /// TODO: Error Checking on edge cases
@@ -152,6 +161,12 @@ namespace ZooApp
             enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
 
             PopulateBiomeFilter(); // include this here
+        }
+
+        private void RefreshEnclosures()
+        {
+            enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
+            LoadPageInfo();
         }
 
         private void LoadStaff(string nameFilter = "", string roleFilter = "")
@@ -198,6 +213,12 @@ namespace ZooApp
             LoadPageInfo();
         }
 
+        private void RefreshStaff()
+        {
+            staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.TabIndex]);
+            LoadPageInfo();
+        }
+
         private void LoadFeedingAndCare()
         {
             string query = $@"
@@ -237,6 +258,12 @@ namespace ZooApp
 
             feedingCareDt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.AutoGenerateColumns = true;
+            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.TabIndex]);
+            LoadPageInfo();
+        }
+
+        private void RefreshFeedingAndCare()
+        {
             feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.TabIndex]);
             LoadPageInfo();
         }
@@ -433,19 +460,36 @@ namespace ZooApp
             switch (a)
             {
                 case 0:
-                    LoadAnimals();
+                    RefreshAnimals();
                     break;
                 case 1:
-                    LoadEnclosures();
+                    RefreshEnclosures();
                     break;
                 case 2:
-                    LoadStaff();
+                    RefreshStaff();
                     break;
                 case 3:
-                    LoadFeedingAndCare();
+                    RefreshFeedingAndCare();
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void textBox_pageNum_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (((TextBox)sender).Modified)
+                {
+                    int givenPage = int.Parse(textBox_pageNum.Text) - 1;
+                    dataTablePos[tabMain.SelectedIndex] = givenPage;
+                    IntToLoadData(tabMain.SelectedIndex);
+                }
+                
+            }
+            catch { 
+                
             }
         }
 
