@@ -17,6 +17,7 @@
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabFeedingCare = new System.Windows.Forms.TabPage();
             this.feedingDataGridView = new System.Windows.Forms.DataGridView();
             this.btnRecordFeeding = new System.Windows.Forms.Button();
@@ -39,6 +40,12 @@
             this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
             this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.tabAnimals = new System.Windows.Forms.TabPage();
+            this.panel_pageControl = new System.Windows.Forms.Panel();
+            this.label_pageInfo = new System.Windows.Forms.Label();
+            this.button_prevPage = new System.Windows.Forms.Button();
+            this.button_nextPage = new System.Windows.Forms.Button();
+            this.textBox_pageNum = new System.Windows.Forms.TextBox();
+            this.label_pageNum = new System.Windows.Forms.Label();
             this.btnEditAnimal = new System.Windows.Forms.Button();
             this.txtAnimalSearch = new System.Windows.Forms.TextBox();
             this.btnAddAnimal = new System.Windows.Forms.Button();
@@ -46,6 +53,7 @@
             this.animalsDataGridView = new System.Windows.Forms.DataGridView();
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -53,6 +61,7 @@
             this.tabEnclosures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.enclosuresDataGridView)).BeginInit();
             this.tabAnimals.SuspendLayout();
+            this.panel_pageControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).BeginInit();
             this.tabMain.SuspendLayout();
             this.SuspendLayout();
@@ -111,7 +120,7 @@
             // 
             // btnZoneCoverage
             // 
-            this.btnZoneCoverage.Location = new System.Drawing.Point(492, 23);
+            this.btnZoneCoverage.Location = new System.Drawing.Point(411, 0);
             this.btnZoneCoverage.Name = "btnZoneCoverage";
             this.btnZoneCoverage.Size = new System.Drawing.Size(151, 23);
             this.btnZoneCoverage.TabIndex = 7;
@@ -164,7 +173,7 @@
             // 
             // btnRefreshStaff
             // 
-            this.btnRefreshStaff.Location = new System.Drawing.Point(411, 25);
+            this.btnRefreshStaff.Location = new System.Drawing.Point(411, 23);
             this.btnRefreshStaff.Name = "btnRefreshStaff";
             this.btnRefreshStaff.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshStaff.TabIndex = 2;
@@ -259,6 +268,7 @@
             // 
             // tabAnimals
             // 
+            this.tabAnimals.Controls.Add(this.panel_pageControl);
             this.tabAnimals.Controls.Add(this.btnEditAnimal);
             this.tabAnimals.Controls.Add(this.txtAnimalSearch);
             this.tabAnimals.Controls.Add(this.btnAddAnimal);
@@ -270,6 +280,63 @@
             this.tabAnimals.Size = new System.Drawing.Size(1177, 767);
             this.tabAnimals.TabIndex = 0;
             this.tabAnimals.Text = "Animals";
+            // 
+            // panel_pageControl
+            // 
+            this.panel_pageControl.Controls.Add(this.label_pageInfo);
+            this.panel_pageControl.Controls.Add(this.button_prevPage);
+            this.panel_pageControl.Controls.Add(this.button_nextPage);
+            this.panel_pageControl.Controls.Add(this.textBox_pageNum);
+            this.panel_pageControl.Controls.Add(this.label_pageNum);
+            this.panel_pageControl.Location = new System.Drawing.Point(614, 4);
+            this.panel_pageControl.Name = "panel_pageControl";
+            this.panel_pageControl.Size = new System.Drawing.Size(346, 50);
+            this.panel_pageControl.TabIndex = 10;
+            // 
+            // label_pageInfo
+            // 
+            this.label_pageInfo.AutoSize = true;
+            this.label_pageInfo.Location = new System.Drawing.Point(4, 31);
+            this.label_pageInfo.Name = "label_pageInfo";
+            this.label_pageInfo.Size = new System.Drawing.Size(53, 13);
+            this.label_pageInfo.TabIndex = 4;
+            this.label_pageInfo.Text = "Page Info";
+            // 
+            // button_prevPage
+            // 
+            this.button_prevPage.Location = new System.Drawing.Point(179, 1);
+            this.button_prevPage.Name = "button_prevPage";
+            this.button_prevPage.Size = new System.Drawing.Size(75, 23);
+            this.button_prevPage.TabIndex = 3;
+            this.button_prevPage.Text = "Prev Page";
+            this.button_prevPage.UseVisualStyleBackColor = true;
+            this.button_prevPage.Click += new System.EventHandler(this.button_prevPage_Click);
+            // 
+            // button_nextPage
+            // 
+            this.button_nextPage.Location = new System.Drawing.Point(260, 1);
+            this.button_nextPage.Name = "button_nextPage";
+            this.button_nextPage.Size = new System.Drawing.Size(75, 23);
+            this.button_nextPage.TabIndex = 2;
+            this.button_nextPage.Text = "Next Page";
+            this.button_nextPage.UseVisualStyleBackColor = true;
+            this.button_nextPage.Click += new System.EventHandler(this.button_nextPage_Click);
+            // 
+            // textBox_pageNum
+            // 
+            this.textBox_pageNum.Location = new System.Drawing.Point(73, 1);
+            this.textBox_pageNum.Name = "textBox_pageNum";
+            this.textBox_pageNum.Size = new System.Drawing.Size(100, 20);
+            this.textBox_pageNum.TabIndex = 1;
+            // 
+            // label_pageNum
+            // 
+            this.label_pageNum.AutoSize = true;
+            this.label_pageNum.Location = new System.Drawing.Point(4, 4);
+            this.label_pageNum.Name = "label_pageNum";
+            this.label_pageNum.Size = new System.Drawing.Size(63, 13);
+            this.label_pageNum.TabIndex = 0;
+            this.label_pageNum.Text = "Go to page:";
             // 
             // btnEditAnimal
             // 
@@ -338,6 +405,12 @@
             this.tabMain.SelectedIndex = 0;
             this.tabMain.Size = new System.Drawing.Size(1185, 793);
             this.tabMain.TabIndex = 0;
+            this.tabMain.SelectedIndexChanged += new System.EventHandler(this.tabMain_SelectedIndexChanged);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // MainForm
             // 
@@ -356,6 +429,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.enclosuresDataGridView)).EndInit();
             this.tabAnimals.ResumeLayout(false);
             this.tabAnimals.PerformLayout();
+            this.panel_pageControl.ResumeLayout(false);
+            this.panel_pageControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).EndInit();
             this.tabMain.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -394,5 +469,12 @@
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.Button btnSearchEnclosures;
         private System.Windows.Forms.TextBox txtSearchEnclosure;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Panel panel_pageControl;
+        private System.Windows.Forms.Label label_pageInfo;
+        private System.Windows.Forms.Button button_prevPage;
+        private System.Windows.Forms.Button button_nextPage;
+        private System.Windows.Forms.TextBox textBox_pageNum;
+        private System.Windows.Forms.Label label_pageNum;
     }
 }

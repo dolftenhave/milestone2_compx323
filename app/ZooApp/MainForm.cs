@@ -11,18 +11,31 @@ namespace ZooApp
         // Variables to allow paging through large datasets.
         // Could potentially be moved to another class that manages state.
         private const int PAGE_SIZE = 50;
-        private int
-            animalDataTablePos,
-            enclosureDataTablePos,
-            staffDataTablePos,
-            feedingCareDataTablePos,
-            rolesDataTablePos;
+        // The page number, starting from 0
+        private int[] dataTablePos = new int[4];
         private DataTable
             animalsDt,
             enclosureDt,
             staffDt,
             feedingCareDt,
             rolesDt;
+
+        private DataTable TabIndexToDt(int a)
+        {
+            switch (a)
+            {
+                case 0:
+                    return animalsDt;
+                case 1:
+                    return enclosureDt;
+                case 2:
+                    return staffDt;
+                case 3:
+                    return feedingCareDt;
+                default:
+                    return null;
+            }
+        }
 
         public MainForm()
         {
@@ -48,6 +61,21 @@ namespace ZooApp
         }
 
         // --------- Loaders ---------
+        private void LoadPageInfo()
+        {
+            // 0 = Animal
+            // 1 = Enclosures
+            // 2 = Staff
+            // 3 = Feeding/Care
+            int index = tabMain.SelectedIndex;
+            int currPage = dataTablePos[index];
+            
+            // Make sure that the panel containing the page info is always available!
+            panel_pageControl.Parent = tabMain.TabPages[index];
+            label_pageInfo.Text = String.Format("Displaying page {0}, with {1} items.", (currPage + 1), PAGE_SIZE);
+            textBox_pageNum.Text = currPage.ToString() + 1;
+        }
+
         private void LoadAnimals(string nameFilter = "")
         {
             try
@@ -79,7 +107,8 @@ namespace ZooApp
 
                 animalsDt = DatabaseHelper.ExecuteQuery(query);
                 animalsDataGridView.AutoGenerateColumns = true;
-                animalsDataGridView.DataSource = GetDataTableSubset(animalsDt, 0, PAGE_SIZE);
+                animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.TabIndex]);
+                LoadPageInfo();
             }
             catch (Exception ex)
             {
@@ -96,9 +125,15 @@ namespace ZooApp
         /// <param name="start">The starting index, inclusive</param>
         /// <param name="end">The ending index, exclusive</param>
         /// <returns></returns>
-        private DataTable GetDataTableSubset(DataTable dt, int start, int end)
+        private DataTable GetDataTablePage(DataTable dt, int pageNum)
         {
             DataTable returnDt = dt.Clone();
+            int start = pageNum * PAGE_SIZE;
+            int numRows = dt.Rows.Count;
+            int end = start + PAGE_SIZE;
+            // Make sure in bounds
+            if (!(end < numRows)) end = numRows - 1;
+            
             for (int i = start; i < end; i++)
             {
                 DataRow row = dt.Rows[i];
@@ -114,8 +149,8 @@ namespace ZooApp
                            $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name";
 
             enclosureDt = DatabaseHelper.ExecuteQuery(query);
-            enclosuresDataGridView.DataSource = GetDataTableSubset(enclosureDt, 0, PAGE_SIZE);
-            
+            enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
+
             PopulateBiomeFilter(); // include this here
         }
 
@@ -159,7 +194,8 @@ namespace ZooApp
 
             staffDt = DatabaseHelper.ExecuteQuery(query);
             staffDataGridView.AutoGenerateColumns = true;
-            staffDataGridView.DataSource = GetDataTableSubset(staffDt, 0, PAGE_SIZE);
+            staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.TabIndex]);
+            LoadPageInfo();
         }
 
         private void LoadFeedingAndCare()
@@ -201,7 +237,8 @@ namespace ZooApp
 
             feedingCareDt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.AutoGenerateColumns = true;
-            feedingDataGridView.DataSource = GetDataTableSubset(feedingCareDt, 0, PAGE_SIZE);
+            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.TabIndex]);
+            LoadPageInfo();
         }
 
         private void LoadRoles()
@@ -363,6 +400,52 @@ namespace ZooApp
             {
                 txtAnimalSearch.Text = "Search Animal here";
                 txtAnimalSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void tabMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadPageInfo();
+        }
+
+        private void button_prevPage_Click(object sender, EventArgs e)
+        {
+            int pageNum = dataTablePos[tabMain.SelectedIndex];
+            if (pageNum > 0)
+            {
+                dataTablePos[tabMain.SelectedIndex] -= 1;
+                IntToLoadData(tabMain.SelectedIndex);
+            }
+        }
+
+        private void button_nextPage_Click(object sender, EventArgs e)
+        {
+            int pageNum = dataTablePos[tabMain.SelectedIndex];
+            if (pageNum <= TabIndexToDt(tabMain.SelectedIndex).Rows.Count / PAGE_SIZE)
+            {
+                dataTablePos[tabMain.SelectedIndex] += 1;
+                IntToLoadData(tabMain.SelectedIndex);
+            }
+        }
+
+        private void IntToLoadData(int a)
+        {
+            switch (a)
+            {
+                case 0:
+                    LoadAnimals();
+                    break;
+                case 1:
+                    LoadEnclosures();
+                    break;
+                case 2:
+                    LoadStaff();
+                    break;
+                case 3:
+                    LoadFeedingAndCare();
+                    break;
+                default:
+                    break;
             }
         }
 
