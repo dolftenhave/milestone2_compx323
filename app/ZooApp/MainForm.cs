@@ -127,8 +127,6 @@ namespace ZooApp
 
         /// <summary>
         /// Method to get a subset of a DataTable, e.g. Rows 50-100, returned as a new DataTable.
-        /// 
-        /// TODO: Error Checking on edge cases
         /// </summary>
         /// <param name="dt">The DataTable to take the subset from.</param>
         /// <param name="start">The starting index, inclusive</param>
@@ -491,6 +489,26 @@ namespace ZooApp
             catch { 
                 
             }
+        }
+
+        /// <summary>
+        /// Get the Zookeepers that are qualified for this animal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_ZookeepersQualified_Click(object sender, EventArgs e)
+        {
+            if (staffDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a staff member first.", "No Staff Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataRowView drv = animalDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            if (drv == null) return;
+
+            int sid = Convert.ToInt32(drv["sid"]);
+            new ZoneCoverageForm(sid).ShowDialog();
         }
 
         private void btnRefreshAnimals_Click_1(object sender, EventArgs e)

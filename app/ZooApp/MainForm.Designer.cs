@@ -54,6 +54,7 @@
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -124,7 +125,7 @@
             this.btnZoneCoverage.Name = "btnZoneCoverage";
             this.btnZoneCoverage.Size = new System.Drawing.Size(151, 23);
             this.btnZoneCoverage.TabIndex = 7;
-            this.btnZoneCoverage.Text = "Catculate Zone Coverage";
+            this.btnZoneCoverage.Text = "Calculate Zone Coverage";
             this.btnZoneCoverage.UseVisualStyleBackColor = true;
             this.btnZoneCoverage.Click += new System.EventHandler(this.btnZoneCoverage_Click);
             // 
@@ -259,7 +260,7 @@
             // 
             // btnRefreshEnclosures
             // 
-            this.btnRefreshEnclosures.Location = new System.Drawing.Point(251, 20);
+            this.btnRefreshEnclosures.Location = new System.Drawing.Point(251, 19);
             this.btnRefreshEnclosures.Name = "btnRefreshEnclosures";
             this.btnRefreshEnclosures.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshEnclosures.TabIndex = 2;
@@ -268,6 +269,7 @@
             // 
             // tabAnimals
             // 
+            this.tabAnimals.Controls.Add(this.button_ZookeepersQualified);
             this.tabAnimals.Controls.Add(this.panel_pageControl);
             this.tabAnimals.Controls.Add(this.btnEditAnimal);
             this.tabAnimals.Controls.Add(this.txtAnimalSearch);
@@ -413,6 +415,16 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // button_ZookeepersQualified
+            // 
+            this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
+            this.button_ZookeepersQualified.Name = "button_ZookeepersQualified";
+            this.button_ZookeepersQualified.Size = new System.Drawing.Size(124, 23);
+            this.button_ZookeepersQualified.TabIndex = 11;
+            this.button_ZookeepersQualified.Text = "Zookeepers Qualified";
+            this.button_ZookeepersQualified.UseVisualStyleBackColor = true;
+            this.button_ZookeepersQualified.Click += new System.EventHandler(this.button_ZookeepersQualified_Click);
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1209, 817);
@@ -477,5 +489,6 @@
         private System.Windows.Forms.Button button_nextPage;
         private System.Windows.Forms.TextBox textBox_pageNum;
         private System.Windows.Forms.Label label_pageNum;
+        private System.Windows.Forms.Button button_ZookeepersQualified;
     }
 }
