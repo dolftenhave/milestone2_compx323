@@ -504,7 +504,7 @@ namespace ZooApp
                 return;
             }
 
-            DataRowView drv = animalDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            DataRowView drv = animalsDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
             if (drv == null) return;
 
             int sid = Convert.ToInt32(drv["sid"]);
