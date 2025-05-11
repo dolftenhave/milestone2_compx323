@@ -55,31 +55,31 @@ END;
 /
 
 CREATE TABLE m2s_SpeciesGroup(
-    latinName VARCHAR(30) PRIMARY KEY, 
-    commonName VARCHAR(30) NOT NULL
+    latinName VARCHAR2(30) PRIMARY KEY, 
+    commonName VARCHAR2(30) NOT NULL
 );
 
 CREATE TABLE m2s_Zone(
-    name VARCHAR(30) PRIMARY KEY,
-    colour VARCHAR(15) NOT NULL,
-    hexcode VARCHAR(6) NOT NULL
+    name VARCHAR2(30) PRIMARY KEY,
+    colour VARCHAR2(15) NOT NULL,
+    hexcode VARCHAR2(6) NOT NULL
 );
 
 CREATE TABLE m2s_Enclosure(
     eid INTEGER PRIMARY KEY,
-    biome VARCHAR(15) NOT NULL,
+    biome VARCHAR2(15) NOT NULL,
     eSize INTEGER NOT NULL,
-    zoneName VARCHAR(30) NOT NULL,
+    zoneName VARCHAR2(30) NOT NULL,
     CONSTRAINT m2s_Enclosure_zoneCheck
         FOREIGN KEY (zoneName) REFERENCES m2s_Zone(name)
         ON DELETE SET NULL
 );
 
 CREATE TABLE m2s_Species(
-    latinName VARCHAR(30) PRIMARY KEY,
-    commonName VARCHAR(30) NOT NULL,
-    requiredBiome VARCHAR(15) NOT NULL,
-    speciesGroup VARCHAR(30) NOT NULL,
+    latinName VARCHAR2(30) PRIMARY KEY,
+    commonName VARCHAR2(30) NOT NULL,
+    requiredBiome VARCHAR2(15) NOT NULL,
+    speciesGroup VARCHAR2(30) NOT NULL,
     CONSTRAINT m2s_Species_speciesGroupCheck
         FOREIGN KEY (speciesGroup) REFERENCES m2s_SpeciesGroup(latinName)
         ON DELETE CASCADE
@@ -121,7 +121,7 @@ CREATE TABLE m2s_Animal(
 );
 
 CREATE TABLE m2s_Oversees(
-    sGroupName VARCHAR(30),
+    sGroupName VARCHAR2(30),
     staffID INTEGER,
     PRIMARY KEY (sGroupName, staffID),
     CONSTRAINT m2s_Oversees_checkValidSGroup
@@ -214,31 +214,31 @@ END;
 /
 
 CREATE TABLE m2l_SpeciesGroup(
-    latinName VARCHAR(30) PRIMARY KEY, 
-    commonName VARCHAR(30) NOT NULL
+    latinName VARCHAR2(30) PRIMARY KEY, 
+    commonName VARCHAR2(30) NOT NULL
 );
 
 CREATE TABLE m2l_Zone(
-    name VARCHAR(30) PRIMARY KEY,
-    colour VARCHAR(15) NOT NULL,
-    hexcode VARCHAR(6) NOT NULL
+    name VARCHAR2(30) PRIMARY KEY,
+    colour VARCHAR2(15) NOT NULL,
+    hexcode VARCHAR2(6) NOT NULL
 );
 
 CREATE TABLE m2l_Enclosure(
     eid INTEGER PRIMARY KEY,
-    biome VARCHAR(15) NOT NULL,
+    biome VARCHAR2(15) NOT NULL,
     eSize INTEGER NOT NULL,
-    zoneName VARCHAR(30) NOT NULL,
+    zoneName VARCHAR2(30) NOT NULL,
     CONSTRAINT m2l_Enclosure_zoneCheck
         FOREIGN KEY (zoneName) REFERENCES m2l_Zone(name)
         ON DELETE SET NULL
 );
 
 CREATE TABLE m2l_Species(
-    latinName VARCHAR(30) PRIMARY KEY,
-    commonName VARCHAR(30) NOT NULL,
-    requiredBiome VARCHAR(15) NOT NULL,
-    speciesGroup VARCHAR(30) NOT NULL,
+    latinName VARCHAR2(30) PRIMARY KEY,
+    commonName VARCHAR2(30) NOT NULL,
+    requiredBiome VARCHAR2(15) NOT NULL,
+    speciesGroup VARCHAR2(30) NOT NULL,
     CONSTRAINT m2l_Species_speciesGroupCheck
         FOREIGN KEY (speciesGroup) REFERENCES m2l_SpeciesGroup(latinName)
         ON DELETE CASCADE
@@ -280,7 +280,7 @@ CREATE TABLE m2l_Animal(
 );
 
 CREATE TABLE m2l_Oversees(
-    sGroupName VARCHAR(30),
+    sGroupName VARCHAR2(30),
     staffID INTEGER,
     PRIMARY KEY (sGroupName, staffID),
     CONSTRAINT m2l_Oversees_checkValidSGroup

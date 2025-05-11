@@ -56,8 +56,6 @@ namespace ZooApp
             {
                 MessageBox.Show($"Failed to load data: {ex.Message}", "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            txtAnimalSearch.Text = "Search Animal here";
-            txtAnimalSearch.ForeColor = Color.Gray;
         }
 
         // --------- Loaders ---------
@@ -104,6 +102,7 @@ namespace ZooApp
                 {
                     query += $" AND LOWER(a.name) LIKE '%{nameFilter.ToLower()}%'";
                 }
+                query += " ORDER BY a.aid ASC";
 
                 animalsDt = DatabaseHelper.ExecuteQuery(query);
                 animalsDataGridView.AutoGenerateColumns = true;
@@ -286,13 +285,13 @@ namespace ZooApp
         private void btnRefreshAnimals_Click(object sender, EventArgs e) => LoadAnimals();
         private void btnRefreshEnclosures_Click(object sender, EventArgs e) => LoadEnclosures();
         private void btnRefreshStaff_Click(object sender, EventArgs e) => LoadStaff();
-
-        private void btnAddAnimal_Click(object sender, EventArgs e) => new AddAnimalForm().ShowDialog();
         private void btnOpenChecklist_Click(object sender, EventArgs e) => new ChecklistForm().ShowDialog();
         private void btnOpenStaffActivity_Click(object sender, EventArgs e) => new StaffActivityForm().ShowDialog();
         private void btnOpenSkills_Click(object sender, EventArgs e) => new ZookeeperSkillsForm().ShowDialog();
         private void btnRecordFeeding_Click(object sender, EventArgs e) => new FeedingForm().ShowDialog();
         private void btnRecordCare_Click(object sender, EventArgs e) => new VetForm().ShowDialog();
+
+
 
         private void btnAddStaff_Click(object sender, EventArgs e)
         {
@@ -320,6 +319,15 @@ namespace ZooApp
             else
             {
                 MessageBox.Show("Please select a staff member to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnAddAnimal_Click(object sender, EventArgs e)
+        {
+            using (var form = new AddAnimalForm())
+            {
+                form.ShowDialog();
+                LoadAnimals();
             }
         }
 
