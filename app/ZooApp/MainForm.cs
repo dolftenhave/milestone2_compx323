@@ -36,6 +36,7 @@ namespace ZooApp
                     return null;
             }
         }
+        private DataGridView currentDGV;
 
         public MainForm()
         {
@@ -51,6 +52,9 @@ namespace ZooApp
                 LoadStaff();
                 LoadFeedingAndCare();
                 LoadRoles();
+
+                // Make sure animals is loaded
+                RefreshAnimals();
             }
             catch (Exception ex)
             {
@@ -70,7 +74,7 @@ namespace ZooApp
             
             // Make sure that the panel containing the page info is always available!
             panel_pageControl.Parent = tabMain.TabPages[index];
-            label_pageInfo.Text = String.Format("Displaying page {0}, with {1} items.", (currPage + 1), PAGE_SIZE);
+            label_pageInfo.Text = String.Format("Displaying page {0}, with {1} items.", (currPage + 1), currentDGV.Rows.Count - 1);
             textBox_pageNum.Text = (currPage + 1).ToString();
         }
 
@@ -104,6 +108,8 @@ namespace ZooApp
                 }
                 query += " ORDER BY a.aid ASC";
 
+                // Workaround for currentDGV
+                currentDGV = animalsDataGridView;
                 animalsDt = DatabaseHelper.ExecuteQuery(query);
                 animalsDataGridView.AutoGenerateColumns = true;
                 animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.TabIndex]);
@@ -121,6 +127,7 @@ namespace ZooApp
         private void RefreshAnimals()
         {
             animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.TabIndex]);
+            currentDGV = animalsDataGridView;
             LoadPageInfo();
         }
 
@@ -163,6 +170,7 @@ namespace ZooApp
         private void RefreshEnclosures()
         {
             enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
+            currentDGV = enclosuresDataGridView;
             LoadPageInfo();
         }
 
@@ -213,6 +221,7 @@ namespace ZooApp
         private void RefreshStaff()
         {
             staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.TabIndex]);
+            currentDGV = staffDataGridView;
             LoadPageInfo();
         }
 
@@ -262,6 +271,7 @@ namespace ZooApp
         private void RefreshFeedingAndCare()
         {
             feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.TabIndex]);
+            currentDGV = feedingDataGridView;
             LoadPageInfo();
         }
 
