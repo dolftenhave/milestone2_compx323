@@ -506,17 +506,18 @@ namespace ZooApp
         /// <param name="e"></param>
         private void button_ZookeepersQualified_Click(object sender, EventArgs e)
         {
-            if (staffDataGridView.SelectedRows.Count == 0)
+            if (animalsDataGridView.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a staff member first.", "No Staff Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select an animal first.", "No Animal Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             DataRowView drv = animalsDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
             if (drv == null) return;
 
-            int sid = Convert.ToInt32(drv["sid"]);
-            new ZoneCoverageForm(sid).ShowDialog();
+            int aid = Convert.ToInt32(drv["aid"]);
+            String query = Queries.ZookeepersQualifiedForAnimal + $" AND a.aid = '{aid}'";
+            new Report(DatabaseHelper.ExecuteQuery(query), $"Zookeepers Qualified for Animal ID: {aid}").Show();
         }
 
         private void btnRefreshAnimals_Click_1(object sender, EventArgs e)

@@ -135,6 +135,7 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Queries.cs" />
     <Compile Include="SelectSpeciesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +179,12 @@
     </Compile>
     <Compile Include="ZookeeperSkillsForm.Designer.cs">
       <DependentUpon>ZookeeperSkillsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report.Designer.cs">
+      <DependentUpon>Report.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AddAnimalForm.resx">
       <DependentUpon>AddAnimalForm.cs</DependentUpon>
@@ -232,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ZookeeperSkillsForm.resx">
       <DependentUpon>ZookeeperSkillsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report.resx">
+      <DependentUpon>Report.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>

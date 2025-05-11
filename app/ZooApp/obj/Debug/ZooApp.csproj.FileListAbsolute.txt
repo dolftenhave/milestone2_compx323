@@ -154,3 +154,8 @@ H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.SelectSpeciesForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddSpeciesForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.SelectSpeciesGroupForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddSpeciesGroupForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.AddSpeciesForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.AddSpeciesGroupForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.SelectSpeciesForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.SelectSpeciesGroupForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.Report.resources
