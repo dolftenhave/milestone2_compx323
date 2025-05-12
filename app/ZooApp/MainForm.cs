@@ -530,6 +530,11 @@ namespace ZooApp
             new Report(DatabaseHelper.ExecuteQuery(query), $"Zookeepers Qualified for Animal ID: {aid}").Show();
         }
 
+        private void cbBiomeFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
         private void btnRefreshAnimals_Click_1(object sender, EventArgs e)
         {
             txtAnimalSearch.Text = "Search Animal here";

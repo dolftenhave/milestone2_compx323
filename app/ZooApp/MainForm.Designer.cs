@@ -40,6 +40,7 @@
             this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
             this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.tabAnimals = new System.Windows.Forms.TabPage();
+            this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.panel_pageControl = new System.Windows.Forms.Panel();
             this.label_pageInfo = new System.Windows.Forms.Label();
             this.button_prevPage = new System.Windows.Forms.Button();
@@ -54,7 +55,6 @@
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -210,6 +210,7 @@
             this.txtSearchEnclosure.Name = "txtSearchEnclosure";
             this.txtSearchEnclosure.Size = new System.Drawing.Size(148, 20);
             this.txtSearchEnclosure.TabIndex = 6;
+            this.txtSearchEnclosure.Text = "Search Enclosures here ";
             // 
             // btnSearchEnclosures
             // 
@@ -257,6 +258,7 @@
             this.cbBiomeFilter.TabIndex = 1;
             this.cbBiomeFilter.Text = " Filter By Biome";
             this.cbBiomeFilter.ValueMember = "Biome";
+            this.cbBiomeFilter.SelectedIndexChanged += new System.EventHandler(this.cbBiomeFilter_SelectedIndexChanged);
             // 
             // btnRefreshEnclosures
             // 
@@ -282,6 +284,16 @@
             this.tabAnimals.Size = new System.Drawing.Size(1177, 767);
             this.tabAnimals.TabIndex = 0;
             this.tabAnimals.Text = "Animals";
+            // 
+            // button_ZookeepersQualified
+            // 
+            this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
+            this.button_ZookeepersQualified.Name = "button_ZookeepersQualified";
+            this.button_ZookeepersQualified.Size = new System.Drawing.Size(124, 23);
+            this.button_ZookeepersQualified.TabIndex = 11;
+            this.button_ZookeepersQualified.Text = "Zookeepers Qualified";
+            this.button_ZookeepersQualified.UseVisualStyleBackColor = true;
+            this.button_ZookeepersQualified.Click += new System.EventHandler(this.button_ZookeepersQualified_Click);
             // 
             // panel_pageControl
             // 
@@ -414,16 +426,6 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // button_ZookeepersQualified
-            // 
-            this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
-            this.button_ZookeepersQualified.Name = "button_ZookeepersQualified";
-            this.button_ZookeepersQualified.Size = new System.Drawing.Size(124, 23);
-            this.button_ZookeepersQualified.TabIndex = 11;
-            this.button_ZookeepersQualified.Text = "Zookeepers Qualified";
-            this.button_ZookeepersQualified.UseVisualStyleBackColor = true;
-            this.button_ZookeepersQualified.Click += new System.EventHandler(this.button_ZookeepersQualified_Click);
             // 
             // MainForm
             // 
