@@ -82,25 +82,7 @@ namespace ZooApp
         {
             try
             {
-                string query = $@"
-                    SELECT 
-                        a.aid,
-                        a.name,
-                        a.sex,
-                        a.dob,
-                        a.weight,
-                        a.feedingInterval,
-                        a.originCountry,
-                        a.enclosureID,
-                        e.biome,
-                        e.zoneName,
-                        a.speciesName,
-                        sg.commonName AS speciesGroup
-                    FROM {DatabaseHelper.Table("ANIMAL")} a
-                    LEFT JOIN {DatabaseHelper.Table("ENCLOSURE")} e ON a.enclosureID = e.eid
-                    LEFT JOIN {DatabaseHelper.Table("SPECIES")} s ON a.speciesName = s.latinName
-                    LEFT JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg ON s.speciesGroup = sg.latinName
-                    WHERE 1=1";
+                string query = Queries.LoadAnimalsQuery;
 
                 if (!string.IsNullOrWhiteSpace(nameFilter))
                 {
@@ -157,9 +139,7 @@ namespace ZooApp
 
         private void LoadEnclosures()
         {
-            string query = $"SELECT e.eid, e.biome, e.esize, z.name AS zoneName " +
-                           $"FROM {DatabaseHelper.Table("ENCLOSURE")} e " +
-                           $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name";
+            string query = Queries.LoadEnclosuresQuery;
 
             enclosureDt = DatabaseHelper.ExecuteQuery(query);
             enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
@@ -176,28 +156,7 @@ namespace ZooApp
 
         private void LoadStaff(string nameFilter = "", string roleFilter = "")
         {
-            string table = DatabaseHelper.Table("STAFF");
-            string feedTable = DatabaseHelper.Table("FEED");
-            string careTable = DatabaseHelper.Table("CARE");
-
-            string query = $@"
-            SELECT
-                s.sid,
-                s.fName || ' ' || s.lName AS fullName,
-                s.dob,
-                s.sex,
-                s.phNumber,
-                s.email,
-                s.streetNumber || ' ' || s.streetName || ', ' || s.suburb || ', ' || s.city || ' ' || s.postCode AS address,
-                s.clinic,
-                CASE
-                    WHEN EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid) THEN 'Zookeeper'
-                    WHEN EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid) THEN 'Vet'
-                    ELSE 'Unknown'
-                END AS role
-            FROM {table} s
-            WHERE 1=1
-            ";
+            string query = Queries.LoadStaffQuery;
 
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
@@ -227,40 +186,7 @@ namespace ZooApp
 
         private void LoadFeedingAndCare()
         {
-            string query = $@"
-        SELECT 
-            F.staffID,
-            S.fName || ' ' || S.lName AS StaffName,
-            F.animalID,
-            A.name AS AnimalName,
-            F.dateTime,
-            'Feeding' AS Type,
-            F.foodType AS FoodType,
-            TO_CHAR(F.amount) AS FoodAmount,
-            NULL AS CareType,
-            NULL AS VetNotes
-        FROM {DatabaseHelper.Table("FEED")} F
-        JOIN {DatabaseHelper.Table("STAFF")} S ON F.staffID = S.sid
-        JOIN {DatabaseHelper.Table("ANIMAL")} A ON F.animalID = A.aid
-
-        UNION ALL
-
-        SELECT 
-            C.staffID,
-            S.fName || ' ' || S.lName AS StaffName,
-            C.animalID,
-            A.name AS AnimalName,
-            C.dateTime,
-            'Care' AS Type,
-            NULL AS FoodType,
-            NULL AS FoodAmount,
-            C.care AS CareType,
-            C.notes AS VetNotes
-        FROM {DatabaseHelper.Table("CARE")} C
-        JOIN {DatabaseHelper.Table("STAFF")} S ON C.staffID = S.sid
-        JOIN {DatabaseHelper.Table("ANIMAL")} A ON C.animalID = A.aid
-
-        ORDER BY dateTime DESC";
+            string query = Queries.LoadFeedingAndCareQuery;
 
             feedingCareDt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.AutoGenerateColumns = true;
