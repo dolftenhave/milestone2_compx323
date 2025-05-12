@@ -40,6 +40,7 @@
             this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
             this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.tabAnimals = new System.Windows.Forms.TabPage();
+            this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.panel_pageControl = new System.Windows.Forms.Panel();
             this.label_pageInfo = new System.Windows.Forms.Label();
             this.button_prevPage = new System.Windows.Forms.Button();
@@ -54,7 +55,7 @@
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button_ZookeepersQualified = new System.Windows.Forms.Button();
+            this.button_zookeepersQualifiedEnclosures = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -191,6 +192,7 @@
             // 
             // tabEnclosures
             // 
+            this.tabEnclosures.Controls.Add(this.button_zookeepersQualifiedEnclosures);
             this.tabEnclosures.Controls.Add(this.txtSearchEnclosure);
             this.tabEnclosures.Controls.Add(this.btnSearchEnclosures);
             this.tabEnclosures.Controls.Add(this.btnAddEnclosure_Click);
@@ -282,6 +284,16 @@
             this.tabAnimals.Size = new System.Drawing.Size(1177, 767);
             this.tabAnimals.TabIndex = 0;
             this.tabAnimals.Text = "Animals";
+            // 
+            // button_ZookeepersQualified
+            // 
+            this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
+            this.button_ZookeepersQualified.Name = "button_ZookeepersQualified";
+            this.button_ZookeepersQualified.Size = new System.Drawing.Size(124, 23);
+            this.button_ZookeepersQualified.TabIndex = 11;
+            this.button_ZookeepersQualified.Text = "Zookeepers Qualified";
+            this.button_ZookeepersQualified.UseVisualStyleBackColor = true;
+            this.button_ZookeepersQualified.Click += new System.EventHandler(this.button_ZookeepersQualified_Click);
             // 
             // panel_pageControl
             // 
@@ -415,15 +427,15 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // button_ZookeepersQualified
+            // button_zookeepersQualifiedEnclosures
             // 
-            this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
-            this.button_ZookeepersQualified.Name = "button_ZookeepersQualified";
-            this.button_ZookeepersQualified.Size = new System.Drawing.Size(124, 23);
-            this.button_ZookeepersQualified.TabIndex = 11;
-            this.button_ZookeepersQualified.Text = "Zookeepers Qualified";
-            this.button_ZookeepersQualified.UseVisualStyleBackColor = true;
-            this.button_ZookeepersQualified.Click += new System.EventHandler(this.button_ZookeepersQualified_Click);
+            this.button_zookeepersQualifiedEnclosures.Location = new System.Drawing.Point(459, 19);
+            this.button_zookeepersQualifiedEnclosures.Name = "button_zookeepersQualifiedEnclosures";
+            this.button_zookeepersQualifiedEnclosures.Size = new System.Drawing.Size(123, 23);
+            this.button_zookeepersQualifiedEnclosures.TabIndex = 7;
+            this.button_zookeepersQualifiedEnclosures.Text = "Zookeepers Qualified";
+            this.button_zookeepersQualifiedEnclosures.UseVisualStyleBackColor = true;
+            this.button_zookeepersQualifiedEnclosures.Click += new System.EventHandler(this.button_zookeepersQualifiedEnclosures_Click);
             // 
             // MainForm
             // 
@@ -490,5 +502,6 @@
         private System.Windows.Forms.TextBox textBox_pageNum;
         private System.Windows.Forms.Label label_pageNum;
         private System.Windows.Forms.Button button_ZookeepersQualified;
+        private System.Windows.Forms.Button button_zookeepersQualifiedEnclosures;
     }
 }

@@ -19,7 +19,7 @@ namespace ZooApp
             staffDt,
             feedingCareDt,
             rolesDt;
-
+           
         private DataTable TabIndexToDt(int a)
         {
             switch (a)
@@ -166,9 +166,9 @@ namespace ZooApp
             if (!string.IsNullOrWhiteSpace(roleFilter) && roleFilter != "All")
             {
                 if (roleFilter == "Zookeeper")
-                    query += $" AND EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid)";
+                    query += $" AND EXISTS (SELECT 1 FROM {DatabaseHelper.Table("FEED")} f WHERE f.staffID = s.sid)";
                 else if (roleFilter == "Vet")
-                    query += $" AND EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid)";
+                    query += $" AND EXISTS (SELECT 1 FROM {DatabaseHelper.Table("CARE")} c WHERE c.staffID = s.sid)";
             }
 
             staffDt = DatabaseHelper.ExecuteQuery(query);
@@ -454,6 +454,22 @@ namespace ZooApp
             int aid = Convert.ToInt32(drv["aid"]);
             String query = Queries.ZookeepersQualifiedForAnimal + $" AND a.aid = '{aid}'";
             new Report(DatabaseHelper.ExecuteQuery(query), $"Zookeepers Qualified for Animal ID: {aid}").Show();
+        }
+
+        private void button_zookeepersQualifiedEnclosures_Click(object sender, EventArgs e)
+        {
+            if (enclosuresDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an enclosure first.", "No Enclosure Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataRowView drv = enclosuresDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            if (drv == null) return;
+
+            int eid = Convert.ToInt32(drv["eid"]);
+            String query = Queries.ZookeepersQualifiedForEnclosure + $" AND a.enclosureid = '{eid}')";
+            new Report(DatabaseHelper.ExecuteQuery(query), $"Zookeepers Qualified for Enclosure ID: {eid}").Show();
         }
 
         private void btnRefreshAnimals_Click_1(object sender, EventArgs e)

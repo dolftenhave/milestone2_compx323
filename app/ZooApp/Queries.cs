@@ -25,6 +25,17 @@ namespace ZooApp
             $"AND sp.speciesGroup = sg.latinName " +
             $"AND a.speciesName = sp.latinName";
 
+        // Make sure to add the encloure ID at the end of this
+        public static String ZookeepersQualifiedForEnclosure = $@"
+            SELECT s.sid, s.lname, s.fname
+            FROM m2l_staff s, m2l_oversees o
+            WHERE s.sid = o.staffid
+            AND o.sgroupname = ALL(
+            SELECT distinct sg.latinName
+            FROM m2l_speciesgroup sg, m2l_species sp, m2l_animal a
+            WHERE sp.latinName = a.speciesName
+            AND sp.speciesgroup = sg.latinName";
+
         // Query to load the Animals table
         public static String LoadAnimalsQuery = $@"
                     SELECT 
