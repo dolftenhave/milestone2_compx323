@@ -534,14 +534,13 @@ namespace ZooApp
 
         private void cbBiomeFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadEnclosuresWithFilters();
+            
         }
 
         private void cbZoneFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadEnclosuresWithFilters();
-        }
 
+        }
 
         private void btnRefreshAnimals_Click_1(object sender, EventArgs e)
         {
@@ -613,37 +612,6 @@ namespace ZooApp
             cbBiomeFilter.SelectedIndex = 0;
             cbZoneFilter.SelectedIndex = 0;
             LoadEnclosures();
-        }
-
-        private void LoadEnclosuresWithFilters()
-        {
-            string selectedBiome = cbBiomeFilter.SelectedItem?.ToString();
-            string selectedZone = cbZoneFilter.SelectedItem?.ToString();
-            string searchText = txtSearchEnclosure.Text.Trim().ToLower();
-
-            string query = $@"
-        SELECT e.eid, e.biome, e.esize, z.name AS zoneName
-        FROM {DatabaseHelper.Table("ENCLOSURE")} e
-        JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name
-        WHERE 1=1";
-
-            if (!string.IsNullOrWhiteSpace(searchText))
-            {
-                query += $" AND (LOWER(e.biome) LIKE '%{searchText}%' OR LOWER(z.name) LIKE '%{searchText}%')";
-            }
-
-            if (!string.IsNullOrWhiteSpace(selectedBiome) && selectedBiome != "All" && selectedBiome != "Filter by Biome")
-            {
-                query += $" AND e.biome = '{selectedBiome}'";
-            }
-
-            if (!string.IsNullOrWhiteSpace(selectedZone) && selectedZone != "All" && selectedZone != "Filter by Zone")
-            {
-                query += $" AND z.name = '{selectedZone}'";
-            }
-
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            enclosuresDataGridView.DataSource = dt;
         }
 
     }
