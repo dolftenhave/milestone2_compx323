@@ -164,8 +164,10 @@ namespace ZooApp
             enclosureDt = DatabaseHelper.ExecuteQuery(query);
             enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
 
-            PopulateBiomeFilter(); // include this here
+            PopulateBiomeFilter();
+            PopulateZoneFilter();
         }
+
 
         private void RefreshEnclosures()
         {
@@ -532,8 +534,14 @@ namespace ZooApp
 
         private void cbBiomeFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            LoadEnclosuresWithFilters();
         }
+
+        private void cbZoneFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadEnclosuresWithFilters();
+        }
+
 
         private void btnRefreshAnimals_Click_1(object sender, EventArgs e)
         {
@@ -541,12 +549,11 @@ namespace ZooApp
             txtAnimalSearch.ForeColor = Color.Gray;
             LoadAnimals(); 
         }
-
-
         private void btnSearchEnclosures_Click(object sender, EventArgs e)
         {
             string searchText = txtSearchEnclosure.Text.Trim().ToLower();
             string selectedBiome = cbBiomeFilter.SelectedItem?.ToString();
+            string selectedZone = cbZoneFilter.SelectedItem?.ToString();
 
             string query = $"SELECT e.eid, e.biome, e.esize, z.name AS zoneName " +
                            $"FROM {DatabaseHelper.Table("ENCLOSURE")} e " +
@@ -563,9 +570,15 @@ namespace ZooApp
                 query += $"AND e.biome = '{selectedBiome}' ";
             }
 
+            if (!string.IsNullOrWhiteSpace(selectedZone) && selectedZone != "All")
+            {
+                query += $"AND z.name = '{selectedZone}' ";
+            }
+
             DataTable dt = DatabaseHelper.ExecuteQuery(query);
             enclosuresDataGridView.DataSource = dt;
         }
+
         private void PopulateBiomeFilter()
         {
             string query = $"SELECT DISTINCT biome FROM {DatabaseHelper.Table("ENCLOSURE")}";
@@ -575,18 +588,63 @@ namespace ZooApp
             cbBiomeFilter.Items.Add("All");
 
             foreach (DataRow row in dt.Rows)
-            {
                 cbBiomeFilter.Items.Add(row["biome"].ToString());
-            }
 
             cbBiomeFilter.SelectedIndex = 0;
+        }
+
+        private void PopulateZoneFilter()
+        {
+            string query = $"SELECT DISTINCT zoneName FROM {DatabaseHelper.Table("ENCLOSURE")}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+
+            cbZoneFilter.Items.Clear();
+            cbZoneFilter.Items.Add("All");
+
+            foreach (DataRow row in dt.Rows)
+                cbZoneFilter.Items.Add(row["zoneName"].ToString());
+
+            cbZoneFilter.SelectedIndex = 0;
         }
 
         private void btnRefreshEnclosures_Click_1(object sender, EventArgs e)
         {
             txtSearchEnclosure.Clear();
             cbBiomeFilter.SelectedIndex = 0;
+            cbZoneFilter.SelectedIndex = 0;
             LoadEnclosures();
         }
+
+        private void LoadEnclosuresWithFilters()
+        {
+            string selectedBiome = cbBiomeFilter.SelectedItem?.ToString();
+            string selectedZone = cbZoneFilter.SelectedItem?.ToString();
+            string searchText = txtSearchEnclosure.Text.Trim().ToLower();
+
+            string query = $@"
+        SELECT e.eid, e.biome, e.esize, z.name AS zoneName
+        FROM {DatabaseHelper.Table("ENCLOSURE")} e
+        JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name
+        WHERE 1=1";
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                query += $" AND (LOWER(e.biome) LIKE '%{searchText}%' OR LOWER(z.name) LIKE '%{searchText}%')";
+            }
+
+            if (!string.IsNullOrWhiteSpace(selectedBiome) && selectedBiome != "All" && selectedBiome != "Filter by Biome")
+            {
+                query += $" AND e.biome = '{selectedBiome}'";
+            }
+
+            if (!string.IsNullOrWhiteSpace(selectedZone) && selectedZone != "All" && selectedZone != "Filter by Zone")
+            {
+                query += $" AND z.name = '{selectedZone}'";
+            }
+
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            enclosuresDataGridView.DataSource = dt;
+        }
+
     }
 }

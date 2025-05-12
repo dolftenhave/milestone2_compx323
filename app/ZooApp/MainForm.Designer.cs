@@ -55,6 +55,7 @@
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cbZoneFilter = new System.Windows.Forms.ComboBox();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -191,6 +192,7 @@
             // 
             // tabEnclosures
             // 
+            this.tabEnclosures.Controls.Add(this.cbZoneFilter);
             this.tabEnclosures.Controls.Add(this.txtSearchEnclosure);
             this.tabEnclosures.Controls.Add(this.btnSearchEnclosures);
             this.tabEnclosures.Controls.Add(this.btnAddEnclosure_Click);
@@ -427,6 +429,17 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // cbZoneFilter
+            // 
+            this.cbZoneFilter.DisplayMember = "cbBiome Filter";
+            this.cbZoneFilter.Location = new System.Drawing.Point(458, 19);
+            this.cbZoneFilter.Name = "cbZoneFilter";
+            this.cbZoneFilter.Size = new System.Drawing.Size(120, 21);
+            this.cbZoneFilter.TabIndex = 7;
+            this.cbZoneFilter.Text = " Filter By Zone";
+            this.cbZoneFilter.ValueMember = "Biome";
+            this.cbZoneFilter.SelectedIndexChanged += new System.EventHandler(this.cbZoneFilter_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1209, 817);
@@ -492,5 +505,6 @@
         private System.Windows.Forms.TextBox textBox_pageNum;
         private System.Windows.Forms.Label label_pageNum;
         private System.Windows.Forms.Button button_ZookeepersQualified;
+        private System.Windows.Forms.ComboBox cbZoneFilter;
     }
 }
