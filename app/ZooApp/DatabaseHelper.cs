@@ -25,6 +25,12 @@ namespace ZooApp
             return $"{currentTablePrefix}_{baseName}";
         }
 
+        // Takes a DateTime class, and converts it to equivalent SQL string
+        public static string ConvertDateTimeToSQLString(DateTime toConvert)
+        {
+            return toConvert.ToString("yyyy-MM-dd");
+        }
+
         // Executes a SELECT and returns a filled DataTable
         public static DataTable ExecuteQuery(string query, OracleParameter[] parameters = null)
         {

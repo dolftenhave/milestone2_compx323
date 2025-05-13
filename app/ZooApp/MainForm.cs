@@ -47,6 +47,9 @@ namespace ZooApp
         {
             try
             {
+                // Set initial filter date to a month ago
+                dateTimePicker_feedCare.Value = DateTime.Now.AddDays(-30);
+
                 LoadAnimals();
                 LoadEnclosures();
                 LoadStaff();
@@ -229,8 +232,38 @@ namespace ZooApp
 
         private void LoadFeedingAndCare()
         {
-            string query = $@"
-        SELECT 
+            // Prepare variables for insertion into the query
+            string date = DatabaseHelper.ConvertDateTimeToSQLString(dateTimePicker_feedCare.Value);
+            string staffID = "S.sid";
+            string animalID = "A.aid";
+            if (textBox_staffIdFeedCare.Text != "")
+            {
+                try
+                {
+                    // Attempt to parse the text as int, if not parsable then will be caught
+                    staffID = int.Parse(textBox_staffIdFeedCare.Text).ToString();
+                }
+                catch {
+                    MessageBox.Show("Staff ID was not a valid number!");
+                    staffID = "S.sid";
+                }
+            }
+            if (textBox_animalIdFeedCare.Text != "")
+            {
+                try
+                {
+                    // Attempt to parse the text as int, if not parsable then will be caught
+                    animalID = int.Parse(textBox_animalIdFeedCare.Text).ToString();
+                }
+                catch
+                {
+                    MessageBox.Show("Animal ID was not a valid number!");
+                    animalID = "A.aid";
+                }
+            }
+
+            string feedingQuery = $@"
+                 SELECT 
             F.staffID,
             S.fName || ' ' || S.lName AS StaffName,
             F.animalID,
@@ -241,13 +274,14 @@ namespace ZooApp
             TO_CHAR(F.amount) AS FoodAmount,
             NULL AS CareType,
             NULL AS VetNotes
-        FROM {DatabaseHelper.Table("FEED")} F
-        JOIN {DatabaseHelper.Table("STAFF")} S ON F.staffID = S.sid
-        JOIN {DatabaseHelper.Table("ANIMAL")} A ON F.animalID = A.aid
+             FROM {DatabaseHelper.Table("FEED")} F
+             JOIN {DatabaseHelper.Table("STAFF")} S ON F.staffID = {staffID}
+             JOIN {DatabaseHelper.Table("ANIMAL")} A ON F.animalID = {animalID}
+             WHERE F.dateTime > to_timestamp('{date}', 'YYYY-MM-DD')
+            ";
 
-        UNION ALL
-
-        SELECT 
+            string medicalQuery = $@"
+                SELECT 
             C.staffID,
             S.fName || ' ' || S.lName AS StaffName,
             C.animalID,
@@ -258,11 +292,35 @@ namespace ZooApp
             NULL AS FoodAmount,
             C.care AS CareType,
             C.notes AS VetNotes
-        FROM {DatabaseHelper.Table("CARE")} C
-        JOIN {DatabaseHelper.Table("STAFF")} S ON C.staffID = S.sid
-        JOIN {DatabaseHelper.Table("ANIMAL")} A ON C.animalID = A.aid
+            FROM {DatabaseHelper.Table("CARE")} C
+            JOIN {DatabaseHelper.Table("STAFF")} S ON C.staffID = {staffID}
+            JOIN {DatabaseHelper.Table("ANIMAL")} A ON C.animalID = {animalID}
+            WHERE C.dateTime > to_timestamp('{date}', 'YYYY-MM-DD')
+            ";
 
-        ORDER BY dateTime DESC";
+            // Create the query based on inputs
+            int numChecked = 0;
+            string query = "";
+            if (checkBox_feedingHistory.Checked)
+            {
+                numChecked++;
+                query += feedingQuery;
+            }
+
+            if (checkBox_medicalHistory.Checked)
+            {
+                numChecked++;
+                if (numChecked != 0)
+                {
+                    query += " UNION ALL ";
+                }
+                query += medicalQuery;
+            }
+
+            if (numChecked != 0)
+            {
+                query += " ORDER BY dateTime DESC";
+            }
 
             feedingCareDt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.AutoGenerateColumns = true;
@@ -548,6 +606,13 @@ namespace ZooApp
             txtAnimalSearch.ForeColor = Color.Gray;
             LoadAnimals(); 
         }
+
+        private void button_filterFeedCare_Click(object sender, EventArgs e)
+        {
+            dataTablePos[3] = 0;
+            LoadFeedingAndCare();
+        }
+
         private void btnSearchEnclosures_Click(object sender, EventArgs e)
         {
             string searchText = txtSearchEnclosure.Text.Trim().ToLower();

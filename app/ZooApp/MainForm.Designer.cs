@@ -64,6 +64,7 @@
             this.label_staffIdFeedCare = new System.Windows.Forms.Label();
             this.dateTimePicker_feedCare = new System.Windows.Forms.DateTimePicker();
             this.label_dateFeedCare = new System.Windows.Forms.Label();
+            this.button_filterFeedCare = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -78,6 +79,7 @@
             // 
             // tabFeedingCare
             // 
+            this.tabFeedingCare.Controls.Add(this.button_filterFeedCare);
             this.tabFeedingCare.Controls.Add(this.label_dateFeedCare);
             this.tabFeedingCare.Controls.Add(this.dateTimePicker_feedCare);
             this.tabFeedingCare.Controls.Add(this.label_staffIdFeedCare);
@@ -459,6 +461,8 @@
             // checkBox_feedingHistory
             // 
             this.checkBox_feedingHistory.AutoSize = true;
+            this.checkBox_feedingHistory.Checked = true;
+            this.checkBox_feedingHistory.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_feedingHistory.Location = new System.Drawing.Point(184, 8);
             this.checkBox_feedingHistory.Name = "checkBox_feedingHistory";
             this.checkBox_feedingHistory.Size = new System.Drawing.Size(105, 17);
@@ -469,6 +473,8 @@
             // checkBox_medicalHistory
             // 
             this.checkBox_medicalHistory.AutoSize = true;
+            this.checkBox_medicalHistory.Checked = true;
+            this.checkBox_medicalHistory.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_medicalHistory.Location = new System.Drawing.Point(184, 34);
             this.checkBox_medicalHistory.Name = "checkBox_medicalHistory";
             this.checkBox_medicalHistory.Size = new System.Drawing.Size(104, 17);
@@ -523,6 +529,16 @@
             this.label_dateFeedCare.Size = new System.Drawing.Size(117, 13);
             this.label_dateFeedCare.TabIndex = 10;
             this.label_dateFeedCare.Text = "Get data past this date:";
+            // 
+            // button_filterFeedCare
+            // 
+            this.button_filterFeedCare.Location = new System.Drawing.Point(500, 28);
+            this.button_filterFeedCare.Name = "button_filterFeedCare";
+            this.button_filterFeedCare.Size = new System.Drawing.Size(75, 23);
+            this.button_filterFeedCare.TabIndex = 11;
+            this.button_filterFeedCare.Text = "Filter";
+            this.button_filterFeedCare.UseVisualStyleBackColor = true;
+            this.button_filterFeedCare.Click += new System.EventHandler(this.button_filterFeedCare_Click);
             // 
             // MainForm
             // 
@@ -599,5 +615,6 @@
         private System.Windows.Forms.TextBox textBox_animalIdFeedCare;
         private System.Windows.Forms.CheckBox checkBox_medicalHistory;
         private System.Windows.Forms.CheckBox checkBox_feedingHistory;
+        private System.Windows.Forms.Button button_filterFeedCare;
     }
 }
