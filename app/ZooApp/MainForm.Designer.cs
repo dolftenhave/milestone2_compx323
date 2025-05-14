@@ -19,6 +19,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tabFeedingCare = new System.Windows.Forms.TabPage();
+            this.button_filterFeedCare = new System.Windows.Forms.Button();
+            this.label_dateFeedCare = new System.Windows.Forms.Label();
+            this.dateTimePicker_feedCare = new System.Windows.Forms.DateTimePicker();
+            this.label_staffIdFeedCare = new System.Windows.Forms.Label();
+            this.label_animalIdFeedCare = new System.Windows.Forms.Label();
+            this.textBox_staffIdFeedCare = new System.Windows.Forms.TextBox();
+            this.textBox_animalIdFeedCare = new System.Windows.Forms.TextBox();
+            this.checkBox_medicalHistory = new System.Windows.Forms.CheckBox();
+            this.checkBox_feedingHistory = new System.Windows.Forms.CheckBox();
             this.feedingDataGridView = new System.Windows.Forms.DataGridView();
             this.btnRecordFeeding = new System.Windows.Forms.Button();
             this.btnRecordCare = new System.Windows.Forms.Button();
@@ -32,6 +41,7 @@
             this.btnRefreshStaff = new System.Windows.Forms.Button();
             this.btnAddStaff = new System.Windows.Forms.Button();
             this.tabEnclosures = new System.Windows.Forms.TabPage();
+            this.button_animalInEnclosureReport = new System.Windows.Forms.Button();
             this.cbZoneFilter = new System.Windows.Forms.ComboBox();
             this.txtSearchEnclosure = new System.Windows.Forms.TextBox();
             this.btnSearchEnclosures = new System.Windows.Forms.Button();
@@ -43,6 +53,7 @@
             this.tabAnimals = new System.Windows.Forms.TabPage();
             this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.panel_pageControl = new System.Windows.Forms.Panel();
+            this.button_goToPage = new System.Windows.Forms.Button();
             this.label_pageInfo = new System.Windows.Forms.Label();
             this.button_prevPage = new System.Windows.Forms.Button();
             this.button_nextPage = new System.Windows.Forms.Button();
@@ -56,17 +67,7 @@
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.checkBox_feedingHistory = new System.Windows.Forms.CheckBox();
-            this.checkBox_medicalHistory = new System.Windows.Forms.CheckBox();
-            this.textBox_animalIdFeedCare = new System.Windows.Forms.TextBox();
-            this.textBox_staffIdFeedCare = new System.Windows.Forms.TextBox();
-            this.label_animalIdFeedCare = new System.Windows.Forms.Label();
-            this.label_staffIdFeedCare = new System.Windows.Forms.Label();
-            this.dateTimePicker_feedCare = new System.Windows.Forms.DateTimePicker();
-            this.label_dateFeedCare = new System.Windows.Forms.Label();
-            this.button_filterFeedCare = new System.Windows.Forms.Button();
-            this.button_goToPage = new System.Windows.Forms.Button();
-            this.button_animalInEnclosureReport = new System.Windows.Forms.Button();
+            this.button_possibleEnclosuresReport = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -98,6 +99,88 @@
             this.tabFeedingCare.Size = new System.Drawing.Size(1177, 767);
             this.tabFeedingCare.TabIndex = 3;
             this.tabFeedingCare.Text = "Feeding / Care";
+            // 
+            // button_filterFeedCare
+            // 
+            this.button_filterFeedCare.Location = new System.Drawing.Point(500, 28);
+            this.button_filterFeedCare.Name = "button_filterFeedCare";
+            this.button_filterFeedCare.Size = new System.Drawing.Size(75, 23);
+            this.button_filterFeedCare.TabIndex = 11;
+            this.button_filterFeedCare.Text = "Filter";
+            this.button_filterFeedCare.UseVisualStyleBackColor = true;
+            this.button_filterFeedCare.Click += new System.EventHandler(this.button_filterFeedCare_Click);
+            // 
+            // label_dateFeedCare
+            // 
+            this.label_dateFeedCare.AutoSize = true;
+            this.label_dateFeedCare.Location = new System.Drawing.Point(295, 9);
+            this.label_dateFeedCare.Name = "label_dateFeedCare";
+            this.label_dateFeedCare.Size = new System.Drawing.Size(117, 13);
+            this.label_dateFeedCare.TabIndex = 10;
+            this.label_dateFeedCare.Text = "Get data past this date:";
+            // 
+            // dateTimePicker_feedCare
+            // 
+            this.dateTimePicker_feedCare.Location = new System.Drawing.Point(294, 31);
+            this.dateTimePicker_feedCare.Name = "dateTimePicker_feedCare";
+            this.dateTimePicker_feedCare.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker_feedCare.TabIndex = 9;
+            // 
+            // label_staffIdFeedCare
+            // 
+            this.label_staffIdFeedCare.AutoSize = true;
+            this.label_staffIdFeedCare.Location = new System.Drawing.Point(17, 36);
+            this.label_staffIdFeedCare.Name = "label_staffIdFeedCare";
+            this.label_staffIdFeedCare.Size = new System.Drawing.Size(46, 13);
+            this.label_staffIdFeedCare.TabIndex = 8;
+            this.label_staffIdFeedCare.Text = "Staff ID:";
+            // 
+            // label_animalIdFeedCare
+            // 
+            this.label_animalIdFeedCare.AutoSize = true;
+            this.label_animalIdFeedCare.Location = new System.Drawing.Point(17, 8);
+            this.label_animalIdFeedCare.Name = "label_animalIdFeedCare";
+            this.label_animalIdFeedCare.Size = new System.Drawing.Size(55, 13);
+            this.label_animalIdFeedCare.TabIndex = 7;
+            this.label_animalIdFeedCare.Text = "Animal ID:";
+            // 
+            // textBox_staffIdFeedCare
+            // 
+            this.textBox_staffIdFeedCare.Location = new System.Drawing.Point(78, 31);
+            this.textBox_staffIdFeedCare.Name = "textBox_staffIdFeedCare";
+            this.textBox_staffIdFeedCare.Size = new System.Drawing.Size(100, 20);
+            this.textBox_staffIdFeedCare.TabIndex = 6;
+            // 
+            // textBox_animalIdFeedCare
+            // 
+            this.textBox_animalIdFeedCare.Location = new System.Drawing.Point(78, 7);
+            this.textBox_animalIdFeedCare.Name = "textBox_animalIdFeedCare";
+            this.textBox_animalIdFeedCare.Size = new System.Drawing.Size(100, 20);
+            this.textBox_animalIdFeedCare.TabIndex = 5;
+            // 
+            // checkBox_medicalHistory
+            // 
+            this.checkBox_medicalHistory.AutoSize = true;
+            this.checkBox_medicalHistory.Checked = true;
+            this.checkBox_medicalHistory.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_medicalHistory.Location = new System.Drawing.Point(184, 34);
+            this.checkBox_medicalHistory.Name = "checkBox_medicalHistory";
+            this.checkBox_medicalHistory.Size = new System.Drawing.Size(104, 17);
+            this.checkBox_medicalHistory.TabIndex = 4;
+            this.checkBox_medicalHistory.Text = "Medical History?";
+            this.checkBox_medicalHistory.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_feedingHistory
+            // 
+            this.checkBox_feedingHistory.AutoSize = true;
+            this.checkBox_feedingHistory.Checked = true;
+            this.checkBox_feedingHistory.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_feedingHistory.Location = new System.Drawing.Point(184, 8);
+            this.checkBox_feedingHistory.Name = "checkBox_feedingHistory";
+            this.checkBox_feedingHistory.Size = new System.Drawing.Size(105, 17);
+            this.checkBox_feedingHistory.TabIndex = 3;
+            this.checkBox_feedingHistory.Text = "Feeding History?";
+            this.checkBox_feedingHistory.UseVisualStyleBackColor = true;
             // 
             // feedingDataGridView
             // 
@@ -227,6 +310,16 @@
             this.tabEnclosures.TabIndex = 1;
             this.tabEnclosures.Text = "Enclosures";
             // 
+            // button_animalInEnclosureReport
+            // 
+            this.button_animalInEnclosureReport.Location = new System.Drawing.Point(378, 16);
+            this.button_animalInEnclosureReport.Name = "button_animalInEnclosureReport";
+            this.button_animalInEnclosureReport.Size = new System.Drawing.Size(117, 23);
+            this.button_animalInEnclosureReport.TabIndex = 8;
+            this.button_animalInEnclosureReport.Text = "Animals in Enclosure";
+            this.button_animalInEnclosureReport.UseVisualStyleBackColor = true;
+            this.button_animalInEnclosureReport.Click += new System.EventHandler(this.button_animalInEnclosureReport_Click);
+            // 
             // cbZoneFilter
             // 
             this.cbZoneFilter.DisplayMember = "cbBiome Filter";
@@ -305,6 +398,7 @@
             // 
             // tabAnimals
             // 
+            this.tabAnimals.Controls.Add(this.button_possibleEnclosuresReport);
             this.tabAnimals.Controls.Add(this.button_ZookeepersQualified);
             this.tabAnimals.Controls.Add(this.panel_pageControl);
             this.tabAnimals.Controls.Add(this.btnEditAnimal);
@@ -341,6 +435,16 @@
             this.panel_pageControl.Name = "panel_pageControl";
             this.panel_pageControl.Size = new System.Drawing.Size(346, 50);
             this.panel_pageControl.TabIndex = 10;
+            // 
+            // button_goToPage
+            // 
+            this.button_goToPage.Location = new System.Drawing.Point(179, -1);
+            this.button_goToPage.Name = "button_goToPage";
+            this.button_goToPage.Size = new System.Drawing.Size(75, 23);
+            this.button_goToPage.TabIndex = 5;
+            this.button_goToPage.Text = "Go To Page";
+            this.button_goToPage.UseVisualStyleBackColor = true;
+            this.button_goToPage.Click += new System.EventHandler(this.button_goToPage_Click);
             // 
             // label_pageInfo
             // 
@@ -461,107 +565,15 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // checkBox_feedingHistory
+            // button_possibleEnclosuresReport
             // 
-            this.checkBox_feedingHistory.AutoSize = true;
-            this.checkBox_feedingHistory.Checked = true;
-            this.checkBox_feedingHistory.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_feedingHistory.Location = new System.Drawing.Point(184, 8);
-            this.checkBox_feedingHistory.Name = "checkBox_feedingHistory";
-            this.checkBox_feedingHistory.Size = new System.Drawing.Size(105, 17);
-            this.checkBox_feedingHistory.TabIndex = 3;
-            this.checkBox_feedingHistory.Text = "Feeding History?";
-            this.checkBox_feedingHistory.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_medicalHistory
-            // 
-            this.checkBox_medicalHistory.AutoSize = true;
-            this.checkBox_medicalHistory.Checked = true;
-            this.checkBox_medicalHistory.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_medicalHistory.Location = new System.Drawing.Point(184, 34);
-            this.checkBox_medicalHistory.Name = "checkBox_medicalHistory";
-            this.checkBox_medicalHistory.Size = new System.Drawing.Size(104, 17);
-            this.checkBox_medicalHistory.TabIndex = 4;
-            this.checkBox_medicalHistory.Text = "Medical History?";
-            this.checkBox_medicalHistory.UseVisualStyleBackColor = true;
-            // 
-            // textBox_animalIdFeedCare
-            // 
-            this.textBox_animalIdFeedCare.Location = new System.Drawing.Point(78, 7);
-            this.textBox_animalIdFeedCare.Name = "textBox_animalIdFeedCare";
-            this.textBox_animalIdFeedCare.Size = new System.Drawing.Size(100, 20);
-            this.textBox_animalIdFeedCare.TabIndex = 5;
-            // 
-            // textBox_staffIdFeedCare
-            // 
-            this.textBox_staffIdFeedCare.Location = new System.Drawing.Point(78, 31);
-            this.textBox_staffIdFeedCare.Name = "textBox_staffIdFeedCare";
-            this.textBox_staffIdFeedCare.Size = new System.Drawing.Size(100, 20);
-            this.textBox_staffIdFeedCare.TabIndex = 6;
-            // 
-            // label_animalIdFeedCare
-            // 
-            this.label_animalIdFeedCare.AutoSize = true;
-            this.label_animalIdFeedCare.Location = new System.Drawing.Point(17, 8);
-            this.label_animalIdFeedCare.Name = "label_animalIdFeedCare";
-            this.label_animalIdFeedCare.Size = new System.Drawing.Size(55, 13);
-            this.label_animalIdFeedCare.TabIndex = 7;
-            this.label_animalIdFeedCare.Text = "Animal ID:";
-            // 
-            // label_staffIdFeedCare
-            // 
-            this.label_staffIdFeedCare.AutoSize = true;
-            this.label_staffIdFeedCare.Location = new System.Drawing.Point(17, 36);
-            this.label_staffIdFeedCare.Name = "label_staffIdFeedCare";
-            this.label_staffIdFeedCare.Size = new System.Drawing.Size(46, 13);
-            this.label_staffIdFeedCare.TabIndex = 8;
-            this.label_staffIdFeedCare.Text = "Staff ID:";
-            // 
-            // dateTimePicker_feedCare
-            // 
-            this.dateTimePicker_feedCare.Location = new System.Drawing.Point(294, 31);
-            this.dateTimePicker_feedCare.Name = "dateTimePicker_feedCare";
-            this.dateTimePicker_feedCare.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker_feedCare.TabIndex = 9;
-            // 
-            // label_dateFeedCare
-            // 
-            this.label_dateFeedCare.AutoSize = true;
-            this.label_dateFeedCare.Location = new System.Drawing.Point(295, 9);
-            this.label_dateFeedCare.Name = "label_dateFeedCare";
-            this.label_dateFeedCare.Size = new System.Drawing.Size(117, 13);
-            this.label_dateFeedCare.TabIndex = 10;
-            this.label_dateFeedCare.Text = "Get data past this date:";
-            // 
-            // button_filterFeedCare
-            // 
-            this.button_filterFeedCare.Location = new System.Drawing.Point(500, 28);
-            this.button_filterFeedCare.Name = "button_filterFeedCare";
-            this.button_filterFeedCare.Size = new System.Drawing.Size(75, 23);
-            this.button_filterFeedCare.TabIndex = 11;
-            this.button_filterFeedCare.Text = "Filter";
-            this.button_filterFeedCare.UseVisualStyleBackColor = true;
-            this.button_filterFeedCare.Click += new System.EventHandler(this.button_filterFeedCare_Click);
-            // 
-            // button_goToPage
-            // 
-            this.button_goToPage.Location = new System.Drawing.Point(179, -1);
-            this.button_goToPage.Name = "button_goToPage";
-            this.button_goToPage.Size = new System.Drawing.Size(75, 23);
-            this.button_goToPage.TabIndex = 5;
-            this.button_goToPage.Text = "Go To Page";
-            this.button_goToPage.UseVisualStyleBackColor = true;
-            this.button_goToPage.Click += new System.EventHandler(this.button_goToPage_Click);
-            // 
-            // button_animalInEnclosureReport
-            // 
-            this.button_animalInEnclosureReport.Location = new System.Drawing.Point(378, 16);
-            this.button_animalInEnclosureReport.Name = "button_animalInEnclosureReport";
-            this.button_animalInEnclosureReport.Size = new System.Drawing.Size(117, 23);
-            this.button_animalInEnclosureReport.TabIndex = 8;
-            this.button_animalInEnclosureReport.Text = "Animals in Enclosure";
-            this.button_animalInEnclosureReport.UseVisualStyleBackColor = true;
-            this.button_animalInEnclosureReport.Click += new System.EventHandler(this.button_animalInEnclosureReport_Click);
+            this.button_possibleEnclosuresReport.Location = new System.Drawing.Point(478, 16);
+            this.button_possibleEnclosuresReport.Name = "button_possibleEnclosuresReport";
+            this.button_possibleEnclosuresReport.Size = new System.Drawing.Size(117, 23);
+            this.button_possibleEnclosuresReport.TabIndex = 12;
+            this.button_possibleEnclosuresReport.Text = "Possible Enclosures";
+            this.button_possibleEnclosuresReport.UseVisualStyleBackColor = true;
+            this.button_possibleEnclosuresReport.Click += new System.EventHandler(this.button_possibleEnclosuresReport_Click);
             // 
             // MainForm
             // 
@@ -641,5 +653,6 @@
         private System.Windows.Forms.Button button_filterFeedCare;
         private System.Windows.Forms.Button button_goToPage;
         private System.Windows.Forms.Button button_animalInEnclosureReport;
+        private System.Windows.Forms.Button button_possibleEnclosuresReport;
     }
 }

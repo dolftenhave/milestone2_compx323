@@ -42,6 +42,15 @@ namespace ZooApp
             JOIN {DatabaseHelper.Table("ANIMAL")} a on e.eid = a.enclosureid
         ";
 
+        public static String PossibleEnclosuresForAnimal = $@"
+            SELECT e.eid, e.zoneName
+            FROM {DatabaseHelper.Table("ANIMAL")} a,
+            {DatabaseHelper.Table("ENCLOSURE")} e,
+            {DatabaseHelper.Table("SPECIES")} s
+            WHERE a.speciesName = s.latinName
+            AND s.requiredBiome = e.biome
+        ";
+
         // Query to load the Animals table
         public static String LoadAnimalsQuery = $@"
                     SELECT 
