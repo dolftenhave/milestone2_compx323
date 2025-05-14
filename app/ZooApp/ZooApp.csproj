@@ -116,11 +116,23 @@
     <Compile Include="AddStaffForm.Designer.cs">
       <DependentUpon>AddStaffForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddVetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddVetForm.Designer.cs">
+      <DependentUpon>AddVetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddZoneForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AddZoneForm.Designer.cs">
       <DependentUpon>AddZoneForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddZookeeperForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddZookeeperForm.Designer.cs">
+      <DependentUpon>AddZookeeperForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ChecklistForm.cs">
       <SubType>Form</SubType>
@@ -174,23 +186,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaffInfo.cs" />
     <Compile Include="VetForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VetForm.Designer.cs">
       <DependentUpon>VetForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ZoneCoverageForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ZoneCoverageForm.Designer.cs">
-      <DependentUpon>ZoneCoverageForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ZookeeperSkillsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ZookeeperSkillsForm.Designer.cs">
-      <DependentUpon>ZookeeperSkillsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Report.cs">
       <SubType>Form</SubType>
@@ -213,8 +214,14 @@
     <EmbeddedResource Include="AddStaffForm.resx">
       <DependentUpon>AddStaffForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddVetForm.resx">
+      <DependentUpon>AddVetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddZoneForm.resx">
       <DependentUpon>AddZoneForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddZookeeperForm.resx">
+      <DependentUpon>AddZookeeperForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChecklistForm.resx">
       <DependentUpon>ChecklistForm.cs</DependentUpon>
@@ -251,12 +258,6 @@
     </Compile>
     <EmbeddedResource Include="VetForm.resx">
       <DependentUpon>VetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ZoneCoverageForm.resx">
-      <DependentUpon>ZoneCoverageForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ZookeeperSkillsForm.resx">
-      <DependentUpon>ZookeeperSkillsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report.resx">
       <DependentUpon>Report.cs</DependentUpon>

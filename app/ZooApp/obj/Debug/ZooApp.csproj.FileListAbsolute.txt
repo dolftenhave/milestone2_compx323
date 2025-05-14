@@ -96,8 +96,6 @@ H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.StaffActivityForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.VetForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.MainForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.Properties.Resources.resources
-H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.ZoneCoverageForm.resources
-H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.ZookeeperSkillsForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.csproj.GenerateResource.cache
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.csproj.CoreCompileInputs.cache
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.csproj.CopyComplete
@@ -164,3 +162,5 @@ H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.SelectZoneForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddZoneForm.resources
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.AddZoneForm.resources
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.SelectZoneForm.resources
+H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddVetForm.resources
+H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddZookeeperForm.resources

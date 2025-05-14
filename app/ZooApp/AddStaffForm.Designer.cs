@@ -27,9 +27,8 @@
             this.txtSuburb = new System.Windows.Forms.TextBox();
             this.txtCity = new System.Windows.Forms.TextBox();
             this.txtPostCode = new System.Windows.Forms.TextBox();
-            this.txtClinic = new System.Windows.Forms.TextBox();
             this.cbSex = new System.Windows.Forms.ComboBox();
-            this.btnSubmit = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblFirstName = new System.Windows.Forms.Label();
             this.lblLastName = new System.Windows.Forms.Label();
@@ -41,7 +40,6 @@
             this.lblSuburb = new System.Windows.Forms.Label();
             this.lblCity = new System.Windows.Forms.Label();
             this.lblPostCode = new System.Windows.Forms.Label();
-            this.lblClinic = new System.Windows.Forms.Label();
             this.lblSex = new System.Windows.Forms.Label();
             this.cbRole = new System.Windows.Forms.ComboBox();
             this.lblRole = new System.Windows.Forms.Label();
@@ -118,36 +116,29 @@
             this.txtPostCode.Size = new System.Drawing.Size(206, 20);
             this.txtPostCode.TabIndex = 19;
             // 
-            // txtClinic
-            // 
-            this.txtClinic.Location = new System.Drawing.Point(150, 320);
-            this.txtClinic.Name = "txtClinic";
-            this.txtClinic.Size = new System.Drawing.Size(206, 20);
-            this.txtClinic.TabIndex = 21;
-            // 
             // cbSex
             // 
             this.cbSex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSex.Items.AddRange(new object[] {
             "Male",
             "Female"});
-            this.cbSex.Location = new System.Drawing.Point(150, 350);
+            this.cbSex.Location = new System.Drawing.Point(150, 325);
             this.cbSex.Name = "cbSex";
             this.cbSex.Size = new System.Drawing.Size(206, 21);
             this.cbSex.TabIndex = 23;
             // 
-            // btnSubmit
+            // btnAdd
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(150, 419);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(100, 25);
-            this.btnSubmit.TabIndex = 24;
-            this.btnSubmit.Text = "Submit";
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            this.btnAdd.Location = new System.Drawing.Point(150, 399);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(100, 25);
+            this.btnAdd.TabIndex = 24;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(256, 419);
+            this.btnCancel.Location = new System.Drawing.Point(256, 399);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 25);
             this.btnCancel.TabIndex = 25;
@@ -234,17 +225,9 @@
             this.lblPostCode.TabIndex = 18;
             this.lblPostCode.Text = "Post Code:";
             // 
-            // lblClinic
-            // 
-            this.lblClinic.Location = new System.Drawing.Point(20, 320);
-            this.lblClinic.Name = "lblClinic";
-            this.lblClinic.Size = new System.Drawing.Size(100, 23);
-            this.lblClinic.TabIndex = 20;
-            this.lblClinic.Text = "Clinic:";
-            // 
             // lblSex
             // 
-            this.lblSex.Location = new System.Drawing.Point(20, 350);
+            this.lblSex.Location = new System.Drawing.Point(20, 328);
             this.lblSex.Name = "lblSex";
             this.lblSex.Size = new System.Drawing.Size(100, 23);
             this.lblSex.TabIndex = 22;
@@ -253,15 +236,17 @@
             // cbRole
             // 
             this.cbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRole.Items.AddRange(new object[] {"Zookeeper","Vet"});
-            this.cbRole.Location = new System.Drawing.Point(150, 380);
+            this.cbRole.Items.AddRange(new object[] {
+            "Zookeeper",
+            "Vet"});
+            this.cbRole.Location = new System.Drawing.Point(150, 362);
             this.cbRole.Name = "cbRole";
             this.cbRole.Size = new System.Drawing.Size(206, 21);
             this.cbRole.TabIndex = 0;
             // 
             // lblRole
             // 
-            this.lblRole.Location = new System.Drawing.Point(20, 378);
+            this.lblRole.Location = new System.Drawing.Point(12, 365);
             this.lblRole.Name = "lblRole";
             this.lblRole.Size = new System.Drawing.Size(100, 23);
             this.lblRole.TabIndex = 1;
@@ -269,7 +254,7 @@
             // 
             // AddStaffForm
             // 
-            this.ClientSize = new System.Drawing.Size(400, 478);
+            this.ClientSize = new System.Drawing.Size(377, 443);
             this.Controls.Add(this.cbRole);
             this.Controls.Add(this.lblRole);
             this.Controls.Add(this.lblFirstName);
@@ -292,11 +277,9 @@
             this.Controls.Add(this.txtCity);
             this.Controls.Add(this.lblPostCode);
             this.Controls.Add(this.txtPostCode);
-            this.Controls.Add(this.lblClinic);
-            this.Controls.Add(this.txtClinic);
             this.Controls.Add(this.lblSex);
             this.Controls.Add(this.cbSex);
-            this.Controls.Add(this.btnSubmit);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnCancel);
             this.Name = "AddStaffForm";
             this.Text = "Add New Staff";
@@ -318,9 +301,8 @@
         private System.Windows.Forms.TextBox txtSuburb;
         private System.Windows.Forms.TextBox txtCity;
         private System.Windows.Forms.TextBox txtPostCode;
-        private System.Windows.Forms.TextBox txtClinic;
         private System.Windows.Forms.ComboBox cbSex;
-        private System.Windows.Forms.Button btnSubmit;
+        private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cbRole;
 
@@ -334,7 +316,6 @@
         private System.Windows.Forms.Label lblSuburb;
         private System.Windows.Forms.Label lblCity;
         private System.Windows.Forms.Label lblPostCode;
-        private System.Windows.Forms.Label lblClinic;
         private System.Windows.Forms.Label lblSex;
         private System.Windows.Forms.Label lblRole;
 

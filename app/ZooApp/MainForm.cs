@@ -55,9 +55,6 @@ namespace ZooApp
                 LoadStaff();
                 LoadFeedingAndCare();
                 LoadRoles();
-
-                // Make sure animals is loaded
-                RefreshAnimals();
             }
             catch (Exception ex)
             {
@@ -65,7 +62,6 @@ namespace ZooApp
             }
         }
 
-        // --------- Loaders ---------
 
         // Display info about the page
         private void LoadPageInfo()
@@ -189,42 +185,66 @@ namespace ZooApp
             string careTable = DatabaseHelper.Table("CARE");
 
             string query = $@"
-            SELECT
-                s.sid,
-                s.fName || ' ' || s.lName AS fullName,
-                s.dob,
-                s.sex,
-                s.phNumber,
-                s.email,
-                s.streetNumber || ' ' || s.streetName || ', ' || s.suburb || ', ' || s.city || ' ' || s.postCode AS address,
-                s.clinic,
-                CASE
-                    WHEN EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid) THEN 'Zookeeper'
-                    WHEN EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid) THEN 'Vet'
-                    ELSE 'Unknown'
-                END AS role
-            FROM {table} s
-            WHERE 1=1
-            ";
+        SELECT
+            s.sid,
+            s.fName,
+            s.lName,
+            s.streetNumber,
+            s.streetName,
+            s.suburb,
+            s.city,
+            s.postCode,
+            s.fName || ' ' || s.lName AS fullName,
+            s.dob,
+            s.sex,
+            s.phNumber,
+            s.email,
+            s.clinic,
+            s.streetNumber || ' ' || s.streetName || ', ' || s.suburb || ', ' || s.city || ' ' || s.postCode AS address,
+            CASE
+                WHEN EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid) THEN 'Zookeeper'
+                WHEN EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid) THEN 'Vet'
+                ELSE 'Unknown'
+            END AS role
+        FROM {table} s
+        WHERE 1 = 1
+    ";
 
+            // Filter by name
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
-                query += $" AND (LOWER(s.fName) LIKE '%{nameFilter.ToLower()}%' OR LOWER(s.lName) LIKE '%{nameFilter.ToLower()}%')";
+                query += $@" AND (
+            LOWER(s.fName) LIKE '%{nameFilter.ToLower()}%' OR 
+            LOWER(s.lName) LIKE '%{nameFilter.ToLower()}%' OR 
+            LOWER(s.fName || ' ' || s.lName) LIKE '%{nameFilter.ToLower()}%')";
             }
 
+            // Filter by role
             if (!string.IsNullOrWhiteSpace(roleFilter) && roleFilter != "All")
             {
                 if (roleFilter == "Zookeeper")
+                {
                     query += $" AND EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid)";
+                }
                 else if (roleFilter == "Vet")
+                {
                     query += $" AND EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid)";
+                }
+                else if (roleFilter == "Unknown")
+                {
+                    query += $@"
+                AND NOT EXISTS (SELECT 1 FROM {feedTable} f WHERE f.staffID = s.sid)
+                AND NOT EXISTS (SELECT 1 FROM {careTable} c WHERE c.staffID = s.sid)";
+                }
             }
 
+            // Execute and load results
             staffDt = DatabaseHelper.ExecuteQuery(query);
             staffDataGridView.AutoGenerateColumns = true;
             staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.SelectedIndex]);
             LoadPageInfo();
         }
+
 
         private void RefreshStaff()
         {
@@ -340,13 +360,6 @@ namespace ZooApp
             LoadPageInfo();
         }
 
-        private void RefreshFeedingAndCare()
-        {
-            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.SelectedIndex]);
-            currentDGV = feedingDataGridView;
-            LoadPageInfo();
-        }
-
         private void LoadRoles()
         {
             string query = $"SELECT DISTINCT clinic FROM {DatabaseHelper.Table("STAFF")}";
@@ -363,13 +376,19 @@ namespace ZooApp
             cbStaffRoleFilter.SelectedIndex = 0;
         }
 
+        private void RefreshFeedingAndCare()
+        {
+            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.SelectedIndex]);
+            currentDGV = feedingDataGridView;
+            LoadPageInfo();
+        }
+
+
+
         // --------- Button Clicks ---------
         private void btnRefreshAnimals_Click(object sender, EventArgs e) => LoadAnimals();
         private void btnRefreshEnclosures_Click(object sender, EventArgs e) => LoadEnclosures();
         private void btnRefreshStaff_Click(object sender, EventArgs e) => LoadStaff();
-        private void btnOpenChecklist_Click(object sender, EventArgs e) => new ChecklistForm().ShowDialog();
-        private void btnOpenStaffActivity_Click(object sender, EventArgs e) => new StaffActivityForm().ShowDialog();
-        private void btnOpenSkills_Click(object sender, EventArgs e) => new ZookeeperSkillsForm().ShowDialog();
         private void btnRecordFeeding_Click(object sender, EventArgs e) => new FeedingForm().ShowDialog();
         private void btnRecordCare_Click(object sender, EventArgs e) => new VetForm().ShowDialog();
 
@@ -434,36 +453,6 @@ namespace ZooApp
         }
 
 
-        // --------- Filters ---------
-        private void btnSearchStaff_Click(object sender, EventArgs e)
-        {
-            string name = txtStaffSearch.Text.Trim();
-            string role = cbStaffRoleFilter.SelectedItem?.ToString();
-            LoadStaff(name, role);
-        }
-
-        private void cbStaffRoleFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string name = txtStaffSearch?.Text.Trim();
-            string role = cbStaffRoleFilter.SelectedItem?.ToString();
-            LoadStaff(name, role);
-        }
-
-        private void btnSearchAnimal_Click(object sender, EventArgs e)
-        {
-            string searchName = txtAnimalSearch.Text.Trim();
-            LoadAnimals(searchName);
-        }
-
-        private void btnAddEnclosure_Click_Click(object sender, EventArgs e)
-        {
-            using (var form = new AddEnclosureForm())
-            {
-                form.ShowDialog();
-                LoadEnclosures(); // Refresh after add
-            }
-        }
-
         private void btnEditEnclosure_Click(object sender, EventArgs e)
         {
             if (enclosuresDataGridView.SelectedRows.Count > 0)
@@ -485,38 +474,6 @@ namespace ZooApp
 
         }
 
-        private void btnZoneCoverage_Click(object sender, EventArgs e)
-        {
-            if (staffDataGridView.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select a staff member first.", "No Staff Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataRowView drv = staffDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
-            if (drv == null) return;
-
-            int sid = Convert.ToInt32(drv["sid"]);
-            new ZoneCoverageForm(sid).ShowDialog();
-        }
-
-        private void txtAnimalSearch_Enter(object sender, EventArgs e)
-        {
-            if (txtAnimalSearch.Text == "Search Animal here")
-            {
-                txtAnimalSearch.Text = "";
-                txtAnimalSearch.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtAnimalSearch_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtAnimalSearch.Text))
-            {
-                txtAnimalSearch.Text = "Search Animal here";
-                txtAnimalSearch.ForeColor = Color.Gray;
-            }
-        }
 
         private void tabMain_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -594,22 +551,7 @@ namespace ZooApp
             new Report(DatabaseHelper.ExecuteQuery(query), $"Zookeepers Qualified for Animal ID: {aid}").Show();
         }
 
-        private void cbBiomeFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
 
-        private void cbZoneFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnRefreshAnimals_Click_1(object sender, EventArgs e)
-        {
-            txtAnimalSearch.Text = "Search Animal here";
-            txtAnimalSearch.ForeColor = Color.Gray;
-            LoadAnimals(); 
-        }
 
         private void button_filterFeedCare_Click(object sender, EventArgs e)
         {
@@ -690,36 +632,6 @@ namespace ZooApp
             new Report(DatabaseHelper.ExecuteQuery(query), $"Qualifications for Staff ID: {sid}").Show();
         }
 
-        private void btnSearchEnclosures_Click(object sender, EventArgs e)
-        {
-            string searchText = txtSearchEnclosure.Text.Trim().ToLower();
-            string selectedBiome = cbBiomeFilter.SelectedItem?.ToString();
-            string selectedZone = cbZoneFilter.SelectedItem?.ToString();
-
-            string query = $"SELECT e.eid, e.biome, e.esize, z.name AS zoneName " +
-                           $"FROM {DatabaseHelper.Table("ENCLOSURE")} e " +
-                           $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name " +
-                           $"WHERE 1=1 ";
-
-            if (!string.IsNullOrWhiteSpace(searchText))
-            {
-                query += $"AND (LOWER(e.biome) LIKE '%{searchText}%' OR LOWER(z.name) LIKE '%{searchText}%') ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(selectedBiome) && selectedBiome != "All")
-            {
-                query += $"AND e.biome = '{selectedBiome}' ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(selectedZone) && selectedZone != "All")
-            {
-                query += $"AND z.name = '{selectedZone}' ";
-            }
-
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-            enclosuresDataGridView.DataSource = dt;
-        }
-
         private void PopulateBiomeFilter()
         {
             string query = $"SELECT DISTINCT biome FROM {DatabaseHelper.Table("ENCLOSURE")}";
@@ -747,14 +659,72 @@ namespace ZooApp
 
             cbZoneFilter.SelectedIndex = 0;
         }
-
-        private void btnRefreshEnclosures_Click_1(object sender, EventArgs e)
+        private void txtAnimalSearch_Enter(object sender, EventArgs e)
         {
-            txtSearchEnclosure.Clear();
-            cbBiomeFilter.SelectedIndex = 0;
-            cbZoneFilter.SelectedIndex = 0;
-            LoadEnclosures();
+            txtAnimalSearch.Clear();
+
         }
+
+        private void txtAnimalSearch_Leave(object sender, EventArgs e)
+        {
+            txtAnimalSearch.Text = "Search Animal here";
+
+        }
+
+        private void txtEnclosureSearch_Enter(object sender, EventArgs e)
+        {
+            txtEnclosureSearch.Clear();
+        }
+
+        private void txtEnclosureSearch_Leave(object sender, EventArgs e)
+        {
+            txtEnclosureSearch.Text = "Search Enclosure here";
+        }
+        private void txtStaffSearch_Enter(object sender, EventArgs e)
+        {
+            txtStaffSearch.Clear();
+        }
+
+        private void txtStaffSearch_Leave(object sender, EventArgs e)
+        {
+            txtStaffSearch.Text = "Search Staff here";
+        }
+
+        private void cbBiomeFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbZoneFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void cbStaffRoleFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSearchAnimal_Click(object sender, EventArgs e)
+        {
+            string searchName = txtAnimalSearch.Text.Trim();
+            LoadAnimals(searchName);
+
+        }
+        private void btnSearchEnclosures_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btnSearchStaff_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void txtStaffSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

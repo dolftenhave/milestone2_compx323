@@ -32,7 +32,7 @@
             this.btnRecordFeeding = new System.Windows.Forms.Button();
             this.btnRecordCare = new System.Windows.Forms.Button();
             this.tabStaff = new System.Windows.Forms.TabPage();
-            this.btnZoneCoverage = new System.Windows.Forms.Button();
+            this.button_getSpeciesGroupQualificationsReport = new System.Windows.Forms.Button();
             this.btnEditStaff = new System.Windows.Forms.Button();
             this.txtStaffSearch = new System.Windows.Forms.TextBox();
             this.btnSearchStaff = new System.Windows.Forms.Button();
@@ -43,7 +43,7 @@
             this.tabEnclosures = new System.Windows.Forms.TabPage();
             this.button_animalInEnclosureReport = new System.Windows.Forms.Button();
             this.cbZoneFilter = new System.Windows.Forms.ComboBox();
-            this.txtSearchEnclosure = new System.Windows.Forms.TextBox();
+            this.txtEnclosureSearch = new System.Windows.Forms.TextBox();
             this.btnSearchEnclosures = new System.Windows.Forms.Button();
             this.btnAddEnclosure_Click = new System.Windows.Forms.Button();
             this.btnEditEnclosure = new System.Windows.Forms.Button();
@@ -51,6 +51,7 @@
             this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
             this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.tabAnimals = new System.Windows.Forms.TabPage();
+            this.txtAnimalSearch = new System.Windows.Forms.TextBox();
             this.button_possibleEnclosuresReport = new System.Windows.Forms.Button();
             this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.panel_pageControl = new System.Windows.Forms.Panel();
@@ -61,14 +62,12 @@
             this.textBox_pageNum = new System.Windows.Forms.TextBox();
             this.label_pageNum = new System.Windows.Forms.Label();
             this.btnEditAnimal = new System.Windows.Forms.Button();
-            this.txtAnimalSearch = new System.Windows.Forms.TextBox();
             this.btnAddAnimal = new System.Windows.Forms.Button();
             this.btnSearchAnimal = new System.Windows.Forms.Button();
             this.animalsDataGridView = new System.Windows.Forms.DataGridView();
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button_getSpeciesGroupQualificationsReport = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -211,7 +210,6 @@
             // tabStaff
             // 
             this.tabStaff.Controls.Add(this.button_getSpeciesGroupQualificationsReport);
-            this.tabStaff.Controls.Add(this.btnZoneCoverage);
             this.tabStaff.Controls.Add(this.btnEditStaff);
             this.tabStaff.Controls.Add(this.txtStaffSearch);
             this.tabStaff.Controls.Add(this.btnSearchStaff);
@@ -225,15 +223,15 @@
             this.tabStaff.TabIndex = 2;
             this.tabStaff.Text = "Staff";
             // 
-            // btnZoneCoverage
+            // button_getSpeciesGroupQualificationsReport
             // 
-            this.btnZoneCoverage.Location = new System.Drawing.Point(411, 0);
-            this.btnZoneCoverage.Name = "btnZoneCoverage";
-            this.btnZoneCoverage.Size = new System.Drawing.Size(151, 23);
-            this.btnZoneCoverage.TabIndex = 7;
-            this.btnZoneCoverage.Text = "Calculate Zone Coverage";
-            this.btnZoneCoverage.UseVisualStyleBackColor = true;
-            this.btnZoneCoverage.Click += new System.EventHandler(this.btnZoneCoverage_Click);
+            this.button_getSpeciesGroupQualificationsReport.Location = new System.Drawing.Point(492, 23);
+            this.button_getSpeciesGroupQualificationsReport.Name = "button_getSpeciesGroupQualificationsReport";
+            this.button_getSpeciesGroupQualificationsReport.Size = new System.Drawing.Size(127, 23);
+            this.button_getSpeciesGroupQualificationsReport.TabIndex = 8;
+            this.button_getSpeciesGroupQualificationsReport.Text = "Show Qualifications";
+            this.button_getSpeciesGroupQualificationsReport.UseVisualStyleBackColor = true;
+            this.button_getSpeciesGroupQualificationsReport.Click += new System.EventHandler(this.button_getSpeciesGroupQualificationsReport_Click);
             // 
             // btnEditStaff
             // 
@@ -251,6 +249,10 @@
             this.txtStaffSearch.Name = "txtStaffSearch";
             this.txtStaffSearch.Size = new System.Drawing.Size(178, 20);
             this.txtStaffSearch.TabIndex = 5;
+            this.txtStaffSearch.Text = "Search Staff here";
+            this.txtStaffSearch.TextChanged += new System.EventHandler(this.txtStaffSearch_TextChanged);
+            this.txtStaffSearch.MouseEnter += new System.EventHandler(this.txtStaffSearch_Enter);
+            this.txtStaffSearch.MouseLeave += new System.EventHandler(this.txtStaffSearch_Leave);
             // 
             // btnSearchStaff
             // 
@@ -285,6 +287,7 @@
             this.btnRefreshStaff.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshStaff.TabIndex = 2;
             this.btnRefreshStaff.Text = "Refresh";
+            this.btnRefreshStaff.Click += new System.EventHandler(this.btnRefreshStaff_Click);
             // 
             // btnAddStaff
             // 
@@ -299,7 +302,7 @@
             // 
             this.tabEnclosures.Controls.Add(this.button_animalInEnclosureReport);
             this.tabEnclosures.Controls.Add(this.cbZoneFilter);
-            this.tabEnclosures.Controls.Add(this.txtSearchEnclosure);
+            this.tabEnclosures.Controls.Add(this.txtEnclosureSearch);
             this.tabEnclosures.Controls.Add(this.btnSearchEnclosures);
             this.tabEnclosures.Controls.Add(this.btnAddEnclosure_Click);
             this.tabEnclosures.Controls.Add(this.btnEditEnclosure);
@@ -333,13 +336,15 @@
             this.cbZoneFilter.ValueMember = "Biome";
             this.cbZoneFilter.SelectedIndexChanged += new System.EventHandler(this.cbZoneFilter_SelectedIndexChanged);
             // 
-            // txtSearchEnclosure
+            // txtEnclosureSearch
             // 
-            this.txtSearchEnclosure.Location = new System.Drawing.Point(16, 20);
-            this.txtSearchEnclosure.Name = "txtSearchEnclosure";
-            this.txtSearchEnclosure.Size = new System.Drawing.Size(148, 20);
-            this.txtSearchEnclosure.TabIndex = 6;
-            this.txtSearchEnclosure.Text = "Search Enclosures here ";
+            this.txtEnclosureSearch.Location = new System.Drawing.Point(16, 20);
+            this.txtEnclosureSearch.Name = "txtEnclosureSearch";
+            this.txtEnclosureSearch.Size = new System.Drawing.Size(148, 20);
+            this.txtEnclosureSearch.TabIndex = 6;
+            this.txtEnclosureSearch.Text = "Search Enclosures here ";
+            this.txtEnclosureSearch.MouseEnter += new System.EventHandler(this.txtEnclosureSearch_Enter);
+            this.txtEnclosureSearch.MouseLeave += new System.EventHandler(this.txtEnclosureSearch_Leave);
             // 
             // btnSearchEnclosures
             // 
@@ -359,7 +364,6 @@
             this.btnAddEnclosure_Click.TabIndex = 4;
             this.btnAddEnclosure_Click.Text = "Add Enclosure";
             this.btnAddEnclosure_Click.UseVisualStyleBackColor = true;
-            this.btnAddEnclosure_Click.Click += new System.EventHandler(this.btnAddEnclosure_Click_Click);
             // 
             // btnEditEnclosure
             // 
@@ -396,15 +400,15 @@
             this.btnRefreshEnclosures.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshEnclosures.TabIndex = 2;
             this.btnRefreshEnclosures.Text = "Refresh";
-            this.btnRefreshEnclosures.Click += new System.EventHandler(this.btnRefreshEnclosures_Click_1);
+            this.btnRefreshEnclosures.Click += new System.EventHandler(this.btnRefreshEnclosures_Click);
             // 
             // tabAnimals
             // 
+            this.tabAnimals.Controls.Add(this.txtAnimalSearch);
             this.tabAnimals.Controls.Add(this.button_possibleEnclosuresReport);
             this.tabAnimals.Controls.Add(this.button_ZookeepersQualified);
             this.tabAnimals.Controls.Add(this.panel_pageControl);
             this.tabAnimals.Controls.Add(this.btnEditAnimal);
-            this.tabAnimals.Controls.Add(this.txtAnimalSearch);
             this.tabAnimals.Controls.Add(this.btnAddAnimal);
             this.tabAnimals.Controls.Add(this.btnSearchAnimal);
             this.tabAnimals.Controls.Add(this.animalsDataGridView);
@@ -414,6 +418,16 @@
             this.tabAnimals.Size = new System.Drawing.Size(1177, 767);
             this.tabAnimals.TabIndex = 0;
             this.tabAnimals.Text = "Animals";
+            // 
+            // txtAnimalSearch
+            // 
+            this.txtAnimalSearch.Location = new System.Drawing.Point(20, 19);
+            this.txtAnimalSearch.Name = "txtAnimalSearch";
+            this.txtAnimalSearch.Size = new System.Drawing.Size(160, 20);
+            this.txtAnimalSearch.TabIndex = 13;
+            this.txtAnimalSearch.Text = "Search Animal here";
+            this.txtAnimalSearch.MouseEnter += new System.EventHandler(this.txtAnimalSearch_Enter);
+            this.txtAnimalSearch.MouseLeave += new System.EventHandler(this.txtAnimalSearch_Leave);
             // 
             // button_possibleEnclosuresReport
             // 
@@ -513,16 +527,6 @@
             this.btnEditAnimal.UseVisualStyleBackColor = true;
             this.btnEditAnimal.Click += new System.EventHandler(this.btnEditAnimal_Click);
             // 
-            // txtAnimalSearch
-            // 
-            this.txtAnimalSearch.Location = new System.Drawing.Point(20, 19);
-            this.txtAnimalSearch.Name = "txtAnimalSearch";
-            this.txtAnimalSearch.Size = new System.Drawing.Size(160, 20);
-            this.txtAnimalSearch.TabIndex = 0;
-            this.txtAnimalSearch.Text = "Search Animal here";
-            this.txtAnimalSearch.MouseEnter += new System.EventHandler(this.txtAnimalSearch_Enter);
-            this.txtAnimalSearch.MouseLeave += new System.EventHandler(this.txtAnimalSearch_Leave);
-            // 
             // btnAddAnimal
             // 
             this.btnAddAnimal.Location = new System.Drawing.Point(1065, 17);
@@ -557,7 +561,7 @@
             this.btnRefreshAnimals.Size = new System.Drawing.Size(75, 22);
             this.btnRefreshAnimals.TabIndex = 3;
             this.btnRefreshAnimals.Text = "Refresh";
-            this.btnRefreshAnimals.Click += new System.EventHandler(this.btnRefreshAnimals_Click_1);
+            this.btnRefreshAnimals.Click += new System.EventHandler(this.btnRefreshAnimals_Click);
             // 
             // tabMain
             // 
@@ -576,16 +580,6 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // button_getSpeciesGroupQualificationsReport
-            // 
-            this.button_getSpeciesGroupQualificationsReport.Location = new System.Drawing.Point(492, 23);
-            this.button_getSpeciesGroupQualificationsReport.Name = "button_getSpeciesGroupQualificationsReport";
-            this.button_getSpeciesGroupQualificationsReport.Size = new System.Drawing.Size(127, 23);
-            this.button_getSpeciesGroupQualificationsReport.TabIndex = 8;
-            this.button_getSpeciesGroupQualificationsReport.Text = "Show Qualifications";
-            this.button_getSpeciesGroupQualificationsReport.UseVisualStyleBackColor = true;
-            this.button_getSpeciesGroupQualificationsReport.Click += new System.EventHandler(this.button_getSpeciesGroupQualificationsReport_Click);
             // 
             // MainForm
             // 
@@ -621,7 +615,6 @@
         private System.Windows.Forms.Button btnRecordFeeding;
         private System.Windows.Forms.Button btnRecordCare;
         private System.Windows.Forms.TabPage tabStaff;
-        private System.Windows.Forms.Button btnZoneCoverage;
         private System.Windows.Forms.Button btnEditStaff;
         private System.Windows.Forms.TextBox txtStaffSearch;
         private System.Windows.Forms.Button btnSearchStaff;
@@ -637,14 +630,13 @@
         private System.Windows.Forms.Button btnRefreshEnclosures;
         private System.Windows.Forms.TabPage tabAnimals;
         private System.Windows.Forms.Button btnEditAnimal;
-        private System.Windows.Forms.TextBox txtAnimalSearch;
         private System.Windows.Forms.Button btnAddAnimal;
         private System.Windows.Forms.Button btnSearchAnimal;
         private System.Windows.Forms.DataGridView animalsDataGridView;
         private System.Windows.Forms.Button btnRefreshAnimals;
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.Button btnSearchEnclosures;
-        private System.Windows.Forms.TextBox txtSearchEnclosure;
+        private System.Windows.Forms.TextBox txtEnclosureSearch;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Panel panel_pageControl;
         private System.Windows.Forms.Label label_pageInfo;
@@ -667,5 +659,6 @@
         private System.Windows.Forms.Button button_animalInEnclosureReport;
         private System.Windows.Forms.Button button_possibleEnclosuresReport;
         private System.Windows.Forms.Button button_getSpeciesGroupQualificationsReport;
+        private System.Windows.Forms.TextBox txtAnimalSearch;
     }
 }
