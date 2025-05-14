@@ -28,13 +28,19 @@ namespace ZooApp
         // Make sure to add the encloure ID at the end of this
         public static String ZookeepersQualifiedForEnclosure = $@"
             SELECT s.sid, s.lname, s.fname
-            FROM m2l_staff s, m2l_oversees o
+            FROM {DatabaseHelper.Table("STAFF")} s, {DatabaseHelper.Table("OVERSEES")} o
             WHERE s.sid = o.staffid
             AND o.sgroupname = ALL(
             SELECT distinct sg.latinName
-            FROM m2l_speciesgroup sg, m2l_species sp, m2l_animal a
+            FROM {DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("SPECIES")} sp, {DatabaseHelper.Table("ANIMAL")} a
             WHERE sp.latinName = a.speciesName
             AND sp.speciesgroup = sg.latinName";
+
+        public static String AnimalsInEnclosure = $@"
+            SELECT a.aid, a.name
+            FROM {DatabaseHelper.Table("ENCLOSURE")} e
+            JOIN {DatabaseHelper.Table("ANIMAL")} a on e.eid = a.enclosureid
+        ";
 
         // Query to load the Animals table
         public static String LoadAnimalsQuery = $@"

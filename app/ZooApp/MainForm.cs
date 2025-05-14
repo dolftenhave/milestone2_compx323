@@ -642,6 +642,22 @@ namespace ZooApp
             }
         }
 
+        private void button_animalInEnclosureReport_Click(object sender, EventArgs e)
+        {
+            if (enclosuresDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an Enclosure first.", "No Enclosure Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataRowView drv = enclosuresDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            if (drv == null) return;
+
+            int eid = Convert.ToInt32(drv["eid"]);
+            String query = Queries.AnimalsInEnclosure + $" AND e.eid = '{eid}'";
+            new Report(DatabaseHelper.ExecuteQuery(query), $"Animals in Enclosure ID: {eid}").Show();
+        }
+
         private void btnSearchEnclosures_Click(object sender, EventArgs e)
         {
             string searchText = txtSearchEnclosure.Text.Trim().ToLower();

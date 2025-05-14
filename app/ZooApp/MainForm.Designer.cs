@@ -66,6 +66,7 @@
             this.label_dateFeedCare = new System.Windows.Forms.Label();
             this.button_filterFeedCare = new System.Windows.Forms.Button();
             this.button_goToPage = new System.Windows.Forms.Button();
+            this.button_animalInEnclosureReport = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -211,6 +212,7 @@
             // 
             // tabEnclosures
             // 
+            this.tabEnclosures.Controls.Add(this.button_animalInEnclosureReport);
             this.tabEnclosures.Controls.Add(this.cbZoneFilter);
             this.tabEnclosures.Controls.Add(this.txtSearchEnclosure);
             this.tabEnclosures.Controls.Add(this.btnSearchEnclosures);
@@ -228,7 +230,7 @@
             // cbZoneFilter
             // 
             this.cbZoneFilter.DisplayMember = "cbBiome Filter";
-            this.cbZoneFilter.Location = new System.Drawing.Point(458, 19);
+            this.cbZoneFilter.Location = new System.Drawing.Point(251, 32);
             this.cbZoneFilter.Name = "cbZoneFilter";
             this.cbZoneFilter.Size = new System.Drawing.Size(120, 21);
             this.cbZoneFilter.TabIndex = 7;
@@ -246,7 +248,7 @@
             // 
             // btnSearchEnclosures
             // 
-            this.btnSearchEnclosures.Location = new System.Drawing.Point(170, 19);
+            this.btnSearchEnclosures.Location = new System.Drawing.Point(170, 3);
             this.btnSearchEnclosures.Name = "btnSearchEnclosures";
             this.btnSearchEnclosures.Size = new System.Drawing.Size(75, 23);
             this.btnSearchEnclosures.TabIndex = 5;
@@ -284,7 +286,7 @@
             // cbBiomeFilter
             // 
             this.cbBiomeFilter.DisplayMember = "cbBiome Filter";
-            this.cbBiomeFilter.Location = new System.Drawing.Point(332, 19);
+            this.cbBiomeFilter.Location = new System.Drawing.Point(251, 5);
             this.cbBiomeFilter.Name = "cbBiomeFilter";
             this.cbBiomeFilter.Size = new System.Drawing.Size(120, 21);
             this.cbBiomeFilter.TabIndex = 1;
@@ -294,7 +296,7 @@
             // 
             // btnRefreshEnclosures
             // 
-            this.btnRefreshEnclosures.Location = new System.Drawing.Point(251, 19);
+            this.btnRefreshEnclosures.Location = new System.Drawing.Point(170, 31);
             this.btnRefreshEnclosures.Name = "btnRefreshEnclosures";
             this.btnRefreshEnclosures.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshEnclosures.TabIndex = 2;
@@ -551,6 +553,16 @@
             this.button_goToPage.UseVisualStyleBackColor = true;
             this.button_goToPage.Click += new System.EventHandler(this.button_goToPage_Click);
             // 
+            // button_animalInEnclosureReport
+            // 
+            this.button_animalInEnclosureReport.Location = new System.Drawing.Point(378, 16);
+            this.button_animalInEnclosureReport.Name = "button_animalInEnclosureReport";
+            this.button_animalInEnclosureReport.Size = new System.Drawing.Size(117, 23);
+            this.button_animalInEnclosureReport.TabIndex = 8;
+            this.button_animalInEnclosureReport.Text = "Animals in Enclosure";
+            this.button_animalInEnclosureReport.UseVisualStyleBackColor = true;
+            this.button_animalInEnclosureReport.Click += new System.EventHandler(this.button_animalInEnclosureReport_Click);
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1209, 817);
@@ -628,5 +640,6 @@
         private System.Windows.Forms.CheckBox checkBox_feedingHistory;
         private System.Windows.Forms.Button button_filterFeedCare;
         private System.Windows.Forms.Button button_goToPage;
+        private System.Windows.Forms.Button button_animalInEnclosureReport;
     }
 }
