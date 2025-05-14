@@ -66,6 +66,8 @@ namespace ZooApp
         }
 
         // --------- Loaders ---------
+
+        // Display info about the page
         private void LoadPageInfo()
         {
             // 0 = Animal
@@ -77,6 +79,7 @@ namespace ZooApp
             
             // Make sure that the panel containing the page info is always available!
             panel_pageControl.Parent = tabMain.TabPages[index];
+            // CurrentDGV Rows -1 because there is an extra empty row that is returned from these queries
             label_pageInfo.Text = String.Format("Displaying page {0}, with {1} items.", (currPage + 1), currentDGV.Rows.Count - 1);
             textBox_pageNum.Text = (currPage + 1).ToString();
         }
@@ -115,7 +118,7 @@ namespace ZooApp
                 currentDGV = animalsDataGridView;
                 animalsDt = DatabaseHelper.ExecuteQuery(query);
                 animalsDataGridView.AutoGenerateColumns = true;
-                animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.TabIndex]);
+                animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.SelectedIndex]);
                 LoadPageInfo();
             }
             catch (Exception ex)
@@ -129,7 +132,7 @@ namespace ZooApp
         /// </summary>
         private void RefreshAnimals()
         {
-            animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.TabIndex]);
+            animalsDataGridView.DataSource = GetDataTablePage(animalsDt, dataTablePos[tabMain.SelectedIndex]);
             currentDGV = animalsDataGridView;
             LoadPageInfo();
         }
@@ -165,7 +168,7 @@ namespace ZooApp
                            $"JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name";
 
             enclosureDt = DatabaseHelper.ExecuteQuery(query);
-            enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
+            enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.SelectedIndex]);
 
             PopulateBiomeFilter();
             PopulateZoneFilter();
@@ -174,7 +177,7 @@ namespace ZooApp
 
         private void RefreshEnclosures()
         {
-            enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.TabIndex]);
+            enclosuresDataGridView.DataSource = GetDataTablePage(enclosureDt, dataTablePos[tabMain.SelectedIndex]);
             currentDGV = enclosuresDataGridView;
             LoadPageInfo();
         }
@@ -219,13 +222,13 @@ namespace ZooApp
 
             staffDt = DatabaseHelper.ExecuteQuery(query);
             staffDataGridView.AutoGenerateColumns = true;
-            staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.TabIndex]);
+            staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.SelectedIndex]);
             LoadPageInfo();
         }
 
         private void RefreshStaff()
         {
-            staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.TabIndex]);
+            staffDataGridView.DataSource = GetDataTablePage(staffDt, dataTablePos[tabMain.SelectedIndex]);
             currentDGV = staffDataGridView;
             LoadPageInfo();
         }
@@ -275,9 +278,11 @@ namespace ZooApp
             NULL AS CareType,
             NULL AS VetNotes
              FROM {DatabaseHelper.Table("FEED")} F
-             JOIN {DatabaseHelper.Table("STAFF")} S ON F.staffID = {staffID}
-             JOIN {DatabaseHelper.Table("ANIMAL")} A ON F.animalID = {animalID}
+             JOIN {DatabaseHelper.Table("STAFF")} S ON F.staffID = S.sid
+             JOIN {DatabaseHelper.Table("ANIMAL")} A ON F.animalID = A.aid
              WHERE F.dateTime > to_timestamp('{date}', 'YYYY-MM-DD')
+            AND F.staffID = {staffID}
+            AND F.animalID = {animalID}
             ";
 
             string medicalQuery = $@"
@@ -293,9 +298,11 @@ namespace ZooApp
             C.care AS CareType,
             C.notes AS VetNotes
             FROM {DatabaseHelper.Table("CARE")} C
-            JOIN {DatabaseHelper.Table("STAFF")} S ON C.staffID = {staffID}
-            JOIN {DatabaseHelper.Table("ANIMAL")} A ON C.animalID = {animalID}
+            JOIN {DatabaseHelper.Table("STAFF")} S ON C.staffID = S.sid
+            JOIN {DatabaseHelper.Table("ANIMAL")} A ON C.animalID = A.aid
             WHERE C.dateTime > to_timestamp('{date}', 'YYYY-MM-DD')
+            AND C.staffID = {staffID}
+            AND C.animalID = {animalID}
             ";
 
             // Create the query based on inputs
@@ -309,28 +316,33 @@ namespace ZooApp
 
             if (checkBox_medicalHistory.Checked)
             {
-                numChecked++;
                 if (numChecked != 0)
                 {
                     query += " UNION ALL ";
                 }
+                numChecked++;
                 query += medicalQuery;
             }
 
             if (numChecked != 0)
             {
                 query += " ORDER BY dateTime DESC";
+                feedingCareDt = DatabaseHelper.ExecuteQuery(query);
+            }
+            else
+            {
+                feedingCareDt = new DataTable();
             }
 
-            feedingCareDt = DatabaseHelper.ExecuteQuery(query);
+            //feedingCareDt = DatabaseHelper.ExecuteQuery(query);
             feedingDataGridView.AutoGenerateColumns = true;
-            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.TabIndex]);
+            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.SelectedIndex]);
             LoadPageInfo();
         }
 
         private void RefreshFeedingAndCare()
         {
-            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.TabIndex]);
+            feedingDataGridView.DataSource = GetDataTablePage(feedingCareDt, dataTablePos[tabMain.SelectedIndex]);
             currentDGV = feedingDataGridView;
             LoadPageInfo();
         }
@@ -508,6 +520,7 @@ namespace ZooApp
 
         private void tabMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            IntToLoadData(tabMain.SelectedIndex);
             LoadPageInfo();
         }
 
@@ -519,15 +532,23 @@ namespace ZooApp
                 dataTablePos[tabMain.SelectedIndex] -= 1;
                 IntToLoadData(tabMain.SelectedIndex);
             }
+            else
+            {
+                MessageBox.Show("Already at first page!");
+            }
         }
 
         private void button_nextPage_Click(object sender, EventArgs e)
         {
             int pageNum = dataTablePos[tabMain.SelectedIndex];
-            if (pageNum <= TabIndexToDt(tabMain.SelectedIndex).Rows.Count / PAGE_SIZE)
+            if (pageNum < TabIndexToDt(tabMain.SelectedIndex).Rows.Count / PAGE_SIZE)
             {
                 dataTablePos[tabMain.SelectedIndex] += 1;
                 IntToLoadData(tabMain.SelectedIndex);
+            }
+            else
+            {
+                MessageBox.Show("No more pages!");
             }
         }
 
@@ -549,23 +570,6 @@ namespace ZooApp
                     break;
                 default:
                     break;
-            }
-        }
-
-        private void textBox_pageNum_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (((TextBox)sender).Modified)
-                {
-                    int givenPage = int.Parse(textBox_pageNum.Text) - 1;
-                    dataTablePos[tabMain.SelectedIndex] = givenPage;
-                    IntToLoadData(tabMain.SelectedIndex);
-                }
-                
-            }
-            catch { 
-                
             }
         }
 
@@ -611,6 +615,31 @@ namespace ZooApp
         {
             dataTablePos[3] = 0;
             LoadFeedingAndCare();
+            RefreshFeedingAndCare();
+        }
+
+        private void button_goToPage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                    int givenPage = int.Parse(textBox_pageNum.Text) - 1;
+                    int maxPage = TabIndexToDt(tabMain.SelectedIndex).Rows.Count / PAGE_SIZE;
+
+                    // Clamp the value to being between 0 and max page
+                    if (givenPage <= maxPage && givenPage >= 0) dataTablePos[tabMain.SelectedIndex] = givenPage;
+                    else if (givenPage > maxPage) dataTablePos[tabMain.SelectedIndex] = maxPage;
+                    else dataTablePos[tabMain.SelectedIndex] = 0;
+
+                    // And load the given index
+                    IntToLoadData(tabMain.SelectedIndex);
+            }
+            catch
+            {
+                textBox_pageNum.Text = "0";
+                dataTablePos[tabMain.SelectedIndex] = 0;
+                IntToLoadData(tabMain.SelectedIndex);
+                MessageBox.Show("Please input a valid page number!");
+            }
         }
 
         private void btnSearchEnclosures_Click(object sender, EventArgs e)

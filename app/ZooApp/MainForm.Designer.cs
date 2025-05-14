@@ -65,6 +65,7 @@
             this.dateTimePicker_feedCare = new System.Windows.Forms.DateTimePicker();
             this.label_dateFeedCare = new System.Windows.Forms.Label();
             this.button_filterFeedCare = new System.Windows.Forms.Button();
+            this.button_goToPage = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -328,6 +329,7 @@
             // 
             // panel_pageControl
             // 
+            this.panel_pageControl.Controls.Add(this.button_goToPage);
             this.panel_pageControl.Controls.Add(this.label_pageInfo);
             this.panel_pageControl.Controls.Add(this.button_prevPage);
             this.panel_pageControl.Controls.Add(this.button_nextPage);
@@ -349,7 +351,7 @@
             // 
             // button_prevPage
             // 
-            this.button_prevPage.Location = new System.Drawing.Point(179, 1);
+            this.button_prevPage.Location = new System.Drawing.Point(179, 24);
             this.button_prevPage.Name = "button_prevPage";
             this.button_prevPage.Size = new System.Drawing.Size(75, 23);
             this.button_prevPage.TabIndex = 3;
@@ -359,7 +361,7 @@
             // 
             // button_nextPage
             // 
-            this.button_nextPage.Location = new System.Drawing.Point(260, 1);
+            this.button_nextPage.Location = new System.Drawing.Point(260, 24);
             this.button_nextPage.Name = "button_nextPage";
             this.button_nextPage.Size = new System.Drawing.Size(75, 23);
             this.button_nextPage.TabIndex = 2;
@@ -373,7 +375,6 @@
             this.textBox_pageNum.Name = "textBox_pageNum";
             this.textBox_pageNum.Size = new System.Drawing.Size(100, 20);
             this.textBox_pageNum.TabIndex = 1;
-            this.textBox_pageNum.TextChanged += new System.EventHandler(this.textBox_pageNum_TextChanged);
             // 
             // label_pageNum
             // 
@@ -540,6 +541,16 @@
             this.button_filterFeedCare.UseVisualStyleBackColor = true;
             this.button_filterFeedCare.Click += new System.EventHandler(this.button_filterFeedCare_Click);
             // 
+            // button_goToPage
+            // 
+            this.button_goToPage.Location = new System.Drawing.Point(179, -1);
+            this.button_goToPage.Name = "button_goToPage";
+            this.button_goToPage.Size = new System.Drawing.Size(75, 23);
+            this.button_goToPage.TabIndex = 5;
+            this.button_goToPage.Text = "Go To Page";
+            this.button_goToPage.UseVisualStyleBackColor = true;
+            this.button_goToPage.Click += new System.EventHandler(this.button_goToPage_Click);
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1209, 817);
@@ -616,5 +627,6 @@
         private System.Windows.Forms.CheckBox checkBox_medicalHistory;
         private System.Windows.Forms.CheckBox checkBox_feedingHistory;
         private System.Windows.Forms.Button button_filterFeedCare;
+        private System.Windows.Forms.Button button_goToPage;
     }
 }
