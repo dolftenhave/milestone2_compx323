@@ -674,6 +674,22 @@ namespace ZooApp
             new Report(DatabaseHelper.ExecuteQuery(query), $"Possible Enclosures for Animal ID: {aid}").Show();
         }
 
+        private void button_getSpeciesGroupQualificationsReport_Click(object sender, EventArgs e)
+        {
+            if (staffDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a staff member first.", "No Staff Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataRowView drv = staffDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            if (drv == null) return;
+
+            int sid = Convert.ToInt32(drv["sid"]);
+            String query = Queries.ZookeeperQualifications + $" AND o.staffID = '{sid}'";
+            new Report(DatabaseHelper.ExecuteQuery(query), $"Qualifications for Staff ID: {sid}").Show();
+        }
+
         private void btnSearchEnclosures_Click(object sender, EventArgs e)
         {
             string searchText = txtSearchEnclosure.Text.Trim().ToLower();

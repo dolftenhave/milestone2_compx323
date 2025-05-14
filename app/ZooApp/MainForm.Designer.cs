@@ -51,6 +51,7 @@
             this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
             this.btnRefreshEnclosures = new System.Windows.Forms.Button();
             this.tabAnimals = new System.Windows.Forms.TabPage();
+            this.button_possibleEnclosuresReport = new System.Windows.Forms.Button();
             this.button_ZookeepersQualified = new System.Windows.Forms.Button();
             this.panel_pageControl = new System.Windows.Forms.Panel();
             this.button_goToPage = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button_possibleEnclosuresReport = new System.Windows.Forms.Button();
+            this.button_getSpeciesGroupQualificationsReport = new System.Windows.Forms.Button();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -209,6 +210,7 @@
             // 
             // tabStaff
             // 
+            this.tabStaff.Controls.Add(this.button_getSpeciesGroupQualificationsReport);
             this.tabStaff.Controls.Add(this.btnZoneCoverage);
             this.tabStaff.Controls.Add(this.btnEditStaff);
             this.tabStaff.Controls.Add(this.txtStaffSearch);
@@ -413,6 +415,16 @@
             this.tabAnimals.TabIndex = 0;
             this.tabAnimals.Text = "Animals";
             // 
+            // button_possibleEnclosuresReport
+            // 
+            this.button_possibleEnclosuresReport.Location = new System.Drawing.Point(478, 16);
+            this.button_possibleEnclosuresReport.Name = "button_possibleEnclosuresReport";
+            this.button_possibleEnclosuresReport.Size = new System.Drawing.Size(117, 23);
+            this.button_possibleEnclosuresReport.TabIndex = 12;
+            this.button_possibleEnclosuresReport.Text = "Possible Enclosures";
+            this.button_possibleEnclosuresReport.UseVisualStyleBackColor = true;
+            this.button_possibleEnclosuresReport.Click += new System.EventHandler(this.button_possibleEnclosuresReport_Click);
+            // 
             // button_ZookeepersQualified
             // 
             this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
@@ -565,15 +577,15 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // button_possibleEnclosuresReport
+            // button_getSpeciesGroupQualificationsReport
             // 
-            this.button_possibleEnclosuresReport.Location = new System.Drawing.Point(478, 16);
-            this.button_possibleEnclosuresReport.Name = "button_possibleEnclosuresReport";
-            this.button_possibleEnclosuresReport.Size = new System.Drawing.Size(117, 23);
-            this.button_possibleEnclosuresReport.TabIndex = 12;
-            this.button_possibleEnclosuresReport.Text = "Possible Enclosures";
-            this.button_possibleEnclosuresReport.UseVisualStyleBackColor = true;
-            this.button_possibleEnclosuresReport.Click += new System.EventHandler(this.button_possibleEnclosuresReport_Click);
+            this.button_getSpeciesGroupQualificationsReport.Location = new System.Drawing.Point(492, 23);
+            this.button_getSpeciesGroupQualificationsReport.Name = "button_getSpeciesGroupQualificationsReport";
+            this.button_getSpeciesGroupQualificationsReport.Size = new System.Drawing.Size(127, 23);
+            this.button_getSpeciesGroupQualificationsReport.TabIndex = 8;
+            this.button_getSpeciesGroupQualificationsReport.Text = "Show Qualifications";
+            this.button_getSpeciesGroupQualificationsReport.UseVisualStyleBackColor = true;
+            this.button_getSpeciesGroupQualificationsReport.Click += new System.EventHandler(this.button_getSpeciesGroupQualificationsReport_Click);
             // 
             // MainForm
             // 
@@ -654,5 +666,6 @@
         private System.Windows.Forms.Button button_goToPage;
         private System.Windows.Forms.Button button_animalInEnclosureReport;
         private System.Windows.Forms.Button button_possibleEnclosuresReport;
+        private System.Windows.Forms.Button button_getSpeciesGroupQualificationsReport;
     }
 }

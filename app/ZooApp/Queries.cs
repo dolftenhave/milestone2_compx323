@@ -51,6 +51,13 @@ namespace ZooApp
             AND s.requiredBiome = e.biome
         ";
 
+        public static String ZookeeperQualifications = $@"
+            SELECT sg.commonName
+            FROM {DatabaseHelper.Table("OVERSEES")} o, 
+            {DatabaseHelper.Table("SPECIESGROUP")} sg
+            WHERE o.sGroupName = sg.latinName
+        ";
+
         // Query to load the Animals table
         public static String LoadAnimalsQuery = $@"
                     SELECT 
