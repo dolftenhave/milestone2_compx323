@@ -385,5 +385,31 @@ namespace ZooApp
             cbBiomeFilter.SelectedIndex = 0;
             LoadEnclosures();
         }
+
+        /**
+         * Calls a load function after a tab is selected
+         */
+        private void tabMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(((TabControl)sender).SelectedTab.Name == tabFeed.Name)
+            {
+                getStaff();
+            }
+        }
+
+        /**
+         * Gets the staff names for the dropdown names list
+         */
+        private void getStaff()
+        {
+            String query = $"SELECT fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+
+            for(int i = 0; i < dt.Rows.Count; i++)
+            {
+                //For some reason this is in the format [row, Column]????
+                cb_feed_staffPicker.Items.Add(dt.Rows[i][0]);
+            }
+        }
     }
 }

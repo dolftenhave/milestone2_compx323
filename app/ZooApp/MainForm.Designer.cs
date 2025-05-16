@@ -46,6 +46,9 @@
             this.animalsDataGridView = new System.Windows.Forms.DataGridView();
             this.btnRefreshAnimals = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
+            this.tabFeed = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cb_feed_staffPicker = new System.Windows.Forms.ComboBox();
             this.tabFeedingCare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
             this.tabStaff.SuspendLayout();
@@ -55,6 +58,7 @@
             this.tabAnimals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).BeginInit();
             this.tabMain.SuspendLayout();
+            this.tabFeed.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabFeedingCare
@@ -333,11 +337,43 @@
             this.tabMain.Controls.Add(this.tabEnclosures);
             this.tabMain.Controls.Add(this.tabStaff);
             this.tabMain.Controls.Add(this.tabFeedingCare);
+            this.tabMain.Controls.Add(this.tabFeed);
             this.tabMain.Location = new System.Drawing.Point(12, 12);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
             this.tabMain.Size = new System.Drawing.Size(1185, 793);
             this.tabMain.TabIndex = 0;
+            this.tabMain.SelectedIndexChanged += new System.EventHandler(this.tabMain_SelectedIndexChanged);
+            // 
+            // tabFeed
+            // 
+            this.tabFeed.BackColor = System.Drawing.SystemColors.Control;
+            this.tabFeed.Controls.Add(this.label1);
+            this.tabFeed.Controls.Add(this.cb_feed_staffPicker);
+            this.tabFeed.Location = new System.Drawing.Point(4, 22);
+            this.tabFeed.Name = "tabFeed";
+            this.tabFeed.Size = new System.Drawing.Size(1177, 767);
+            this.tabFeed.TabIndex = 4;
+            this.tabFeed.Text = "Feed (Revised)";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Select your name:";
+            // 
+            // cb_feed_staffPicker
+            // 
+            this.cb_feed_staffPicker.DisplayMember = "cbBiome Filter";
+            this.cb_feed_staffPicker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_feed_staffPicker.Location = new System.Drawing.Point(18, 40);
+            this.cb_feed_staffPicker.Name = "cb_feed_staffPicker";
+            this.cb_feed_staffPicker.Size = new System.Drawing.Size(215, 21);
+            this.cb_feed_staffPicker.TabIndex = 2;
+            this.cb_feed_staffPicker.ValueMember = "Biome";
             // 
             // MainForm
             // 
@@ -358,6 +394,8 @@
             this.tabAnimals.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).EndInit();
             this.tabMain.ResumeLayout(false);
+            this.tabFeed.ResumeLayout(false);
+            this.tabFeed.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -394,5 +432,8 @@
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.Button btnSearchEnclosures;
         private System.Windows.Forms.TextBox txtSearchEnclosure;
+        private System.Windows.Forms.TabPage tabFeed;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cb_feed_staffPicker;
     }
 }
