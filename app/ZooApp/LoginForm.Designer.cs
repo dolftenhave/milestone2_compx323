@@ -24,51 +24,67 @@
             this.cbDataset = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnCheckTables = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-
             // 
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.Location = new System.Drawing.Point(50, 20);
+            this.lblTitle.Location = new System.Drawing.Point(45, 40);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(270, 25);
+            this.lblTitle.Size = new System.Drawing.Size(259, 25);
+            this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Welcome to the Zoo System";
-
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // cbDataset
             // 
             this.cbDataset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDataset.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.cbDataset.FormattingEnabled = true;
-            this.cbDataset.Location = new System.Drawing.Point(85, 65);
+            this.cbDataset.Location = new System.Drawing.Point(50, 126);
             this.cbDataset.Name = "cbDataset";
-            this.cbDataset.Size = new System.Drawing.Size(200, 21);
-
+            this.cbDataset.Size = new System.Drawing.Size(254, 29);
+            this.cbDataset.TabIndex = 1;
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(85, 100);
+            this.btnConnect.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btnConnect.Location = new System.Drawing.Point(85, 214);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(200, 30);
+            this.btnConnect.Size = new System.Drawing.Size(190, 35);
+            this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-
             // 
             // btnCheckTables
             // 
-            this.btnCheckTables.Location = new System.Drawing.Point(85, 140);
+            this.btnCheckTables.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnCheckTables.Location = new System.Drawing.Point(85, 264);
             this.btnCheckTables.Name = "btnCheckTables";
-            this.btnCheckTables.Size = new System.Drawing.Size(200, 25);
+            this.btnCheckTables.Size = new System.Drawing.Size(190, 30);
+            this.btnCheckTables.TabIndex = 3;
             this.btnCheckTables.Text = "Check Accessible Tables";
             this.btnCheckTables.UseVisualStyleBackColor = true;
             this.btnCheckTables.Click += new System.EventHandler(this.btnCheckTables_Click);
-
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(53, 84);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(243, 25);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Please Select the DataBase";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // LoginForm
             // 
-            this.ClientSize = new System.Drawing.Size(380, 200);
+            this.ClientSize = new System.Drawing.Size(360, 600);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.cbDataset);
             this.Controls.Add(this.btnConnect);
@@ -78,8 +94,11 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -153,6 +153,12 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Queries.cs" />
     <Compile Include="SelectSpeciesForm.cs">
       <SubType>Form</SubType>
@@ -166,6 +172,12 @@
     <Compile Include="SelectSpeciesGroupForm.Designer.cs">
       <DependentUpon>SelectSpeciesGroupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelectStaffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectStaffForm.Designer.cs">
+      <DependentUpon>SelectStaffForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelectZoneForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,15 +190,21 @@
     <Compile Include="StaffActivityForm.Designer.cs">
       <DependentUpon>StaffActivityForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="MainForm_OLD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="MainForm_OLD.Designer.cs">
+      <DependentUpon>MainForm_OLD.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaffInfo.cs" />
+    <Compile Include="UpdateDeleteStaffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateDeleteStaffForm.Designer.cs">
+      <DependentUpon>UpdateDeleteStaffForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,11 +250,17 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelectSpeciesForm.resx">
       <DependentUpon>SelectSpeciesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectSpeciesGroupForm.resx">
       <DependentUpon>SelectSpeciesGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectStaffForm.resx">
+      <DependentUpon>SelectStaffForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectZoneForm.resx">
       <DependentUpon>SelectZoneForm.cs</DependentUpon>
@@ -244,8 +268,8 @@
     <EmbeddedResource Include="StaffActivityForm.resx">
       <DependentUpon>StaffActivityForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm_OLD.resx">
+      <DependentUpon>MainForm_OLD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -256,6 +280,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UpdateDeleteStaffForm.resx">
+      <DependentUpon>UpdateDeleteStaffForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VetForm.resx">
       <DependentUpon>VetForm.cs</DependentUpon>
     </EmbeddedResource>

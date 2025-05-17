@@ -164,3 +164,6 @@ C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.AddZ
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.SelectZoneForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddVetForm.resources
 H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.AddZookeeperForm.resources
+H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.SelectStaffForm.resources
+H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.MainForm_OLD.resources
+H:\COMPX323\Project\app\ZooApp\obj\Debug\ZooApp.UpdateDeleteStaffForm.resources

@@ -34,7 +34,7 @@ namespace ZooApp
                 MessageBox.Show($"{selected} loaded. {count} animals found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 this.Hide();
-                new MainForm().ShowDialog();
+                new SelectStaffForm().ShowDialog();
                 this.Close();
             }
             catch (Exception ex)

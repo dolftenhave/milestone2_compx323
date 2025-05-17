@@ -1,4 +1,6 @@
-﻿namespace ZooApp
+﻿using System.Windows.Forms;
+
+namespace ZooApp
 {
     partial class MainForm
     {
@@ -17,648 +19,512 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.tabFeedingCare = new System.Windows.Forms.TabPage();
-            this.button_filterFeedCare = new System.Windows.Forms.Button();
-            this.label_dateFeedCare = new System.Windows.Forms.Label();
-            this.dateTimePicker_feedCare = new System.Windows.Forms.DateTimePicker();
-            this.label_staffIdFeedCare = new System.Windows.Forms.Label();
-            this.label_animalIdFeedCare = new System.Windows.Forms.Label();
-            this.textBox_staffIdFeedCare = new System.Windows.Forms.TextBox();
-            this.textBox_animalIdFeedCare = new System.Windows.Forms.TextBox();
-            this.checkBox_medicalHistory = new System.Windows.Forms.CheckBox();
-            this.checkBox_feedingHistory = new System.Windows.Forms.CheckBox();
-            this.feedingDataGridView = new System.Windows.Forms.DataGridView();
-            this.btnRecordFeeding = new System.Windows.Forms.Button();
-            this.btnRecordCare = new System.Windows.Forms.Button();
-            this.tabStaff = new System.Windows.Forms.TabPage();
-            this.button_getSpeciesGroupQualificationsReport = new System.Windows.Forms.Button();
-            this.btnEditStaff = new System.Windows.Forms.Button();
-            this.txtStaffSearch = new System.Windows.Forms.TextBox();
-            this.btnSearchStaff = new System.Windows.Forms.Button();
-            this.staffDataGridView = new System.Windows.Forms.DataGridView();
-            this.cbStaffRoleFilter = new System.Windows.Forms.ComboBox();
-            this.btnRefreshStaff = new System.Windows.Forms.Button();
-            this.btnAddStaff = new System.Windows.Forms.Button();
-            this.tabEnclosures = new System.Windows.Forms.TabPage();
-            this.button_animalInEnclosureReport = new System.Windows.Forms.Button();
-            this.cbZoneFilter = new System.Windows.Forms.ComboBox();
-            this.txtEnclosureSearch = new System.Windows.Forms.TextBox();
-            this.btnSearchEnclosures = new System.Windows.Forms.Button();
-            this.btnAddEnclosure_Click = new System.Windows.Forms.Button();
-            this.btnEditEnclosure = new System.Windows.Forms.Button();
-            this.enclosuresDataGridView = new System.Windows.Forms.DataGridView();
-            this.cbBiomeFilter = new System.Windows.Forms.ComboBox();
-            this.btnRefreshEnclosures = new System.Windows.Forms.Button();
-            this.tabAnimals = new System.Windows.Forms.TabPage();
-            this.txtAnimalSearch = new System.Windows.Forms.TextBox();
-            this.button_possibleEnclosuresReport = new System.Windows.Forms.Button();
-            this.button_ZookeepersQualified = new System.Windows.Forms.Button();
-            this.panel_pageControl = new System.Windows.Forms.Panel();
-            this.button_goToPage = new System.Windows.Forms.Button();
-            this.label_pageInfo = new System.Windows.Forms.Label();
-            this.button_prevPage = new System.Windows.Forms.Button();
-            this.button_nextPage = new System.Windows.Forms.Button();
-            this.textBox_pageNum = new System.Windows.Forms.TextBox();
-            this.label_pageNum = new System.Windows.Forms.Label();
-            this.btnEditAnimal = new System.Windows.Forms.Button();
+            this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabHome = new System.Windows.Forms.TabPage();
+            this.lblStaffName = new System.Windows.Forms.Label();
+            this.lvQualifiedSpecies = new System.Windows.Forms.ListView();
+            this.lvCaredAnimals = new System.Windows.Forms.ListView();
+            this.lvFeedRecords = new System.Windows.Forms.ListView();
+            this.lvCareRecords = new System.Windows.Forms.ListView();
+            this.btnAddFeed = new System.Windows.Forms.Button();
+            this.btnAddCare = new System.Windows.Forms.Button();
+            this.tabAnimal = new System.Windows.Forms.TabPage();
+            this.lblAnimalTitle = new System.Windows.Forms.Label();
+            this.lblSelectAnimal = new System.Windows.Forms.Label();
+            this.cbSelectAnimal = new System.Windows.Forms.ComboBox();
+            this.lblSpecies = new System.Windows.Forms.Label();
+            this.txtSpecies = new System.Windows.Forms.TextBox();
+            this.lblDOB = new System.Windows.Forms.Label();
+            this.txtDOB = new System.Windows.Forms.TextBox();
+            this.lblSex = new System.Windows.Forms.Label();
+            this.txtSex = new System.Windows.Forms.TextBox();
+            this.lblEnclosure = new System.Windows.Forms.Label();
+            this.txtEnclosure = new System.Windows.Forms.TextBox();
+            this.lblZone = new System.Windows.Forms.Label();
+            this.txtZone = new System.Windows.Forms.TextBox();
+            this.lblLastFed = new System.Windows.Forms.Label();
+            this.txtLastFed = new System.Windows.Forms.TextBox();
+            this.lblLastCare = new System.Windows.Forms.Label();
+            this.txtLastCare = new System.Windows.Forms.TextBox();
+            this.lblInterval = new System.Windows.Forms.Label();
+            this.txtFeedingInterval = new System.Windows.Forms.TextBox();
             this.btnAddAnimal = new System.Windows.Forms.Button();
-            this.btnSearchAnimal = new System.Windows.Forms.Button();
-            this.animalsDataGridView = new System.Windows.Forms.DataGridView();
-            this.btnRefreshAnimals = new System.Windows.Forms.Button();
-            this.tabMain = new System.Windows.Forms.TabControl();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tabFeedingCare.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).BeginInit();
-            this.tabStaff.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.staffDataGridView)).BeginInit();
-            this.tabEnclosures.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.enclosuresDataGridView)).BeginInit();
-            this.tabAnimals.SuspendLayout();
-            this.panel_pageControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).BeginInit();
-            this.tabMain.SuspendLayout();
+            this.tabZone = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listView3 = new System.Windows.Forms.ListView();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.lblZonez = new System.Windows.Forms.Label();
+            this.lblEnclosurez = new System.Windows.Forms.Label();
+            this.btnAddZone = new System.Windows.Forms.Button();
+            this.tabControlMain.SuspendLayout();
+            this.tabHome.SuspendLayout();
+            this.tabAnimal.SuspendLayout();
+            this.tabZone.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabFeedingCare
-            // 
-            this.tabFeedingCare.Controls.Add(this.button_filterFeedCare);
-            this.tabFeedingCare.Controls.Add(this.label_dateFeedCare);
-            this.tabFeedingCare.Controls.Add(this.dateTimePicker_feedCare);
-            this.tabFeedingCare.Controls.Add(this.label_staffIdFeedCare);
-            this.tabFeedingCare.Controls.Add(this.label_animalIdFeedCare);
-            this.tabFeedingCare.Controls.Add(this.textBox_staffIdFeedCare);
-            this.tabFeedingCare.Controls.Add(this.textBox_animalIdFeedCare);
-            this.tabFeedingCare.Controls.Add(this.checkBox_medicalHistory);
-            this.tabFeedingCare.Controls.Add(this.checkBox_feedingHistory);
-            this.tabFeedingCare.Controls.Add(this.feedingDataGridView);
-            this.tabFeedingCare.Controls.Add(this.btnRecordFeeding);
-            this.tabFeedingCare.Controls.Add(this.btnRecordCare);
-            this.tabFeedingCare.Location = new System.Drawing.Point(4, 22);
-            this.tabFeedingCare.Name = "tabFeedingCare";
-            this.tabFeedingCare.Size = new System.Drawing.Size(1177, 767);
-            this.tabFeedingCare.TabIndex = 3;
-            this.tabFeedingCare.Text = "Feeding / Care";
-            // 
-            // button_filterFeedCare
-            // 
-            this.button_filterFeedCare.Location = new System.Drawing.Point(500, 28);
-            this.button_filterFeedCare.Name = "button_filterFeedCare";
-            this.button_filterFeedCare.Size = new System.Drawing.Size(75, 23);
-            this.button_filterFeedCare.TabIndex = 11;
-            this.button_filterFeedCare.Text = "Filter";
-            this.button_filterFeedCare.UseVisualStyleBackColor = true;
-            this.button_filterFeedCare.Click += new System.EventHandler(this.button_filterFeedCare_Click);
-            // 
-            // label_dateFeedCare
-            // 
-            this.label_dateFeedCare.AutoSize = true;
-            this.label_dateFeedCare.Location = new System.Drawing.Point(295, 9);
-            this.label_dateFeedCare.Name = "label_dateFeedCare";
-            this.label_dateFeedCare.Size = new System.Drawing.Size(117, 13);
-            this.label_dateFeedCare.TabIndex = 10;
-            this.label_dateFeedCare.Text = "Get data past this date:";
-            // 
-            // dateTimePicker_feedCare
-            // 
-            this.dateTimePicker_feedCare.Location = new System.Drawing.Point(294, 31);
-            this.dateTimePicker_feedCare.Name = "dateTimePicker_feedCare";
-            this.dateTimePicker_feedCare.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker_feedCare.TabIndex = 9;
-            // 
-            // label_staffIdFeedCare
-            // 
-            this.label_staffIdFeedCare.AutoSize = true;
-            this.label_staffIdFeedCare.Location = new System.Drawing.Point(17, 36);
-            this.label_staffIdFeedCare.Name = "label_staffIdFeedCare";
-            this.label_staffIdFeedCare.Size = new System.Drawing.Size(46, 13);
-            this.label_staffIdFeedCare.TabIndex = 8;
-            this.label_staffIdFeedCare.Text = "Staff ID:";
-            // 
-            // label_animalIdFeedCare
-            // 
-            this.label_animalIdFeedCare.AutoSize = true;
-            this.label_animalIdFeedCare.Location = new System.Drawing.Point(17, 8);
-            this.label_animalIdFeedCare.Name = "label_animalIdFeedCare";
-            this.label_animalIdFeedCare.Size = new System.Drawing.Size(55, 13);
-            this.label_animalIdFeedCare.TabIndex = 7;
-            this.label_animalIdFeedCare.Text = "Animal ID:";
-            // 
-            // textBox_staffIdFeedCare
-            // 
-            this.textBox_staffIdFeedCare.Location = new System.Drawing.Point(78, 31);
-            this.textBox_staffIdFeedCare.Name = "textBox_staffIdFeedCare";
-            this.textBox_staffIdFeedCare.Size = new System.Drawing.Size(100, 20);
-            this.textBox_staffIdFeedCare.TabIndex = 6;
-            // 
-            // textBox_animalIdFeedCare
-            // 
-            this.textBox_animalIdFeedCare.Location = new System.Drawing.Point(78, 7);
-            this.textBox_animalIdFeedCare.Name = "textBox_animalIdFeedCare";
-            this.textBox_animalIdFeedCare.Size = new System.Drawing.Size(100, 20);
-            this.textBox_animalIdFeedCare.TabIndex = 5;
-            // 
-            // checkBox_medicalHistory
-            // 
-            this.checkBox_medicalHistory.AutoSize = true;
-            this.checkBox_medicalHistory.Checked = true;
-            this.checkBox_medicalHistory.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_medicalHistory.Location = new System.Drawing.Point(184, 34);
-            this.checkBox_medicalHistory.Name = "checkBox_medicalHistory";
-            this.checkBox_medicalHistory.Size = new System.Drawing.Size(104, 17);
-            this.checkBox_medicalHistory.TabIndex = 4;
-            this.checkBox_medicalHistory.Text = "Medical History?";
-            this.checkBox_medicalHistory.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_feedingHistory
-            // 
-            this.checkBox_feedingHistory.AutoSize = true;
-            this.checkBox_feedingHistory.Checked = true;
-            this.checkBox_feedingHistory.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_feedingHistory.Location = new System.Drawing.Point(184, 8);
-            this.checkBox_feedingHistory.Name = "checkBox_feedingHistory";
-            this.checkBox_feedingHistory.Size = new System.Drawing.Size(105, 17);
-            this.checkBox_feedingHistory.TabIndex = 3;
-            this.checkBox_feedingHistory.Text = "Feeding History?";
-            this.checkBox_feedingHistory.UseVisualStyleBackColor = true;
-            // 
-            // feedingDataGridView
-            // 
-            this.feedingDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.feedingDataGridView.Name = "feedingDataGridView";
-            this.feedingDataGridView.Size = new System.Drawing.Size(1137, 690);
-            this.feedingDataGridView.TabIndex = 0;
-            // 
-            // btnRecordFeeding
-            // 
-            this.btnRecordFeeding.Location = new System.Drawing.Point(1037, 31);
-            this.btnRecordFeeding.Name = "btnRecordFeeding";
-            this.btnRecordFeeding.Size = new System.Drawing.Size(120, 23);
-            this.btnRecordFeeding.TabIndex = 1;
-            this.btnRecordFeeding.Text = "Record Feeding";
-            this.btnRecordFeeding.Click += new System.EventHandler(this.btnRecordFeeding_Click);
-            // 
-            // btnRecordCare
-            // 
-            this.btnRecordCare.Location = new System.Drawing.Point(1037, 3);
-            this.btnRecordCare.Name = "btnRecordCare";
-            this.btnRecordCare.Size = new System.Drawing.Size(120, 23);
-            this.btnRecordCare.TabIndex = 2;
-            this.btnRecordCare.Text = "Record Vet Care";
-            this.btnRecordCare.Click += new System.EventHandler(this.btnRecordCare_Click);
-            // 
-            // tabStaff
-            // 
-            this.tabStaff.Controls.Add(this.button_getSpeciesGroupQualificationsReport);
-            this.tabStaff.Controls.Add(this.btnEditStaff);
-            this.tabStaff.Controls.Add(this.txtStaffSearch);
-            this.tabStaff.Controls.Add(this.btnSearchStaff);
-            this.tabStaff.Controls.Add(this.staffDataGridView);
-            this.tabStaff.Controls.Add(this.cbStaffRoleFilter);
-            this.tabStaff.Controls.Add(this.btnRefreshStaff);
-            this.tabStaff.Controls.Add(this.btnAddStaff);
-            this.tabStaff.Location = new System.Drawing.Point(4, 22);
-            this.tabStaff.Name = "tabStaff";
-            this.tabStaff.Size = new System.Drawing.Size(1177, 767);
-            this.tabStaff.TabIndex = 2;
-            this.tabStaff.Text = "Staff";
-            // 
-            // button_getSpeciesGroupQualificationsReport
-            // 
-            this.button_getSpeciesGroupQualificationsReport.Location = new System.Drawing.Point(492, 23);
-            this.button_getSpeciesGroupQualificationsReport.Name = "button_getSpeciesGroupQualificationsReport";
-            this.button_getSpeciesGroupQualificationsReport.Size = new System.Drawing.Size(127, 23);
-            this.button_getSpeciesGroupQualificationsReport.TabIndex = 8;
-            this.button_getSpeciesGroupQualificationsReport.Text = "Show Qualifications";
-            this.button_getSpeciesGroupQualificationsReport.UseVisualStyleBackColor = true;
-            this.button_getSpeciesGroupQualificationsReport.Click += new System.EventHandler(this.button_getSpeciesGroupQualificationsReport_Click);
-            // 
-            // btnEditStaff
-            // 
-            this.btnEditStaff.Location = new System.Drawing.Point(987, 13);
-            this.btnEditStaff.Name = "btnEditStaff";
-            this.btnEditStaff.Size = new System.Drawing.Size(75, 41);
-            this.btnEditStaff.TabIndex = 6;
-            this.btnEditStaff.Text = "Edit Staff";
-            this.btnEditStaff.UseVisualStyleBackColor = true;
-            this.btnEditStaff.Click += new System.EventHandler(this.btnEditStaff_Click);
-            // 
-            // txtStaffSearch
-            // 
-            this.txtStaffSearch.Location = new System.Drawing.Point(20, 23);
-            this.txtStaffSearch.Name = "txtStaffSearch";
-            this.txtStaffSearch.Size = new System.Drawing.Size(178, 20);
-            this.txtStaffSearch.TabIndex = 5;
-            this.txtStaffSearch.Text = "Search Staff here";
-            this.txtStaffSearch.TextChanged += new System.EventHandler(this.txtStaffSearch_TextChanged);
-            this.txtStaffSearch.MouseEnter += new System.EventHandler(this.txtStaffSearch_Enter);
-            this.txtStaffSearch.MouseLeave += new System.EventHandler(this.txtStaffSearch_Leave);
-            // 
-            // btnSearchStaff
-            // 
-            this.btnSearchStaff.Location = new System.Drawing.Point(204, 23);
-            this.btnSearchStaff.Name = "btnSearchStaff";
-            this.btnSearchStaff.Size = new System.Drawing.Size(75, 23);
-            this.btnSearchStaff.TabIndex = 4;
-            this.btnSearchStaff.Text = "Search";
-            this.btnSearchStaff.UseVisualStyleBackColor = true;
-            this.btnSearchStaff.Click += new System.EventHandler(this.btnSearchStaff_Click);
-            // 
-            // staffDataGridView
-            // 
-            this.staffDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.staffDataGridView.Name = "staffDataGridView";
-            this.staffDataGridView.Size = new System.Drawing.Size(1138, 694);
-            this.staffDataGridView.TabIndex = 0;
-            // 
-            // cbStaffRoleFilter
-            // 
-            this.cbStaffRoleFilter.Location = new System.Drawing.Point(285, 25);
-            this.cbStaffRoleFilter.Name = "cbStaffRoleFilter";
-            this.cbStaffRoleFilter.Size = new System.Drawing.Size(120, 21);
-            this.cbStaffRoleFilter.TabIndex = 1;
-            this.cbStaffRoleFilter.Text = "Role Filter";
-            this.cbStaffRoleFilter.SelectedIndexChanged += new System.EventHandler(this.cbStaffRoleFilter_SelectedIndexChanged);
-            // 
-            // btnRefreshStaff
-            // 
-            this.btnRefreshStaff.Location = new System.Drawing.Point(411, 23);
-            this.btnRefreshStaff.Name = "btnRefreshStaff";
-            this.btnRefreshStaff.Size = new System.Drawing.Size(75, 23);
-            this.btnRefreshStaff.TabIndex = 2;
-            this.btnRefreshStaff.Text = "Refresh";
-            this.btnRefreshStaff.Click += new System.EventHandler(this.btnRefreshStaff_Click);
-            // 
-            // btnAddStaff
-            // 
-            this.btnAddStaff.Location = new System.Drawing.Point(1068, 13);
-            this.btnAddStaff.Name = "btnAddStaff";
-            this.btnAddStaff.Size = new System.Drawing.Size(90, 41);
-            this.btnAddStaff.TabIndex = 3;
-            this.btnAddStaff.Text = "Add Staff";
-            this.btnAddStaff.Click += new System.EventHandler(this.btnAddStaff_Click);
-            // 
-            // tabEnclosures
-            // 
-            this.tabEnclosures.Controls.Add(this.button_animalInEnclosureReport);
-            this.tabEnclosures.Controls.Add(this.cbZoneFilter);
-            this.tabEnclosures.Controls.Add(this.txtEnclosureSearch);
-            this.tabEnclosures.Controls.Add(this.btnSearchEnclosures);
-            this.tabEnclosures.Controls.Add(this.btnAddEnclosure_Click);
-            this.tabEnclosures.Controls.Add(this.btnEditEnclosure);
-            this.tabEnclosures.Controls.Add(this.enclosuresDataGridView);
-            this.tabEnclosures.Controls.Add(this.cbBiomeFilter);
-            this.tabEnclosures.Controls.Add(this.btnRefreshEnclosures);
-            this.tabEnclosures.Location = new System.Drawing.Point(4, 22);
-            this.tabEnclosures.Name = "tabEnclosures";
-            this.tabEnclosures.Size = new System.Drawing.Size(1177, 767);
-            this.tabEnclosures.TabIndex = 1;
-            this.tabEnclosures.Text = "Enclosures";
-            // 
-            // button_animalInEnclosureReport
-            // 
-            this.button_animalInEnclosureReport.Location = new System.Drawing.Point(378, 16);
-            this.button_animalInEnclosureReport.Name = "button_animalInEnclosureReport";
-            this.button_animalInEnclosureReport.Size = new System.Drawing.Size(117, 23);
-            this.button_animalInEnclosureReport.TabIndex = 8;
-            this.button_animalInEnclosureReport.Text = "Animals in Enclosure";
-            this.button_animalInEnclosureReport.UseVisualStyleBackColor = true;
-            this.button_animalInEnclosureReport.Click += new System.EventHandler(this.button_animalInEnclosureReport_Click);
-            // 
-            // cbZoneFilter
-            // 
-            this.cbZoneFilter.DisplayMember = "cbBiome Filter";
-            this.cbZoneFilter.Location = new System.Drawing.Point(251, 32);
-            this.cbZoneFilter.Name = "cbZoneFilter";
-            this.cbZoneFilter.Size = new System.Drawing.Size(120, 21);
-            this.cbZoneFilter.TabIndex = 7;
-            this.cbZoneFilter.Text = " Filter By Zone";
-            this.cbZoneFilter.ValueMember = "Biome";
-            this.cbZoneFilter.SelectedIndexChanged += new System.EventHandler(this.cbZoneFilter_SelectedIndexChanged);
-            // 
-            // txtEnclosureSearch
-            // 
-            this.txtEnclosureSearch.Location = new System.Drawing.Point(16, 20);
-            this.txtEnclosureSearch.Name = "txtEnclosureSearch";
-            this.txtEnclosureSearch.Size = new System.Drawing.Size(148, 20);
-            this.txtEnclosureSearch.TabIndex = 6;
-            this.txtEnclosureSearch.Text = "Search Enclosures here ";
-            this.txtEnclosureSearch.MouseEnter += new System.EventHandler(this.txtEnclosureSearch_Enter);
-            this.txtEnclosureSearch.MouseLeave += new System.EventHandler(this.txtEnclosureSearch_Leave);
-            // 
-            // btnSearchEnclosures
-            // 
-            this.btnSearchEnclosures.Location = new System.Drawing.Point(170, 3);
-            this.btnSearchEnclosures.Name = "btnSearchEnclosures";
-            this.btnSearchEnclosures.Size = new System.Drawing.Size(75, 23);
-            this.btnSearchEnclosures.TabIndex = 5;
-            this.btnSearchEnclosures.Text = "Search";
-            this.btnSearchEnclosures.UseVisualStyleBackColor = true;
-            this.btnSearchEnclosures.Click += new System.EventHandler(this.btnSearchEnclosures_Click);
-            // 
-            // btnAddEnclosure_Click
-            // 
-            this.btnAddEnclosure_Click.Location = new System.Drawing.Point(1061, 20);
-            this.btnAddEnclosure_Click.Name = "btnAddEnclosure_Click";
-            this.btnAddEnclosure_Click.Size = new System.Drawing.Size(89, 34);
-            this.btnAddEnclosure_Click.TabIndex = 4;
-            this.btnAddEnclosure_Click.Text = "Add Enclosure";
-            this.btnAddEnclosure_Click.UseVisualStyleBackColor = true;
-            // 
-            // btnEditEnclosure
-            // 
-            this.btnEditEnclosure.Location = new System.Drawing.Point(966, 20);
-            this.btnEditEnclosure.Name = "btnEditEnclosure";
-            this.btnEditEnclosure.Size = new System.Drawing.Size(89, 34);
-            this.btnEditEnclosure.TabIndex = 3;
-            this.btnEditEnclosure.Text = "Edit Enclosure";
-            this.btnEditEnclosure.UseVisualStyleBackColor = true;
-            this.btnEditEnclosure.Click += new System.EventHandler(this.btnEditEnclosure_Click);
-            // 
-            // enclosuresDataGridView
-            // 
-            this.enclosuresDataGridView.Location = new System.Drawing.Point(-4, 60);
-            this.enclosuresDataGridView.Name = "enclosuresDataGridView";
-            this.enclosuresDataGridView.Size = new System.Drawing.Size(1154, 688);
-            this.enclosuresDataGridView.TabIndex = 0;
-            // 
-            // cbBiomeFilter
-            // 
-            this.cbBiomeFilter.DisplayMember = "cbBiome Filter";
-            this.cbBiomeFilter.Location = new System.Drawing.Point(251, 5);
-            this.cbBiomeFilter.Name = "cbBiomeFilter";
-            this.cbBiomeFilter.Size = new System.Drawing.Size(120, 21);
-            this.cbBiomeFilter.TabIndex = 1;
-            this.cbBiomeFilter.Text = " Filter By Biome";
-            this.cbBiomeFilter.ValueMember = "Biome";
-            this.cbBiomeFilter.SelectedIndexChanged += new System.EventHandler(this.cbBiomeFilter_SelectedIndexChanged);
-            // 
-            // btnRefreshEnclosures
-            // 
-            this.btnRefreshEnclosures.Location = new System.Drawing.Point(170, 31);
-            this.btnRefreshEnclosures.Name = "btnRefreshEnclosures";
-            this.btnRefreshEnclosures.Size = new System.Drawing.Size(75, 23);
-            this.btnRefreshEnclosures.TabIndex = 2;
-            this.btnRefreshEnclosures.Text = "Refresh";
-            this.btnRefreshEnclosures.Click += new System.EventHandler(this.btnRefreshEnclosures_Click);
-            // 
-            // tabAnimals
-            // 
-            this.tabAnimals.Controls.Add(this.txtAnimalSearch);
-            this.tabAnimals.Controls.Add(this.button_possibleEnclosuresReport);
-            this.tabAnimals.Controls.Add(this.button_ZookeepersQualified);
-            this.tabAnimals.Controls.Add(this.panel_pageControl);
-            this.tabAnimals.Controls.Add(this.btnEditAnimal);
-            this.tabAnimals.Controls.Add(this.btnAddAnimal);
-            this.tabAnimals.Controls.Add(this.btnSearchAnimal);
-            this.tabAnimals.Controls.Add(this.animalsDataGridView);
-            this.tabAnimals.Controls.Add(this.btnRefreshAnimals);
-            this.tabAnimals.Location = new System.Drawing.Point(4, 22);
-            this.tabAnimals.Name = "tabAnimals";
-            this.tabAnimals.Size = new System.Drawing.Size(1177, 767);
-            this.tabAnimals.TabIndex = 0;
-            this.tabAnimals.Text = "Animals";
-            // 
-            // txtAnimalSearch
-            // 
-            this.txtAnimalSearch.Location = new System.Drawing.Point(20, 19);
-            this.txtAnimalSearch.Name = "txtAnimalSearch";
-            this.txtAnimalSearch.Size = new System.Drawing.Size(160, 20);
-            this.txtAnimalSearch.TabIndex = 13;
-            this.txtAnimalSearch.Text = "Search Animal here";
-            this.txtAnimalSearch.MouseEnter += new System.EventHandler(this.txtAnimalSearch_Enter);
-            this.txtAnimalSearch.MouseLeave += new System.EventHandler(this.txtAnimalSearch_Leave);
-            // 
-            // button_possibleEnclosuresReport
-            // 
-            this.button_possibleEnclosuresReport.Location = new System.Drawing.Point(478, 16);
-            this.button_possibleEnclosuresReport.Name = "button_possibleEnclosuresReport";
-            this.button_possibleEnclosuresReport.Size = new System.Drawing.Size(117, 23);
-            this.button_possibleEnclosuresReport.TabIndex = 12;
-            this.button_possibleEnclosuresReport.Text = "Possible Enclosures";
-            this.button_possibleEnclosuresReport.UseVisualStyleBackColor = true;
-            this.button_possibleEnclosuresReport.Click += new System.EventHandler(this.button_possibleEnclosuresReport_Click);
-            // 
-            // button_ZookeepersQualified
-            // 
-            this.button_ZookeepersQualified.Location = new System.Drawing.Point(348, 16);
-            this.button_ZookeepersQualified.Name = "button_ZookeepersQualified";
-            this.button_ZookeepersQualified.Size = new System.Drawing.Size(124, 23);
-            this.button_ZookeepersQualified.TabIndex = 11;
-            this.button_ZookeepersQualified.Text = "Zookeepers Qualified";
-            this.button_ZookeepersQualified.UseVisualStyleBackColor = true;
-            this.button_ZookeepersQualified.Click += new System.EventHandler(this.button_ZookeepersQualified_Click);
-            // 
-            // panel_pageControl
-            // 
-            this.panel_pageControl.Controls.Add(this.button_goToPage);
-            this.panel_pageControl.Controls.Add(this.label_pageInfo);
-            this.panel_pageControl.Controls.Add(this.button_prevPage);
-            this.panel_pageControl.Controls.Add(this.button_nextPage);
-            this.panel_pageControl.Controls.Add(this.textBox_pageNum);
-            this.panel_pageControl.Controls.Add(this.label_pageNum);
-            this.panel_pageControl.Location = new System.Drawing.Point(614, 4);
-            this.panel_pageControl.Name = "panel_pageControl";
-            this.panel_pageControl.Size = new System.Drawing.Size(346, 50);
-            this.panel_pageControl.TabIndex = 10;
-            // 
-            // button_goToPage
-            // 
-            this.button_goToPage.Location = new System.Drawing.Point(179, -1);
-            this.button_goToPage.Name = "button_goToPage";
-            this.button_goToPage.Size = new System.Drawing.Size(75, 23);
-            this.button_goToPage.TabIndex = 5;
-            this.button_goToPage.Text = "Go To Page";
-            this.button_goToPage.UseVisualStyleBackColor = true;
-            this.button_goToPage.Click += new System.EventHandler(this.button_goToPage_Click);
-            // 
-            // label_pageInfo
-            // 
-            this.label_pageInfo.AutoSize = true;
-            this.label_pageInfo.Location = new System.Drawing.Point(4, 31);
-            this.label_pageInfo.Name = "label_pageInfo";
-            this.label_pageInfo.Size = new System.Drawing.Size(53, 13);
-            this.label_pageInfo.TabIndex = 4;
-            this.label_pageInfo.Text = "Page Info";
-            // 
-            // button_prevPage
-            // 
-            this.button_prevPage.Location = new System.Drawing.Point(179, 24);
-            this.button_prevPage.Name = "button_prevPage";
-            this.button_prevPage.Size = new System.Drawing.Size(75, 23);
-            this.button_prevPage.TabIndex = 3;
-            this.button_prevPage.Text = "Prev Page";
-            this.button_prevPage.UseVisualStyleBackColor = true;
-            this.button_prevPage.Click += new System.EventHandler(this.button_prevPage_Click);
-            // 
-            // button_nextPage
-            // 
-            this.button_nextPage.Location = new System.Drawing.Point(260, 24);
-            this.button_nextPage.Name = "button_nextPage";
-            this.button_nextPage.Size = new System.Drawing.Size(75, 23);
-            this.button_nextPage.TabIndex = 2;
-            this.button_nextPage.Text = "Next Page";
-            this.button_nextPage.UseVisualStyleBackColor = true;
-            this.button_nextPage.Click += new System.EventHandler(this.button_nextPage_Click);
-            // 
-            // textBox_pageNum
-            // 
-            this.textBox_pageNum.Location = new System.Drawing.Point(73, 1);
-            this.textBox_pageNum.Name = "textBox_pageNum";
-            this.textBox_pageNum.Size = new System.Drawing.Size(100, 20);
-            this.textBox_pageNum.TabIndex = 1;
-            // 
-            // label_pageNum
-            // 
-            this.label_pageNum.AutoSize = true;
-            this.label_pageNum.Location = new System.Drawing.Point(4, 4);
-            this.label_pageNum.Name = "label_pageNum";
-            this.label_pageNum.Size = new System.Drawing.Size(63, 13);
-            this.label_pageNum.TabIndex = 0;
-            this.label_pageNum.Text = "Go to page:";
-            // 
-            // btnEditAnimal
-            // 
-            this.btnEditAnimal.Location = new System.Drawing.Point(984, 17);
-            this.btnEditAnimal.Name = "btnEditAnimal";
-            this.btnEditAnimal.Size = new System.Drawing.Size(75, 37);
-            this.btnEditAnimal.TabIndex = 6;
-            this.btnEditAnimal.Text = "Edit Animal";
-            this.btnEditAnimal.UseVisualStyleBackColor = true;
-            this.btnEditAnimal.Click += new System.EventHandler(this.btnEditAnimal_Click);
+            // tabControlMain
+            // 
+            this.tabControlMain.Controls.Add(this.tabHome);
+            this.tabControlMain.Controls.Add(this.tabAnimal);
+            this.tabControlMain.Controls.Add(this.tabZone);
+            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlMain.Location = new System.Drawing.Point(0, 0);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(360, 640);
+            this.tabControlMain.TabIndex = 0;
+            // 
+            // tabHome
+            // 
+            this.tabHome.Controls.Add(this.lblStaffName);
+            this.tabHome.Controls.Add(this.lvQualifiedSpecies);
+            this.tabHome.Controls.Add(this.lvCaredAnimals);
+            this.tabHome.Controls.Add(this.lvFeedRecords);
+            this.tabHome.Controls.Add(this.lvCareRecords);
+            this.tabHome.Controls.Add(this.btnAddFeed);
+            this.tabHome.Controls.Add(this.btnAddCare);
+            this.tabHome.Location = new System.Drawing.Point(4, 22);
+            this.tabHome.Name = "tabHome";
+            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHome.Size = new System.Drawing.Size(352, 614);
+            this.tabHome.TabIndex = 0;
+            this.tabHome.Text = "Home";
+            this.tabHome.UseVisualStyleBackColor = true;
+            // 
+            // lblStaffName
+            // 
+            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblStaffName.Location = new System.Drawing.Point(10, 10);
+            this.lblStaffName.Name = "lblStaffName";
+            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
+            this.lblStaffName.TabIndex = 0;
+            this.lblStaffName.Text = "Welcome, [Staff Name]";
+            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lvQualifiedSpecies
+            // 
+            this.lvQualifiedSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvQualifiedSpecies.HideSelection = false;
+            this.lvQualifiedSpecies.Location = new System.Drawing.Point(10, 50);
+            this.lvQualifiedSpecies.Name = "lvQualifiedSpecies";
+            this.lvQualifiedSpecies.Size = new System.Drawing.Size(330, 120);
+            this.lvQualifiedSpecies.TabIndex = 1;
+            this.lvQualifiedSpecies.UseCompatibleStateImageBehavior = false;
+            this.lvQualifiedSpecies.View = System.Windows.Forms.View.Details;
+            // 
+            // lvCaredAnimals
+            // 
+            this.lvCaredAnimals.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvCaredAnimals.HideSelection = false;
+            this.lvCaredAnimals.Location = new System.Drawing.Point(10, 50);
+            this.lvCaredAnimals.Name = "lvCaredAnimals";
+            this.lvCaredAnimals.Size = new System.Drawing.Size(330, 120);
+            this.lvCaredAnimals.TabIndex = 2;
+            this.lvCaredAnimals.UseCompatibleStateImageBehavior = false;
+            this.lvCaredAnimals.View = System.Windows.Forms.View.Details;
+            // 
+            // lvFeedRecords
+            // 
+            this.lvFeedRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvFeedRecords.FullRowSelect = true;
+            this.lvFeedRecords.HideSelection = false;
+            this.lvFeedRecords.Location = new System.Drawing.Point(10, 180);
+            this.lvFeedRecords.Name = "lvFeedRecords";
+            this.lvFeedRecords.Size = new System.Drawing.Size(330, 200);
+            this.lvFeedRecords.TabIndex = 3;
+            this.lvFeedRecords.UseCompatibleStateImageBehavior = false;
+            this.lvFeedRecords.View = System.Windows.Forms.View.Details;
+            // 
+            // lvCareRecords
+            // 
+            this.lvCareRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvCareRecords.FullRowSelect = true;
+            this.lvCareRecords.HideSelection = false;
+            this.lvCareRecords.Location = new System.Drawing.Point(10, 180);
+            this.lvCareRecords.Name = "lvCareRecords";
+            this.lvCareRecords.Size = new System.Drawing.Size(330, 200);
+            this.lvCareRecords.TabIndex = 4;
+            this.lvCareRecords.UseCompatibleStateImageBehavior = false;
+            this.lvCareRecords.View = System.Windows.Forms.View.Details;
+            // 
+            // btnAddFeed
+            // 
+            this.btnAddFeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddFeed.Location = new System.Drawing.Point(10, 390);
+            this.btnAddFeed.Name = "btnAddFeed";
+            this.btnAddFeed.Size = new System.Drawing.Size(150, 30);
+            this.btnAddFeed.TabIndex = 5;
+            this.btnAddFeed.Text = "Add New Feed";
+            this.btnAddFeed.Click += new System.EventHandler(this.btnAddFeed_Click);
+            // 
+            // btnAddCare
+            // 
+            this.btnAddCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddCare.Location = new System.Drawing.Point(10, 390);
+            this.btnAddCare.Name = "btnAddCare";
+            this.btnAddCare.Size = new System.Drawing.Size(150, 30);
+            this.btnAddCare.TabIndex = 6;
+            this.btnAddCare.Text = "Add New Care";
+            this.btnAddCare.Click += new System.EventHandler(this.btnAddCare_Click);
+            // 
+            // tabAnimal
+            // 
+            this.tabAnimal.Controls.Add(this.lblAnimalTitle);
+            this.tabAnimal.Controls.Add(this.lblSelectAnimal);
+            this.tabAnimal.Controls.Add(this.cbSelectAnimal);
+            this.tabAnimal.Controls.Add(this.lblSpecies);
+            this.tabAnimal.Controls.Add(this.txtSpecies);
+            this.tabAnimal.Controls.Add(this.lblDOB);
+            this.tabAnimal.Controls.Add(this.txtDOB);
+            this.tabAnimal.Controls.Add(this.lblSex);
+            this.tabAnimal.Controls.Add(this.txtSex);
+            this.tabAnimal.Controls.Add(this.lblEnclosure);
+            this.tabAnimal.Controls.Add(this.txtEnclosure);
+            this.tabAnimal.Controls.Add(this.lblZone);
+            this.tabAnimal.Controls.Add(this.txtZone);
+            this.tabAnimal.Controls.Add(this.lblLastFed);
+            this.tabAnimal.Controls.Add(this.txtLastFed);
+            this.tabAnimal.Controls.Add(this.lblLastCare);
+            this.tabAnimal.Controls.Add(this.txtLastCare);
+            this.tabAnimal.Controls.Add(this.lblInterval);
+            this.tabAnimal.Controls.Add(this.txtFeedingInterval);
+            this.tabAnimal.Controls.Add(this.btnAddAnimal);
+            this.tabAnimal.Location = new System.Drawing.Point(4, 22);
+            this.tabAnimal.Name = "tabAnimal";
+            this.tabAnimal.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAnimal.Size = new System.Drawing.Size(352, 614);
+            this.tabAnimal.TabIndex = 1;
+            this.tabAnimal.Text = "Animal";
+            this.tabAnimal.UseVisualStyleBackColor = true;
+            // 
+            // lblAnimalTitle
+            // 
+            this.lblAnimalTitle.AutoSize = true;
+            this.lblAnimalTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblAnimalTitle.Location = new System.Drawing.Point(87, 10);
+            this.lblAnimalTitle.Name = "lblAnimalTitle";
+            this.lblAnimalTitle.Size = new System.Drawing.Size(187, 25);
+            this.lblAnimalTitle.TabIndex = 0;
+            this.lblAnimalTitle.Text = "Animal Information";
+            // 
+            // lblSelectAnimal
+            // 
+            this.lblSelectAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectAnimal.Location = new System.Drawing.Point(8, 53);
+            this.lblSelectAnimal.Name = "lblSelectAnimal";
+            this.lblSelectAnimal.Size = new System.Drawing.Size(100, 23);
+            this.lblSelectAnimal.TabIndex = 1;
+            this.lblSelectAnimal.Text = "Select Animal:";
+            // 
+            // cbSelectAnimal
+            // 
+            this.cbSelectAnimal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSelectAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSelectAnimal.Location = new System.Drawing.Point(130, 48);
+            this.cbSelectAnimal.Name = "cbSelectAnimal";
+            this.cbSelectAnimal.Size = new System.Drawing.Size(200, 28);
+            this.cbSelectAnimal.TabIndex = 2;
+            this.cbSelectAnimal.SelectedIndexChanged += new System.EventHandler(this.cbSelectAnimal_SelectedIndexChanged);
+            // 
+            // lblSpecies
+            // 
+            this.lblSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSpecies.Location = new System.Drawing.Point(6, 93);
+            this.lblSpecies.Name = "lblSpecies";
+            this.lblSpecies.Size = new System.Drawing.Size(100, 23);
+            this.lblSpecies.TabIndex = 3;
+            this.lblSpecies.Text = "Species:";
+            // 
+            // txtSpecies
+            // 
+            this.txtSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSpecies.Location = new System.Drawing.Point(130, 90);
+            this.txtSpecies.Name = "txtSpecies";
+            this.txtSpecies.ReadOnly = true;
+            this.txtSpecies.Size = new System.Drawing.Size(200, 26);
+            this.txtSpecies.TabIndex = 4;
+            // 
+            // lblDOB
+            // 
+            this.lblDOB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDOB.Location = new System.Drawing.Point(6, 120);
+            this.lblDOB.Name = "lblDOB";
+            this.lblDOB.Size = new System.Drawing.Size(114, 23);
+            this.lblDOB.TabIndex = 5;
+            this.lblDOB.Text = "Date of Birth:";
+            // 
+            // txtDOB
+            // 
+            this.txtDOB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDOB.Location = new System.Drawing.Point(130, 120);
+            this.txtDOB.Name = "txtDOB";
+            this.txtDOB.ReadOnly = true;
+            this.txtDOB.Size = new System.Drawing.Size(200, 26);
+            this.txtDOB.TabIndex = 6;
+            // 
+            // lblSex
+            // 
+            this.lblSex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSex.Location = new System.Drawing.Point(6, 153);
+            this.lblSex.Name = "lblSex";
+            this.lblSex.Size = new System.Drawing.Size(100, 23);
+            this.lblSex.TabIndex = 7;
+            this.lblSex.Text = "Sex:";
+            // 
+            // txtSex
+            // 
+            this.txtSex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSex.Location = new System.Drawing.Point(130, 150);
+            this.txtSex.Name = "txtSex";
+            this.txtSex.ReadOnly = true;
+            this.txtSex.Size = new System.Drawing.Size(200, 26);
+            this.txtSex.TabIndex = 8;
+            // 
+            // lblEnclosure
+            // 
+            this.lblEnclosure.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnclosure.Location = new System.Drawing.Point(6, 186);
+            this.lblEnclosure.Name = "lblEnclosure";
+            this.lblEnclosure.Size = new System.Drawing.Size(80, 20);
+            this.lblEnclosure.TabIndex = 9;
+            this.lblEnclosure.Text = "Enclosure:";
+            // 
+            // txtEnclosure
+            // 
+            this.txtEnclosure.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEnclosure.Location = new System.Drawing.Point(130, 180);
+            this.txtEnclosure.Name = "txtEnclosure";
+            this.txtEnclosure.ReadOnly = true;
+            this.txtEnclosure.Size = new System.Drawing.Size(200, 26);
+            this.txtEnclosure.TabIndex = 10;
+            // 
+            // lblZone
+            // 
+            this.lblZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblZone.Location = new System.Drawing.Point(6, 216);
+            this.lblZone.Name = "lblZone";
+            this.lblZone.Size = new System.Drawing.Size(80, 20);
+            this.lblZone.TabIndex = 11;
+            this.lblZone.Text = "Zone:";
+            // 
+            // txtZone
+            // 
+            this.txtZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtZone.Location = new System.Drawing.Point(130, 210);
+            this.txtZone.Name = "txtZone";
+            this.txtZone.ReadOnly = true;
+            this.txtZone.Size = new System.Drawing.Size(200, 26);
+            this.txtZone.TabIndex = 12;
+            // 
+            // lblLastFed
+            // 
+            this.lblLastFed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLastFed.Location = new System.Drawing.Point(6, 243);
+            this.lblLastFed.Name = "lblLastFed";
+            this.lblLastFed.Size = new System.Drawing.Size(100, 23);
+            this.lblLastFed.TabIndex = 13;
+            this.lblLastFed.Text = "Last Fed:";
+            // 
+            // txtLastFed
+            // 
+            this.txtLastFed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLastFed.Location = new System.Drawing.Point(130, 240);
+            this.txtLastFed.Name = "txtLastFed";
+            this.txtLastFed.ReadOnly = true;
+            this.txtLastFed.Size = new System.Drawing.Size(200, 26);
+            this.txtLastFed.TabIndex = 14;
+            // 
+            // lblLastCare
+            // 
+            this.lblLastCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLastCare.Location = new System.Drawing.Point(6, 273);
+            this.lblLastCare.Name = "lblLastCare";
+            this.lblLastCare.Size = new System.Drawing.Size(100, 23);
+            this.lblLastCare.TabIndex = 15;
+            this.lblLastCare.Text = "Last Cared:";
+            // 
+            // txtLastCare
+            // 
+            this.txtLastCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLastCare.Location = new System.Drawing.Point(130, 270);
+            this.txtLastCare.Name = "txtLastCare";
+            this.txtLastCare.ReadOnly = true;
+            this.txtLastCare.Size = new System.Drawing.Size(200, 26);
+            this.txtLastCare.TabIndex = 16;
+            // 
+            // lblInterval
+            // 
+            this.lblInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInterval.Location = new System.Drawing.Point(6, 303);
+            this.lblInterval.Name = "lblInterval";
+            this.lblInterval.Size = new System.Drawing.Size(100, 23);
+            this.lblInterval.TabIndex = 17;
+            this.lblInterval.Text = "Feeding Interval:";
+            // 
+            // txtFeedingInterval
+            // 
+            this.txtFeedingInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFeedingInterval.Location = new System.Drawing.Point(130, 300);
+            this.txtFeedingInterval.Name = "txtFeedingInterval";
+            this.txtFeedingInterval.ReadOnly = true;
+            this.txtFeedingInterval.Size = new System.Drawing.Size(200, 26);
+            this.txtFeedingInterval.TabIndex = 18;
             // 
             // btnAddAnimal
             // 
-            this.btnAddAnimal.Location = new System.Drawing.Point(1065, 17);
+            this.btnAddAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddAnimal.Location = new System.Drawing.Point(130, 346);
             this.btnAddAnimal.Name = "btnAddAnimal";
-            this.btnAddAnimal.Size = new System.Drawing.Size(90, 37);
-            this.btnAddAnimal.TabIndex = 4;
-            this.btnAddAnimal.Text = "Add Animal";
+            this.btnAddAnimal.Size = new System.Drawing.Size(200, 35);
+            this.btnAddAnimal.TabIndex = 19;
+            this.btnAddAnimal.Text = "Add New Animal";
             this.btnAddAnimal.Click += new System.EventHandler(this.btnAddAnimal_Click);
             // 
-            // btnSearchAnimal
+            // tabZone
             // 
-            this.btnSearchAnimal.Location = new System.Drawing.Point(186, 17);
-            this.btnSearchAnimal.Name = "btnSearchAnimal";
-            this.btnSearchAnimal.Size = new System.Drawing.Size(75, 22);
-            this.btnSearchAnimal.TabIndex = 5;
-            this.btnSearchAnimal.Text = "Search";
-            this.btnSearchAnimal.Click += new System.EventHandler(this.btnSearchAnimal_Click);
+            this.tabZone.Controls.Add(this.label1);
+            this.tabZone.Controls.Add(this.listView3);
+            this.tabZone.Controls.Add(this.listView2);
+            this.tabZone.Controls.Add(this.listView1);
+            this.tabZone.Controls.Add(this.lblZonez);
+            this.tabZone.Controls.Add(this.lblEnclosurez);
+            this.tabZone.Controls.Add(this.btnAddZone);
+            this.tabZone.Location = new System.Drawing.Point(4, 22);
+            this.tabZone.Name = "tabZone";
+            this.tabZone.Padding = new System.Windows.Forms.Padding(3);
+            this.tabZone.Size = new System.Drawing.Size(352, 614);
+            this.tabZone.TabIndex = 2;
+            this.tabZone.Text = "Zone";
+            this.tabZone.UseVisualStyleBackColor = true;
             // 
-            // animalsDataGridView
+            // label1
             // 
-            this.animalsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.animalsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.animalsDataGridView.Location = new System.Drawing.Point(20, 60);
-            this.animalsDataGridView.Name = "animalsDataGridView";
-            this.animalsDataGridView.Size = new System.Drawing.Size(1135, 695);
-            this.animalsDataGridView.TabIndex = 0;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(8, 265);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Animal :";
             // 
-            // btnRefreshAnimals
+            // listView3
             // 
-            this.btnRefreshAnimals.Location = new System.Drawing.Point(267, 17);
-            this.btnRefreshAnimals.Name = "btnRefreshAnimals";
-            this.btnRefreshAnimals.Size = new System.Drawing.Size(75, 22);
-            this.btnRefreshAnimals.TabIndex = 3;
-            this.btnRefreshAnimals.Text = "Refresh";
-            this.btnRefreshAnimals.Click += new System.EventHandler(this.btnRefreshAnimals_Click);
+            this.listView3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView3.HideSelection = false;
+            this.listView3.Location = new System.Drawing.Point(8, 291);
+            this.listView3.Name = "listView3";
+            this.listView3.Size = new System.Drawing.Size(338, 256);
+            this.listView3.TabIndex = 18;
+            this.listView3.UseCompatibleStateImageBehavior = false;
             // 
-            // tabMain
+            // listView2
             // 
-            this.tabMain.Controls.Add(this.tabAnimals);
-            this.tabMain.Controls.Add(this.tabEnclosures);
-            this.tabMain.Controls.Add(this.tabStaff);
-            this.tabMain.Controls.Add(this.tabFeedingCare);
-            this.tabMain.Location = new System.Drawing.Point(12, 12);
-            this.tabMain.Name = "tabMain";
-            this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(1185, 793);
-            this.tabMain.TabIndex = 0;
-            this.tabMain.SelectedIndexChanged += new System.EventHandler(this.tabMain_SelectedIndexChanged);
+            this.listView2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView2.HideSelection = false;
+            this.listView2.Location = new System.Drawing.Point(6, 39);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(340, 97);
+            this.listView2.TabIndex = 17;
+            this.listView2.UseCompatibleStateImageBehavior = false;
             // 
-            // contextMenuStrip1
+            // listView1
             // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(6, 165);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(340, 97);
+            this.listView1.TabIndex = 16;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // lblZonez
+            // 
+            this.lblZonez.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblZonez.Location = new System.Drawing.Point(6, 12);
+            this.lblZonez.Name = "lblZonez";
+            this.lblZonez.Size = new System.Drawing.Size(78, 23);
+            this.lblZonez.TabIndex = 11;
+            this.lblZonez.Text = "Zone:";
+            // 
+            // lblEnclosurez
+            // 
+            this.lblEnclosurez.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnclosurez.Location = new System.Drawing.Point(8, 139);
+            this.lblEnclosurez.Name = "lblEnclosurez";
+            this.lblEnclosurez.Size = new System.Drawing.Size(100, 23);
+            this.lblEnclosurez.TabIndex = 9;
+            this.lblEnclosurez.Text = "Enclosure:";
+            // 
+            // btnAddZone
+            // 
+            this.btnAddZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddZone.Location = new System.Drawing.Point(28, 571);
+            this.btnAddZone.Name = "btnAddZone";
+            this.btnAddZone.Size = new System.Drawing.Size(280, 35);
+            this.btnAddZone.TabIndex = 15;
+            this.btnAddZone.Text = "Add New Zone";
+            this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(1209, 817);
-            this.Controls.Add(this.tabMain);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(360, 640);
+            this.Controls.Add(this.tabControlMain);
             this.Name = "MainForm";
-            this.Text = "Zoo Management System";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.tabFeedingCare.ResumeLayout(false);
-            this.tabFeedingCare.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.feedingDataGridView)).EndInit();
-            this.tabStaff.ResumeLayout(false);
-            this.tabStaff.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.staffDataGridView)).EndInit();
-            this.tabEnclosures.ResumeLayout(false);
-            this.tabEnclosures.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.enclosuresDataGridView)).EndInit();
-            this.tabAnimals.ResumeLayout(false);
-            this.tabAnimals.PerformLayout();
-            this.panel_pageControl.ResumeLayout(false);
-            this.panel_pageControl.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.animalsDataGridView)).EndInit();
-            this.tabMain.ResumeLayout(false);
+            this.Text = "ZOO APP";
+            this.tabControlMain.ResumeLayout(false);
+            this.tabHome.ResumeLayout(false);
+            this.tabAnimal.ResumeLayout(false);
+            this.tabAnimal.PerformLayout();
+            this.tabZone.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
+
         #endregion
 
-        private System.Windows.Forms.Button btnAddEnclosure;
-        private System.Windows.Forms.TabPage tabFeedingCare;
-        private System.Windows.Forms.DataGridView feedingDataGridView;
-        private System.Windows.Forms.Button btnRecordFeeding;
-        private System.Windows.Forms.Button btnRecordCare;
-        private System.Windows.Forms.TabPage tabStaff;
-        private System.Windows.Forms.Button btnEditStaff;
-        private System.Windows.Forms.TextBox txtStaffSearch;
-        private System.Windows.Forms.Button btnSearchStaff;
-        private System.Windows.Forms.DataGridView staffDataGridView;
-        private System.Windows.Forms.ComboBox cbStaffRoleFilter;
-        private System.Windows.Forms.Button btnRefreshStaff;
-        private System.Windows.Forms.Button btnAddStaff;
-        private System.Windows.Forms.TabPage tabEnclosures;
-        private System.Windows.Forms.Button btnAddEnclosure_Click;
-        private System.Windows.Forms.Button btnEditEnclosure;
-        private System.Windows.Forms.DataGridView enclosuresDataGridView;
-        private System.Windows.Forms.ComboBox cbBiomeFilter;
-        private System.Windows.Forms.Button btnRefreshEnclosures;
-        private System.Windows.Forms.TabPage tabAnimals;
-        private System.Windows.Forms.Button btnEditAnimal;
+        private System.Windows.Forms.TabControl tabControlMain;
+        private System.Windows.Forms.TabPage tabHome;
+        private System.Windows.Forms.TabPage tabAnimal;
+        private System.Windows.Forms.TabPage tabZone;
+
+        private System.Windows.Forms.Label lblStaffName;
+        private System.Windows.Forms.ListView lvQualifiedSpecies;
+        private System.Windows.Forms.ListView lvCaredAnimals;
+        private System.Windows.Forms.ListView lvFeedRecords;
+        private System.Windows.Forms.ListView lvCareRecords;
+        private System.Windows.Forms.Button btnAddFeed;
+        private System.Windows.Forms.Button btnAddCare;
+
+        private System.Windows.Forms.Label lblAnimalTitle;
+        private System.Windows.Forms.Label lblSelectAnimal;
+        private System.Windows.Forms.ComboBox cbSelectAnimal;
+
+        private System.Windows.Forms.Label lblSpecies;
+        private System.Windows.Forms.TextBox txtSpecies;
+        private System.Windows.Forms.Label lblDOB;
+        private System.Windows.Forms.TextBox txtDOB;
+        private System.Windows.Forms.Label lblSex;
+        private System.Windows.Forms.TextBox txtSex;
+        private System.Windows.Forms.Label lblEnclosure;
+        private System.Windows.Forms.TextBox txtEnclosure;
+        private System.Windows.Forms.Label lblZone;
+        private System.Windows.Forms.TextBox txtZone;
+        private System.Windows.Forms.Label lblLastFed;
+        private System.Windows.Forms.TextBox txtLastFed;
+        private System.Windows.Forms.Label lblLastCare;
+        private System.Windows.Forms.TextBox txtLastCare;
+        private System.Windows.Forms.Label lblInterval;
+        private System.Windows.Forms.TextBox txtFeedingInterval;
         private System.Windows.Forms.Button btnAddAnimal;
-        private System.Windows.Forms.Button btnSearchAnimal;
-        private System.Windows.Forms.DataGridView animalsDataGridView;
-        private System.Windows.Forms.Button btnRefreshAnimals;
-        private System.Windows.Forms.TabControl tabMain;
-        private System.Windows.Forms.Button btnSearchEnclosures;
-        private System.Windows.Forms.TextBox txtEnclosureSearch;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Panel panel_pageControl;
-        private System.Windows.Forms.Label label_pageInfo;
-        private System.Windows.Forms.Button button_prevPage;
-        private System.Windows.Forms.Button button_nextPage;
-        private System.Windows.Forms.TextBox textBox_pageNum;
-        private System.Windows.Forms.Label label_pageNum;
-        private System.Windows.Forms.Button button_ZookeepersQualified;
-        private System.Windows.Forms.ComboBox cbZoneFilter;
-        private System.Windows.Forms.Label label_dateFeedCare;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_feedCare;
-        private System.Windows.Forms.Label label_staffIdFeedCare;
-        private System.Windows.Forms.Label label_animalIdFeedCare;
-        private System.Windows.Forms.TextBox textBox_staffIdFeedCare;
-        private System.Windows.Forms.TextBox textBox_animalIdFeedCare;
-        private System.Windows.Forms.CheckBox checkBox_medicalHistory;
-        private System.Windows.Forms.CheckBox checkBox_feedingHistory;
-        private System.Windows.Forms.Button button_filterFeedCare;
-        private System.Windows.Forms.Button button_goToPage;
-        private System.Windows.Forms.Button button_animalInEnclosureReport;
-        private System.Windows.Forms.Button button_possibleEnclosuresReport;
-        private System.Windows.Forms.Button button_getSpeciesGroupQualificationsReport;
-        private System.Windows.Forms.TextBox txtAnimalSearch;
+        private System.Windows.Forms.Label lblZonez;
+        private System.Windows.Forms.Label lblEnclosurez;
+        private System.Windows.Forms.Button btnAddZone;
+        private ListView listView3;
+        private ListView listView2;
+        private ListView listView1;
+        private Label label1;
     }
 }
