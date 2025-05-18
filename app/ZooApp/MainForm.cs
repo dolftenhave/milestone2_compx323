@@ -5,32 +5,10 @@ namespace ZooApp
 {
     public partial class MainForm : Form
     {
-        private Staff currentStaff;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lblStaffName.Text = $"Welcome, {currentStaff.Name}";
 
-            if (currentStaff.IsZookeeper)
-            {
-                lvQualifiedSpecies.Visible = true;
-                lvFeedRecords.Visible = true;
-                btnAddFeed.Visible = true;
-
-                lvCaredAnimals.Visible = false;
-                lvCareRecords.Visible = false;
-                btnAddCare.Visible = false;
-            }
-            else if (currentStaff.IsVet)
-            {
-                lvQualifiedSpecies.Visible = false;
-                lvFeedRecords.Visible = false;
-                btnAddFeed.Visible = false;
-
-                lvCaredAnimals.Visible = true;
-                lvCareRecords.Visible = true;
-                btnAddCare.Visible = true;
-            }
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)

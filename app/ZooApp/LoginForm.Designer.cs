@@ -43,17 +43,17 @@
             this.cbDataset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDataset.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.cbDataset.FormattingEnabled = true;
-            this.cbDataset.Location = new System.Drawing.Point(50, 126);
+            this.cbDataset.Location = new System.Drawing.Point(12, 126);
             this.cbDataset.Name = "cbDataset";
-            this.cbDataset.Size = new System.Drawing.Size(254, 29);
+            this.cbDataset.Size = new System.Drawing.Size(336, 29);
             this.cbDataset.TabIndex = 1;
             // 
             // btnConnect
             // 
-            this.btnConnect.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.btnConnect.Location = new System.Drawing.Point(85, 214);
+            this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConnect.Location = new System.Drawing.Point(12, 502);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(190, 35);
+            this.btnConnect.Size = new System.Drawing.Size(336, 40);
             this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -61,10 +61,10 @@
             // 
             // btnCheckTables
             // 
-            this.btnCheckTables.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnCheckTables.Location = new System.Drawing.Point(85, 264);
+            this.btnCheckTables.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCheckTables.Location = new System.Drawing.Point(12, 548);
             this.btnCheckTables.Name = "btnCheckTables";
-            this.btnCheckTables.Size = new System.Drawing.Size(190, 30);
+            this.btnCheckTables.Size = new System.Drawing.Size(336, 40);
             this.btnCheckTables.TabIndex = 3;
             this.btnCheckTables.Text = "Check Accessible Tables";
             this.btnCheckTables.UseVisualStyleBackColor = true;

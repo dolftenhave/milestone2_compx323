@@ -44,10 +44,10 @@
             this.lblPostCode = new System.Windows.Forms.Label();
             this.lblSex = new System.Windows.Forms.Label();
             this.lblRole = new System.Windows.Forms.Label();
-            this.butUpdateDelete = new System.Windows.Forms.Button();
             this.butDelete = new System.Windows.Forms.Button();
             this.cbSelectStaff = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.butUpdate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -152,6 +152,7 @@
             this.cbSex.Name = "cbSex";
             this.cbSex.Size = new System.Drawing.Size(200, 28);
             this.cbSex.TabIndex = 22;
+            this.cbSex.SelectedIndexChanged += new System.EventHandler(this.cbSex_SelectedIndexChanged);
             // 
             // cbRole
             // 
@@ -164,6 +165,7 @@
             this.cbRole.Name = "cbRole";
             this.cbRole.Size = new System.Drawing.Size(200, 28);
             this.cbRole.TabIndex = 24;
+            this.cbRole.SelectedIndexChanged += new System.EventHandler(this.cbRole_SelectedIndexChanged);
             // 
             // btnAdd
             // 
@@ -293,15 +295,6 @@
             this.lblRole.TabIndex = 23;
             this.lblRole.Text = "Role:";
             // 
-            // butUpdateDelete
-            // 
-            this.butUpdateDelete.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butUpdateDelete.Location = new System.Drawing.Point(151, 512);
-            this.butUpdateDelete.Name = "butUpdateDelete";
-            this.butUpdateDelete.Size = new System.Drawing.Size(94, 35);
-            this.butUpdateDelete.TabIndex = 27;
-            this.butUpdateDelete.Text = "Update";
-            // 
             // butDelete
             // 
             this.butDelete.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -310,6 +303,7 @@
             this.butDelete.Size = new System.Drawing.Size(94, 35);
             this.butDelete.TabIndex = 28;
             this.butDelete.Text = "Delete";
+            this.butDelete.Click += new System.EventHandler(this.butDelete_Click);
             // 
             // cbSelectStaff
             // 
@@ -322,6 +316,7 @@
             this.cbSelectStaff.Name = "cbSelectStaff";
             this.cbSelectStaff.Size = new System.Drawing.Size(200, 28);
             this.cbSelectStaff.TabIndex = 29;
+            this.cbSelectStaff.SelectedIndexChanged += new System.EventHandler(this.cbSelectStaff_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -332,15 +327,25 @@
             this.label1.TabIndex = 30;
             this.label1.Text = "Select Staff:";
             // 
+            // butUpdate
+            // 
+            this.butUpdate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butUpdate.Location = new System.Drawing.Point(151, 512);
+            this.butUpdate.Name = "butUpdate";
+            this.butUpdate.Size = new System.Drawing.Size(94, 35);
+            this.butUpdate.TabIndex = 31;
+            this.butUpdate.Text = "Update";
+            this.butUpdate.Click += new System.EventHandler(this.butUpdate_Click);
+            // 
             // AddStaffForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 600);
+            this.Controls.Add(this.butUpdate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbSelectStaff);
             this.Controls.Add(this.butDelete);
-            this.Controls.Add(this.butUpdateDelete);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.lblFirstName);
             this.Controls.Add(this.txtFirstName);
@@ -406,10 +411,10 @@
         private System.Windows.Forms.Label lblPostCode;
         private System.Windows.Forms.Label lblSex;
         private System.Windows.Forms.Label lblRole;
-        private System.Windows.Forms.Button butUpdateDelete;
         private System.Windows.Forms.Button butDelete;
         private System.Windows.Forms.ComboBox cbSelectStaff;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button butUpdate;
     }
 }
 

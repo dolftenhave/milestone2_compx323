@@ -38,19 +38,20 @@
             // buttonQuit
             // 
             this.buttonQuit.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.buttonQuit.Location = new System.Drawing.Point(31, 512);
+            this.buttonQuit.Location = new System.Drawing.Point(12, 539);
             this.buttonQuit.Name = "buttonQuit";
-            this.buttonQuit.Size = new System.Drawing.Size(280, 35);
+            this.buttonQuit.Size = new System.Drawing.Size(336, 40);
             this.buttonQuit.TabIndex = 4;
             this.buttonQuit.Text = "Quit";
             this.buttonQuit.UseVisualStyleBackColor = true;
+            this.buttonQuit.Click += new System.EventHandler(this.buttonQuit_Click);
             // 
             // buttonAddStaff
             // 
             this.buttonAddStaff.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.buttonAddStaff.Location = new System.Drawing.Point(31, 471);
+            this.buttonAddStaff.Location = new System.Drawing.Point(12, 493);
             this.buttonAddStaff.Name = "buttonAddStaff";
-            this.buttonAddStaff.Size = new System.Drawing.Size(280, 35);
+            this.buttonAddStaff.Size = new System.Drawing.Size(336, 40);
             this.buttonAddStaff.TabIndex = 3;
             this.buttonAddStaff.Text = "Add New Staff";
             this.buttonAddStaff.UseVisualStyleBackColor = true;
@@ -59,9 +60,9 @@
             // buttonLogin
             // 
             this.buttonLogin.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.buttonLogin.Location = new System.Drawing.Point(31, 430);
+            this.buttonLogin.Location = new System.Drawing.Point(12, 447);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(280, 35);
+            this.buttonLogin.Size = new System.Drawing.Size(336, 40);
             this.buttonLogin.TabIndex = 2;
             this.buttonLogin.Text = "Log In";
             this.buttonLogin.UseVisualStyleBackColor = true;

@@ -182,5 +182,30 @@ namespace ZooApp
         {
             this.Close();
         }
+
+        private void cbSelectStaff_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbSex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void butDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void butUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

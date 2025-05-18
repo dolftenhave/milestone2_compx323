@@ -22,9 +22,28 @@ namespace ZooApp
 
         }
 
+        /// <summary>
+        /// Handle the Add New Staff button click event.
+        /// Opens the AddStaffForm as a dialog.
+        /// @author Min Soe Htut
+        /// </summary>
         private void buttonAddStaff_Click(object sender, EventArgs e)
         {
-
+            using (AddStaffForm form = new AddStaffForm())
+            {
+                form.ShowDialog();
+            }
         }
+
+        /// <summary>
+        /// Handle the Quit button click event.
+        /// Closes the application.
+        /// @author Min Soe Htut
+        /// </summary>
+        private void buttonQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }
