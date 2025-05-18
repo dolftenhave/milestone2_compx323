@@ -31,7 +31,7 @@ namespace ZooApp
                 DataTable dt = DatabaseHelper.ExecuteQuery(query);
                 int count = dt.Rows.Count > 0 ? Convert.ToInt32(dt.Rows[0][0]) : 0;
 
-                MessageBox.Show($"{selected} loaded. {count} animals found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show($"{selected} loaded. {count} animals found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 this.Hide();
                 new SelectStaffForm().ShowDialog();

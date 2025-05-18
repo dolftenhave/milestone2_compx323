@@ -1,14 +1,26 @@
 ﻿using System;
 using System.Windows.Forms;
 
+/**<summary>
+ * This is the main page of the application. Giving staff members access to everything they may need to do in the zoo
+ * </summary>
+ */
 namespace ZooApp
 {
     public partial class MainForm : Form
     {
+        // The ID of the staff member currently looking at this page. All info will be relevent to them
+        private int staffMemberId;
+        public MainForm(int staffMemberId)
+        {
+            this.staffMemberId = staffMemberId;
+            InitializeComponent();
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            //Display the name of the person in the top label
+            //Get the names of all the animals that need to be fed
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)

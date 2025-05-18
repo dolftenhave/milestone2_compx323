@@ -12,6 +12,7 @@ namespace ZooApp
 {
     public partial class SelectStaffForm : Form
     {
+        private DataTable staffList;
         public SelectStaffForm()
         {
             InitializeComponent();
@@ -19,7 +20,35 @@ namespace ZooApp
 
         private void SelectStaffForm_Load(object sender, EventArgs e)
         {
+            comboBoxSelectStaff_LoadStaffList();
+        }
 
+        /**
+         * <summary>
+         * Loads a list of all staff members into the combobox items
+         * @author Dolf ten Have
+         * </summary>
+         */
+        private void comboBoxSelectStaff_LoadStaffList()
+        {
+            getStaff();
+            for (int i = 0; i < staffList.Rows.Count; i++)
+            {
+                //For some reason this is in the format [row, Column]????
+                comboBoxSelectStaff.Items.Add(staffList.Rows[i][1]);
+            }
+        }
+
+        /** <summary>
+        *  Gets the staff names for the dropdown names list.
+        *  @author Dolf ten Have
+        * </summary>
+        * <returns>a DataTable containging the full name of all the staff members in the DB</returns>
+        */
+        private void getStaff()
+        {
+            String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
+            staffList = DatabaseHelper.ExecuteQuery(query);
         }
 
         /// <summary>
@@ -45,5 +74,39 @@ namespace ZooApp
             Application.Exit();
         }
 
+        /**
+         * <summary>
+         * Checks if a staff member has been selected by the user. Otherwise an alert message is shown to notify the user to select their name.
+         * @author Dolf ten Have
+         * </summary>
+         */
+        private void buttonLogin_Click(object sender, EventArgs e)
+        {
+           Label chooseNameAlert;
+
+            //Issues a warning to the user to choose a name.
+           if (comboBoxSelectStaff.SelectedIndex == -1) {
+                chooseNameAlert = new Label();
+                chooseNameAlert.Text = "Please select your name to continue.";
+                chooseNameAlert.AutoSize= true;
+                chooseNameAlert.ForeColor = Color.Red;
+                chooseNameAlert.Location = new Point(comboBoxSelectStaff.Location.X, comboBoxSelectStaff.Location.Y + comboBoxSelectStaff.Height);
+                this.Controls.Add(chooseNameAlert);
+                return;
+            }
+            try
+            {
+                String staffId = staffList.Rows[comboBoxSelectStaff.SelectedIndex][0].ToString();
+                int staffIdInt = int.Parse(staffId);
+                this.Hide();
+                new MainForm(staffIdInt).ShowDialog();
+                this.Close();
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);  
+            }
+            
+            //Otherwise move to the next page
+        }
     }
 }

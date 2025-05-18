@@ -439,7 +439,9 @@ namespace ZooApp
                 DataRowView row = animalsDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
                 if (row != null)
                 {
-                    using (AddAnimalForm form = new AddAnimalForm(row.Row))
+                    //Removed the constructor input to fox the error
+                    //old line using (AddAnimalForm form = new AddAnimalForm(row.Row))
+                    using (AddAnimalForm form = new AddAnimalForm())
                     {
                         form.ShowDialog();
                         LoadAnimals();

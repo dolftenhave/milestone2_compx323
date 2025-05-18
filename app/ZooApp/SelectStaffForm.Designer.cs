@@ -32,7 +32,8 @@
             this.buttonAddStaff = new System.Windows.Forms.Button();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.labelWelcome = new System.Windows.Forms.Label();
-            this.comboBoxStaff = new System.Windows.Forms.ComboBox();
+            this.comboBoxSelectStaff = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonQuit
@@ -66,6 +67,7 @@
             this.buttonLogin.TabIndex = 2;
             this.buttonLogin.Text = "Log In";
             this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // labelWelcome
             // 
@@ -77,23 +79,35 @@
             this.labelWelcome.TabIndex = 0;
             this.labelWelcome.Text = "Welcome to Zoo App";
             // 
-            // comboBoxStaff
+            // comboBoxSelectStaff
             // 
-            this.comboBoxStaff.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.comboBoxStaff.FormattingEnabled = true;
-            this.comboBoxStaff.Location = new System.Drawing.Point(31, 129);
-            this.comboBoxStaff.Name = "comboBoxStaff";
-            this.comboBoxStaff.Size = new System.Drawing.Size(280, 29);
-            this.comboBoxStaff.TabIndex = 1;
-            this.comboBoxStaff.Text = "Select Staff Here";
+            this.comboBoxSelectStaff.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSelectStaff.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.comboBoxSelectStaff.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.comboBoxSelectStaff.FormattingEnabled = true;
+            this.comboBoxSelectStaff.Location = new System.Drawing.Point(31, 129);
+            this.comboBoxSelectStaff.Name = "comboBoxSelectStaff";
+            this.comboBoxSelectStaff.Size = new System.Drawing.Size(280, 29);
+            this.comboBoxSelectStaff.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(26, 101);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(192, 25);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Select Your Name:";
             // 
             // SelectStaffForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 600);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelWelcome);
-            this.Controls.Add(this.comboBoxStaff);
+            this.Controls.Add(this.comboBoxSelectStaff);
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(this.buttonAddStaff);
             this.Controls.Add(this.buttonQuit);
@@ -111,6 +125,7 @@
         private System.Windows.Forms.Button buttonAddStaff;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.Label labelWelcome;
-        private System.Windows.Forms.ComboBox comboBoxStaff;
+        private System.Windows.Forms.ComboBox comboBoxSelectStaff;
+        private System.Windows.Forms.Label label1;
     }
 }
