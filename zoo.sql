@@ -67,6 +67,7 @@ CREATE TABLE m2s_Zone(
 
 CREATE TABLE m2s_Enclosure(
     eid INTEGER PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
     biome VARCHAR(15) NOT NULL,
     eSize INTEGER NOT NULL,
     zoneName VARCHAR(30) NOT NULL,
@@ -226,6 +227,7 @@ CREATE TABLE m2l_Zone(
 
 CREATE TABLE m2l_Enclosure(
     eid INTEGER PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
     biome VARCHAR(15) NOT NULL,
     eSize INTEGER NOT NULL,
     zoneName VARCHAR(30) NOT NULL,
