@@ -4,14 +4,14 @@ INSERT INTO m2s_Zone VALUES ('Native', 'Green', '008000');
 INSERT INTO m2s_Zone VALUES ('Australia', 'Red', 'E4002B');
 
 -- Enclosure
-INSERT INTO m2s_Enclosure VALUES (1, 'Arrid', 2, 'Native');
-INSERT INTO m2s_Enclosure VALUES (91, 'Jungle', 2, 'Native');
-INSERT INTO m2s_Enclosure VALUES (2, 'Savanna', 847, 'Africa');
-INSERT INTO m2s_Enclosure VALUES (3, 'Savanna', 657, 'Africa');
-INSERT INTO m2s_Enclosure VALUES (4, 'Forest', 42, 'Native');
-INSERT INTO m2s_Enclosure VALUES (5, 'Forest', 210, 'Native');
-INSERT INTO m2s_Enclosure VALUES (6, 'Woodland', 374, 'Australia');
-INSERT INTO m2s_Enclosure VALUES (90, 'Forest', 434, 'Australia');
+INSERT INTO m2s_Enclosure VALUES (1, 'Mexican Terantula', 'Arrid', 2, 'Native');
+INSERT INTO m2s_Enclosure VALUES (91, 'Black Widow','Jungle', 2, 'Native');
+INSERT INTO m2s_Enclosure VALUES (2, 'Savnna Herds', 'Savanna', 847, 'Africa');
+INSERT INTO m2s_Enclosure VALUES (3, 'Lions', 'Savanna', 657, 'Africa');
+INSERT INTO m2s_Enclosure VALUES (4, 'Kiwi', 'Forest', 42, 'Native');
+INSERT INTO m2s_Enclosure VALUES (5, 'Forest', 'Forest', 210, 'Native');
+INSERT INTO m2s_Enclosure VALUES (6, 'Marsupials', 'Woodland', 374, 'Australia');
+INSERT INTO m2s_Enclosure VALUES (91, 'Australian Bush', 'Forest', 434, 'Australia');
 
 --Species Group 
 INSERT INTO m2s_SpeciesGroup VALUES ('Arachnida', 'Spider');
