@@ -35,7 +35,7 @@ namespace ZooApp
             for (int i = 0; i < staffList.Rows.Count; i++)
             {
                 //For some reason this is in the format [row, Column]????
-                comboBoxSelectStaff.Items.Add(staffList.Rows[i][1]);
+                cbSelectStaff.Items.Add(staffList.Rows[i][1]);
             }
         }
 
@@ -49,6 +49,17 @@ namespace ZooApp
         {
             String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
             staffList = DatabaseHelper.ExecuteQuery(query);
+
+            cbSelectStaff.Items.Clear();
+            cbSelectStaff.Items.Add("Select Staff");
+
+            foreach (DataRow row in staffList.Rows)
+            {
+                string display = $"{row["sid"]} - {row["Fullname"]}";
+                cbSelectStaff.Items.Add(new ComboBoxItem(display, row["sid"].ToString()));
+            }
+
+            cbSelectStaff.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -61,8 +72,12 @@ namespace ZooApp
             using (AddStaffForm form = new AddStaffForm())
             {
                 form.ShowDialog();
+
+                // Refresh the staff list after closing the form
+                getStaff();
             }
         }
+
 
         /// <summary>
         /// Handle the Quit button click event.
@@ -85,18 +100,18 @@ namespace ZooApp
            Label chooseNameAlert;
 
             //Issues a warning to the user to choose a name.
-           if (comboBoxSelectStaff.SelectedIndex == -1) {
+           if (cbSelectStaff.SelectedIndex == -1) {
                 chooseNameAlert = new Label();
                 chooseNameAlert.Text = "Please select your name to continue.";
                 chooseNameAlert.AutoSize= true;
                 chooseNameAlert.ForeColor = Color.Red;
-                chooseNameAlert.Location = new Point(comboBoxSelectStaff.Location.X, comboBoxSelectStaff.Location.Y + comboBoxSelectStaff.Height);
+                chooseNameAlert.Location = new Point(cbSelectStaff.Location.X, cbSelectStaff.Location.Y + cbSelectStaff.Height);
                 this.Controls.Add(chooseNameAlert);
                 return;
             }
             try
             {
-                String staffId = staffList.Rows[comboBoxSelectStaff.SelectedIndex][0].ToString();
+                String staffId = staffList.Rows[cbSelectStaff.SelectedIndex][0].ToString();
                 int staffIdInt = int.Parse(staffId);
                 this.Hide();
                 new MainForm(staffIdInt).ShowDialog();

@@ -32,7 +32,7 @@
             this.buttonAddStaff = new System.Windows.Forms.Button();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.labelWelcome = new System.Windows.Forms.Label();
-            this.comboBoxSelectStaff = new System.Windows.Forms.ComboBox();
+            this.cbSelectStaff = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -79,16 +79,16 @@
             this.labelWelcome.TabIndex = 0;
             this.labelWelcome.Text = "Welcome to Zoo App";
             // 
-            // comboBoxSelectStaff
+            // cbSelectStaff
             // 
-            this.comboBoxSelectStaff.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSelectStaff.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.comboBoxSelectStaff.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.comboBoxSelectStaff.FormattingEnabled = true;
-            this.comboBoxSelectStaff.Location = new System.Drawing.Point(31, 129);
-            this.comboBoxSelectStaff.Name = "comboBoxSelectStaff";
-            this.comboBoxSelectStaff.Size = new System.Drawing.Size(280, 29);
-            this.comboBoxSelectStaff.TabIndex = 1;
+            this.cbSelectStaff.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSelectStaff.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.cbSelectStaff.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.cbSelectStaff.FormattingEnabled = true;
+            this.cbSelectStaff.Location = new System.Drawing.Point(31, 129);
+            this.cbSelectStaff.Name = "cbSelectStaff";
+            this.cbSelectStaff.Size = new System.Drawing.Size(280, 29);
+            this.cbSelectStaff.TabIndex = 1;
             // 
             // label1
             // 
@@ -107,7 +107,7 @@
             this.ClientSize = new System.Drawing.Size(360, 600);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelWelcome);
-            this.Controls.Add(this.comboBoxSelectStaff);
+            this.Controls.Add(this.cbSelectStaff);
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(this.buttonAddStaff);
             this.Controls.Add(this.buttonQuit);
@@ -125,7 +125,7 @@
         private System.Windows.Forms.Button buttonAddStaff;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.Label labelWelcome;
-        private System.Windows.Forms.ComboBox comboBoxSelectStaff;
+        private System.Windows.Forms.ComboBox cbSelectStaff;
         private System.Windows.Forms.Label label1;
     }
 }

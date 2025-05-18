@@ -152,7 +152,6 @@
             this.cbSex.Name = "cbSex";
             this.cbSex.Size = new System.Drawing.Size(200, 28);
             this.cbSex.TabIndex = 22;
-            this.cbSex.SelectedIndexChanged += new System.EventHandler(this.cbSex_SelectedIndexChanged);
             // 
             // cbRole
             // 
@@ -165,7 +164,6 @@
             this.cbRole.Name = "cbRole";
             this.cbRole.Size = new System.Drawing.Size(200, 28);
             this.cbRole.TabIndex = 24;
-            this.cbRole.SelectedIndexChanged += new System.EventHandler(this.cbRole_SelectedIndexChanged);
             // 
             // btnAdd
             // 
