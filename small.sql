@@ -11,7 +11,7 @@ INSERT INTO m2s_Enclosure VALUES (3, 'Lions', 'Savanna', 657, 'Africa');
 INSERT INTO m2s_Enclosure VALUES (4, 'Kiwi', 'Forest', 42, 'Native');
 INSERT INTO m2s_Enclosure VALUES (5, 'Forest', 'Forest', 210, 'Native');
 INSERT INTO m2s_Enclosure VALUES (6, 'Marsupials', 'Woodland', 374, 'Australia');
-INSERT INTO m2s_Enclosure VALUES (91, 'Australian Bush', 'Forest', 434, 'Australia');
+INSERT INTO m2s_Enclosure VALUES (90, 'Australian Bush', 'Forest', 434, 'Australia');
 
 --Species Group 
 INSERT INTO m2s_SpeciesGroup VALUES ('Arachnida', 'Spider');
