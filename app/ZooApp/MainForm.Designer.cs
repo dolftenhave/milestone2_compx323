@@ -34,8 +34,8 @@ namespace ZooApp
             this.cbSelectAnimal = new System.Windows.Forms.ComboBox();
             this.lblSpecies = new System.Windows.Forms.Label();
             this.txtSpecies = new System.Windows.Forms.TextBox();
-            this.lblDOB = new System.Windows.Forms.Label();
-            this.txtDOB = new System.Windows.Forms.TextBox();
+            this.lblAGE = new System.Windows.Forms.Label();
+            this.txtAge = new System.Windows.Forms.TextBox();
             this.lblSex = new System.Windows.Forms.Label();
             this.txtSex = new System.Windows.Forms.TextBox();
             this.lblEnclosure = new System.Windows.Forms.Label();
@@ -175,8 +175,8 @@ namespace ZooApp
             this.tabAnimal.Controls.Add(this.cbSelectAnimal);
             this.tabAnimal.Controls.Add(this.lblSpecies);
             this.tabAnimal.Controls.Add(this.txtSpecies);
-            this.tabAnimal.Controls.Add(this.lblDOB);
-            this.tabAnimal.Controls.Add(this.txtDOB);
+            this.tabAnimal.Controls.Add(this.lblAGE);
+            this.tabAnimal.Controls.Add(this.txtAge);
             this.tabAnimal.Controls.Add(this.lblSex);
             this.tabAnimal.Controls.Add(this.txtSex);
             this.tabAnimal.Controls.Add(this.lblEnclosure);
@@ -245,23 +245,23 @@ namespace ZooApp
             this.txtSpecies.Size = new System.Drawing.Size(200, 26);
             this.txtSpecies.TabIndex = 4;
             // 
-            // lblDOB
+            // lblAGE
             // 
-            this.lblDOB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDOB.Location = new System.Drawing.Point(6, 120);
-            this.lblDOB.Name = "lblDOB";
-            this.lblDOB.Size = new System.Drawing.Size(114, 23);
-            this.lblDOB.TabIndex = 5;
-            this.lblDOB.Text = "Date of Birth:";
+            this.lblAGE.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAGE.Location = new System.Drawing.Point(6, 120);
+            this.lblAGE.Name = "lblAGE";
+            this.lblAGE.Size = new System.Drawing.Size(114, 23);
+            this.lblAGE.TabIndex = 5;
+            this.lblAGE.Text = "Age:";
             // 
-            // txtDOB
+            // txtAge
             // 
-            this.txtDOB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDOB.Location = new System.Drawing.Point(130, 120);
-            this.txtDOB.Name = "txtDOB";
-            this.txtDOB.ReadOnly = true;
-            this.txtDOB.Size = new System.Drawing.Size(200, 26);
-            this.txtDOB.TabIndex = 6;
+            this.txtAge.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAge.Location = new System.Drawing.Point(130, 120);
+            this.txtAge.Name = "txtAge";
+            this.txtAge.ReadOnly = true;
+            this.txtAge.Size = new System.Drawing.Size(200, 26);
+            this.txtAge.TabIndex = 6;
             // 
             // lblSex
             // 
@@ -505,8 +505,8 @@ namespace ZooApp
 
         private System.Windows.Forms.Label lblSpecies;
         private System.Windows.Forms.TextBox txtSpecies;
-        private System.Windows.Forms.Label lblDOB;
-        private System.Windows.Forms.TextBox txtDOB;
+        private System.Windows.Forms.Label lblAGE;
+        private System.Windows.Forms.TextBox txtAge;
         private System.Windows.Forms.Label lblSex;
         private System.Windows.Forms.TextBox txtSex;
         private System.Windows.Forms.Label lblEnclosure;

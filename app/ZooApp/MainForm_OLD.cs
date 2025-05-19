@@ -396,31 +396,31 @@ namespace ZooApp
 
         private void btnAddStaff_Click(object sender, EventArgs e)
         {
-            using (AddStaffForm form = new AddStaffForm())
-            {
-                form.ShowDialog();
-                LoadStaff();
-            }
+            //using (AddStaffForm form = new AddStaffForm())
+            //{
+            //    form.ShowDialog();
+            //    LoadStaff();
+            //}
         }
 
         private void btnEditStaff_Click(object sender, EventArgs e)
         {
-            if (staffDataGridView.SelectedRows.Count > 0)
-            {
-                DataRowView row = staffDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
-                if (row != null)
-                {
-                    using (AddStaffForm form = new AddStaffForm(row.Row))
-                    {
-                        form.ShowDialog();
-                        LoadStaff();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please select a staff member to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            //if (staffDataGridView.SelectedRows.Count > 0)
+            //{
+            //    DataRowView row = staffDataGridView.SelectedRows[0].DataBoundItem as DataRowView;
+            //    if (row != null)
+            //    {
+            //        using (AddStaffForm form = new AddStaffForm(row.Row))
+            //        {
+            //            form.ShowDialog();
+            //            LoadStaff();
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Please select a staff member to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)
