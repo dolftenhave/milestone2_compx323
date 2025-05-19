@@ -110,6 +110,8 @@ namespace ZooApp
                 DatabaseHelper.ExecuteNonQuery(query, parameters);
                 MessageBox.Show("Clinic assigned to vet successfully.");
                 LoadClinicList();
+                this.Hide();
+                new AddStaffForm().ShowDialog();
             }
             else
             {
