@@ -34,6 +34,8 @@
             this.labelWelcome = new System.Windows.Forms.Label();
             this.cbSelectStaff = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.butUpdateVet = new System.Windows.Forms.Button();
+            this.butUpdateZooKeeper = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonQuit
@@ -100,11 +102,35 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Select Your Name:";
             // 
+            // butUpdateVet
+            // 
+            this.butUpdateVet.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.butUpdateVet.Location = new System.Drawing.Point(178, 401);
+            this.butUpdateVet.Name = "butUpdateVet";
+            this.butUpdateVet.Size = new System.Drawing.Size(170, 40);
+            this.butUpdateVet.TabIndex = 6;
+            this.butUpdateVet.Text = "UpdateVet";
+            this.butUpdateVet.UseVisualStyleBackColor = true;
+            this.butUpdateVet.Click += new System.EventHandler(this.butUpdateVet_Click);
+            // 
+            // butUpdateZooKeeper
+            // 
+            this.butUpdateZooKeeper.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.butUpdateZooKeeper.Location = new System.Drawing.Point(12, 401);
+            this.butUpdateZooKeeper.Name = "butUpdateZooKeeper";
+            this.butUpdateZooKeeper.Size = new System.Drawing.Size(160, 40);
+            this.butUpdateZooKeeper.TabIndex = 7;
+            this.butUpdateZooKeeper.Text = "Update Zoo Keeper";
+            this.butUpdateZooKeeper.UseVisualStyleBackColor = true;
+            this.butUpdateZooKeeper.Click += new System.EventHandler(this.butUpdateZooKeeper_Click);
+            // 
             // SelectStaffForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 600);
+            this.Controls.Add(this.butUpdateZooKeeper);
+            this.Controls.Add(this.butUpdateVet);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelWelcome);
             this.Controls.Add(this.cbSelectStaff);
@@ -127,5 +153,7 @@
         private System.Windows.Forms.Label labelWelcome;
         private System.Windows.Forms.ComboBox cbSelectStaff;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button butUpdateVet;
+        private System.Windows.Forms.Button butUpdateZooKeeper;
     }
 }
