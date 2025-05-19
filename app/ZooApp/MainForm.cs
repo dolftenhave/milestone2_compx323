@@ -28,7 +28,7 @@ namespace ZooApp
             displayFeedingList();
 
             // for now, loading the animals at the same time. Will change this in future!
-            populateAnimalComboBox();
+            //populateAnimalComboBox();
         }
 
         /**<summary>
