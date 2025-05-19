@@ -56,20 +56,6 @@ namespace ZooApp
             String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
             staffList = DatabaseHelper.ExecuteQuery(query);
 
-            //TODO remove comments
-            // LOOK AT comboBoxSelectStaff_LoadStaffList IF YOU WANT TO LOAD DATA INTO THE COMBOBOX
-            /**
-                cbSelectStaff.Items.Clear();
-                cbSelectStaff.Items.Add("Select Staff");
-
-                foreach (DataRow row in staffList.Rows)
-                {
-                    string display = $"{row["Fullname"]}";
-                    cbSelectStaff.Items.Add(new ComboBoxItem(display, row["sid"].ToString()));
-                }
-
-                cbSelectStaff.SelectedIndex = 0;
-            */
         }
 
         /// <summary>
@@ -132,6 +118,16 @@ namespace ZooApp
             }
             
             //Otherwise move to the next page
+        }
+
+        private void butUpdateVet_Click(object sender, EventArgs e)
+        {
+            new AddVetForm().ShowDialog();
+        }
+
+        private void butUpdateZooKeeper_Click(object sender, EventArgs e)
+        {
+            new AddZookeeperForm().ShowDialog();
         }
     }
 }

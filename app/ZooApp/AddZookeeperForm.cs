@@ -1,5 +1,15 @@
-﻿using System;
+﻿/**
+ * AddZookeeperForm.cs
+ * 
+ * Manages the species groups assigned to a Zookeeper.
+ * Allows assigning, removing, and viewing qualifications.
+ * 
+ * @author Min Soe Htut
+ */
+
+using System;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 
@@ -7,150 +17,134 @@ namespace ZooApp
 {
     public partial class AddZookeeperForm : Form
     {
-        private readonly StaffInfo staffInfo;
-        private readonly bool isEditMode = false;
-        private readonly int editingSid;
+        private int? currentSid;
 
-        // ----- Constructor for Add Mode -----
-        public AddZookeeperForm(StaffInfo info)
+        public AddZookeeperForm()
         {
             InitializeComponent();
-            staffInfo = info;
-            isEditMode = false;
         }
 
-        // ----- Constructor for Edit Mode -----
-        public AddZookeeperForm(int existingStaffId)
+        public AddZookeeperForm(int sid) : this()
         {
-            InitializeComponent();
-            editingSid = existingStaffId;
-            isEditMode = true;
+            currentSid = sid;
         }
 
         private void AddZookeeperForm_Load(object sender, EventArgs e)
         {
+            LoadZookeeperList();
             LoadSpeciesGroups();
 
-            if (isEditMode)
-                LoadSelectedGroups();
+            if (currentSid.HasValue)
+            {
+                foreach (ComboBoxItem item in cbSelectZookeeper.Items)
+                {
+                    if (item.Value == currentSid.Value.ToString())
+                    {
+                        cbSelectZookeeper.SelectedItem = item;
+                        cbSelectZookeeper.Enabled = false;
+                        break;
+                    }
+                }
+
+                LoadAssignedGroups(currentSid.Value);
+            }
+        }
+
+        private void LoadZookeeperList()
+        {
+            string query = @"
+                SELECT DISTINCT s.sid, s.fName || ' ' || s.lName AS fullName
+                FROM m2s_Staff s
+                JOIN m2s_Oversees o ON s.sid = o.staffID";
+
+            DataTable keepers = DatabaseHelper.ExecuteQuery(query);
+            cbSelectZookeeper.Items.Clear();
+
+            foreach (DataRow row in keepers.Rows)
+            {
+                cbSelectZookeeper.Items.Add(new ComboBoxItem(row["fullName"].ToString(), row["sid"].ToString()));
+            }
+
+            cbSelectZookeeper.SelectedIndex = keepers.Rows.Count > 0 ? 0 : -1;
         }
 
         private void LoadSpeciesGroups()
         {
-            try
-            {
-                string query = "SELECT latinName FROM m2s_SpeciesGroup";
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            string query = "SELECT latinName, commonName FROM m2s_SpeciesGroup ORDER BY commonName";
+            DataTable groups = DatabaseHelper.ExecuteQuery(query);
 
-                clbSpeciesGroups.Items.Clear();
-                foreach (DataRow row in dt.Rows)
-                    clbSpeciesGroups.Items.Add(row["latinName"].ToString());
-            }
-            catch (Exception ex)
+            lbAssignedGroups.Items.Clear();
+            foreach (DataRow row in groups.Rows)
             {
-                MessageBox.Show("Failed to load species groups: " + ex.Message);
-                this.Close();
+                lbAssignedGroups.Items.Add(new ComboBoxItem(row["commonName"].ToString(), row["latinName"].ToString()));
             }
         }
 
-        private void LoadSelectedGroups()
+        private void LoadAssignedGroups(int sid)
         {
-            try
-            {
-                string query = "SELECT sGroupName FROM m2s_Oversees WHERE staffID = :sid";
-                OracleParameter[] p = { new OracleParameter("sid", editingSid) };
-                DataTable dt = DatabaseHelper.ExecuteQuery(query, p);
+            string query = "SELECT sGroupName FROM m2s_Oversees WHERE staffID = :sid";
+            OracleParameter[] param = { new OracleParameter("sid", sid) };
+            DataTable result = DatabaseHelper.ExecuteQuery(query, param);
 
-                foreach (DataRow row in dt.Rows)
+            lbAssignedGroups.ClearSelected(); // Deselect all first
+
+            for (int i = 0; i < lbAssignedGroups.Items.Count; i++)
+            {
+                var item = (ComboBoxItem)lbAssignedGroups.Items[i];
+                if (result.AsEnumerable().Any(r => r["sGroupName"].ToString() == item.Value))
                 {
-                    string groupName = row["sGroupName"].ToString();
-                    int index = clbSpeciesGroups.Items.IndexOf(groupName);
-                    if (index >= 0)
-                        clbSpeciesGroups.SetItemChecked(index, true);
+                    lbAssignedGroups.SetSelected(i, true); 
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to load assigned groups: " + ex.Message);
-            }
         }
 
-        private void btnConfirm_Click(object sender, EventArgs e)
+
+        private void btnAssign_Click(object sender, EventArgs e)
         {
-            if (clbSpeciesGroups.CheckedItems.Count == 0)
+            if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
             {
-                MessageBox.Show("Please select at least one species group.");
+                MessageBox.Show("Please select a zookeeper.");
                 return;
             }
 
-            try
+            int sid = int.Parse(selectedKeeper.Value);
+
+            // Remove all current groups first (safe reset)
+            string deleteQuery = "DELETE FROM m2s_Oversees WHERE staffID = :sid";
+            DatabaseHelper.ExecuteNonQuery(deleteQuery, new OracleParameter[] {
+                new OracleParameter("sid", sid)
+            });
+
+            foreach (ComboBoxItem group in lbAssignedGroups.SelectedItems)
             {
-                int sid;
-
-                if (isEditMode)
-                {
-                    sid = editingSid;
-
-                    // Delete old records
-                    string deleteQuery = "DELETE FROM m2s_Oversees WHERE staffID = :sid";
-                    OracleParameter[] p = { new OracleParameter("sid", sid) };
-                    DatabaseHelper.ExecuteNonQuery(deleteQuery, p);
-                }
-                else
-                {
-                    // Generate SID
-                    string getSidQuery = "SELECT NVL(MAX(sid), 0) + 1 FROM m2s_Staff";
-                    sid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(getSidQuery).Rows[0][0]);
-
-                    // Insert into Staff
-                    string insertStaff = @"
-                        INSERT INTO m2s_Staff 
-                        (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, clinic, sex)
-                        VALUES 
-                        (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, NULL, :sex)";
-
-                    OracleParameter[] staffParams = new OracleParameter[]
-                    {
-                        new OracleParameter("sid", sid),
-                        new OracleParameter("fName", staffInfo.FirstName),
-                        new OracleParameter("lName", staffInfo.LastName),
-                        new OracleParameter("dob", staffInfo.DOB),
-                        new OracleParameter("phNumber", staffInfo.Phone),
-                        new OracleParameter("email", staffInfo.Email),
-                        new OracleParameter("streetNumber", staffInfo.StreetNumber),
-                        new OracleParameter("streetName", staffInfo.StreetName),
-                        new OracleParameter("suburb", staffInfo.Suburb),
-                        new OracleParameter("city", staffInfo.City),
-                        new OracleParameter("postCode", staffInfo.PostCode),
-                        new OracleParameter("sex", staffInfo.Sex)
-                    };
-
-                    DatabaseHelper.ExecuteNonQuery(insertStaff, staffParams);
-                }
-
-                // Insert selected groups
-                foreach (var item in clbSpeciesGroups.CheckedItems)
-                {
-                    string insertOversees = @"
-                        INSERT INTO m2s_Oversees (sGroupName, staffID)
-                        VALUES (:groupName, :sid)";
-
-                    OracleParameter[] overseesParams = new OracleParameter[]
-                    {
-                        new OracleParameter("groupName", item.ToString()),
-                        new OracleParameter("sid", sid)
-                    };
-
-                    DatabaseHelper.ExecuteNonQuery(insertOversees, overseesParams);
-                }
-
-                MessageBox.Show("Zookeeper info saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                string insertQuery = "INSERT INTO m2s_Oversees (sGroupName, staffID) VALUES (:group, :sid)";
+                OracleParameter[] insertParams = {
+                    new OracleParameter("group", group.Value),
+                    new OracleParameter("sid", sid)
+                };
+                DatabaseHelper.ExecuteNonQuery(insertQuery, insertParams);
             }
-            catch (Exception ex)
+
+            MessageBox.Show("Zookeeper assignments updated.");
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
             {
-                MessageBox.Show("Failed to save zookeeper info: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a zookeeper.");
+                return;
             }
+
+            var confirm = MessageBox.Show("Remove all qualifications for this zookeeper?", "Confirm", MessageBoxButtons.YesNo);
+            if (confirm != DialogResult.Yes) return;
+
+            string delete = "DELETE FROM m2s_Oversees WHERE staffID = :sid";
+            OracleParameter[] param = { new OracleParameter("sid", int.Parse(selectedKeeper.Value)) };
+            DatabaseHelper.ExecuteNonQuery(delete, param);
+
+            MessageBox.Show("Qualifications removed.");
+            LoadAssignedGroups(int.Parse(selectedKeeper.Value));
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

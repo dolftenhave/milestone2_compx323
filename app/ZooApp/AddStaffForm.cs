@@ -12,7 +12,6 @@ using System.Data;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 
-
 namespace ZooApp
 {
     public partial class AddStaffForm : Form
@@ -34,7 +33,6 @@ namespace ZooApp
             InitializeComponent();
         }
 
-        // Load the form and populate drop-downs
         private void AddStaffForm_Load(object sender, EventArgs e)
         {
             cbSex.Items.Clear();
@@ -50,10 +48,9 @@ namespace ZooApp
             LoadStaffComboBox();
 
             this.Text = "Manage Staff";
-            btnAdd.Text = "Add";
+            if (!isEditMode) btnAdd.Text = "Add";
         }
 
-        // Load all staff for selection into cbSelectStaff
         private void LoadStaffComboBox()
         {
             cbSelectStaff.Items.Clear();
@@ -70,7 +67,6 @@ namespace ZooApp
             cbSelectStaff.SelectedIndex = 0;
         }
 
-        // Change form state based on selected staff
         private void cbSelectStaff_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbSelectStaff.SelectedIndex == 0)
@@ -91,7 +87,6 @@ namespace ZooApp
             }
         }
 
-        // Clear all textboxes and reset fields
         private void ClearForm()
         {
             foreach (Control c in this.Controls)
@@ -125,13 +120,13 @@ namespace ZooApp
                 if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname) ||
                     string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(role))
                 {
-                    MessageBox.Show("First name, last name, email, and role are required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("All required fields must be filled.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (postCode.Length > 4)
                 {
-                    MessageBox.Show("Postcode must be 4 characters or less.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Postcode must be 4 characters or fewer.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -139,25 +134,25 @@ namespace ZooApp
                 int newSid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(getSidQuery).Rows[0][0]);
 
                 string insert = $@"
-            INSERT INTO {DatabaseHelper.Table("Staff")}
-            (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, sex)
-            VALUES
-            (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :sex)";
+                    INSERT INTO {DatabaseHelper.Table("Staff")}
+                    (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, sex)
+                    VALUES
+                    (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :sex)";
 
                 OracleParameter[] insertParams = {
-            new OracleParameter("sid", newSid),
-            new OracleParameter("fName", fname),
-            new OracleParameter("lName", lname),
-            new OracleParameter("dob", dob),
-            new OracleParameter("phNumber", phone),
-            new OracleParameter("email", email),
-            new OracleParameter("streetNumber", streetNumber),
-            new OracleParameter("streetName", streetName),
-            new OracleParameter("suburb", suburb),
-            new OracleParameter("city", city),
-            new OracleParameter("postCode", postCode),
-            new OracleParameter("sex", sex)
-        };
+                    new OracleParameter("sid", newSid),
+                    new OracleParameter("fName", fname),
+                    new OracleParameter("lName", lname),
+                    new OracleParameter("dob", dob),
+                    new OracleParameter("phNumber", phone),
+                    new OracleParameter("email", email),
+                    new OracleParameter("streetNumber", streetNumber),
+                    new OracleParameter("streetName", streetName),
+                    new OracleParameter("suburb", suburb),
+                    new OracleParameter("city", city),
+                    new OracleParameter("postCode", postCode),
+                    new OracleParameter("sex", sex)
+                };
 
                 DatabaseHelper.ExecuteNonQuery(insert, insertParams);
 
@@ -175,8 +170,62 @@ namespace ZooApp
             }
         }
 
+        private void butUpdate_Click(object sender, EventArgs e)
+        {
+            if (!isEditMode || editingSid == -1)
+            {
+                MessageBox.Show("No staff selected to update.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-        // Handles staff deletion with confirmation
+            try
+            {
+                string update = $@"
+                    UPDATE {DatabaseHelper.Table("Staff")} SET 
+                        fName = :fName,
+                        lName = :lName,
+                        dob = :dob,
+                        phNumber = :phNumber,
+                        email = :email,
+                        streetNumber = :streetNumber,
+                        streetName = :streetName,
+                        suburb = :suburb,
+                        city = :city,
+                        postCode = :postCode,
+                        sex = :sex
+                    WHERE sid = :sid";
+
+                OracleParameter[] updateParams = {
+                    new OracleParameter("fName", txtFirstName.Text.Trim()),
+                    new OracleParameter("lName", txtLastName.Text.Trim()),
+                    new OracleParameter("dob", dtpDOB.Value),
+                    new OracleParameter("phNumber", txtPhone.Text.Trim()),
+                    new OracleParameter("email", txtEmail.Text.Trim()),
+                    new OracleParameter("streetNumber", int.Parse(txtStreetNumber.Text)),
+                    new OracleParameter("streetName", txtStreetName.Text.Trim()),
+                    new OracleParameter("suburb", txtSuburb.Text.Trim()),
+                    new OracleParameter("city", txtCity.Text.Trim()),
+                    new OracleParameter("postCode", txtPostCode.Text.Trim()),
+                    new OracleParameter("sex", cbSex.SelectedItem.ToString() == "Male" ? "M" : "F"),
+                    new OracleParameter("sid", editingSid)
+                };
+
+                DatabaseHelper.ExecuteNonQuery(update, updateParams);
+
+                if (cbRole.SelectedItem.ToString() == "Zookeeper")
+                    new AddZookeeperForm(editingSid).ShowDialog();
+                else if (cbRole.SelectedItem.ToString() == "Vet")
+                    new AddVetForm(editingSid).ShowDialog();
+
+                MessageBox.Show("Staff updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating staff: " + ex.Message, "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void butDelete_Click(object sender, EventArgs e)
         {
             if (!isEditMode || editingSid == -1)
@@ -185,29 +234,19 @@ namespace ZooApp
                 return;
             }
 
-            var confirm = MessageBox.Show(
-                "Are you sure you want to delete this staff?\nThis will also delete all care/feed data linked to them!",
-                "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (confirm != DialogResult.Yes)
-                return;
+            var confirm = MessageBox.Show("Are you sure? This will remove all related vet/zookeeper records!", "Confirm Deletion", MessageBoxButtons.YesNo);
+            if (confirm != DialogResult.Yes) return;
 
             try
             {
-                string deleteCare = "DELETE FROM m2s_Care WHERE staffID = :sid";
-                string deleteFeed = "DELETE FROM m2s_Feed WHERE staffID = :sid";
-                string deleteOversees = "DELETE FROM m2s_Oversees WHERE staffID = :sid";
-                string deleteStaff = "DELETE FROM m2s_Staff WHERE sid = :sid";
-
                 OracleParameter sidParam = new OracleParameter("sid", editingSid);
-                OracleParameter[] paramArray = new OracleParameter[] { sidParam };
 
-                DatabaseHelper.ExecuteNonQuery(deleteCare, paramArray);
-                DatabaseHelper.ExecuteNonQuery(deleteFeed, paramArray);
-                DatabaseHelper.ExecuteNonQuery(deleteOversees, paramArray);
-                DatabaseHelper.ExecuteNonQuery(deleteStaff, paramArray);
+                DatabaseHelper.ExecuteNonQuery("DELETE FROM m2s_Care WHERE staffID = :sid", new[] { sidParam });
+                DatabaseHelper.ExecuteNonQuery("DELETE FROM m2s_Feed WHERE staffID = :sid", new[] { sidParam });
+                DatabaseHelper.ExecuteNonQuery("DELETE FROM m2s_Oversees WHERE staffID = :sid", new[] { sidParam });
+                DatabaseHelper.ExecuteNonQuery("DELETE FROM m2s_Staff WHERE sid = :sid", new[] { sidParam });
 
-                MessageBox.Show("Staff deleted successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Staff deleted successfully.");
                 this.Close();
             }
             catch (Exception ex)
@@ -216,22 +255,17 @@ namespace ZooApp
             }
         }
 
-        // Cancel returns to select staff screen
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Hide();
-            SelectStaffForm ssf = new SelectStaffForm();
-            ssf.ShowDialog();
+            new SelectStaffForm().ShowDialog();
             this.Close();
         }
 
-
-
         private void LoadStaffById(int sid)
         {
-            string query = "SELECT * FROM m2s_Staff WHERE sid = :sid";
-            OracleParameter[] param = { new OracleParameter("sid", sid) };
-            DataTable result = DatabaseHelper.ExecuteQuery(query, param);
+            string query = $"SELECT * FROM {DatabaseHelper.Table("Staff")} WHERE sid = :sid";
+            DataTable result = DatabaseHelper.ExecuteQuery(query, new[] { new OracleParameter("sid", sid) });
 
             if (result.Rows.Count == 0) return;
 
@@ -249,108 +283,15 @@ namespace ZooApp
             cbSex.SelectedItem = row["sex"].ToString() == "M" ? "Male" : "Female";
 
             string role = "Unknown";
-            string roleCheckZK = "SELECT 1 FROM m2s_Oversees WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY";
-            string roleCheckVet = "SELECT 1 FROM m2s_Care WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY";
-
-            if (DatabaseHelper.ExecuteQuery(roleCheckZK, param).Rows.Count > 0)
+            if (DatabaseHelper.ExecuteQuery("SELECT 1 FROM m2s_Oversees WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY", new[] { new OracleParameter("sid", sid) }).Rows.Count > 0)
                 role = "Zookeeper";
-            else if (DatabaseHelper.ExecuteQuery(roleCheckVet, param).Rows.Count > 0)
+            else if (DatabaseHelper.ExecuteQuery("SELECT 1 FROM m2s_Care WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY", new[] { new OracleParameter("sid", sid) }).Rows.Count > 0)
                 role = "Vet";
 
             cbRole.SelectedItem = role;
         }
-
-
-        private void butUpdate_Click(object sender, EventArgs e)
-        {
-            if (!isEditMode || editingSid == -1)
-            {
-                MessageBox.Show("Please select a staff to update.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            try
-            {
-                string fname = txtFirstName.Text.Trim();
-                string lname = txtLastName.Text.Trim();
-                DateTime dob = dtpDOB.Value;
-                string phone = txtPhone.Text.Trim();
-                string email = txtEmail.Text.Trim();
-                string sex = cbSex.SelectedItem?.ToString() == "Male" ? "M" : "F";
-                string role = cbRole.SelectedItem?.ToString();
-
-                if (!int.TryParse(txtStreetNumber.Text, out int streetNumber))
-                    throw new Exception("Invalid street number");
-
-                string streetName = txtStreetName.Text.Trim();
-                string suburb = txtSuburb.Text.Trim();
-                string city = txtCity.Text.Trim();
-                string postCode = txtPostCode.Text.Trim();
-
-                if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname) ||
-                    string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(role))
-                {
-                    MessageBox.Show("First name, last name, email, and role are required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (postCode.Length > 4)
-                {
-                    MessageBox.Show("Postcode must be 4 characters or less.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string update = $@"
-            UPDATE {DatabaseHelper.Table("Staff")} SET 
-                fName = :fName,
-                lName = :lName,
-                dob = :dob,
-                phNumber = :phNumber,
-                email = :email,
-                streetNumber = :streetNumber,
-                streetName = :streetName,
-                suburb = :suburb,
-                city = :city,
-                postCode = :postCode,
-                sex = :sex
-            WHERE sid = :sid";
-
-                OracleParameter[] updateParams = {
-            new OracleParameter("fName", fname),
-            new OracleParameter("lName", lname),
-            new OracleParameter("dob", dob),
-            new OracleParameter("phNumber", phone),
-            new OracleParameter("email", email),
-            new OracleParameter("streetNumber", streetNumber),
-            new OracleParameter("streetName", streetName),
-            new OracleParameter("suburb", suburb),
-            new OracleParameter("city", city),
-            new OracleParameter("postCode", postCode),
-            new OracleParameter("sex", sex),
-            new OracleParameter("sid", editingSid)
-        };
-
-                DatabaseHelper.ExecuteNonQuery(update, updateParams);
-
-                if (role == "Zookeeper")
-                    new AddZookeeperForm(editingSid).ShowDialog();
-                else if (role == "Vet")
-                    new AddVetForm(editingSid).ShowDialog();
-
-                MessageBox.Show("Staff updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
     }
 
-    /// <summary>
-    /// ComboBoxItem helps store both display text and real value for ComboBox items.
-    /// </summary>
     public class ComboBoxItem
     {
         public string Text { get; set; }
@@ -362,14 +303,7 @@ namespace ZooApp
             Value = value;
         }
 
-        public override string ToString()
-        {
-            return Text;
-        }
+        public override string ToString() => Text;
     }
 }
-
-
-
-
 

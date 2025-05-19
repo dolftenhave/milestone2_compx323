@@ -1,6 +1,15 @@
-﻿using System;
+﻿/**
+ * AddVetForm.cs
+ *
+ * Handles assigning and managing vet clinic assignments.
+ * Allows Add, Update, Delete of clinic names and assigning them to selected vets.
+ * Only staff in the Care table are treated as Vets.
+ *
+ * @author Min Soe Htut
+ */
+
+using System;
 using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 
@@ -8,168 +17,205 @@ namespace ZooApp
 {
     public partial class AddVetForm : Form
     {
-        private readonly StaffInfo staffInfo;
-        private readonly bool isEditMode = false;
-        private readonly int editingSid;
+        private int? currentSid;
 
-        // Add mode
-        public AddVetForm(StaffInfo info)
+        public AddVetForm()
         {
             InitializeComponent();
-            staffInfo = info;
-            isEditMode = false;
+            currentSid = null;
         }
 
-        // Edit mode
-        public AddVetForm(int existingStaffId)
+        public AddVetForm(int sid)
         {
             InitializeComponent();
-            editingSid = existingStaffId;
-            isEditMode = true;
+            currentSid = sid;
         }
 
         private void AddVetForm_Load(object sender, EventArgs e)
         {
+            LoadVetList();
             LoadClinicList();
 
-            if (isEditMode)
+            if (currentSid.HasValue)
             {
-                LoadCurrentClinic();
+                foreach (ComboBoxItem item in cbSelectVet.Items)
+                {
+                    if (item.Value == currentSid.Value.ToString())
+                    {
+                        cbSelectVet.SelectedItem = item;
+                        break;
+                    }
+                }
+                cbSelectVet.Enabled = false;
             }
+        }
+
+        private void LoadVetList()
+        {
+            string query = @"
+                SELECT DISTINCT s.sid, s.fName || ' ' || s.lName AS fullName
+                FROM m2s_Staff s
+                JOIN m2s_Care c ON s.sid = c.staffID
+                ORDER BY s.sid";
+
+            DataTable vets = DatabaseHelper.ExecuteQuery(query);
+
+            cbSelectVet.Items.Clear();
+            foreach (DataRow row in vets.Rows)
+            {
+                cbSelectVet.Items.Add(new ComboBoxItem(row["fullName"].ToString(), row["sid"].ToString()));
+            }
+
+            if (cbSelectVet.Items.Count > 0)
+                cbSelectVet.SelectedIndex = 0;
         }
 
         private void LoadClinicList()
         {
-            try
+            string query = "SELECT DISTINCT clinic FROM m2s_Staff WHERE clinic IS NOT NULL ORDER BY clinic";
+
+            DataTable clinics = DatabaseHelper.ExecuteQuery(query);
+            lbClinics.Items.Clear();
+
+            foreach (DataRow row in clinics.Rows)
             {
-                string query = "SELECT DISTINCT clinic FROM m2s_Staff WHERE clinic IS NOT NULL";
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
-
-                lbClinics.Items.Clear();
-
-                foreach (DataRow row in dt.Rows)
-                {
-                    string clinic = row["clinic"].ToString();
-                    if (!string.IsNullOrWhiteSpace(clinic))
-                        lbClinics.Items.Add(clinic);
-                }
+                lbClinics.Items.Add(row["clinic"].ToString());
             }
-            catch (Exception ex)
+        }
+        private void btnAssign_Click(object sender, EventArgs e)
+        {
+            if (cbSelectVet.SelectedItem is ComboBoxItem vet && !string.IsNullOrWhiteSpace(txtClinicName.Text))
             {
-                MessageBox.Show("Failed to load clinics: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
+                OracleParameter[] parameters = {
+                    new OracleParameter("clinic", txtClinicName.Text.Trim()),
+                    new OracleParameter("sid", int.Parse(vet.Value))
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                MessageBox.Show("Clinic assigned to vet successfully.");
+                LoadClinicList();
+            }
+            else
+            {
+                MessageBox.Show("Please select a vet and enter a clinic name.");
             }
         }
 
-        private void LoadCurrentClinic()
+        private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string query = "SELECT clinic FROM m2s_Staff WHERE sid = :sid";
-                OracleParameter[] p = { new OracleParameter("sid", editingSid) };
-                DataTable dt = DatabaseHelper.ExecuteQuery(query, p);
-
-                if (dt.Rows.Count > 0)
-                {
-                    string clinic = dt.Rows[0]["clinic"].ToString();
-                    int index = lbClinics.Items.IndexOf(clinic);
-                    if (index >= 0)
-                        lbClinics.SelectedIndex = index;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to load current clinic: " + ex.Message);
-            }
-        }
-
-        private void btnAddClinic_Click(object sender, EventArgs e)
-        {
-            string newClinic = txtNewClinic.Text.Trim();
-
+            string newClinic = txtClinicName.Text.Trim();
             if (string.IsNullOrWhiteSpace(newClinic))
             {
-                MessageBox.Show("Enter a valid clinic name.");
+                MessageBox.Show("Please enter a clinic name.");
                 return;
             }
 
-            bool exists = lbClinics.Items.Cast<string>()
-                             .Any(c => c.Equals(newClinic, StringComparison.OrdinalIgnoreCase));
-
-            if (exists)
+            string checkQuery = $"SELECT 1 FROM {DatabaseHelper.Table("Staff")} WHERE clinic = :clinic";
+            OracleParameter[] checkParam = { new OracleParameter("clinic", newClinic) };
+            if (DatabaseHelper.ExecuteQuery(checkQuery, checkParam).Rows.Count > 0)
             {
                 MessageBox.Show("Clinic already exists.");
                 return;
             }
 
-            lbClinics.Items.Add(newClinic);
-            txtNewClinic.Clear();
+            if (currentSid.HasValue)
+            {
+                string update = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
+                OracleParameter[] insertParams = {
+                    new OracleParameter("clinic", newClinic),
+                    new OracleParameter("sid", currentSid.Value)
+                };
+                DatabaseHelper.ExecuteNonQuery(update, insertParams);
+                MessageBox.Show("New clinic added and assigned.");
+                LoadClinicList();
+            }
         }
 
-        private void btnConfirm_Click(object sender, EventArgs e)
+        private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (lbClinics.SelectedItem == null)
             {
-                MessageBox.Show("Please select a clinic.");
+                MessageBox.Show("Select a clinic to update.");
                 return;
             }
 
-            string selectedClinic = lbClinics.SelectedItem.ToString();
+            string oldClinic = lbClinics.SelectedItem.ToString();
+            string newClinic = txtClinicName.Text.Trim();
 
-            try
+            if (string.IsNullOrWhiteSpace(newClinic))
             {
-                if (isEditMode)
-                {
-                    string update = "UPDATE m2s_Staff SET clinic = :clinic WHERE sid = :sid";
-                    OracleParameter[] p = {
-                        new OracleParameter("clinic", selectedClinic),
-                        new OracleParameter("sid", editingSid)
-                    };
-                    DatabaseHelper.ExecuteNonQuery(update, p);
-                }
-                else
-                {
-                    // Generate new sid
-                    string getSid = "SELECT NVL(MAX(sid), 0) + 1 FROM m2s_Staff";
-                    int newSid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(getSid).Rows[0][0]);
-
-                    // Insert staff
-                    string insert = @"
-                        INSERT INTO m2s_Staff 
-                        (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, clinic, sex)
-                        VALUES 
-                        (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :clinic, :sex)";
-
-                    OracleParameter[] parameters = {
-                        new OracleParameter("sid", newSid),
-                        new OracleParameter("fName", staffInfo.FirstName),
-                        new OracleParameter("lName", staffInfo.LastName),
-                        new OracleParameter("dob", staffInfo.DOB),
-                        new OracleParameter("phNumber", staffInfo.Phone),
-                        new OracleParameter("email", staffInfo.Email),
-                        new OracleParameter("streetNumber", staffInfo.StreetNumber),
-                        new OracleParameter("streetName", staffInfo.StreetName),
-                        new OracleParameter("suburb", staffInfo.Suburb),
-                        new OracleParameter("city", staffInfo.City),
-                        new OracleParameter("postCode", staffInfo.PostCode),
-                        new OracleParameter("clinic", selectedClinic),
-                        new OracleParameter("sex", staffInfo.Sex)
-                    };
-
-                    DatabaseHelper.ExecuteNonQuery(insert, parameters);
-                }
-
-                MessageBox.Show("Vet saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                MessageBox.Show("Enter a new clinic name.");
+                return;
             }
-            catch (Exception ex)
+
+            string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :new WHERE clinic = :old";
+            OracleParameter[] parameters = {
+                new OracleParameter("new", newClinic),
+                new OracleParameter("old", oldClinic)
+            };
+            DatabaseHelper.ExecuteNonQuery(query, parameters);
+            MessageBox.Show("Clinic updated.");
+            LoadClinicList();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (lbClinics.SelectedItem == null)
             {
-                MessageBox.Show("Error saving vet: " + ex.Message);
+                MessageBox.Show("Select a clinic to delete.");
+                return;
             }
+
+            var confirm = MessageBox.Show(
+                "This will remove this clinic assignment from all vets. Proceed?",
+                "Confirm Deletion",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            string clinic = lbClinics.SelectedItem.ToString();
+            string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = NULL WHERE clinic = :clinic";
+            OracleParameter[] parameters = { new OracleParameter("clinic", clinic) };
+
+            DatabaseHelper.ExecuteNonQuery(query, parameters);
+            LoadClinicList();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void lbClinics_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbClinics.SelectedItem != null)
+            {
+                txtClinicName.Text = lbClinics.SelectedItem.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Helper class for ComboBox items with text and underlying value
+        /// </summary>
+        public class ComboBoxItem
+        {
+            public string Text { get; set; }
+            public string Value { get; set; }
+
+            public ComboBoxItem(string text, string value)
+            {
+                Text = text;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
     }
 }
+
