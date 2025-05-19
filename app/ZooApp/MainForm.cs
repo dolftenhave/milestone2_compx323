@@ -26,6 +26,9 @@ namespace ZooApp
         private void MainForm_Load(object sender, EventArgs e) {
             lblStaffName.Text = $"Welcome, {getStaffDetails()}";
             displayFeedingList();
+
+            // for now, loading the animals at the same time. Will change this in future!
+            populateAnimalComboBox();
         }
 
         /**<summary>
@@ -195,6 +198,43 @@ namespace ZooApp
             
 
             btnFeed.Visible = true;
+        }
+
+        /// <summary>
+        /// Get a DataTable of Animals that are relevant to the logged in Staff.
+        /// 
+        /// Don't like this query at the moment but it does the job for the small dataset.
+        /// </summary>
+        /// <returns>DataTable of Animals</returns>
+        private DataTable getStaffAnimals()
+        {
+            String query = $"SELECT a.aid, a.name " +
+                $"FROM {DatabaseHelper.Table("Animal")} a " +
+                $"WHERE a.aid IN " +
+                $"(SELECT a1.aid " +
+                $"FROM {DatabaseHelper.Table("Animal")} a1, {DatabaseHelper.Table("SpeciesGroup")} sg, " +
+                $"{DatabaseHelper.Table("Species")} sp, {DatabaseHelper.Table("Oversees")} o, {DatabaseHelper.Table("Staff")} st " +
+                $"WHERE st.sid = o.staffid " +
+                $"AND o.sgroupname = sg.latinname " +
+                $"AND sg.latinname = sp.speciesgroup " +
+                $"AND sp.latinname = a1.speciesname);";
+
+            DataTable staffAnimals = DatabaseHelper.ExecuteQuery(query);
+            return staffAnimals;
+        }
+
+        private void populateAnimalComboBox()
+        {
+            DataTable queryResult = getStaffAnimals();
+            cbSelectAnimal.Items.Clear();
+
+            for (int i = 0; i < queryResult.Rows.Count; i++)
+            {
+                String toAdd = queryResult.Rows[i]["name"].ToString();
+                cbSelectAnimal.Items.Add(toAdd);
+            }
+
+            return;
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)

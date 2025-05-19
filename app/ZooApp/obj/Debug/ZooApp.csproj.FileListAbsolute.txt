@@ -141,8 +141,6 @@ C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.Staf
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.MainForm.resources
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.Properties.Resources.resources
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.VetForm.resources
-C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.ZoneCoverageForm.resources
-C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.ZookeeperSkillsForm.resources
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.csproj.GenerateResource.cache
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.csproj.CoreCompileInputs.cache
 C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.csproj.CopyComplete
@@ -223,3 +221,8 @@ C:\Users\dt194\source\repos\milestone2_compx323\app\ZooApp\bin\Debug\System.Text
 C:\Users\dt194\source\repos\milestone2_compx323\app\ZooApp\bin\Debug\System.Text.Json.xml
 C:\Users\dt194\source\repos\milestone2_compx323\app\ZooApp\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\dt194\source\repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.csproj.CopyComplete
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.AddVetForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.AddZookeeperForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.SelectStaffForm.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.MainForm_OLD.resources
+C:\Users\jc550\Source\Repos\milestone2_compx323\app\ZooApp\obj\Debug\ZooApp.UpdateDeleteStaffForm.resources
