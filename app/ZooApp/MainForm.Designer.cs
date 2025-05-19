@@ -22,12 +22,6 @@ namespace ZooApp
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
             this.lblStaffNameWelcome = new System.Windows.Forms.Label();
-            this.lvQualifiedSpecies = new System.Windows.Forms.ListView();
-            this.lvCaredAnimals = new System.Windows.Forms.ListView();
-            this.lvFeedRecords = new System.Windows.Forms.ListView();
-            this.lvCareRecords = new System.Windows.Forms.ListView();
-            this.btnAddFeed = new System.Windows.Forms.Button();
-            this.btnAddCare = new System.Windows.Forms.Button();
             this.tabAnimal = new System.Windows.Forms.TabPage();
             this.lblAnimalTitle = new System.Windows.Forms.Label();
             this.lblSelectAnimal = new System.Windows.Forms.Label();
@@ -57,6 +51,7 @@ namespace ZooApp
             this.lblZonez = new System.Windows.Forms.Label();
             this.lblEnclosurez = new System.Windows.Forms.Label();
             this.btnAddZone = new System.Windows.Forms.Button();
+            this.groupBoxTODO = new System.Windows.Forms.GroupBox();
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.tabAnimal.SuspendLayout();
@@ -77,13 +72,8 @@ namespace ZooApp
             // 
             // tabHome
             // 
+            this.tabHome.Controls.Add(this.groupBoxTODO);
             this.tabHome.Controls.Add(this.lblStaffNameWelcome);
-            this.tabHome.Controls.Add(this.lvQualifiedSpecies);
-            this.tabHome.Controls.Add(this.lvCaredAnimals);
-            this.tabHome.Controls.Add(this.lvFeedRecords);
-            this.tabHome.Controls.Add(this.lvCareRecords);
-            this.tabHome.Controls.Add(this.btnAddFeed);
-            this.tabHome.Controls.Add(this.btnAddCare);
             this.tabHome.Location = new System.Drawing.Point(4, 22);
             this.tabHome.Name = "tabHome";
             this.tabHome.Padding = new System.Windows.Forms.Padding(3);
@@ -101,72 +91,6 @@ namespace ZooApp
             this.lblStaffNameWelcome.TabIndex = 0;
             this.lblStaffNameWelcome.Text = "Welcome, [Staff Name]";
             this.lblStaffNameWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lvQualifiedSpecies
-            // 
-            this.lvQualifiedSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvQualifiedSpecies.HideSelection = false;
-            this.lvQualifiedSpecies.Location = new System.Drawing.Point(10, 50);
-            this.lvQualifiedSpecies.Name = "lvQualifiedSpecies";
-            this.lvQualifiedSpecies.Size = new System.Drawing.Size(330, 120);
-            this.lvQualifiedSpecies.TabIndex = 1;
-            this.lvQualifiedSpecies.UseCompatibleStateImageBehavior = false;
-            this.lvQualifiedSpecies.View = System.Windows.Forms.View.Details;
-            // 
-            // lvCaredAnimals
-            // 
-            this.lvCaredAnimals.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvCaredAnimals.HideSelection = false;
-            this.lvCaredAnimals.Location = new System.Drawing.Point(10, 50);
-            this.lvCaredAnimals.Name = "lvCaredAnimals";
-            this.lvCaredAnimals.Size = new System.Drawing.Size(330, 120);
-            this.lvCaredAnimals.TabIndex = 2;
-            this.lvCaredAnimals.UseCompatibleStateImageBehavior = false;
-            this.lvCaredAnimals.View = System.Windows.Forms.View.Details;
-            // 
-            // lvFeedRecords
-            // 
-            this.lvFeedRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvFeedRecords.FullRowSelect = true;
-            this.lvFeedRecords.HideSelection = false;
-            this.lvFeedRecords.Location = new System.Drawing.Point(10, 180);
-            this.lvFeedRecords.Name = "lvFeedRecords";
-            this.lvFeedRecords.Size = new System.Drawing.Size(330, 200);
-            this.lvFeedRecords.TabIndex = 3;
-            this.lvFeedRecords.UseCompatibleStateImageBehavior = false;
-            this.lvFeedRecords.View = System.Windows.Forms.View.Details;
-            // 
-            // lvCareRecords
-            // 
-            this.lvCareRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvCareRecords.FullRowSelect = true;
-            this.lvCareRecords.HideSelection = false;
-            this.lvCareRecords.Location = new System.Drawing.Point(10, 180);
-            this.lvCareRecords.Name = "lvCareRecords";
-            this.lvCareRecords.Size = new System.Drawing.Size(330, 200);
-            this.lvCareRecords.TabIndex = 4;
-            this.lvCareRecords.UseCompatibleStateImageBehavior = false;
-            this.lvCareRecords.View = System.Windows.Forms.View.Details;
-            // 
-            // btnAddFeed
-            // 
-            this.btnAddFeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddFeed.Location = new System.Drawing.Point(10, 390);
-            this.btnAddFeed.Name = "btnAddFeed";
-            this.btnAddFeed.Size = new System.Drawing.Size(150, 30);
-            this.btnAddFeed.TabIndex = 5;
-            this.btnAddFeed.Text = "Add New Feed";
-            this.btnAddFeed.Click += new System.EventHandler(this.btnAddFeed_Click);
-            // 
-            // btnAddCare
-            // 
-            this.btnAddCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddCare.Location = new System.Drawing.Point(10, 390);
-            this.btnAddCare.Name = "btnAddCare";
-            this.btnAddCare.Size = new System.Drawing.Size(150, 30);
-            this.btnAddCare.TabIndex = 6;
-            this.btnAddCare.Text = "Add New Care";
-            this.btnAddCare.Click += new System.EventHandler(this.btnAddCare_Click);
             // 
             // tabAnimal
             // 
@@ -465,6 +389,15 @@ namespace ZooApp
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // groupBoxTODO
+            // 
+            this.groupBoxTODO.Location = new System.Drawing.Point(15, 44);
+            this.groupBoxTODO.Name = "groupBoxTODO";
+            this.groupBoxTODO.Size = new System.Drawing.Size(325, 562);
+            this.groupBoxTODO.TabIndex = 1;
+            this.groupBoxTODO.TabStop = false;
+            this.groupBoxTODO.Text = "TODO";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -492,12 +425,6 @@ namespace ZooApp
         private System.Windows.Forms.TabPage tabZone;
 
         private System.Windows.Forms.Label lblStaffNameWelcome;
-        private System.Windows.Forms.ListView lvQualifiedSpecies;
-        private System.Windows.Forms.ListView lvCaredAnimals;
-        private System.Windows.Forms.ListView lvFeedRecords;
-        private System.Windows.Forms.ListView lvCareRecords;
-        private System.Windows.Forms.Button btnAddFeed;
-        private System.Windows.Forms.Button btnAddCare;
 
         private System.Windows.Forms.Label lblAnimalTitle;
         private System.Windows.Forms.Label lblSelectAnimal;
@@ -527,5 +454,6 @@ namespace ZooApp
         private ListView listView2;
         private ListView listView1;
         private Label label1;
+        private GroupBox groupBoxTODO;
     }
 }

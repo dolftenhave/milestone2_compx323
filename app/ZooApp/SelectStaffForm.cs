@@ -55,7 +55,7 @@ namespace ZooApp
             String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
             staffList = DatabaseHelper.ExecuteQuery(query);
 
-
+            //TODO remove comments
             // LOOK AT comboBoxSelectStaff_LoadStaffList IF YOU WANT TO LOAD DATA INTO THE COMBOBOX
             /**
                 cbSelectStaff.Items.Clear();
@@ -120,7 +120,7 @@ namespace ZooApp
             }
             try
             {
-                String staffId = staffList.Rows[cbSelectStaff.SelectedIndex][0].ToString();
+                String staffId = staffList.Rows[cbSelectStaff.SelectedIndex - 1][0].ToString();
                 int staffIdInt = int.Parse(staffId);
                 this.Hide();
                 new MainForm(staffIdInt).ShowDialog();
