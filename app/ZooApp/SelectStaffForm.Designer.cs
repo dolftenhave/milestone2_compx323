@@ -34,7 +34,6 @@
             this.labelWelcome = new System.Windows.Forms.Label();
             this.cbSelectStaff = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.butUpdateVet = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonQuit
@@ -86,9 +85,9 @@
             this.cbSelectStaff.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.cbSelectStaff.ForeColor = System.Drawing.SystemColors.WindowText;
             this.cbSelectStaff.FormattingEnabled = true;
-            this.cbSelectStaff.Location = new System.Drawing.Point(12, 129);
+            this.cbSelectStaff.Location = new System.Drawing.Point(31, 129);
             this.cbSelectStaff.Name = "cbSelectStaff";
-            this.cbSelectStaff.Size = new System.Drawing.Size(336, 29);
+            this.cbSelectStaff.Size = new System.Drawing.Size(280, 29);
             this.cbSelectStaff.TabIndex = 1;
             // 
             // label1
@@ -101,23 +100,11 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Select Your Name:";
             // 
-            // butUpdateVet
-            // 
-            this.butUpdateVet.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.butUpdateVet.Location = new System.Drawing.Point(177, 401);
-            this.butUpdateVet.Name = "butUpdateVet";
-            this.butUpdateVet.Size = new System.Drawing.Size(171, 40);
-            this.butUpdateVet.TabIndex = 6;
-            this.butUpdateVet.Text = "Update Vet";
-            this.butUpdateVet.UseVisualStyleBackColor = true;
-            this.butUpdateVet.Click += new System.EventHandler(this.butUpdateVet_Click);
-            // 
             // SelectStaffForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 600);
-            this.Controls.Add(this.butUpdateVet);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelWelcome);
             this.Controls.Add(this.cbSelectStaff);
@@ -140,6 +127,5 @@
         private System.Windows.Forms.Label labelWelcome;
         private System.Windows.Forms.ComboBox cbSelectStaff;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button butUpdateVet;
     }
 }
