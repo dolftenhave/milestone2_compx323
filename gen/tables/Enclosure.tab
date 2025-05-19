@@ -1,8 +1,10 @@
-4 1 0 0
+5 1 0 0
+eid,name,biome,eSize,zoneName
 
-csv/Zone.csv,1,0
+Zone.csv,1,0
 
 6 1
+0 30
 0 15
 1 4
 8 0 0

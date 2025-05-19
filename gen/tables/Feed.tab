@@ -1,8 +1,9 @@
 5 3 0 0
+staffID,animalID,dateTime,amount,foodType
 
-csv/Staff.csv,1,0
-csv/Animal.csv,1,0
-csv/food.csv,1,0
+Staff.csv,1,0
+Animal.csv,1,0
+data/food.csv,1,0
 
 8 0 0
 8 1 0

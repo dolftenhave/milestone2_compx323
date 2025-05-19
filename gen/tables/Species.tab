@@ -1,9 +1,10 @@
-4 2 1 20
+4 2 1 4
+latinName,commonName,requiredBiome,speciesGroup
 
-csv/Enclosure.csv,0,2
-csv/SpeciesGroup.csv,1,0
+Enclosure.csv,0,2
+SpeciesGroup.csv,1,0
 
-7 20
+7 4
 0 30
 4 0 2
 8 1 0
