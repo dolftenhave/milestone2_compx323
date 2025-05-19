@@ -123,5 +123,10 @@ namespace ZooApp
             
             //Otherwise move to the next page
         }
+
+        private void butUpdateVet_Click(object sender, EventArgs e)
+        {
+            new AddVetForm().ShowDialog();
+        }
     }
 }
