@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 
 /**<summary>
@@ -17,10 +18,27 @@ namespace ZooApp
             InitializeComponent();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            //Display the name of the person in the top label
+        /**<summary>
+         * Loads staff and a list of animals needed to start the main form.
+         * </summary>
+         */
+        private void MainForm_Load(object sender, EventArgs e) { 
+            lblStaffNameWelcome.Text = $"Welcome, {getStaffNameForWelcome()}";
             //Get the names of all the animals that need to be fed
+        }
+
+        /**<summary>
+         * Gets the first name of the staff member that is displayed in the welcome text at the top of the screen
+         * @author Dolf ten Have
+         * </summary>
+         */
+        private String getStaffNameForWelcome()
+        {
+            String name;
+            String Query = $"SELECT fname FROM {DatabaseHelper.Table("STAFF")} WHERE sid = {staffMemberId}";
+            DataTable dt = DatabaseHelper.ExecuteQuery(Query);
+
+            return dt.Rows[0][0].ToString();
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)
@@ -58,6 +76,5 @@ namespace ZooApp
         {
             // TODO: Add new enclosure or animal (could open a form)
         }
-
     }
 }

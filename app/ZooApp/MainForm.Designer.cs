@@ -21,7 +21,7 @@ namespace ZooApp
         {
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
-            this.lblStaffName = new System.Windows.Forms.Label();
+            this.lblStaffNameWelcome = new System.Windows.Forms.Label();
             this.lvQualifiedSpecies = new System.Windows.Forms.ListView();
             this.lvCaredAnimals = new System.Windows.Forms.ListView();
             this.lvFeedRecords = new System.Windows.Forms.ListView();
@@ -77,7 +77,7 @@ namespace ZooApp
             // 
             // tabHome
             // 
-            this.tabHome.Controls.Add(this.lblStaffName);
+            this.tabHome.Controls.Add(this.lblStaffNameWelcome);
             this.tabHome.Controls.Add(this.lvQualifiedSpecies);
             this.tabHome.Controls.Add(this.lvCaredAnimals);
             this.tabHome.Controls.Add(this.lvFeedRecords);
@@ -92,15 +92,15 @@ namespace ZooApp
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
             // 
-            // lblStaffName
+            // lblStaffNameWelcome
             // 
-            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblStaffName.Location = new System.Drawing.Point(10, 10);
-            this.lblStaffName.Name = "lblStaffName";
-            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
-            this.lblStaffName.TabIndex = 0;
-            this.lblStaffName.Text = "Welcome, [Staff Name]";
-            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblStaffNameWelcome.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblStaffNameWelcome.Location = new System.Drawing.Point(10, 10);
+            this.lblStaffNameWelcome.Name = "lblStaffNameWelcome";
+            this.lblStaffNameWelcome.Size = new System.Drawing.Size(330, 30);
+            this.lblStaffNameWelcome.TabIndex = 0;
+            this.lblStaffNameWelcome.Text = "Welcome, [Staff Name]";
+            this.lblStaffNameWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lvQualifiedSpecies
             // 
@@ -473,6 +473,7 @@ namespace ZooApp
             this.Controls.Add(this.tabControlMain);
             this.Name = "MainForm";
             this.Text = "ZOO APP";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControlMain.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
             this.tabAnimal.ResumeLayout(false);
@@ -490,7 +491,7 @@ namespace ZooApp
         private System.Windows.Forms.TabPage tabAnimal;
         private System.Windows.Forms.TabPage tabZone;
 
-        private System.Windows.Forms.Label lblStaffName;
+        private System.Windows.Forms.Label lblStaffNameWelcome;
         private System.Windows.Forms.ListView lvQualifiedSpecies;
         private System.Windows.Forms.ListView lvCaredAnimals;
         private System.Windows.Forms.ListView lvFeedRecords;
