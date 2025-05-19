@@ -28,7 +28,7 @@ namespace ZooApp
             displayFeedingList();
 
             // for now, loading the animals at the same time. Will change this in future!
-            //populateAnimalComboBox();
+            populateAnimalComboBox();
         }
 
         /**<summary>
@@ -209,15 +209,16 @@ namespace ZooApp
         private DataTable getStaffAnimals()
         {
             String query = $"SELECT a.aid, a.name " +
-                $"FROM {DatabaseHelper.Table("Animal")} a " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
                 $"WHERE a.aid IN " +
                 $"(SELECT a1.aid " +
-                $"FROM {DatabaseHelper.Table("Animal")} a1, {DatabaseHelper.Table("SpeciesGroup")} sg, " +
-                $"{DatabaseHelper.Table("Species")} sp, {DatabaseHelper.Table("Oversees")} o, {DatabaseHelper.Table("Staff")} st " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a1, {DatabaseHelper.Table("SPECIESGROUP")} sg, " +
+                $"{DatabaseHelper.Table("SPECIES")} sp, {DatabaseHelper.Table("OVERSEES")} o, {DatabaseHelper.Table("STAFF")} st " +
                 $"WHERE st.sid = o.staffid " +
                 $"AND o.sgroupname = sg.latinname " +
                 $"AND sg.latinname = sp.speciesgroup " +
-                $"AND sp.latinname = a1.speciesname);";
+                $"AND sp.latinname = a1.speciesname " +
+                $"AND st.sid = '{staffMemberId}')";
 
             DataTable staffAnimals = DatabaseHelper.ExecuteQuery(query);
             return staffAnimals;
