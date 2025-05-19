@@ -46,6 +46,7 @@ namespace ZooApp
         *  Gets the staff names for the dropdown names list.
         *  @author Dolf ten Have
         * </summary>
+        * <returns>a DataTable containging the full name of all the staff members in the DB</returns>
         */
         private void getStaff()
         {

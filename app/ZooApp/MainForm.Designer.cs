@@ -22,6 +22,13 @@ namespace ZooApp
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
             this.lblStaffNameWelcome = new System.Windows.Forms.Label();
+            this.lblStaffName = new System.Windows.Forms.Label();
+            this.lvQualifiedSpecies = new System.Windows.Forms.ListView();
+            this.lvCaredAnimals = new System.Windows.Forms.ListView();
+            this.lvFeedRecords = new System.Windows.Forms.ListView();
+            this.lvCareRecords = new System.Windows.Forms.ListView();
+            this.btnAddFeed = new System.Windows.Forms.Button();
+            this.btnAddCare = new System.Windows.Forms.Button();
             this.tabAnimal = new System.Windows.Forms.TabPage();
             this.lblAnimalTitle = new System.Windows.Forms.Label();
             this.lblSelectAnimal = new System.Windows.Forms.Label();
@@ -72,6 +79,13 @@ namespace ZooApp
             // 
             // tabHome
             // 
+            this.tabHome.Controls.Add(this.lblStaffName);
+            this.tabHome.Controls.Add(this.lvQualifiedSpecies);
+            this.tabHome.Controls.Add(this.lvCaredAnimals);
+            this.tabHome.Controls.Add(this.lvFeedRecords);
+            this.tabHome.Controls.Add(this.lvCareRecords);
+            this.tabHome.Controls.Add(this.btnAddFeed);
+            this.tabHome.Controls.Add(this.btnAddCare);
             this.tabHome.Controls.Add(this.groupBoxTODO);
             this.tabHome.Controls.Add(this.lblStaffNameWelcome);
             this.tabHome.Location = new System.Drawing.Point(4, 22);
@@ -82,15 +96,15 @@ namespace ZooApp
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
             // 
-            // lblStaffNameWelcome
+            // lblStaffName
             // 
-            this.lblStaffNameWelcome.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblStaffNameWelcome.Location = new System.Drawing.Point(10, 10);
-            this.lblStaffNameWelcome.Name = "lblStaffNameWelcome";
-            this.lblStaffNameWelcome.Size = new System.Drawing.Size(330, 30);
-            this.lblStaffNameWelcome.TabIndex = 0;
-            this.lblStaffNameWelcome.Text = "Welcome, [Staff Name]";
-            this.lblStaffNameWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblStaffName.Location = new System.Drawing.Point(10, 10);
+            this.lblStaffName.Name = "lblStaffName";
+            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
+            this.lblStaffName.TabIndex = 0;
+            this.lblStaffName.Text = "Welcome, [Staff Name]";
+            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabAnimal
             // 
@@ -406,7 +420,6 @@ namespace ZooApp
             this.Controls.Add(this.tabControlMain);
             this.Name = "MainForm";
             this.Text = "ZOO APP";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControlMain.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
             this.tabAnimal.ResumeLayout(false);
@@ -424,6 +437,13 @@ namespace ZooApp
         private System.Windows.Forms.TabPage tabAnimal;
         private System.Windows.Forms.TabPage tabZone;
 
+        private System.Windows.Forms.Label lblStaffName;
+        private System.Windows.Forms.ListView lvQualifiedSpecies;
+        private System.Windows.Forms.ListView lvCaredAnimals;
+        private System.Windows.Forms.ListView lvFeedRecords;
+        private System.Windows.Forms.ListView lvCareRecords;
+        private System.Windows.Forms.Button btnAddFeed;
+        private System.Windows.Forms.Button btnAddCare;
         private System.Windows.Forms.Label lblStaffNameWelcome;
 
         private System.Windows.Forms.Label lblAnimalTitle;

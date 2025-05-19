@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Windows.Forms;
 
 /**<summary>
@@ -12,7 +11,6 @@ namespace ZooApp
     {
         // The ID of the staff member currently looking at this page. All info will be relevent to them
         private int staffMemberId;
-        private int staffRole; // 0 for zookeeper and 1 for vet
         public MainForm(int staffMemberId)
         {
             this.staffMemberId = staffMemberId;
@@ -193,5 +191,6 @@ namespace ZooApp
         {
             // TODO: Add new enclosure or animal (could open a form)
         }
+
     }
 }
