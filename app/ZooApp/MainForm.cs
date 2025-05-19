@@ -224,6 +224,9 @@ namespace ZooApp
             return staffAnimals;
         }
 
+        /// <summary>
+        /// Method for populating the animal combobox.
+        /// </summary>
         private void populateAnimalComboBox()
         {
             DataTable queryResult = getStaffAnimals();
@@ -238,6 +241,20 @@ namespace ZooApp
             return;
         }
 
+        /// <summary>
+        /// A helper method to get the age as a string, from a DateTime DateOfBirth.
+        /// </summary>
+        /// <returns>The age of the animal as a String.</returns>
+        private String getAgeFromDob(DateTime dob)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - dob.Year;
+            // If the dob date is further along than the date today, then their last birthday did not happen
+            if (dob.Date > today.AddYears(-age)) --age;
+
+            return age.ToString();
+        }
+
         private void btnAddAnimal_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -247,7 +264,65 @@ namespace ZooApp
 
         private void cbSelectAnimal_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Leave empty for now
+            // Get the information for everything except latest feed/care
+            // THIS DOES NOT TAKE INTO ACCOUNT THE ENCLOSURE NAME BEING ADDED IN FUTURE
+            String animalName = cbSelectAnimal.SelectedItem.ToString();
+            String queryGeneralInfo = $"SELECT a.aid, s.commonname, a.dob, a.sex, e.eid, z.name " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("ZONE")} z, " +
+                $"{DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} s " +
+                $"WHERE a.name = '{animalName}' " +
+                $"AND a.enclosureid = e.eid " +
+                $"AND e.zonename = z.name " +
+                $"AND s.latinname = a.speciesname";
+
+            // Extract this information
+            DataTable animalData = DatabaseHelper.ExecuteQuery(queryGeneralInfo);
+            if (animalData == null)
+            {
+                MessageBox.Show("Error in loading animal data: none selected");
+                return;
+            }
+
+            // Get the aid for better querying in the following queries
+            String aid = animalData.Rows[0]["aid"].ToString();
+
+            String speciesName = animalData.Rows[0]["commonname"].ToString();
+            String animalAge = getAgeFromDob(DateTime.Parse(animalData.Rows[0]["dob"].ToString()));
+            String animalSex = animalData.Rows[0]["sex"].ToString();
+            // To change to enclosure NAME
+            String enclosureEID = animalData.Rows[0]["eid"].ToString();
+            String zoneName = animalData.Rows[0]["name"].ToString();
+
+            String lastFed = "Never Fed!";
+            String lastCared = "Never Cared!";
+
+            String queryLastFeed = $"SELECT datetime " +
+                $"FROM {DatabaseHelper.Table("FEED")} " +
+                $"WHERE animalid = '{aid}' " +
+                $"ORDER BY datetime DESC " +
+                $"FETCH FIRST 1 ROWS ONLY";
+
+            String queryLastCare = $"SELECT datetime " +
+                $"FROM {DatabaseHelper.Table("CARE")} " +
+                $"WHERE animalid = '{aid}' " +
+                $"ORDER BY datetime DESC " +
+                $"FETCH FIRST 1 ROWS ONLY";
+
+            animalData = DatabaseHelper.ExecuteQuery(queryLastCare);
+            if (animalData != null && animalData.Rows.Count != 0) lastCared = animalData.Rows[0]["datetime"].ToString();
+
+            animalData = DatabaseHelper.ExecuteQuery(queryLastFeed);
+            if (animalData != null && animalData.Rows.Count != 0) lastFed = animalData.Rows[0]["datetime"].ToString();
+
+
+            // And set the textbox values
+            txtSpecies.Text = speciesName;
+            txtAge.Text = animalAge;
+            txtSex.Text = animalSex;
+            txtEnclosure.Text = enclosureEID;
+            txtZone.Text = zoneName;
+            txtLastCare.Text = lastCared;
+            txtLastFed.Text = lastFed;
         }
 
         private void btnAddFeed_Click(object sender, EventArgs e)
