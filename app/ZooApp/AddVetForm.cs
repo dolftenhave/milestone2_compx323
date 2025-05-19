@@ -53,12 +53,16 @@ namespace ZooApp
         private void LoadVetList()
         {
             string query = @"
-                SELECT DISTINCT s.sid, s.fName || ' ' || s.lName AS fullName
-                FROM m2s_Staff s
-                JOIN m2s_Care c ON s.sid = c.staffID
-                ORDER BY s.sid";
+        SELECT sid, fName || ' ' || lName AS fullName
+        FROM m2s_Staff
+        WHERE sid IN (SELECT DISTINCT staffID FROM m2s_Care)
+           OR sid = :sid";  // Ensure current vet sid is included
 
-            DataTable vets = DatabaseHelper.ExecuteQuery(query);
+            OracleParameter[] param = {
+        new OracleParameter("sid", currentSid.HasValue ? currentSid.Value : -1)
+    };
+
+            DataTable vets = DatabaseHelper.ExecuteQuery(query, param);
 
             cbSelectVet.Items.Clear();
             foreach (DataRow row in vets.Rows)
@@ -66,9 +70,20 @@ namespace ZooApp
                 cbSelectVet.Items.Add(new ComboBoxItem(row["fullName"].ToString(), row["sid"].ToString()));
             }
 
-            if (cbSelectVet.Items.Count > 0)
-                cbSelectVet.SelectedIndex = 0;
+            if (currentSid.HasValue)
+            {
+                foreach (ComboBoxItem item in cbSelectVet.Items)
+                {
+                    if (item.Value == currentSid.Value.ToString())
+                    {
+                        cbSelectVet.SelectedItem = item;
+                        break;
+                    }
+                }
+                cbSelectVet.Enabled = false;
+            }
         }
+
 
         private void LoadClinicList()
         {
@@ -130,6 +145,7 @@ namespace ZooApp
                 MessageBox.Show("New clinic added and assigned.");
                 LoadClinicList();
             }
+
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -157,6 +173,8 @@ namespace ZooApp
             DatabaseHelper.ExecuteNonQuery(query, parameters);
             MessageBox.Show("Clinic updated.");
             LoadClinicList();
+            this.Close();
+            new SelectStaffForm().ShowDialog();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

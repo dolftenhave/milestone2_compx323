@@ -48,8 +48,11 @@ namespace ZooApp
             LoadStaffComboBox();
 
             this.Text = "Manage Staff";
-            if (!isEditMode) btnAdd.Text = "Add";
+
+            btnAdd.Enabled = true;
+            butUpdate.Enabled = false;
         }
+
 
         private void LoadStaffComboBox()
         {
@@ -74,7 +77,8 @@ namespace ZooApp
                 ClearForm();
                 isEditMode = false;
                 editingSid = -1;
-                btnAdd.Text = "Add";
+                btnAdd.Enabled = true;
+                butUpdate.Enabled = false;
             }
             else
             {
@@ -83,7 +87,8 @@ namespace ZooApp
                 LoadStaffById(sid);
                 isEditMode = true;
                 editingSid = sid;
-                btnAdd.Text = "Update";
+                btnAdd.Enabled = false;
+                butUpdate.Enabled = true;
             }
         }
 
@@ -156,9 +161,26 @@ namespace ZooApp
 
                 DatabaseHelper.ExecuteNonQuery(insert, insertParams);
 
-                if (role == "Zookeeper")
-                    new AddZookeeperForm(newSid).ShowDialog();
-                else if (role == "Vet")
+                if (role == "Vet")
+                {
+                    string dummyCareInsert = $@"
+                    INSERT INTO {DatabaseHelper.Table("Care")}
+                    (staffID, animalID, dateTime, care, notes)
+                    VALUES (:sid, :aid, :dt, :care, :notes)";
+
+                    OracleParameter[] dummyParams = {
+                new OracleParameter("sid", newSid),
+                new OracleParameter("aid", 0),
+                new OracleParameter("dt", new DateTime(2000, 1, 1)),
+                new OracleParameter("care", "Initial Vet Assignment"),
+                new OracleParameter("notes", "Auto-generated entry to assign vet role")
+                    };
+
+                    DatabaseHelper.ExecuteNonQuery(dummyCareInsert, dummyParams);
+
+                    new AddVetForm(newSid).ShowDialog();
+                }
+                else if (role == "Zookeeper")
                     new AddVetForm(newSid).ShowDialog();
 
                 MessageBox.Show("Staff added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
