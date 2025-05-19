@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 
 /**<summary>
@@ -11,6 +12,7 @@ namespace ZooApp
     {
         // The ID of the staff member currently looking at this page. All info will be relevent to them
         private int staffMemberId;
+        private int staffRole; //0 for ZooKeeper and  for Vet
         public MainForm(int staffMemberId)
         {
             this.staffMemberId = staffMemberId;
@@ -103,8 +105,8 @@ namespace ZooApp
             //Displays all the UI components
             for(int i = 0; i < animals.Rows.Count; i++)
             {
-                DateTime lastFed = (DateTime)animals.Rows[i][3];
-                makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), lastFed, int.Parse(animals.Rows[i][4].ToString()), i);
+                //DateTime lastFed = (DateTime)animals.Rows[i][3];
+                //makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), lastFed, int.Parse(animals.Rows[i][4].ToString()), i);
             }
         }
 

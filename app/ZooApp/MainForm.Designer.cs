@@ -20,15 +20,6 @@ namespace ZooApp
         private void InitializeComponent()
         {
             this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabHome = new System.Windows.Forms.TabPage();
-            this.lblStaffNameWelcome = new System.Windows.Forms.Label();
-            this.lblStaffName = new System.Windows.Forms.Label();
-            this.lvQualifiedSpecies = new System.Windows.Forms.ListView();
-            this.lvCaredAnimals = new System.Windows.Forms.ListView();
-            this.lvFeedRecords = new System.Windows.Forms.ListView();
-            this.lvCareRecords = new System.Windows.Forms.ListView();
-            this.btnAddFeed = new System.Windows.Forms.Button();
-            this.btnAddCare = new System.Windows.Forms.Button();
             this.tabAnimal = new System.Windows.Forms.TabPage();
             this.lblAnimalTitle = new System.Windows.Forms.Label();
             this.lblSelectAnimal = new System.Windows.Forms.Label();
@@ -58,11 +49,16 @@ namespace ZooApp
             this.lblZonez = new System.Windows.Forms.Label();
             this.lblEnclosurez = new System.Windows.Forms.Label();
             this.btnAddZone = new System.Windows.Forms.Button();
+            this.lblStaffNameWelcome = new System.Windows.Forms.Label();
             this.groupBoxTODO = new System.Windows.Forms.GroupBox();
+            this.lblStaffName = new System.Windows.Forms.Label();
+            this.tabHome = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControlMain.SuspendLayout();
-            this.tabHome.SuspendLayout();
             this.tabAnimal.SuspendLayout();
             this.tabZone.SuspendLayout();
+            this.groupBoxTODO.SuspendLayout();
+            this.tabHome.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -76,35 +72,6 @@ namespace ZooApp
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(360, 640);
             this.tabControlMain.TabIndex = 0;
-            // 
-            // tabHome
-            // 
-            this.tabHome.Controls.Add(this.lblStaffName);
-            this.tabHome.Controls.Add(this.lvQualifiedSpecies);
-            this.tabHome.Controls.Add(this.lvCaredAnimals);
-            this.tabHome.Controls.Add(this.lvFeedRecords);
-            this.tabHome.Controls.Add(this.lvCareRecords);
-            this.tabHome.Controls.Add(this.btnAddFeed);
-            this.tabHome.Controls.Add(this.btnAddCare);
-            this.tabHome.Controls.Add(this.groupBoxTODO);
-            this.tabHome.Controls.Add(this.lblStaffNameWelcome);
-            this.tabHome.Location = new System.Drawing.Point(4, 22);
-            this.tabHome.Name = "tabHome";
-            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHome.Size = new System.Drawing.Size(352, 614);
-            this.tabHome.TabIndex = 0;
-            this.tabHome.Text = "Home";
-            this.tabHome.UseVisualStyleBackColor = true;
-            // 
-            // lblStaffName
-            // 
-            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblStaffName.Location = new System.Drawing.Point(10, 10);
-            this.lblStaffName.Name = "lblStaffName";
-            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
-            this.lblStaffName.TabIndex = 0;
-            this.lblStaffName.Text = "Welcome, [Staff Name]";
-            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabAnimal
             // 
@@ -403,14 +370,54 @@ namespace ZooApp
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // lblStaffNameWelcome
+            // 
+            this.lblStaffNameWelcome.Location = new System.Drawing.Point(0, 0);
+            this.lblStaffNameWelcome.Name = "lblStaffNameWelcome";
+            this.lblStaffNameWelcome.Size = new System.Drawing.Size(100, 23);
+            this.lblStaffNameWelcome.TabIndex = 7;
+            // 
             // groupBoxTODO
             // 
-            this.groupBoxTODO.Location = new System.Drawing.Point(15, 44);
+            this.groupBoxTODO.Controls.Add(this.label2);
+            this.groupBoxTODO.Location = new System.Drawing.Point(3, 36);
             this.groupBoxTODO.Name = "groupBoxTODO";
-            this.groupBoxTODO.Size = new System.Drawing.Size(325, 562);
+            this.groupBoxTODO.Size = new System.Drawing.Size(341, 570);
             this.groupBoxTODO.TabIndex = 1;
             this.groupBoxTODO.TabStop = false;
             this.groupBoxTODO.Text = "TODO";
+            // 
+            // lblStaffName
+            // 
+            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblStaffName.Location = new System.Drawing.Point(6, 3);
+            this.lblStaffName.Name = "lblStaffName";
+            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
+            this.lblStaffName.TabIndex = 0;
+            this.lblStaffName.Text = "Welcome, [Staff Name]";
+            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabHome
+            // 
+            this.tabHome.Controls.Add(this.lblStaffName);
+            this.tabHome.Controls.Add(this.groupBoxTODO);
+            this.tabHome.Controls.Add(this.lblStaffNameWelcome);
+            this.tabHome.Location = new System.Drawing.Point(4, 22);
+            this.tabHome.Name = "tabHome";
+            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHome.Size = new System.Drawing.Size(352, 614);
+            this.tabHome.TabIndex = 0;
+            this.tabHome.Text = "Home";
+            this.tabHome.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(64, 112);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(130, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "PLEASE DONT CHANGE";
             // 
             // MainForm
             // 
@@ -421,10 +428,12 @@ namespace ZooApp
             this.Name = "MainForm";
             this.Text = "ZOO APP";
             this.tabControlMain.ResumeLayout(false);
-            this.tabHome.ResumeLayout(false);
             this.tabAnimal.ResumeLayout(false);
             this.tabAnimal.PerformLayout();
             this.tabZone.ResumeLayout(false);
+            this.groupBoxTODO.ResumeLayout(false);
+            this.groupBoxTODO.PerformLayout();
+            this.tabHome.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -433,18 +442,8 @@ namespace ZooApp
         #endregion
 
         private System.Windows.Forms.TabControl tabControlMain;
-        private System.Windows.Forms.TabPage tabHome;
         private System.Windows.Forms.TabPage tabAnimal;
         private System.Windows.Forms.TabPage tabZone;
-
-        private System.Windows.Forms.Label lblStaffName;
-        private System.Windows.Forms.ListView lvQualifiedSpecies;
-        private System.Windows.Forms.ListView lvCaredAnimals;
-        private System.Windows.Forms.ListView lvFeedRecords;
-        private System.Windows.Forms.ListView lvCareRecords;
-        private System.Windows.Forms.Button btnAddFeed;
-        private System.Windows.Forms.Button btnAddCare;
-        private System.Windows.Forms.Label lblStaffNameWelcome;
 
         private System.Windows.Forms.Label lblAnimalTitle;
         private System.Windows.Forms.Label lblSelectAnimal;
@@ -474,6 +473,10 @@ namespace ZooApp
         private ListView listView2;
         private ListView listView1;
         private Label label1;
+        private TabPage tabHome;
+        private Label lblStaffName;
         private GroupBox groupBoxTODO;
+        private Label lblStaffNameWelcome;
+        private Label label2;
     }
 }
