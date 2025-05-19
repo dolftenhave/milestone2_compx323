@@ -12,6 +12,7 @@ namespace ZooApp
     {
         // The ID of the staff member currently looking at this page. All info will be relevent to them
         private int staffMemberId;
+        private int staffRole; // 0 for zookeeper and 1 for vet
         public MainForm(int staffMemberId)
         {
             this.staffMemberId = staffMemberId;
@@ -23,7 +24,7 @@ namespace ZooApp
          * </summary>
          */
         private void MainForm_Load(object sender, EventArgs e) { 
-            lblStaffNameWelcome.Text = $"Welcome, {getStaffNameForWelcome()}";
+            lblStaffNameWelcome.Text = $"Welcome, {getStaffDetails()}";
             //Get the names of all the animals that need to be fed
         }
 
@@ -32,13 +33,24 @@ namespace ZooApp
          * @author Dolf ten Have
          * </summary>
          */
-        private String getStaffNameForWelcome()
+        private String getStaffDetails()
         {
             String name;
-            String Query = $"SELECT fname FROM {DatabaseHelper.Table("STAFF")} WHERE sid = {staffMemberId}";
+            String Query = $"SELECT fname, clinic FROM {DatabaseHelper.Table("STAFF")} WHERE sid = {staffMemberId}";
             DataTable dt = DatabaseHelper.ExecuteQuery(Query);
 
+            MessageBox.Show(dt.Rows[0][1].ToString());
             return dt.Rows[0][0].ToString();
+        }
+
+        /**<summary>
+         * Gets the list of all animals that will be fed by this staffMember
+         * </summary>
+         */
+        private void getFeedingList()
+        {
+
+
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)

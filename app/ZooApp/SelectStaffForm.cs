@@ -31,35 +31,40 @@ namespace ZooApp
          */
         private void comboBoxSelectStaff_LoadStaffList()
         {
+            cbSelectStaff.Items.Clear();
+            cbSelectStaff.Items.Add("Select Your Name");
             getStaff();
             for (int i = 0; i < staffList.Rows.Count; i++)
             {
                 //For some reason this is in the format [row, Column]????
                 cbSelectStaff.Items.Add(staffList.Rows[i][1]);
             }
+
+            cbSelectStaff.SelectedIndex = 0;
         }
 
         /** <summary>
         *  Gets the staff names for the dropdown names list.
         *  @author Dolf ten Have
         * </summary>
-        * <returns>a DataTable containging the full name of all the staff members in the DB</returns>
         */
         private void getStaff()
         {
             String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
             staffList = DatabaseHelper.ExecuteQuery(query);
 
-            cbSelectStaff.Items.Clear();
-            cbSelectStaff.Items.Add("Select Staff");
+            /**
+                cbSelectStaff.Items.Clear();
+                cbSelectStaff.Items.Add("Select Staff");
 
-            foreach (DataRow row in staffList.Rows)
-            {
-                string display = $"{row["sid"]} - {row["Fullname"]}";
-                cbSelectStaff.Items.Add(new ComboBoxItem(display, row["sid"].ToString()));
-            }
+                foreach (DataRow row in staffList.Rows)
+                {
+                    string display = $"{row["Fullname"]}";
+                    cbSelectStaff.Items.Add(new ComboBoxItem(display, row["sid"].ToString()));
+                }
 
-            cbSelectStaff.SelectedIndex = 0;
+                cbSelectStaff.SelectedIndex = 0;
+            */
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace ZooApp
                 form.ShowDialog();
 
                 // Refresh the staff list after closing the form
-                getStaff();
+                comboBoxSelectStaff_LoadStaffList();
             }
         }
 
@@ -100,7 +105,7 @@ namespace ZooApp
            Label chooseNameAlert;
 
             //Issues a warning to the user to choose a name.
-           if (cbSelectStaff.SelectedIndex == -1) {
+           if (cbSelectStaff.SelectedIndex < 1) {
                 chooseNameAlert = new Label();
                 chooseNameAlert.Text = "Please select your name to continue.";
                 chooseNameAlert.AutoSize= true;
