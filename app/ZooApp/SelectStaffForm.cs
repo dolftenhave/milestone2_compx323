@@ -36,7 +36,6 @@ namespace ZooApp
             getStaff();
             for (int i = 0; i < staffList.Rows.Count; i++)
             {
-                //For some reason this is in the format [row, Column]????
                 cbSelectStaff.Items.Add(staffList.Rows[i][1]);
             }
 
@@ -50,9 +49,14 @@ namespace ZooApp
         */
         private void getStaff()
         {
+            //!!!!!!!!!!!!!!!!!!!!!!!!!
+            //     THIS METHOD IS NOT FOR PUTTING DATA INTO THE COMBO BOX
+            //!!!!!!!!!!!!!!!!!!!!!!!!!
             String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
             staffList = DatabaseHelper.ExecuteQuery(query);
 
+
+            // LOOK AT comboBoxSelectStaff_LoadStaffList IF YOU WANT TO LOAD DATA INTO THE COMBOBOX
             /**
                 cbSelectStaff.Items.Clear();
                 cbSelectStaff.Items.Add("Select Staff");
