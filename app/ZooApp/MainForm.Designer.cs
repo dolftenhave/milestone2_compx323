@@ -20,6 +20,46 @@ namespace ZooApp
         private void InitializeComponent()
         {
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabHome = new System.Windows.Forms.TabPage();
+            this.lblStaffName = new System.Windows.Forms.Label();
+            this.groupBoxTODO = new System.Windows.Forms.GroupBox();
+            this.panel_home_feeding5 = new System.Windows.Forms.Panel();
+            this.lbl_home_timeSinceFeed5 = new System.Windows.Forms.Label();
+            this.lbl_home_f5 = new System.Windows.Forms.Label();
+            this.lbl_home_animalSpecies5 = new System.Windows.Forms.Label();
+            this.lbl_home_animalName5 = new System.Windows.Forms.Label();
+            this.btn_home_feed5 = new System.Windows.Forms.Button();
+            this.panel_home_feeding4 = new System.Windows.Forms.Panel();
+            this.lbl_home_timeSinceFeed4 = new System.Windows.Forms.Label();
+            this.lbl_home_f4 = new System.Windows.Forms.Label();
+            this.lbl_home_animalSpecies4 = new System.Windows.Forms.Label();
+            this.lbl_home_animalName4 = new System.Windows.Forms.Label();
+            this.btn_home_feed4 = new System.Windows.Forms.Button();
+            this.panel_home_feeding3 = new System.Windows.Forms.Panel();
+            this.lbl_home_timeSinceFeed3 = new System.Windows.Forms.Label();
+            this.lbl_home_f3 = new System.Windows.Forms.Label();
+            this.lbl_home_animalSpecies3 = new System.Windows.Forms.Label();
+            this.lbl_home_animalName3 = new System.Windows.Forms.Label();
+            this.btn_home_feed3 = new System.Windows.Forms.Button();
+            this.panel_home_feeding2 = new System.Windows.Forms.Panel();
+            this.lbl_home_timeSinceFeed2 = new System.Windows.Forms.Label();
+            this.lbl_home_f2 = new System.Windows.Forms.Label();
+            this.lbl_home_animalSpecies2 = new System.Windows.Forms.Label();
+            this.lbl_home_animalName2 = new System.Windows.Forms.Label();
+            this.btn_home_feed2 = new System.Windows.Forms.Button();
+            this.panel_home_feeding1 = new System.Windows.Forms.Panel();
+            this.lbl_home_timeSinceFeed1 = new System.Windows.Forms.Label();
+            this.lbl_home_f1 = new System.Windows.Forms.Label();
+            this.lbl_home_animalSpecies1 = new System.Windows.Forms.Label();
+            this.lbl_home_animalName1 = new System.Windows.Forms.Label();
+            this.btn_home_feed1 = new System.Windows.Forms.Button();
+            this.panel_home_feeding0 = new System.Windows.Forms.Panel();
+            this.lbl_home_timeSinceFeed0 = new System.Windows.Forms.Label();
+            this.lbl_home_f0 = new System.Windows.Forms.Label();
+            this.lbl_home_animalSpecies0 = new System.Windows.Forms.Label();
+            this.lbl_home_animalName0 = new System.Windows.Forms.Label();
+            this.btn_home_feed0 = new System.Windows.Forms.Button();
+            this.lblStaffNameWelcome = new System.Windows.Forms.Label();
             this.tabAnimal = new System.Windows.Forms.TabPage();
             this.lblAnimalTitle = new System.Windows.Forms.Label();
             this.lblSelectAnimal = new System.Windows.Forms.Label();
@@ -49,16 +89,17 @@ namespace ZooApp
             this.lblZonez = new System.Windows.Forms.Label();
             this.lblEnclosurez = new System.Windows.Forms.Label();
             this.btnAddZone = new System.Windows.Forms.Button();
-            this.lblStaffNameWelcome = new System.Windows.Forms.Label();
-            this.groupBoxTODO = new System.Windows.Forms.GroupBox();
-            this.lblStaffName = new System.Windows.Forms.Label();
-            this.tabHome = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
             this.tabControlMain.SuspendLayout();
+            this.tabHome.SuspendLayout();
+            this.groupBoxTODO.SuspendLayout();
+            this.panel_home_feeding5.SuspendLayout();
+            this.panel_home_feeding4.SuspendLayout();
+            this.panel_home_feeding3.SuspendLayout();
+            this.panel_home_feeding2.SuspendLayout();
+            this.panel_home_feeding1.SuspendLayout();
+            this.panel_home_feeding0.SuspendLayout();
             this.tabAnimal.SuspendLayout();
             this.tabZone.SuspendLayout();
-            this.groupBoxTODO.SuspendLayout();
-            this.tabHome.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -72,6 +113,447 @@ namespace ZooApp
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(360, 640);
             this.tabControlMain.TabIndex = 0;
+            // 
+            // tabHome
+            // 
+            this.tabHome.Controls.Add(this.lblStaffName);
+            this.tabHome.Controls.Add(this.groupBoxTODO);
+            this.tabHome.Controls.Add(this.lblStaffNameWelcome);
+            this.tabHome.Location = new System.Drawing.Point(4, 22);
+            this.tabHome.Name = "tabHome";
+            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHome.Size = new System.Drawing.Size(352, 614);
+            this.tabHome.TabIndex = 0;
+            this.tabHome.Text = "Home";
+            this.tabHome.UseVisualStyleBackColor = true;
+            // 
+            // lblStaffName
+            // 
+            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblStaffName.Location = new System.Drawing.Point(6, 3);
+            this.lblStaffName.Name = "lblStaffName";
+            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
+            this.lblStaffName.TabIndex = 0;
+            this.lblStaffName.Text = "Welcome, [Staff Name]";
+            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // groupBoxTODO
+            // 
+            this.groupBoxTODO.Controls.Add(this.panel_home_feeding5);
+            this.groupBoxTODO.Controls.Add(this.panel_home_feeding4);
+            this.groupBoxTODO.Controls.Add(this.panel_home_feeding3);
+            this.groupBoxTODO.Controls.Add(this.panel_home_feeding2);
+            this.groupBoxTODO.Controls.Add(this.panel_home_feeding1);
+            this.groupBoxTODO.Controls.Add(this.panel_home_feeding0);
+            this.groupBoxTODO.Location = new System.Drawing.Point(3, 36);
+            this.groupBoxTODO.Name = "groupBoxTODO";
+            this.groupBoxTODO.Size = new System.Drawing.Size(341, 570);
+            this.groupBoxTODO.TabIndex = 1;
+            this.groupBoxTODO.TabStop = false;
+            this.groupBoxTODO.Text = "TODO";
+            // 
+            // panel_home_feeding5
+            // 
+            this.panel_home_feeding5.Controls.Add(this.lbl_home_timeSinceFeed5);
+            this.panel_home_feeding5.Controls.Add(this.lbl_home_f5);
+            this.panel_home_feeding5.Controls.Add(this.lbl_home_animalSpecies5);
+            this.panel_home_feeding5.Controls.Add(this.lbl_home_animalName5);
+            this.panel_home_feeding5.Controls.Add(this.btn_home_feed5);
+            this.panel_home_feeding5.Location = new System.Drawing.Point(6, 471);
+            this.panel_home_feeding5.Name = "panel_home_feeding5";
+            this.panel_home_feeding5.Size = new System.Drawing.Size(325, 85);
+            this.panel_home_feeding5.TabIndex = 6;
+            // 
+            // lbl_home_timeSinceFeed5
+            // 
+            this.lbl_home_timeSinceFeed5.AutoSize = true;
+            this.lbl_home_timeSinceFeed5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_timeSinceFeed5.Location = new System.Drawing.Point(97, 42);
+            this.lbl_home_timeSinceFeed5.Name = "lbl_home_timeSinceFeed5";
+            this.lbl_home_timeSinceFeed5.Size = new System.Drawing.Size(87, 31);
+            this.lbl_home_timeSinceFeed5.TabIndex = 5;
+            this.lbl_home_timeSinceFeed5.Text = "24Hrs";
+            this.lbl_home_timeSinceFeed5.Visible = false;
+            // 
+            // lbl_home_f5
+            // 
+            this.lbl_home_f5.AutoSize = true;
+            this.lbl_home_f5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_f5.Location = new System.Drawing.Point(3, 42);
+            this.lbl_home_f5.Name = "lbl_home_f5";
+            this.lbl_home_f5.Size = new System.Drawing.Size(76, 20);
+            this.lbl_home_f5.TabIndex = 4;
+            this.lbl_home_f5.Text = "Last Fed:";
+            this.lbl_home_f5.Visible = false;
+            // 
+            // lbl_home_animalSpecies5
+            // 
+            this.lbl_home_animalSpecies5.AutoSize = true;
+            this.lbl_home_animalSpecies5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalSpecies5.Location = new System.Drawing.Point(3, 24);
+            this.lbl_home_animalSpecies5.Name = "lbl_home_animalSpecies5";
+            this.lbl_home_animalSpecies5.Size = new System.Drawing.Size(248, 18);
+            this.lbl_home_animalSpecies5.TabIndex = 2;
+            this.lbl_home_animalSpecies5.Text = "123456789123456789123456789123";
+            this.lbl_home_animalSpecies5.Visible = false;
+            // 
+            // lbl_home_animalName5
+            // 
+            this.lbl_home_animalName5.AutoSize = true;
+            this.lbl_home_animalName5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalName5.Location = new System.Drawing.Point(-2, 4);
+            this.lbl_home_animalName5.Name = "lbl_home_animalName5";
+            this.lbl_home_animalName5.Size = new System.Drawing.Size(309, 20);
+            this.lbl_home_animalName5.TabIndex = 1;
+            this.lbl_home_animalName5.Text = "123456789123456789123456789123";
+            this.lbl_home_animalName5.Visible = false;
+            // 
+            // btn_home_feed5
+            // 
+            this.btn_home_feed5.Location = new System.Drawing.Point(246, 27);
+            this.btn_home_feed5.Name = "btn_home_feed5";
+            this.btn_home_feed5.Size = new System.Drawing.Size(76, 55);
+            this.btn_home_feed5.TabIndex = 0;
+            this.btn_home_feed5.Text = "Feed";
+            this.btn_home_feed5.UseVisualStyleBackColor = true;
+            this.btn_home_feed5.Visible = false;
+            // 
+            // panel_home_feeding4
+            // 
+            this.panel_home_feeding4.Controls.Add(this.lbl_home_timeSinceFeed4);
+            this.panel_home_feeding4.Controls.Add(this.lbl_home_f4);
+            this.panel_home_feeding4.Controls.Add(this.lbl_home_animalSpecies4);
+            this.panel_home_feeding4.Controls.Add(this.lbl_home_animalName4);
+            this.panel_home_feeding4.Controls.Add(this.btn_home_feed4);
+            this.panel_home_feeding4.Location = new System.Drawing.Point(5, 380);
+            this.panel_home_feeding4.Name = "panel_home_feeding4";
+            this.panel_home_feeding4.Size = new System.Drawing.Size(325, 85);
+            this.panel_home_feeding4.TabIndex = 5;
+            // 
+            // lbl_home_timeSinceFeed4
+            // 
+            this.lbl_home_timeSinceFeed4.AutoSize = true;
+            this.lbl_home_timeSinceFeed4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_timeSinceFeed4.Location = new System.Drawing.Point(98, 42);
+            this.lbl_home_timeSinceFeed4.Name = "lbl_home_timeSinceFeed4";
+            this.lbl_home_timeSinceFeed4.Size = new System.Drawing.Size(87, 31);
+            this.lbl_home_timeSinceFeed4.TabIndex = 5;
+            this.lbl_home_timeSinceFeed4.Text = "24Hrs";
+            this.lbl_home_timeSinceFeed4.Visible = false;
+            // 
+            // lbl_home_f4
+            // 
+            this.lbl_home_f4.AutoSize = true;
+            this.lbl_home_f4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_f4.Location = new System.Drawing.Point(5, 42);
+            this.lbl_home_f4.Name = "lbl_home_f4";
+            this.lbl_home_f4.Size = new System.Drawing.Size(76, 20);
+            this.lbl_home_f4.TabIndex = 4;
+            this.lbl_home_f4.Text = "Last Fed:";
+            this.lbl_home_f4.Visible = false;
+            // 
+            // lbl_home_animalSpecies4
+            // 
+            this.lbl_home_animalSpecies4.AutoSize = true;
+            this.lbl_home_animalSpecies4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalSpecies4.Location = new System.Drawing.Point(3, 24);
+            this.lbl_home_animalSpecies4.Name = "lbl_home_animalSpecies4";
+            this.lbl_home_animalSpecies4.Size = new System.Drawing.Size(248, 18);
+            this.lbl_home_animalSpecies4.TabIndex = 2;
+            this.lbl_home_animalSpecies4.Text = "123456789123456789123456789123";
+            this.lbl_home_animalSpecies4.Visible = false;
+            // 
+            // lbl_home_animalName4
+            // 
+            this.lbl_home_animalName4.AutoSize = true;
+            this.lbl_home_animalName4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalName4.Location = new System.Drawing.Point(-2, 4);
+            this.lbl_home_animalName4.Name = "lbl_home_animalName4";
+            this.lbl_home_animalName4.Size = new System.Drawing.Size(309, 20);
+            this.lbl_home_animalName4.TabIndex = 1;
+            this.lbl_home_animalName4.Text = "123456789123456789123456789123";
+            this.lbl_home_animalName4.Visible = false;
+            // 
+            // btn_home_feed4
+            // 
+            this.btn_home_feed4.Location = new System.Drawing.Point(246, 27);
+            this.btn_home_feed4.Name = "btn_home_feed4";
+            this.btn_home_feed4.Size = new System.Drawing.Size(76, 55);
+            this.btn_home_feed4.TabIndex = 0;
+            this.btn_home_feed4.Text = "Feed";
+            this.btn_home_feed4.UseVisualStyleBackColor = true;
+            this.btn_home_feed4.Visible = false;
+            // 
+            // panel_home_feeding3
+            // 
+            this.panel_home_feeding3.Controls.Add(this.lbl_home_timeSinceFeed3);
+            this.panel_home_feeding3.Controls.Add(this.lbl_home_f3);
+            this.panel_home_feeding3.Controls.Add(this.lbl_home_animalSpecies3);
+            this.panel_home_feeding3.Controls.Add(this.lbl_home_animalName3);
+            this.panel_home_feeding3.Controls.Add(this.btn_home_feed3);
+            this.panel_home_feeding3.Location = new System.Drawing.Point(6, 289);
+            this.panel_home_feeding3.Name = "panel_home_feeding3";
+            this.panel_home_feeding3.Size = new System.Drawing.Size(325, 85);
+            this.panel_home_feeding3.TabIndex = 4;
+            // 
+            // lbl_home_timeSinceFeed3
+            // 
+            this.lbl_home_timeSinceFeed3.AutoSize = true;
+            this.lbl_home_timeSinceFeed3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_timeSinceFeed3.Location = new System.Drawing.Point(97, 42);
+            this.lbl_home_timeSinceFeed3.Name = "lbl_home_timeSinceFeed3";
+            this.lbl_home_timeSinceFeed3.Size = new System.Drawing.Size(87, 31);
+            this.lbl_home_timeSinceFeed3.TabIndex = 5;
+            this.lbl_home_timeSinceFeed3.Text = "24Hrs";
+            this.lbl_home_timeSinceFeed3.Visible = false;
+            // 
+            // lbl_home_f3
+            // 
+            this.lbl_home_f3.AutoSize = true;
+            this.lbl_home_f3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_f3.Location = new System.Drawing.Point(5, 42);
+            this.lbl_home_f3.Name = "lbl_home_f3";
+            this.lbl_home_f3.Size = new System.Drawing.Size(76, 20);
+            this.lbl_home_f3.TabIndex = 4;
+            this.lbl_home_f3.Text = "Last Fed:";
+            this.lbl_home_f3.Visible = false;
+            // 
+            // lbl_home_animalSpecies3
+            // 
+            this.lbl_home_animalSpecies3.AutoSize = true;
+            this.lbl_home_animalSpecies3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalSpecies3.Location = new System.Drawing.Point(3, 24);
+            this.lbl_home_animalSpecies3.Name = "lbl_home_animalSpecies3";
+            this.lbl_home_animalSpecies3.Size = new System.Drawing.Size(248, 18);
+            this.lbl_home_animalSpecies3.TabIndex = 2;
+            this.lbl_home_animalSpecies3.Text = "123456789123456789123456789123";
+            this.lbl_home_animalSpecies3.Visible = false;
+            // 
+            // lbl_home_animalName3
+            // 
+            this.lbl_home_animalName3.AutoSize = true;
+            this.lbl_home_animalName3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalName3.Location = new System.Drawing.Point(-2, 4);
+            this.lbl_home_animalName3.Name = "lbl_home_animalName3";
+            this.lbl_home_animalName3.Size = new System.Drawing.Size(309, 20);
+            this.lbl_home_animalName3.TabIndex = 1;
+            this.lbl_home_animalName3.Text = "123456789123456789123456789123";
+            this.lbl_home_animalName3.Visible = false;
+            // 
+            // btn_home_feed3
+            // 
+            this.btn_home_feed3.Location = new System.Drawing.Point(246, 27);
+            this.btn_home_feed3.Name = "btn_home_feed3";
+            this.btn_home_feed3.Size = new System.Drawing.Size(76, 55);
+            this.btn_home_feed3.TabIndex = 0;
+            this.btn_home_feed3.Text = "Feed";
+            this.btn_home_feed3.UseVisualStyleBackColor = true;
+            this.btn_home_feed3.Visible = false;
+            // 
+            // panel_home_feeding2
+            // 
+            this.panel_home_feeding2.Controls.Add(this.lbl_home_timeSinceFeed2);
+            this.panel_home_feeding2.Controls.Add(this.lbl_home_f2);
+            this.panel_home_feeding2.Controls.Add(this.lbl_home_animalSpecies2);
+            this.panel_home_feeding2.Controls.Add(this.lbl_home_animalName2);
+            this.panel_home_feeding2.Controls.Add(this.btn_home_feed2);
+            this.panel_home_feeding2.Location = new System.Drawing.Point(6, 198);
+            this.panel_home_feeding2.Name = "panel_home_feeding2";
+            this.panel_home_feeding2.Size = new System.Drawing.Size(325, 85);
+            this.panel_home_feeding2.TabIndex = 3;
+            // 
+            // lbl_home_timeSinceFeed2
+            // 
+            this.lbl_home_timeSinceFeed2.AutoSize = true;
+            this.lbl_home_timeSinceFeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_timeSinceFeed2.Location = new System.Drawing.Point(97, 42);
+            this.lbl_home_timeSinceFeed2.Name = "lbl_home_timeSinceFeed2";
+            this.lbl_home_timeSinceFeed2.Size = new System.Drawing.Size(87, 31);
+            this.lbl_home_timeSinceFeed2.TabIndex = 5;
+            this.lbl_home_timeSinceFeed2.Text = "24Hrs";
+            this.lbl_home_timeSinceFeed2.Visible = false;
+            // 
+            // lbl_home_f2
+            // 
+            this.lbl_home_f2.AutoSize = true;
+            this.lbl_home_f2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_f2.Location = new System.Drawing.Point(5, 42);
+            this.lbl_home_f2.Name = "lbl_home_f2";
+            this.lbl_home_f2.Size = new System.Drawing.Size(76, 20);
+            this.lbl_home_f2.TabIndex = 4;
+            this.lbl_home_f2.Text = "Last Fed:";
+            this.lbl_home_f2.Visible = false;
+            // 
+            // lbl_home_animalSpecies2
+            // 
+            this.lbl_home_animalSpecies2.AutoSize = true;
+            this.lbl_home_animalSpecies2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalSpecies2.Location = new System.Drawing.Point(3, 24);
+            this.lbl_home_animalSpecies2.Name = "lbl_home_animalSpecies2";
+            this.lbl_home_animalSpecies2.Size = new System.Drawing.Size(248, 18);
+            this.lbl_home_animalSpecies2.TabIndex = 2;
+            this.lbl_home_animalSpecies2.Text = "123456789123456789123456789123";
+            this.lbl_home_animalSpecies2.Visible = false;
+            // 
+            // lbl_home_animalName2
+            // 
+            this.lbl_home_animalName2.AutoSize = true;
+            this.lbl_home_animalName2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalName2.Location = new System.Drawing.Point(-2, 4);
+            this.lbl_home_animalName2.Name = "lbl_home_animalName2";
+            this.lbl_home_animalName2.Size = new System.Drawing.Size(309, 20);
+            this.lbl_home_animalName2.TabIndex = 1;
+            this.lbl_home_animalName2.Text = "123456789123456789123456789123";
+            this.lbl_home_animalName2.Visible = false;
+            // 
+            // btn_home_feed2
+            // 
+            this.btn_home_feed2.Location = new System.Drawing.Point(246, 27);
+            this.btn_home_feed2.Name = "btn_home_feed2";
+            this.btn_home_feed2.Size = new System.Drawing.Size(76, 55);
+            this.btn_home_feed2.TabIndex = 0;
+            this.btn_home_feed2.Text = "Feed";
+            this.btn_home_feed2.UseVisualStyleBackColor = true;
+            this.btn_home_feed2.Visible = false;
+            // 
+            // panel_home_feeding1
+            // 
+            this.panel_home_feeding1.Controls.Add(this.lbl_home_timeSinceFeed1);
+            this.panel_home_feeding1.Controls.Add(this.lbl_home_f1);
+            this.panel_home_feeding1.Controls.Add(this.lbl_home_animalSpecies1);
+            this.panel_home_feeding1.Controls.Add(this.lbl_home_animalName1);
+            this.panel_home_feeding1.Controls.Add(this.btn_home_feed1);
+            this.panel_home_feeding1.Location = new System.Drawing.Point(6, 110);
+            this.panel_home_feeding1.Name = "panel_home_feeding1";
+            this.panel_home_feeding1.Size = new System.Drawing.Size(325, 85);
+            this.panel_home_feeding1.TabIndex = 2;
+            // 
+            // lbl_home_timeSinceFeed1
+            // 
+            this.lbl_home_timeSinceFeed1.AutoSize = true;
+            this.lbl_home_timeSinceFeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_timeSinceFeed1.Location = new System.Drawing.Point(97, 43);
+            this.lbl_home_timeSinceFeed1.Name = "lbl_home_timeSinceFeed1";
+            this.lbl_home_timeSinceFeed1.Size = new System.Drawing.Size(87, 31);
+            this.lbl_home_timeSinceFeed1.TabIndex = 5;
+            this.lbl_home_timeSinceFeed1.Text = "24Hrs";
+            this.lbl_home_timeSinceFeed1.Visible = false;
+            // 
+            // lbl_home_f1
+            // 
+            this.lbl_home_f1.AutoSize = true;
+            this.lbl_home_f1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_f1.Location = new System.Drawing.Point(5, 43);
+            this.lbl_home_f1.Name = "lbl_home_f1";
+            this.lbl_home_f1.Size = new System.Drawing.Size(76, 20);
+            this.lbl_home_f1.TabIndex = 4;
+            this.lbl_home_f1.Text = "Last Fed:";
+            this.lbl_home_f1.Visible = false;
+            // 
+            // lbl_home_animalSpecies1
+            // 
+            this.lbl_home_animalSpecies1.AutoSize = true;
+            this.lbl_home_animalSpecies1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalSpecies1.Location = new System.Drawing.Point(3, 24);
+            this.lbl_home_animalSpecies1.Name = "lbl_home_animalSpecies1";
+            this.lbl_home_animalSpecies1.Size = new System.Drawing.Size(248, 18);
+            this.lbl_home_animalSpecies1.TabIndex = 2;
+            this.lbl_home_animalSpecies1.Text = "123456789123456789123456789123";
+            this.lbl_home_animalSpecies1.Visible = false;
+            // 
+            // lbl_home_animalName1
+            // 
+            this.lbl_home_animalName1.AutoSize = true;
+            this.lbl_home_animalName1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalName1.Location = new System.Drawing.Point(-2, 4);
+            this.lbl_home_animalName1.Name = "lbl_home_animalName1";
+            this.lbl_home_animalName1.Size = new System.Drawing.Size(309, 20);
+            this.lbl_home_animalName1.TabIndex = 1;
+            this.lbl_home_animalName1.Text = "123456789123456789123456789123";
+            this.lbl_home_animalName1.Visible = false;
+            // 
+            // btn_home_feed1
+            // 
+            this.btn_home_feed1.Location = new System.Drawing.Point(246, 27);
+            this.btn_home_feed1.Name = "btn_home_feed1";
+            this.btn_home_feed1.Size = new System.Drawing.Size(76, 55);
+            this.btn_home_feed1.TabIndex = 0;
+            this.btn_home_feed1.Text = "Feed";
+            this.btn_home_feed1.UseVisualStyleBackColor = true;
+            this.btn_home_feed1.Visible = false;
+            // 
+            // panel_home_feeding0
+            // 
+            this.panel_home_feeding0.Controls.Add(this.lbl_home_timeSinceFeed0);
+            this.panel_home_feeding0.Controls.Add(this.lbl_home_f0);
+            this.panel_home_feeding0.Controls.Add(this.lbl_home_animalSpecies0);
+            this.panel_home_feeding0.Controls.Add(this.lbl_home_animalName0);
+            this.panel_home_feeding0.Controls.Add(this.btn_home_feed0);
+            this.panel_home_feeding0.Location = new System.Drawing.Point(6, 19);
+            this.panel_home_feeding0.Name = "panel_home_feeding0";
+            this.panel_home_feeding0.Size = new System.Drawing.Size(325, 85);
+            this.panel_home_feeding0.TabIndex = 1;
+            // 
+            // lbl_home_timeSinceFeed0
+            // 
+            this.lbl_home_timeSinceFeed0.AutoSize = true;
+            this.lbl_home_timeSinceFeed0.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_timeSinceFeed0.Location = new System.Drawing.Point(97, 42);
+            this.lbl_home_timeSinceFeed0.Name = "lbl_home_timeSinceFeed0";
+            this.lbl_home_timeSinceFeed0.Size = new System.Drawing.Size(87, 31);
+            this.lbl_home_timeSinceFeed0.TabIndex = 5;
+            this.lbl_home_timeSinceFeed0.Text = "24Hrs";
+            this.lbl_home_timeSinceFeed0.Visible = false;
+            // 
+            // lbl_home_f0
+            // 
+            this.lbl_home_f0.AutoSize = true;
+            this.lbl_home_f0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_f0.Location = new System.Drawing.Point(5, 42);
+            this.lbl_home_f0.Name = "lbl_home_f0";
+            this.lbl_home_f0.Size = new System.Drawing.Size(76, 20);
+            this.lbl_home_f0.TabIndex = 4;
+            this.lbl_home_f0.Text = "Last Fed:";
+            this.lbl_home_f0.Visible = false;
+            // 
+            // lbl_home_animalSpecies0
+            // 
+            this.lbl_home_animalSpecies0.AutoSize = true;
+            this.lbl_home_animalSpecies0.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalSpecies0.Location = new System.Drawing.Point(3, 24);
+            this.lbl_home_animalSpecies0.Name = "lbl_home_animalSpecies0";
+            this.lbl_home_animalSpecies0.Size = new System.Drawing.Size(248, 18);
+            this.lbl_home_animalSpecies0.TabIndex = 2;
+            this.lbl_home_animalSpecies0.Text = "123456789123456789123456789123";
+            this.lbl_home_animalSpecies0.Visible = false;
+            // 
+            // lbl_home_animalName0
+            // 
+            this.lbl_home_animalName0.AutoSize = true;
+            this.lbl_home_animalName0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_home_animalName0.Location = new System.Drawing.Point(-2, 4);
+            this.lbl_home_animalName0.Name = "lbl_home_animalName0";
+            this.lbl_home_animalName0.Size = new System.Drawing.Size(309, 20);
+            this.lbl_home_animalName0.TabIndex = 1;
+            this.lbl_home_animalName0.Text = "123456789123456789123456789123";
+            this.lbl_home_animalName0.Visible = false;
+            // 
+            // btn_home_feed0
+            // 
+            this.btn_home_feed0.Location = new System.Drawing.Point(246, 27);
+            this.btn_home_feed0.Name = "btn_home_feed0";
+            this.btn_home_feed0.Size = new System.Drawing.Size(76, 55);
+            this.btn_home_feed0.TabIndex = 0;
+            this.btn_home_feed0.Text = "Feed";
+            this.btn_home_feed0.UseVisualStyleBackColor = true;
+            this.btn_home_feed0.Visible = false;
+            // 
+            // lblStaffNameWelcome
+            // 
+            this.lblStaffNameWelcome.Location = new System.Drawing.Point(0, 0);
+            this.lblStaffNameWelcome.Name = "lblStaffNameWelcome";
+            this.lblStaffNameWelcome.Size = new System.Drawing.Size(100, 23);
+            this.lblStaffNameWelcome.TabIndex = 7;
             // 
             // tabAnimal
             // 
@@ -370,55 +852,6 @@ namespace ZooApp
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // lblStaffNameWelcome
-            // 
-            this.lblStaffNameWelcome.Location = new System.Drawing.Point(0, 0);
-            this.lblStaffNameWelcome.Name = "lblStaffNameWelcome";
-            this.lblStaffNameWelcome.Size = new System.Drawing.Size(100, 23);
-            this.lblStaffNameWelcome.TabIndex = 7;
-            // 
-            // groupBoxTODO
-            // 
-            this.groupBoxTODO.Controls.Add(this.label2);
-            this.groupBoxTODO.Location = new System.Drawing.Point(3, 36);
-            this.groupBoxTODO.Name = "groupBoxTODO";
-            this.groupBoxTODO.Size = new System.Drawing.Size(341, 570);
-            this.groupBoxTODO.TabIndex = 1;
-            this.groupBoxTODO.TabStop = false;
-            this.groupBoxTODO.Text = "TODO";
-            // 
-            // lblStaffName
-            // 
-            this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblStaffName.Location = new System.Drawing.Point(6, 3);
-            this.lblStaffName.Name = "lblStaffName";
-            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
-            this.lblStaffName.TabIndex = 0;
-            this.lblStaffName.Text = "Welcome, [Staff Name]";
-            this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tabHome
-            // 
-            this.tabHome.Controls.Add(this.lblStaffName);
-            this.tabHome.Controls.Add(this.groupBoxTODO);
-            this.tabHome.Controls.Add(this.lblStaffNameWelcome);
-            this.tabHome.Location = new System.Drawing.Point(4, 22);
-            this.tabHome.Name = "tabHome";
-            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHome.Size = new System.Drawing.Size(352, 614);
-            this.tabHome.TabIndex = 0;
-            this.tabHome.Text = "Home";
-            this.tabHome.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(64, 112);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(130, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "PLEASE DONT CHANGE";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -427,13 +860,25 @@ namespace ZooApp
             this.Controls.Add(this.tabControlMain);
             this.Name = "MainForm";
             this.Text = "ZOO APP";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControlMain.ResumeLayout(false);
+            this.tabHome.ResumeLayout(false);
+            this.groupBoxTODO.ResumeLayout(false);
+            this.panel_home_feeding5.ResumeLayout(false);
+            this.panel_home_feeding5.PerformLayout();
+            this.panel_home_feeding4.ResumeLayout(false);
+            this.panel_home_feeding4.PerformLayout();
+            this.panel_home_feeding3.ResumeLayout(false);
+            this.panel_home_feeding3.PerformLayout();
+            this.panel_home_feeding2.ResumeLayout(false);
+            this.panel_home_feeding2.PerformLayout();
+            this.panel_home_feeding1.ResumeLayout(false);
+            this.panel_home_feeding1.PerformLayout();
+            this.panel_home_feeding0.ResumeLayout(false);
+            this.panel_home_feeding0.PerformLayout();
             this.tabAnimal.ResumeLayout(false);
             this.tabAnimal.PerformLayout();
             this.tabZone.ResumeLayout(false);
-            this.groupBoxTODO.ResumeLayout(false);
-            this.groupBoxTODO.PerformLayout();
-            this.tabHome.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -477,6 +922,41 @@ namespace ZooApp
         private Label lblStaffName;
         private GroupBox groupBoxTODO;
         private Label lblStaffNameWelcome;
-        private Label label2;
+        private Panel panel_home_feeding0;
+        private Label lbl_home_f0;
+        private Label lbl_home_animalSpecies0;
+        private Label lbl_home_animalName0;
+        private Button btn_home_feed0;
+        private Label lbl_home_timeSinceFeed0;
+        private Panel panel_home_feeding5;
+        private Label lbl_home_timeSinceFeed5;
+        private Label lbl_home_f5;
+        private Label lbl_home_animalSpecies5;
+        private Label lbl_home_animalName5;
+        private Button btn_home_feed5;
+        private Panel panel_home_feeding4;
+        private Label lbl_home_timeSinceFeed4;
+        private Label lbl_home_f4;
+        private Label lbl_home_animalSpecies4;
+        private Label lbl_home_animalName4;
+        private Button btn_home_feed4;
+        private Panel panel_home_feeding3;
+        private Label lbl_home_timeSinceFeed3;
+        private Label lbl_home_f3;
+        private Label lbl_home_animalSpecies3;
+        private Label lbl_home_animalName3;
+        private Button btn_home_feed3;
+        private Panel panel_home_feeding2;
+        private Label lbl_home_timeSinceFeed2;
+        private Label lbl_home_f2;
+        private Label lbl_home_animalSpecies2;
+        private Label lbl_home_animalName2;
+        private Button btn_home_feed2;
+        private Panel panel_home_feeding1;
+        private Label lbl_home_timeSinceFeed1;
+        private Label lbl_home_f1;
+        private Label lbl_home_animalSpecies1;
+        private Label lbl_home_animalName1;
+        private Button btn_home_feed1;
     }
 }

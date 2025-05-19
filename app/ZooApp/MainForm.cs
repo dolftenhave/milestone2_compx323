@@ -23,8 +23,8 @@ namespace ZooApp
          * Loads staff and a list of animals needed to start the main form.
          * </summary>
          */
-        private void MainForm_Load(object sender, EventArgs e) { 
-            lblStaffNameWelcome.Text = $"Welcome, {getStaffDetails()}";
+        private void MainForm_Load(object sender, EventArgs e) {
+            lblStaffName.Text = $"Welcome, {getStaffDetails()}";
             displayFeedingList();
         }
 
@@ -54,7 +54,7 @@ namespace ZooApp
          */
         private DataTable getFeedingList()
         {
-            const int NUMBER_OF_ROWS = 9;
+            const int NUMBER_OF_ROWS = 6;
 
             String query2 = $"SELECT a.aid, a.name, s3.commonName, f.datetime , a.feedingInterval FROM m2s_animal a LEFT OUTER JOIN m2s_Feed f ON a.aid = f.animalid LEFT OUTER JOIN m2s_Species s3 ON a.speciesName = s3.latinName WHERE a.aid IN (SELECT a2.aid FROM m2s_Staff s2 LEFT OUTER JOIN m2s_oversees o2 ON s2.SID = o2.staffID JOIN m2s_SpeciesGroup sg2 ON o2.sGroupName = sg2.latinName JOIN m2s_Species s2 ON s2.speciesGroup = sg2.latinName JOIN m2s_Animal a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffMemberId}) AND f.dateTime = (SELECT MAX(dateTime) FROM m2s_feed f2 WHERE a.aid = f2.animalid) OR a.aid NOT IN (SELECT DISTINCT animalID FROM m2s_FEED) ORDER BY f.dateTime ASC NULLS FIRST FETCH FIRST 5 ROWS ONLY";
 
@@ -102,11 +102,25 @@ namespace ZooApp
                 return;
             }
 
+            DateTime currentTime = DateTime.Now;
+
             //Displays all the UI components
-            for(int i = 0; i < animals.Rows.Count; i++)
+            for (int i = 0; i < animals.Rows.Count; i++)
             {
-                //DateTime lastFed = (DateTime)animals.Rows[i][3];
-                //makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), lastFed, int.Parse(animals.Rows[i][4].ToString()), i);
+                //TODO load animals who do not have a last fed date
+                if (!String.IsNullOrWhiteSpace(animals.Rows[i][3].ToString()))
+                {
+                    DateTime lastFed = (DateTime)animals.Rows[i][3];
+                    TimeSpan hours = currentTime - lastFed;                   
+
+                    int totalTime = (int)hours.TotalHours;
+                    
+                    makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), totalTime, int.Parse(animals.Rows[i][4].ToString()), i);
+                }
+                else
+                {
+                    makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), -1, int.Parse(animals.Rows[i][4].ToString()), i);
+                }
             }
         }
 
@@ -121,41 +135,66 @@ namespace ZooApp
          * <param name="FeedingInterval">The feeding interval of the animal</param>
          * <param name="n">The row number that this control was generated from</param>
          */
-        private void makeTodoUiComponent_Feed(String name, String speciesName, DateTime lastFed, int FeedingInterval, int n)
+        private void makeTodoUiComponent_Feed(String name, String speciesName, int totalTime, int FeedingInterval, int n)
         {
-            Panel p = new Panel();
-            Label lName = new Label();
-            Label lSpeciesName = new Label();
-            Label lblLastFed = new Label();
+            String timeSuffix = " hours";
+            String overDue = "";
 
-            DateTime currentTime = DateTime.Now;
 
-            TimeSpan hours = currentTime - lastFed;
+            tabHome.Controls.IndexOfKey("lbl_home_animalName0");
 
-            int totalHours = (int)hours.TotalHours;
+            Label lblName = (Label)this.Controls.Find($"lbl_home_animalName{n}", true)[0];
+            Label lblSpecies = (Label)this.Controls.Find($"lbl_home_animalSpecies{n}", true)[0];
+            Label lblSinceFeed = (Label)this.Controls.Find($"lbl_home_timeSinceFeed{n}", true)[0];
+            Label lblF = (Label)this.Controls.Find($"lbl_home_f{n}", true)[0];
+            Button btnFeed = (Button)this.Controls.Find($"btn_home_feed{n}", true)[0];
+            Panel panel = (Panel)this.Controls.Find($"panel_home_feeding{n}", true)[0];
 
-            lblLastFed.Text = totalHours.ToString();
-                
 
-            lName.Text = name;
-            System.Drawing.Font font = new System.Drawing.Font(Label.DefaultFont.FontFamily, 15, Label.DefaultFont.Style);
-            lName.Font = font;
-            lName.AutoSize = true;
-            lName.Location = new System.Drawing.Point(p.Location.X, p.Location.Y + 2);
+            if (totalTime != -1)
+            {
+                if (totalTime > FeedingInterval)
+                {
+                    panel.BackColor = System.Drawing.Color.Pink;
+                    totalTime -= FeedingInterval;
+                    lblF.Text += "\nOverdue by:";
+                    overDue = "!";
+                }
 
-            lSpeciesName.Text = speciesName;
-            lSpeciesName.AutoSize = true;
-            lSpeciesName.Location = new System.Drawing.Point(p.Location.X, lName.Location.Y + lName.Height);
 
-            p.Width = groupBoxTODO.Width;
-            p.Height= groupBoxTODO.Height / 10;
+                //Yes this is terribly ugly
+                if (totalTime > 24)
+                {
+                    totalTime = (int)totalTime/24;
+                    timeSuffix = " days";
+                    if (totalTime > 365)
+                    {
+                        totalTime = totalTime / 365;
+                        timeSuffix = "y";
+                    }
+                }
 
-            groupBoxTODO.Controls.Add(p);
-            p.Controls.Add(lName);
-            p.Controls.Add(lSpeciesName);
-            p.Location = new System.Drawing.Point(groupBoxTODO.Location.X, groupBoxTODO.Location.Y + 2 + (p.Height * n));
-            p.BackColor = System.Drawing.Color.Pink;
+                lblSinceFeed.Text = totalTime.ToString() + timeSuffix + overDue;
+            }
+            else
+            {
+                lblSinceFeed.Text = "Never!";
+                panel.BackColor = System.Drawing.Color.Pink;
+            }
 
+
+            lblF.Visible = true;
+
+            lblName.Visible = true;
+            lblName.Text = name;
+
+            lblSpecies.Visible = true;
+            lblSpecies.Text = speciesName;
+
+            lblSinceFeed.Visible = true;
+            
+
+            btnFeed.Visible = true;
         }
 
         private void btnAddAnimal_Click(object sender, EventArgs e)
@@ -193,6 +232,5 @@ namespace ZooApp
         {
             // TODO: Add new enclosure or animal (could open a form)
         }
-
     }
 }
