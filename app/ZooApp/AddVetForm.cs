@@ -185,6 +185,7 @@ namespace ZooApp
             {
                 MessageBox.Show("Please select a vet and a clinic.");
             }
+            this.Close();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

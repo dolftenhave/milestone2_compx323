@@ -1,4 +1,13 @@
-﻿using System;
+﻿/**
+ * AddZookeeperForm.cs
+ * 
+ * Allows assigning species groups to zookeepers.
+ * Uses CheckedListBox for multiple group selection.
+ * 
+ * @author Min Soe Htut
+ */
+
+using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -30,126 +39,148 @@ namespace ZooApp
             {
                 foreach (ComboBoxItem item in cbSelectZookeeper.Items)
                 {
-                    if (item.Value == currentSid.ToString())
+                    if (item.Value == currentSid.Value.ToString())
                     {
                         cbSelectZookeeper.SelectedItem = item;
+                        cbSelectZookeeper.Enabled = false;
+                        cbSelectZookeeper_SelectedIndexChanged(null, null);
                         break;
                     }
                 }
-
-                cbSelectZookeeper.Enabled = false;
-                LoadAssignedGroups(currentSid.Value);
             }
         }
 
+
         private void LoadZookeeperList()
         {
-            string query = @"
-                SELECT DISTINCT s.sid, s.fName || ' ' || s.lName AS fullName
-                FROM m2s_Staff s
-                JOIN m2s_Oversees o ON s.sid = o.staffID";
+            string query = $@"
+        SELECT s.sid, s.fName || ' ' || s.lName AS fullName
+        FROM {DatabaseHelper.Table("Staff")} s
+        WHERE s.sid IN (
+            SELECT DISTINCT staffID FROM {DatabaseHelper.Table("Oversees")}
+        )";
 
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            DataTable keepers = DatabaseHelper.ExecuteQuery(query);
 
             cbSelectZookeeper.Items.Clear();
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in keepers.Rows)
             {
-                cbSelectZookeeper.Items.Add(new ComboBoxItem(row["fullName"].ToString(), row["sid"].ToString()));
+                cbSelectZookeeper.Items.Add(new ComboBoxItem(
+                    row["fullName"].ToString(),
+                    row["sid"].ToString()
+                ));
             }
 
-            if (!currentSid.HasValue && cbSelectZookeeper.Items.Count > 0)
-                cbSelectZookeeper.SelectedIndex = 0;
+            cbSelectZookeeper.SelectedIndex = -1;
+
         }
 
         private void LoadGroupList()
         {
-            string query = "SELECT DISTINCT sGroupName FROM m2s_SpeciesGroup ORDER BY sGroupName";
+            string query = $@"
+        SELECT commonName 
+        FROM {DatabaseHelper.Table("SpeciesGroup")}
+        ORDER BY commonName";
+
             DataTable groups = DatabaseHelper.ExecuteQuery(query);
 
-            lbAssignedGroups.Items.Clear();
+            clbGroups.Items.Clear();
             foreach (DataRow row in groups.Rows)
             {
-                lbAssignedGroups.Items.Add(row["sGroupName"].ToString());
+                clbGroups.Items.Add(row["commonName"].ToString());
             }
         }
 
-        private void LoadAssignedGroups(int sid)
-        {
-            string query = "SELECT sGroupName FROM m2s_Oversees WHERE staffID = :sid";
-            OracleParameter[] param = { new OracleParameter("sid", sid) };
-            DataTable result = DatabaseHelper.ExecuteQuery(query, param);
-
-            lbAssignedGroups.ClearSelected();
-            foreach (string assignedGroup in result.AsEnumerable().Select(r => r["sGroupName"].ToString()))
-            {
-                int index = lbAssignedGroups.Items.IndexOf(assignedGroup);
-                if (index >= 0)
-                    lbAssignedGroups.SetSelected(index, true);
-            }
-        }
-
-        private void btnAssign_Click(object sender, EventArgs e)
+        private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
             {
-                MessageBox.Show("Please select a zookeeper.");
+                MessageBox.Show("Please select a zookeeper.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int sid = int.Parse(selectedKeeper.Value);
 
-            string deleteQuery = "DELETE FROM m2s_Oversees WHERE staffID = :sid";
-            DatabaseHelper.ExecuteNonQuery(deleteQuery, new[] { new OracleParameter("sid", sid) });
+            // Step 1: Delete current group assignments
+            string deleteQuery = $"DELETE FROM {DatabaseHelper.Table("Oversees")} WHERE staffID = :sid";
+            OracleParameter[] deleteParam = { new OracleParameter("sid", sid) };
+            DatabaseHelper.ExecuteNonQuery(deleteQuery, deleteParam);
 
-            foreach (var selectedGroup in lbAssignedGroups.SelectedItems)
+            // Step 2: Re-insert the checked groups
+            foreach (var item in clbGroups.CheckedItems)
             {
-                string insert = "INSERT INTO m2s_Oversees (staffID, sGroupName) VALUES (:sid, :group)";
-                OracleParameter[] insertParams = {
-                    new OracleParameter("sid", sid),
-                    new OracleParameter("group", selectedGroup.ToString())
-                };
-                DatabaseHelper.ExecuteNonQuery(insert, insertParams);
+                if (item is ComboBoxItem group)
+                {
+                    string insertQuery = $@"
+                INSERT INTO {DatabaseHelper.Table("Oversees")}
+                (sGroupName, staffID) VALUES (:grp, :sid)";
+
+                    OracleParameter[] insertParams = {
+                new OracleParameter("grp", group.Value),
+                new OracleParameter("sid", sid)
+            };
+
+                    DatabaseHelper.ExecuteNonQuery(insertQuery, insertParams);
+                }
             }
 
-            MessageBox.Show("Species group(s) assigned to zookeeper.");
+            MessageBox.Show("Zookeeper assignments updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
-            new SelectStaffForm().ShowDialog();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
-            {
-                MessageBox.Show("Select a zookeeper to delete assignments.");
-                return;
-            }
-
-            int sid = int.Parse(selectedKeeper.Value);
-
-            var confirm = MessageBox.Show("Are you sure you want to remove all group assignments?", "Confirm", MessageBoxButtons.YesNo);
-            if (confirm != DialogResult.Yes) return;
-
-            string deleteQuery = "DELETE FROM m2s_Oversees WHERE staffID = :sid";
-            OracleParameter[] parameters = { new OracleParameter("sid", sid) };
-            DatabaseHelper.ExecuteNonQuery(deleteQuery, parameters);
-
-            MessageBox.Show("All group assignments deleted.");
-            this.Close();
-            new SelectStaffForm().ShowDialog();
-        }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-            new SelectStaffForm().ShowDialog();
+        }
+
+        public class ComboBoxItem
+        {
+            public string Text { get; set; }
+            public string Value { get; set; }
+
+            public ComboBoxItem(string text, string value)
+            {
+                Text = text;
+                Value = value;
+            }
+
+            public override string ToString() => Text;
         }
 
         private void cbSelectZookeeper_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbSelectZookeeper.SelectedItem is ComboBoxItem selected)
+            if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
+                return;
+
+            int sid = int.Parse(selectedKeeper.Value);
+
+            // Reload all groups first
+            clbGroups.Items.Clear();
+            string allGroupsQuery = $@"SELECT commonName, latinName FROM {DatabaseHelper.Table("SpeciesGroup")} ORDER BY commonName";
+            DataTable allGroups = DatabaseHelper.ExecuteQuery(allGroupsQuery);
+
+            foreach (DataRow row in allGroups.Rows)
             {
-                LoadAssignedGroups(int.Parse(selected.Value));
+                clbGroups.Items.Add(new ComboBoxItem(row["commonName"].ToString(), row["latinName"].ToString()), false);
+            }
+
+            // Load assigned species groups for this keeper
+            string assignedQuery = $@"SELECT sGroupName FROM {DatabaseHelper.Table("Oversees")} WHERE staffID = :sid";
+            OracleParameter[] param = { new OracleParameter("sid", sid) };
+            DataTable assignedGroups = DatabaseHelper.ExecuteQuery(assignedQuery, param);
+
+            // Tick the assigned groups
+            for (int i = 0; i < clbGroups.Items.Count; i++)
+            {
+                if (clbGroups.Items[i] is ComboBoxItem item)
+                {
+                    bool isAssigned = assignedGroups.AsEnumerable()
+                        .Any(r => r["sGroupName"].ToString() == item.Value);
+                    clbGroups.SetItemChecked(i, isAssigned);
+                }
             }
         }
+
     }
 }

@@ -106,6 +106,7 @@ namespace ZooApp
         {
             try
             {
+                // Collect input
                 string fname = txtFirstName.Text.Trim();
                 string lname = txtLastName.Text.Trim();
                 DateTime dob = dtpDOB.Value;
@@ -135,53 +136,80 @@ namespace ZooApp
                     return;
                 }
 
+                // Generate new SID
                 string getSidQuery = $"SELECT NVL(MAX(sid), 0) + 1 FROM {DatabaseHelper.Table("Staff")}";
                 int newSid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(getSidQuery).Rows[0][0]);
 
                 string insert = $@"
-                    INSERT INTO {DatabaseHelper.Table("Staff")}
-                    (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, sex)
-                    VALUES
-                    (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :sex)";
+            INSERT INTO {DatabaseHelper.Table("Staff")}
+            (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, sex)
+            VALUES
+            (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :sex)";
 
                 OracleParameter[] insertParams = {
-                    new OracleParameter("sid", newSid),
-                    new OracleParameter("fName", fname),
-                    new OracleParameter("lName", lname),
-                    new OracleParameter("dob", dob),
-                    new OracleParameter("phNumber", phone),
-                    new OracleParameter("email", email),
-                    new OracleParameter("streetNumber", streetNumber),
-                    new OracleParameter("streetName", streetName),
-                    new OracleParameter("suburb", suburb),
-                    new OracleParameter("city", city),
-                    new OracleParameter("postCode", postCode),
-                    new OracleParameter("sex", sex)
-                };
+            new OracleParameter("sid", newSid),
+            new OracleParameter("fName", fname),
+            new OracleParameter("lName", lname),
+            new OracleParameter("dob", dob),
+            new OracleParameter("phNumber", phone),
+            new OracleParameter("email", email),
+            new OracleParameter("streetNumber", streetNumber),
+            new OracleParameter("streetName", streetName),
+            new OracleParameter("suburb", suburb),
+            new OracleParameter("city", city),
+            new OracleParameter("postCode", postCode),
+            new OracleParameter("sex", sex)
+        };
 
                 DatabaseHelper.ExecuteNonQuery(insert, insertParams);
 
+                // Role-specific logic
                 if (role == "Vet")
                 {
-                    string dummyCareInsert = $@"
+                    string checkCare = $"SELECT 1 FROM {DatabaseHelper.Table("Care")} WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY";
+                    DataTable existing = DatabaseHelper.ExecuteQuery(checkCare, new[] { new OracleParameter("sid", newSid) });
+
+                    if (existing.Rows.Count == 0)
+                    {
+                        string insertCare = $@"
                     INSERT INTO {DatabaseHelper.Table("Care")}
                     (staffID, animalID, dateTime, care, notes)
                     VALUES (:sid, :aid, :dt, :care, :notes)";
 
-                    OracleParameter[] dummyParams = {
-                new OracleParameter("sid", newSid),
-                new OracleParameter("aid", 1),
-                new OracleParameter("dt", new DateTime(2000, 1, 1)),
-                new OracleParameter("care", "Initial Vet Assignment"),
-                new OracleParameter("notes", "Auto-generated entry to assign vet role")
-                    };
+                        OracleParameter[] dummyCareParams = {
+                    new OracleParameter("sid", newSid),
+                    new OracleParameter("aid", 1),
+                    new OracleParameter("dt", new DateTime(2000, 1, 1)),
+                    new OracleParameter("care", "Initial Vet Assignment"),
+                    new OracleParameter("notes", "Auto-generated vet entry")
+                };
 
-                    DatabaseHelper.ExecuteNonQuery(dummyCareInsert, dummyParams);
+                        DatabaseHelper.ExecuteNonQuery(insertCare, dummyCareParams);
+                    }
 
                     new AddVetForm(newSid).ShowDialog();
                 }
                 else if (role == "Zookeeper")
-                    new AddVetForm(newSid).ShowDialog();
+                {
+                    // Dummy entry for oversees (to allow updates)
+                    string insertOversees = $@"
+                INSERT INTO {DatabaseHelper.Table("Oversees")}
+                (sGroupName, staffID)
+                VALUES (:grp, :sid)";
+
+                    OracleParameter[] dummyZookeeperParams = {
+                new OracleParameter("grp", "DummySpeciesGroup"),  // Make sure this value exists or is replaced appropriately
+                new OracleParameter("sid", newSid)
+            };
+
+                    try
+                    {
+                        DatabaseHelper.ExecuteNonQuery(insertOversees, dummyZookeeperParams);
+                    }
+                    catch { /* suppress error if dummy already exists */ }
+
+                    new AddZookeeperForm(newSid).ShowDialog();
+                }
 
                 MessageBox.Show("Staff added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
@@ -191,6 +219,7 @@ namespace ZooApp
                 MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void butUpdate_Click(object sender, EventArgs e)
         {
@@ -202,37 +231,6 @@ namespace ZooApp
 
             try
             {
-                // Validate and collect data
-                string fname = txtFirstName.Text.Trim();
-                string lname = txtLastName.Text.Trim();
-                DateTime dob = dtpDOB.Value;
-                string phone = txtPhone.Text.Trim();
-                string email = txtEmail.Text.Trim();
-                string sex = cbSex.SelectedItem?.ToString() == "Male" ? "M" : "F";
-                string role = cbRole.SelectedItem?.ToString();
-
-                if (!int.TryParse(txtStreetNumber.Text, out int streetNumber))
-                    throw new Exception("Invalid street number");
-
-                string streetName = txtStreetName.Text.Trim();
-                string suburb = txtSuburb.Text.Trim();
-                string city = txtCity.Text.Trim();
-                string postCode = txtPostCode.Text.Trim();
-
-                if (string.IsNullOrWhiteSpace(fname) || string.IsNullOrWhiteSpace(lname) ||
-                    string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(role))
-                {
-                    MessageBox.Show("All required fields must be filled.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (postCode.Length > 4)
-                {
-                    MessageBox.Show("Postcode must be 4 characters or fewer.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Update staff info
                 string update = $@"
             UPDATE {DatabaseHelper.Table("Staff")} SET 
                 fName = :fName,
@@ -249,31 +247,30 @@ namespace ZooApp
             WHERE sid = :sid";
 
                 OracleParameter[] updateParams = {
-            new OracleParameter("fName", fname),
-            new OracleParameter("lName", lname),
-            new OracleParameter("dob", dob),
-            new OracleParameter("phNumber", phone),
-            new OracleParameter("email", email),
-            new OracleParameter("streetNumber", streetNumber),
-            new OracleParameter("streetName", streetName),
-            new OracleParameter("suburb", suburb),
-            new OracleParameter("city", city),
-            new OracleParameter("postCode", postCode),
-            new OracleParameter("sex", sex),
+            new OracleParameter("fName", txtFirstName.Text.Trim()),
+            new OracleParameter("lName", txtLastName.Text.Trim()),
+            new OracleParameter("dob", dtpDOB.Value),
+            new OracleParameter("phNumber", txtPhone.Text.Trim()),
+            new OracleParameter("email", txtEmail.Text.Trim()),
+            new OracleParameter("streetNumber", int.Parse(txtStreetNumber.Text)),
+            new OracleParameter("streetName", txtStreetName.Text.Trim()),
+            new OracleParameter("suburb", txtSuburb.Text.Trim()),
+            new OracleParameter("city", txtCity.Text.Trim()),
+            new OracleParameter("postCode", txtPostCode.Text.Trim()),
+            new OracleParameter("sex", cbSex.SelectedItem.ToString() == "Male" ? "M" : "F"),
             new OracleParameter("sid", editingSid)
         };
 
                 DatabaseHelper.ExecuteNonQuery(update, updateParams);
 
-                // Ensure dummy entry exists for vet if missing
+                string role = cbRole.SelectedItem.ToString();
                 if (role == "Vet")
                 {
-                    string checkCare = "SELECT 1 FROM m2s_Care WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY";
+                    string checkCare = $"SELECT 1 FROM {DatabaseHelper.Table("Care")} WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY";
                     DataTable existing = DatabaseHelper.ExecuteQuery(checkCare, new[] { new OracleParameter("sid", editingSid) });
 
                     if (existing.Rows.Count == 0)
                     {
-                        // Insert dummy care row for vet
                         string insertCare = $@"
                     INSERT INTO {DatabaseHelper.Table("Care")}
                     (staffID, animalID, dateTime, care, notes)
@@ -294,10 +291,31 @@ namespace ZooApp
                 }
                 else if (role == "Zookeeper")
                 {
+                    string checkQuery = $"SELECT 1 FROM {DatabaseHelper.Table("Oversees")} WHERE staffID = :sid FETCH FIRST 1 ROWS ONLY";
+                    DataTable exists = DatabaseHelper.ExecuteQuery(checkQuery, new[] { new OracleParameter("sid", editingSid) });
+
+                    if (exists.Rows.Count == 0)
+                    {
+                        string dummyInsert = $@"
+                    INSERT INTO {DatabaseHelper.Table("Oversees")}
+                    (sGroupName, staffID)
+                    VALUES (:grp, :sid)";
+                        OracleParameter[] dummyParams = {
+                    new OracleParameter("grp", "Apterygiformes"),
+                    new OracleParameter("sid", editingSid)
+                };
+
+                        try
+                        {
+                            DatabaseHelper.ExecuteNonQuery(dummyInsert, dummyParams);
+                        }
+                        catch { }
+                    }
+
                     new AddZookeeperForm(editingSid).ShowDialog();
                 }
 
-                MessageBox.Show("Staff updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Staff updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
@@ -305,6 +323,7 @@ namespace ZooApp
                 MessageBox.Show("Error: " + ex.Message, "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void butDelete_Click(object sender, EventArgs e)
@@ -370,6 +389,11 @@ namespace ZooApp
                 role = "Vet";
 
             cbRole.SelectedItem = role;
+        }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
