@@ -81,6 +81,12 @@ namespace ZooApp
             this.lblInterval = new System.Windows.Forms.Label();
             this.txtFeedingInterval = new System.Windows.Forms.TextBox();
             this.btnAddAnimal = new System.Windows.Forms.Button();
+            this.tabPageEnclosure = new System.Windows.Forms.TabPage();
+            this.label_Enclosure_Output = new System.Windows.Forms.Label();
+            this.button_Enclosure_Search = new System.Windows.Forms.Button();
+            this.comboBox_Enclosure_Search = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox_Enclosure_Search = new System.Windows.Forms.TextBox();
             this.tabZone = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.listView3 = new System.Windows.Forms.ListView();
@@ -89,12 +95,6 @@ namespace ZooApp
             this.lblZonez = new System.Windows.Forms.Label();
             this.lblEnclosurez = new System.Windows.Forms.Label();
             this.btnAddZone = new System.Windows.Forms.Button();
-            this.tabPageEnclosure = new System.Windows.Forms.TabPage();
-            this.textBox_Enclosure_Search = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox_Enclosure_Search = new System.Windows.Forms.ComboBox();
-            this.button_Enclosure_Search = new System.Windows.Forms.Button();
-            this.label_Enclosure_Output = new System.Windows.Forms.Label();
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.groupBoxTODO.SuspendLayout();
@@ -105,8 +105,8 @@ namespace ZooApp
             this.panel_home_feeding1.SuspendLayout();
             this.panel_home_feeding0.SuspendLayout();
             this.tabAnimal.SuspendLayout();
-            this.tabZone.SuspendLayout();
             this.tabPageEnclosure.SuspendLayout();
+            this.tabZone.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -565,6 +565,7 @@ namespace ZooApp
             // 
             // tabAnimal
             // 
+            this.tabAnimal.Controls.Add(this.txtFeedingInterval);
             this.tabAnimal.Controls.Add(this.lblAnimalTitle);
             this.tabAnimal.Controls.Add(this.lblSelectAnimal);
             this.tabAnimal.Controls.Add(this.cbSelectAnimal);
@@ -583,7 +584,6 @@ namespace ZooApp
             this.tabAnimal.Controls.Add(this.lblLastCare);
             this.tabAnimal.Controls.Add(this.txtLastCare);
             this.tabAnimal.Controls.Add(this.lblInterval);
-            this.tabAnimal.Controls.Add(this.txtFeedingInterval);
             this.tabAnimal.Controls.Add(this.btnAddAnimal);
             this.tabAnimal.Location = new System.Drawing.Point(4, 22);
             this.tabAnimal.Name = "tabAnimal";
@@ -753,7 +753,7 @@ namespace ZooApp
             this.lblInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInterval.Location = new System.Drawing.Point(6, 303);
             this.lblInterval.Name = "lblInterval";
-            this.lblInterval.Size = new System.Drawing.Size(100, 23);
+            this.lblInterval.Size = new System.Drawing.Size(130, 23);
             this.lblInterval.TabIndex = 17;
             this.lblInterval.Text = "Feeding Interval:";
             // 
@@ -775,6 +775,67 @@ namespace ZooApp
             this.btnAddAnimal.TabIndex = 19;
             this.btnAddAnimal.Text = "Add New Animal";
             this.btnAddAnimal.Click += new System.EventHandler(this.btnAddAnimal_Click);
+            // 
+            // tabPageEnclosure
+            // 
+            this.tabPageEnclosure.Controls.Add(this.label_Enclosure_Output);
+            this.tabPageEnclosure.Controls.Add(this.button_Enclosure_Search);
+            this.tabPageEnclosure.Controls.Add(this.comboBox_Enclosure_Search);
+            this.tabPageEnclosure.Controls.Add(this.label2);
+            this.tabPageEnclosure.Controls.Add(this.textBox_Enclosure_Search);
+            this.tabPageEnclosure.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEnclosure.Name = "tabPageEnclosure";
+            this.tabPageEnclosure.Size = new System.Drawing.Size(352, 614);
+            this.tabPageEnclosure.TabIndex = 3;
+            this.tabPageEnclosure.Text = "Enclosure";
+            this.tabPageEnclosure.UseVisualStyleBackColor = true;
+            // 
+            // label_Enclosure_Output
+            // 
+            this.label_Enclosure_Output.AutoSize = true;
+            this.label_Enclosure_Output.Location = new System.Drawing.Point(12, 101);
+            this.label_Enclosure_Output.Name = "label_Enclosure_Output";
+            this.label_Enclosure_Output.Size = new System.Drawing.Size(80, 13);
+            this.label_Enclosure_Output.TabIndex = 4;
+            this.label_Enclosure_Output.Text = "Enclosure Data";
+            // 
+            // button_Enclosure_Search
+            // 
+            this.button_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Enclosure_Search.Location = new System.Drawing.Point(275, 34);
+            this.button_Enclosure_Search.Name = "button_Enclosure_Search";
+            this.button_Enclosure_Search.Size = new System.Drawing.Size(68, 26);
+            this.button_Enclosure_Search.TabIndex = 3;
+            this.button_Enclosure_Search.Text = "Find";
+            this.button_Enclosure_Search.UseVisualStyleBackColor = true;
+            // 
+            // comboBox_Enclosure_Search
+            // 
+            this.comboBox_Enclosure_Search.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox_Enclosure_Search.FormattingEnabled = true;
+            this.comboBox_Enclosure_Search.Location = new System.Drawing.Point(8, 66);
+            this.comboBox_Enclosure_Search.Name = "comboBox_Enclosure_Search";
+            this.comboBox_Enclosure_Search.Size = new System.Drawing.Size(335, 28);
+            this.comboBox_Enclosure_Search.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(8, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(161, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Find An Enclosure:";
+            // 
+            // textBox_Enclosure_Search
+            // 
+            this.textBox_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Enclosure_Search.Location = new System.Drawing.Point(8, 34);
+            this.textBox_Enclosure_Search.Name = "textBox_Enclosure_Search";
+            this.textBox_Enclosure_Search.Size = new System.Drawing.Size(260, 26);
+            this.textBox_Enclosure_Search.TabIndex = 0;
             // 
             // tabZone
             // 
@@ -860,67 +921,6 @@ namespace ZooApp
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // tabPageEnclosure
-            // 
-            this.tabPageEnclosure.Controls.Add(this.label_Enclosure_Output);
-            this.tabPageEnclosure.Controls.Add(this.button_Enclosure_Search);
-            this.tabPageEnclosure.Controls.Add(this.comboBox_Enclosure_Search);
-            this.tabPageEnclosure.Controls.Add(this.label2);
-            this.tabPageEnclosure.Controls.Add(this.textBox_Enclosure_Search);
-            this.tabPageEnclosure.Location = new System.Drawing.Point(4, 22);
-            this.tabPageEnclosure.Name = "tabPageEnclosure";
-            this.tabPageEnclosure.Size = new System.Drawing.Size(352, 614);
-            this.tabPageEnclosure.TabIndex = 3;
-            this.tabPageEnclosure.Text = "Enclosure";
-            this.tabPageEnclosure.UseVisualStyleBackColor = true;
-            // 
-            // textBox_Enclosure_Search
-            // 
-            this.textBox_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Enclosure_Search.Location = new System.Drawing.Point(8, 34);
-            this.textBox_Enclosure_Search.Name = "textBox_Enclosure_Search";
-            this.textBox_Enclosure_Search.Size = new System.Drawing.Size(260, 26);
-            this.textBox_Enclosure_Search.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(8, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(161, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Find An Enclosure:";
-            // 
-            // comboBox_Enclosure_Search
-            // 
-            this.comboBox_Enclosure_Search.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox_Enclosure_Search.FormattingEnabled = true;
-            this.comboBox_Enclosure_Search.Location = new System.Drawing.Point(8, 66);
-            this.comboBox_Enclosure_Search.Name = "comboBox_Enclosure_Search";
-            this.comboBox_Enclosure_Search.Size = new System.Drawing.Size(335, 28);
-            this.comboBox_Enclosure_Search.TabIndex = 2;
-            // 
-            // button_Enclosure_Search
-            // 
-            this.button_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Enclosure_Search.Location = new System.Drawing.Point(275, 34);
-            this.button_Enclosure_Search.Name = "button_Enclosure_Search";
-            this.button_Enclosure_Search.Size = new System.Drawing.Size(68, 26);
-            this.button_Enclosure_Search.TabIndex = 3;
-            this.button_Enclosure_Search.Text = "Find";
-            this.button_Enclosure_Search.UseVisualStyleBackColor = true;
-            // 
-            // label_Enclosure_Output
-            // 
-            this.label_Enclosure_Output.AutoSize = true;
-            this.label_Enclosure_Output.Location = new System.Drawing.Point(12, 101);
-            this.label_Enclosure_Output.Name = "label_Enclosure_Output";
-            this.label_Enclosure_Output.Size = new System.Drawing.Size(80, 13);
-            this.label_Enclosure_Output.TabIndex = 4;
-            this.label_Enclosure_Output.Text = "Enclosure Data";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -947,9 +947,9 @@ namespace ZooApp
             this.panel_home_feeding0.PerformLayout();
             this.tabAnimal.ResumeLayout(false);
             this.tabAnimal.PerformLayout();
-            this.tabZone.ResumeLayout(false);
             this.tabPageEnclosure.ResumeLayout(false);
             this.tabPageEnclosure.PerformLayout();
+            this.tabZone.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
