@@ -16,7 +16,6 @@
         private void InitializeComponent()
         {
             this.cbSelectVet = new System.Windows.Forms.ComboBox();
-            this.lbClinics = new System.Windows.Forms.ListBox();
             this.txtClinicName = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnAssign = new System.Windows.Forms.Button();
@@ -26,6 +25,9 @@
             this.lblSelectVet = new System.Windows.Forms.Label();
             this.lblClinics = new System.Windows.Forms.Label();
             this.lblNewClinic = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtCurrentClinic = new System.Windows.Forms.TextBox();
+            this.cbClinics = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cbSelectVet
@@ -36,16 +38,6 @@
             this.cbSelectVet.Name = "cbSelectVet";
             this.cbSelectVet.Size = new System.Drawing.Size(220, 28);
             this.cbSelectVet.TabIndex = 0;
-            // 
-            // lbClinics
-            // 
-            this.lbClinics.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbClinics.ItemHeight = 20;
-            this.lbClinics.Location = new System.Drawing.Point(130, 93);
-            this.lbClinics.Name = "lbClinics";
-            this.lbClinics.Size = new System.Drawing.Size(220, 304);
-            this.lbClinics.TabIndex = 1;
-            this.lbClinics.SelectedIndexChanged += new System.EventHandler(this.lbClinics_SelectedIndexChanged);
             // 
             // txtClinicName
             // 
@@ -62,14 +54,14 @@
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(168, 33);
             this.btnAdd.TabIndex = 3;
-            this.btnAdd.Text = "Add";
+            this.btnAdd.Text = "Add Clinic";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnAssign
             // 
             this.btnAssign.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAssign.Location = new System.Drawing.Point(130, 403);
+            this.btnAssign.Location = new System.Drawing.Point(128, 251);
             this.btnAssign.Name = "btnAssign";
             this.btnAssign.Size = new System.Drawing.Size(218, 35);
             this.btnAssign.TabIndex = 4;
@@ -84,7 +76,7 @@
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(162, 33);
             this.btnUpdate.TabIndex = 5;
-            this.btnUpdate.Text = "Update";
+            this.btnUpdate.Text = "Update Clinic";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
@@ -95,7 +87,7 @@
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(162, 35);
             this.btnDelete.TabIndex = 6;
-            this.btnDelete.Text = "Delete";
+            this.btnDelete.Text = "Delete Clinic";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -121,11 +113,11 @@
             // lblClinics
             // 
             this.lblClinics.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblClinics.Location = new System.Drawing.Point(12, 93);
+            this.lblClinics.Location = new System.Drawing.Point(12, 222);
             this.lblClinics.Name = "lblClinics";
             this.lblClinics.Size = new System.Drawing.Size(100, 23);
             this.lblClinics.TabIndex = 9;
-            this.lblClinics.Text = "Clinic List:";
+            this.lblClinics.Text = "Select Clinic:";
             // 
             // lblNewClinic
             // 
@@ -136,11 +128,40 @@
             this.lblNewClinic.TabIndex = 10;
             this.lblNewClinic.Text = "Add/Update Clinic:";
             // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 140);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 23);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Current Clinic:";
+            // 
+            // txtCurrentClinic
+            // 
+            this.txtCurrentClinic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCurrentClinic.Location = new System.Drawing.Point(128, 140);
+            this.txtCurrentClinic.Name = "txtCurrentClinic";
+            this.txtCurrentClinic.ReadOnly = true;
+            this.txtCurrentClinic.Size = new System.Drawing.Size(218, 26);
+            this.txtCurrentClinic.TabIndex = 29;
+            // 
+            // cbClinics
+            // 
+            this.cbClinics.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbClinics.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbClinics.Location = new System.Drawing.Point(130, 217);
+            this.cbClinics.Name = "cbClinics";
+            this.cbClinics.Size = new System.Drawing.Size(216, 28);
+            this.cbClinics.TabIndex = 30;
+            // 
             // AddVetForm
             // 
             this.ClientSize = new System.Drawing.Size(360, 600);
+            this.Controls.Add(this.cbClinics);
+            this.Controls.Add(this.txtCurrentClinic);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cbSelectVet);
-            this.Controls.Add(this.lbClinics);
             this.Controls.Add(this.txtClinicName);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnAssign);
@@ -161,7 +182,6 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cbSelectVet;
-        private System.Windows.Forms.ListBox lbClinics;
         private System.Windows.Forms.TextBox txtClinicName;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnAssign;
@@ -171,5 +191,8 @@
         private System.Windows.Forms.Label lblSelectVet;
         private System.Windows.Forms.Label lblClinics;
         private System.Windows.Forms.Label lblNewClinic;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtCurrentClinic;
+        private System.Windows.Forms.ComboBox cbClinics;
     }
 }
