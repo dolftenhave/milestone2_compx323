@@ -88,13 +88,36 @@ namespace ZooApp
             this.label2 = new System.Windows.Forms.Label();
             this.textBox_Enclosure_Search = new System.Windows.Forms.TextBox();
             this.tabZone = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.listView3 = new System.Windows.Forms.ListView();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.lblZonez = new System.Windows.Forms.Label();
-            this.lblEnclosurez = new System.Windows.Forms.Label();
             this.btnAddZone = new System.Windows.Forms.Button();
+            this.textBoxZoneSearch = new System.Windows.Forms.TextBox();
+            this.labelZoneSearch = new System.Windows.Forms.Label();
+            this.buttonZoneSearch = new System.Windows.Forms.Button();
+            this.numericUpDownZonePage = new System.Windows.Forms.NumericUpDown();
+            this.labelZonePage = new System.Windows.Forms.Label();
+            this.labelZoneName1 = new System.Windows.Forms.Label();
+            this.buttonSelectZone1 = new System.Windows.Forms.Button();
+            this.labelZoneAnimalsAttention1 = new System.Windows.Forms.Label();
+            this.panelZone1 = new System.Windows.Forms.Panel();
+            this.labelZoneName2 = new System.Windows.Forms.Label();
+            this.buttonSelectZone2 = new System.Windows.Forms.Button();
+            this.labelZoneAnimalsAttention2 = new System.Windows.Forms.Label();
+            this.panelZone2 = new System.Windows.Forms.Panel();
+            this.labelZoneName3 = new System.Windows.Forms.Label();
+            this.buttonSelectZone3 = new System.Windows.Forms.Button();
+            this.labelZoneAnimalsAttention3 = new System.Windows.Forms.Label();
+            this.panelZone3 = new System.Windows.Forms.Panel();
+            this.labelZoneName4 = new System.Windows.Forms.Label();
+            this.buttonSelectZone4 = new System.Windows.Forms.Button();
+            this.labelZoneAnimalsAttention4 = new System.Windows.Forms.Label();
+            this.panelZone4 = new System.Windows.Forms.Panel();
+            this.labelZoneName5 = new System.Windows.Forms.Label();
+            this.buttonSelectZone5 = new System.Windows.Forms.Button();
+            this.labelZoneAnimalsAttention5 = new System.Windows.Forms.Label();
+            this.panelZone5 = new System.Windows.Forms.Panel();
+            this.labelZoneName6 = new System.Windows.Forms.Label();
+            this.buttonSelectZone6 = new System.Windows.Forms.Button();
+            this.labelZoneAnimalsAttention6 = new System.Windows.Forms.Label();
+            this.panelZone6 = new System.Windows.Forms.Panel();
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.groupBoxTODO.SuspendLayout();
@@ -107,6 +130,13 @@ namespace ZooApp
             this.tabAnimal.SuspendLayout();
             this.tabPageEnclosure.SuspendLayout();
             this.tabZone.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZonePage)).BeginInit();
+            this.panelZone1.SuspendLayout();
+            this.panelZone2.SuspendLayout();
+            this.panelZone3.SuspendLayout();
+            this.panelZone4.SuspendLayout();
+            this.panelZone5.SuspendLayout();
+            this.panelZone6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -121,6 +151,7 @@ namespace ZooApp
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(360, 640);
             this.tabControlMain.TabIndex = 0;
+            this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
             // tabHome
             // 
@@ -839,12 +870,17 @@ namespace ZooApp
             // 
             // tabZone
             // 
-            this.tabZone.Controls.Add(this.label1);
-            this.tabZone.Controls.Add(this.listView3);
-            this.tabZone.Controls.Add(this.listView2);
-            this.tabZone.Controls.Add(this.listView1);
-            this.tabZone.Controls.Add(this.lblZonez);
-            this.tabZone.Controls.Add(this.lblEnclosurez);
+            this.tabZone.Controls.Add(this.panelZone6);
+            this.tabZone.Controls.Add(this.panelZone5);
+            this.tabZone.Controls.Add(this.panelZone4);
+            this.tabZone.Controls.Add(this.panelZone3);
+            this.tabZone.Controls.Add(this.panelZone2);
+            this.tabZone.Controls.Add(this.labelZonePage);
+            this.tabZone.Controls.Add(this.numericUpDownZonePage);
+            this.tabZone.Controls.Add(this.buttonZoneSearch);
+            this.tabZone.Controls.Add(this.labelZoneSearch);
+            this.tabZone.Controls.Add(this.textBoxZoneSearch);
+            this.tabZone.Controls.Add(this.panelZone1);
             this.tabZone.Controls.Add(this.btnAddZone);
             this.tabZone.Location = new System.Drawing.Point(4, 22);
             this.tabZone.Name = "tabZone";
@@ -853,63 +889,6 @@ namespace ZooApp
             this.tabZone.TabIndex = 2;
             this.tabZone.Text = "Zone";
             this.tabZone.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(8, 265);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Animal :";
-            // 
-            // listView3
-            // 
-            this.listView3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listView3.HideSelection = false;
-            this.listView3.Location = new System.Drawing.Point(8, 291);
-            this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(338, 256);
-            this.listView3.TabIndex = 18;
-            this.listView3.UseCompatibleStateImageBehavior = false;
-            // 
-            // listView2
-            // 
-            this.listView2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(6, 39);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(340, 97);
-            this.listView2.TabIndex = 17;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            // 
-            // listView1
-            // 
-            this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(6, 165);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(340, 97);
-            this.listView1.TabIndex = 16;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
-            // lblZonez
-            // 
-            this.lblZonez.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblZonez.Location = new System.Drawing.Point(6, 12);
-            this.lblZonez.Name = "lblZonez";
-            this.lblZonez.Size = new System.Drawing.Size(78, 23);
-            this.lblZonez.TabIndex = 11;
-            this.lblZonez.Text = "Zone:";
-            // 
-            // lblEnclosurez
-            // 
-            this.lblEnclosurez.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnclosurez.Location = new System.Drawing.Point(8, 139);
-            this.lblEnclosurez.Name = "lblEnclosurez";
-            this.lblEnclosurez.Size = new System.Drawing.Size(100, 23);
-            this.lblEnclosurez.TabIndex = 9;
-            this.lblEnclosurez.Text = "Enclosure:";
             // 
             // btnAddZone
             // 
@@ -920,6 +899,299 @@ namespace ZooApp
             this.btnAddZone.TabIndex = 15;
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // textBoxZoneSearch
+            // 
+            this.textBoxZoneSearch.Location = new System.Drawing.Point(131, 6);
+            this.textBoxZoneSearch.Name = "textBoxZoneSearch";
+            this.textBoxZoneSearch.Size = new System.Drawing.Size(100, 20);
+            this.textBoxZoneSearch.TabIndex = 17;
+            // 
+            // labelZoneSearch
+            // 
+            this.labelZoneSearch.AutoSize = true;
+            this.labelZoneSearch.Location = new System.Drawing.Point(8, 9);
+            this.labelZoneSearch.Name = "labelZoneSearch";
+            this.labelZoneSearch.Size = new System.Drawing.Size(117, 13);
+            this.labelZoneSearch.TabIndex = 18;
+            this.labelZoneSearch.Text = "Search Zone by Name:";
+            // 
+            // buttonZoneSearch
+            // 
+            this.buttonZoneSearch.Location = new System.Drawing.Point(271, 3);
+            this.buttonZoneSearch.Name = "buttonZoneSearch";
+            this.buttonZoneSearch.Size = new System.Drawing.Size(75, 23);
+            this.buttonZoneSearch.TabIndex = 19;
+            this.buttonZoneSearch.Text = "Search";
+            this.buttonZoneSearch.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDownZonePage
+            // 
+            this.numericUpDownZonePage.Location = new System.Drawing.Point(131, 30);
+            this.numericUpDownZonePage.Name = "numericUpDownZonePage";
+            this.numericUpDownZonePage.Size = new System.Drawing.Size(57, 20);
+            this.numericUpDownZonePage.TabIndex = 20;
+            // 
+            // labelZonePage
+            // 
+            this.labelZonePage.AutoSize = true;
+            this.labelZonePage.Location = new System.Drawing.Point(12, 32);
+            this.labelZonePage.Name = "labelZonePage";
+            this.labelZonePage.Size = new System.Drawing.Size(75, 13);
+            this.labelZonePage.TabIndex = 21;
+            this.labelZonePage.Text = "Page Number:";
+            // 
+            // labelZoneName1
+            // 
+            this.labelZoneName1.AutoSize = true;
+            this.labelZoneName1.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneName1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneName1.Location = new System.Drawing.Point(5, 4);
+            this.labelZoneName1.Name = "labelZoneName1";
+            this.labelZoneName1.Size = new System.Drawing.Size(128, 24);
+            this.labelZoneName1.TabIndex = 0;
+            this.labelZoneName1.Text = "ZONENAME";
+            // 
+            // buttonSelectZone1
+            // 
+            this.buttonSelectZone1.Location = new System.Drawing.Point(262, 5);
+            this.buttonSelectZone1.Name = "buttonSelectZone1";
+            this.buttonSelectZone1.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectZone1.TabIndex = 1;
+            this.buttonSelectZone1.Text = "Select";
+            this.buttonSelectZone1.UseVisualStyleBackColor = true;
+            this.buttonSelectZone1.Click += new System.EventHandler(this.btnSelectZone_Click);
+            // 
+            // labelZoneAnimalsAttention1
+            // 
+            this.labelZoneAnimalsAttention1.AutoSize = true;
+            this.labelZoneAnimalsAttention1.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneAnimalsAttention1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneAnimalsAttention1.Location = new System.Drawing.Point(5, 42);
+            this.labelZoneAnimalsAttention1.Name = "labelZoneAnimalsAttention1";
+            this.labelZoneAnimalsAttention1.Size = new System.Drawing.Size(265, 20);
+            this.labelZoneAnimalsAttention1.TabIndex = 2;
+            this.labelZoneAnimalsAttention1.Text = "X ANIMALS NEEDING ATTENTION";
+            // 
+            // panelZone1
+            // 
+            this.panelZone1.Controls.Add(this.labelZoneAnimalsAttention1);
+            this.panelZone1.Controls.Add(this.buttonSelectZone1);
+            this.panelZone1.Controls.Add(this.labelZoneName1);
+            this.panelZone1.Location = new System.Drawing.Point(6, 56);
+            this.panelZone1.Name = "panelZone1";
+            this.panelZone1.Size = new System.Drawing.Size(340, 71);
+            this.panelZone1.TabIndex = 16;
+            // 
+            // labelZoneName2
+            // 
+            this.labelZoneName2.AutoSize = true;
+            this.labelZoneName2.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneName2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneName2.Location = new System.Drawing.Point(5, 4);
+            this.labelZoneName2.Name = "labelZoneName2";
+            this.labelZoneName2.Size = new System.Drawing.Size(128, 24);
+            this.labelZoneName2.TabIndex = 0;
+            this.labelZoneName2.Text = "ZONENAME";
+            // 
+            // buttonSelectZone2
+            // 
+            this.buttonSelectZone2.Location = new System.Drawing.Point(262, 5);
+            this.buttonSelectZone2.Name = "buttonSelectZone2";
+            this.buttonSelectZone2.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectZone2.TabIndex = 1;
+            this.buttonSelectZone2.Text = "Select";
+            this.buttonSelectZone2.UseVisualStyleBackColor = true;
+            this.buttonSelectZone2.Click += new System.EventHandler(this.btnSelectZone_Click);
+            // 
+            // labelZoneAnimalsAttention2
+            // 
+            this.labelZoneAnimalsAttention2.AutoSize = true;
+            this.labelZoneAnimalsAttention2.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneAnimalsAttention2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneAnimalsAttention2.Location = new System.Drawing.Point(5, 42);
+            this.labelZoneAnimalsAttention2.Name = "labelZoneAnimalsAttention2";
+            this.labelZoneAnimalsAttention2.Size = new System.Drawing.Size(265, 20);
+            this.labelZoneAnimalsAttention2.TabIndex = 2;
+            this.labelZoneAnimalsAttention2.Text = "X ANIMALS NEEDING ATTENTION";
+            // 
+            // panelZone2
+            // 
+            this.panelZone2.Controls.Add(this.labelZoneAnimalsAttention2);
+            this.panelZone2.Controls.Add(this.buttonSelectZone2);
+            this.panelZone2.Controls.Add(this.labelZoneName2);
+            this.panelZone2.Location = new System.Drawing.Point(6, 133);
+            this.panelZone2.Name = "panelZone2";
+            this.panelZone2.Size = new System.Drawing.Size(340, 71);
+            this.panelZone2.TabIndex = 17;
+            // 
+            // labelZoneName3
+            // 
+            this.labelZoneName3.AutoSize = true;
+            this.labelZoneName3.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneName3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneName3.Location = new System.Drawing.Point(5, 4);
+            this.labelZoneName3.Name = "labelZoneName3";
+            this.labelZoneName3.Size = new System.Drawing.Size(128, 24);
+            this.labelZoneName3.TabIndex = 0;
+            this.labelZoneName3.Text = "ZONENAME";
+            // 
+            // buttonSelectZone3
+            // 
+            this.buttonSelectZone3.Location = new System.Drawing.Point(262, 5);
+            this.buttonSelectZone3.Name = "buttonSelectZone3";
+            this.buttonSelectZone3.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectZone3.TabIndex = 1;
+            this.buttonSelectZone3.Text = "Select";
+            this.buttonSelectZone3.UseVisualStyleBackColor = true;
+            this.buttonSelectZone3.Click += new System.EventHandler(this.btnSelectZone_Click);
+            // 
+            // labelZoneAnimalsAttention3
+            // 
+            this.labelZoneAnimalsAttention3.AutoSize = true;
+            this.labelZoneAnimalsAttention3.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneAnimalsAttention3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneAnimalsAttention3.Location = new System.Drawing.Point(5, 42);
+            this.labelZoneAnimalsAttention3.Name = "labelZoneAnimalsAttention3";
+            this.labelZoneAnimalsAttention3.Size = new System.Drawing.Size(265, 20);
+            this.labelZoneAnimalsAttention3.TabIndex = 2;
+            this.labelZoneAnimalsAttention3.Text = "X ANIMALS NEEDING ATTENTION";
+            // 
+            // panelZone3
+            // 
+            this.panelZone3.Controls.Add(this.labelZoneAnimalsAttention3);
+            this.panelZone3.Controls.Add(this.buttonSelectZone3);
+            this.panelZone3.Controls.Add(this.labelZoneName3);
+            this.panelZone3.Location = new System.Drawing.Point(6, 210);
+            this.panelZone3.Name = "panelZone3";
+            this.panelZone3.Size = new System.Drawing.Size(340, 71);
+            this.panelZone3.TabIndex = 18;
+            // 
+            // labelZoneName4
+            // 
+            this.labelZoneName4.AutoSize = true;
+            this.labelZoneName4.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneName4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneName4.Location = new System.Drawing.Point(5, 4);
+            this.labelZoneName4.Name = "labelZoneName4";
+            this.labelZoneName4.Size = new System.Drawing.Size(128, 24);
+            this.labelZoneName4.TabIndex = 0;
+            this.labelZoneName4.Text = "ZONENAME";
+            // 
+            // buttonSelectZone4
+            // 
+            this.buttonSelectZone4.Location = new System.Drawing.Point(262, 5);
+            this.buttonSelectZone4.Name = "buttonSelectZone4";
+            this.buttonSelectZone4.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectZone4.TabIndex = 1;
+            this.buttonSelectZone4.Text = "Select";
+            this.buttonSelectZone4.UseVisualStyleBackColor = true;
+            this.buttonSelectZone4.Click += new System.EventHandler(this.btnSelectZone_Click);
+            // 
+            // labelZoneAnimalsAttention4
+            // 
+            this.labelZoneAnimalsAttention4.AutoSize = true;
+            this.labelZoneAnimalsAttention4.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneAnimalsAttention4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneAnimalsAttention4.Location = new System.Drawing.Point(5, 42);
+            this.labelZoneAnimalsAttention4.Name = "labelZoneAnimalsAttention4";
+            this.labelZoneAnimalsAttention4.Size = new System.Drawing.Size(265, 20);
+            this.labelZoneAnimalsAttention4.TabIndex = 2;
+            this.labelZoneAnimalsAttention4.Text = "X ANIMALS NEEDING ATTENTION";
+            // 
+            // panelZone4
+            // 
+            this.panelZone4.Controls.Add(this.labelZoneAnimalsAttention4);
+            this.panelZone4.Controls.Add(this.buttonSelectZone4);
+            this.panelZone4.Controls.Add(this.labelZoneName4);
+            this.panelZone4.Location = new System.Drawing.Point(6, 287);
+            this.panelZone4.Name = "panelZone4";
+            this.panelZone4.Size = new System.Drawing.Size(340, 71);
+            this.panelZone4.TabIndex = 19;
+            // 
+            // labelZoneName5
+            // 
+            this.labelZoneName5.AutoSize = true;
+            this.labelZoneName5.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneName5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneName5.Location = new System.Drawing.Point(5, 4);
+            this.labelZoneName5.Name = "labelZoneName5";
+            this.labelZoneName5.Size = new System.Drawing.Size(128, 24);
+            this.labelZoneName5.TabIndex = 0;
+            this.labelZoneName5.Text = "ZONENAME";
+            // 
+            // buttonSelectZone5
+            // 
+            this.buttonSelectZone5.Location = new System.Drawing.Point(262, 5);
+            this.buttonSelectZone5.Name = "buttonSelectZone5";
+            this.buttonSelectZone5.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectZone5.TabIndex = 1;
+            this.buttonSelectZone5.Text = "Select";
+            this.buttonSelectZone5.UseVisualStyleBackColor = true;
+            this.buttonSelectZone5.Click += new System.EventHandler(this.btnSelectZone_Click);
+            // 
+            // labelZoneAnimalsAttention5
+            // 
+            this.labelZoneAnimalsAttention5.AutoSize = true;
+            this.labelZoneAnimalsAttention5.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneAnimalsAttention5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneAnimalsAttention5.Location = new System.Drawing.Point(5, 42);
+            this.labelZoneAnimalsAttention5.Name = "labelZoneAnimalsAttention5";
+            this.labelZoneAnimalsAttention5.Size = new System.Drawing.Size(265, 20);
+            this.labelZoneAnimalsAttention5.TabIndex = 2;
+            this.labelZoneAnimalsAttention5.Text = "X ANIMALS NEEDING ATTENTION";
+            // 
+            // panelZone5
+            // 
+            this.panelZone5.Controls.Add(this.labelZoneAnimalsAttention5);
+            this.panelZone5.Controls.Add(this.buttonSelectZone5);
+            this.panelZone5.Controls.Add(this.labelZoneName5);
+            this.panelZone5.Location = new System.Drawing.Point(6, 364);
+            this.panelZone5.Name = "panelZone5";
+            this.panelZone5.Size = new System.Drawing.Size(340, 71);
+            this.panelZone5.TabIndex = 20;
+            // 
+            // labelZoneName6
+            // 
+            this.labelZoneName6.AutoSize = true;
+            this.labelZoneName6.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneName6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneName6.Location = new System.Drawing.Point(5, 4);
+            this.labelZoneName6.Name = "labelZoneName6";
+            this.labelZoneName6.Size = new System.Drawing.Size(128, 24);
+            this.labelZoneName6.TabIndex = 0;
+            this.labelZoneName6.Text = "ZONENAME";
+            // 
+            // buttonSelectZone6
+            // 
+            this.buttonSelectZone6.Location = new System.Drawing.Point(262, 5);
+            this.buttonSelectZone6.Name = "buttonSelectZone6";
+            this.buttonSelectZone6.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectZone6.TabIndex = 1;
+            this.buttonSelectZone6.Text = "Select";
+            this.buttonSelectZone6.UseVisualStyleBackColor = true;
+            this.buttonSelectZone6.Click += new System.EventHandler(this.btnSelectZone_Click);
+            // 
+            // labelZoneAnimalsAttention6
+            // 
+            this.labelZoneAnimalsAttention6.AutoSize = true;
+            this.labelZoneAnimalsAttention6.BackColor = System.Drawing.Color.Gainsboro;
+            this.labelZoneAnimalsAttention6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZoneAnimalsAttention6.Location = new System.Drawing.Point(5, 42);
+            this.labelZoneAnimalsAttention6.Name = "labelZoneAnimalsAttention6";
+            this.labelZoneAnimalsAttention6.Size = new System.Drawing.Size(265, 20);
+            this.labelZoneAnimalsAttention6.TabIndex = 2;
+            this.labelZoneAnimalsAttention6.Text = "X ANIMALS NEEDING ATTENTION";
+            // 
+            // panelZone6
+            // 
+            this.panelZone6.Controls.Add(this.labelZoneAnimalsAttention6);
+            this.panelZone6.Controls.Add(this.buttonSelectZone6);
+            this.panelZone6.Controls.Add(this.labelZoneName6);
+            this.panelZone6.Location = new System.Drawing.Point(6, 441);
+            this.panelZone6.Name = "panelZone6";
+            this.panelZone6.Size = new System.Drawing.Size(340, 71);
+            this.panelZone6.TabIndex = 21;
             // 
             // MainForm
             // 
@@ -950,6 +1222,20 @@ namespace ZooApp
             this.tabPageEnclosure.ResumeLayout(false);
             this.tabPageEnclosure.PerformLayout();
             this.tabZone.ResumeLayout(false);
+            this.tabZone.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZonePage)).EndInit();
+            this.panelZone1.ResumeLayout(false);
+            this.panelZone1.PerformLayout();
+            this.panelZone2.ResumeLayout(false);
+            this.panelZone2.PerformLayout();
+            this.panelZone3.ResumeLayout(false);
+            this.panelZone3.PerformLayout();
+            this.panelZone4.ResumeLayout(false);
+            this.panelZone4.PerformLayout();
+            this.panelZone5.ResumeLayout(false);
+            this.panelZone5.PerformLayout();
+            this.panelZone6.ResumeLayout(false);
+            this.panelZone6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -982,13 +1268,7 @@ namespace ZooApp
         private System.Windows.Forms.Label lblInterval;
         private System.Windows.Forms.TextBox txtFeedingInterval;
         private System.Windows.Forms.Button btnAddAnimal;
-        private System.Windows.Forms.Label lblZonez;
-        private System.Windows.Forms.Label lblEnclosurez;
         private System.Windows.Forms.Button btnAddZone;
-        private ListView listView3;
-        private ListView listView2;
-        private ListView listView1;
-        private Label label1;
         private TabPage tabHome;
         private Label lblStaffName;
         private GroupBox groupBoxTODO;
@@ -1035,5 +1315,34 @@ namespace ZooApp
         private ComboBox comboBox_Enclosure_Search;
         private Label label2;
         private TextBox textBox_Enclosure_Search;
+        private Button buttonZoneSearch;
+        private Label labelZoneSearch;
+        private TextBox textBoxZoneSearch;
+        private Label labelZonePage;
+        private NumericUpDown numericUpDownZonePage;
+        private Panel panelZone1;
+        private Label labelZoneAnimalsAttention1;
+        private Button buttonSelectZone1;
+        private Label labelZoneName1;
+        private Panel panelZone6;
+        private Label labelZoneAnimalsAttention6;
+        private Button buttonSelectZone6;
+        private Label labelZoneName6;
+        private Panel panelZone5;
+        private Label labelZoneAnimalsAttention5;
+        private Button buttonSelectZone5;
+        private Label labelZoneName5;
+        private Panel panelZone4;
+        private Label labelZoneAnimalsAttention4;
+        private Button buttonSelectZone4;
+        private Label labelZoneName4;
+        private Panel panelZone3;
+        private Label labelZoneAnimalsAttention3;
+        private Button buttonSelectZone3;
+        private Label labelZoneName3;
+        private Panel panelZone2;
+        private Label labelZoneAnimalsAttention2;
+        private Button buttonSelectZone2;
+        private Label labelZoneName2;
     }
 }

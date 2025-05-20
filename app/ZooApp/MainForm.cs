@@ -28,7 +28,7 @@ namespace ZooApp
             displayFeedingList();
 
             // for now, loading the animals at the same time. Will change this in future!
-            populateAnimalComboBox();
+            
         }
 
         /**<summary>
@@ -327,6 +327,11 @@ namespace ZooApp
             txtFeedingInterval.Text = feedingInterval;
         }
 
+        private void btnSelectZone_Click(object sender, EventArgs e)
+        {
+            return;
+        }
+
         private void btnAddFeed_Click(object sender, EventArgs e)
         {
             // Placeholder for feed logic
@@ -349,6 +354,39 @@ namespace ZooApp
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // TODO: Add new enclosure or animal (could open a form)
+        }
+
+        /// <summary>
+        /// This should be where data is loaded on demand for each tab.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 0 = Home
+            // 1 = Animal
+            // 2 = Enclosure
+            // 3 = Zone
+            int index = ((TabControl)sender).SelectedIndex;
+            switch (index)
+            {
+                case 0:
+                    // Can implement Home tab logic here
+                    return;
+                case 1:
+                    // Animal Tab Logic
+                    populateAnimalComboBox();
+                    return;
+                case 2:
+                    // Can implement Enclosure tab logic here
+                    return;
+                case 3:
+                    // Zone Tab Logic
+                    return;
+                default:
+                    return;
+
+            }
         }
     }
 }
