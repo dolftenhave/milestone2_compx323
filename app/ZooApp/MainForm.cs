@@ -12,7 +12,7 @@ namespace ZooApp
     {
         // The ID of the staff member currently looking at this page. All info will be relevent to them
         private int staffMemberId;
-        private int staffRole; //0 for ZooKeeper and  for Vet
+        private int staffRole; //0 for ZooKeeper and 1 for Vet
         public MainForm(int staffMemberId)
         {
             this.staffMemberId = staffMemberId;
@@ -25,7 +25,12 @@ namespace ZooApp
          */
         private void MainForm_Load(object sender, EventArgs e) {
             lblStaffName.Text = $"Welcome, {getStaffDetails()}";
-            displayFeedingList();
+            if(staffRole == 0)
+                displayFeedingList();
+            else
+                groupBoxTODO.Text = "Checkup List:";
+            //Load all the caring information
+            // move the groupbox to the load method
 
             // for now, loading the animals at the same time. Will change this in future!
             populateAnimalComboBox();
@@ -42,24 +47,24 @@ namespace ZooApp
             DataTable dt = DatabaseHelper.ExecuteQuery(Query);
 
             if (dt.Rows[0][1].ToString() == "")
-                staffRole = 1;
+                staffRole = 0;
             else
-                staffRole= 0;
+                staffRole= 1;
 
             return dt.Rows[0][0].ToString();
         }
 
         /**<summary>
-         * Gets the list of all animals that will be fed by this staffMember
-         * @author Dolf ten Have
+         * Gets the list of all animals that this staff member is qualified to feed and have previously been feed at least once.
+         * @author Dolf ten Have.
          * </summary>
-         * <returns>A DataTable containg information about the animals that that person can feed</returns>
+         * <param name="rows">The maximum number of rows returned.</param>
+         * <param name="staffID">The id of the staff member.</param>
+         * <returns>A DataTable containg information about the animals that that person can feed.</returns>
          */
-        private DataTable getFeedingList()
+        private DataTable getFeedingListForStaff(int rows, int staffID)
         {
-            const int NUMBER_OF_ROWS = 6;
-
-            String query2 = $"SELECT a.aid, a.name, s3.commonName, f.datetime , a.feedingInterval FROM m2s_animal a LEFT OUTER JOIN m2s_Feed f ON a.aid = f.animalid LEFT OUTER JOIN m2s_Species s3 ON a.speciesName = s3.latinName WHERE a.aid IN (SELECT a2.aid FROM m2s_Staff s2 LEFT OUTER JOIN m2s_oversees o2 ON s2.SID = o2.staffID JOIN m2s_SpeciesGroup sg2 ON o2.sGroupName = sg2.latinName JOIN m2s_Species s2 ON s2.speciesGroup = sg2.latinName JOIN m2s_Animal a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffMemberId}) AND f.dateTime = (SELECT MAX(dateTime) FROM m2s_feed f2 WHERE a.aid = f2.animalid) OR a.aid NOT IN (SELECT DISTINCT animalID FROM m2s_FEED) ORDER BY f.dateTime ASC NULLS FIRST FETCH FIRST 5 ROWS ONLY";
+            //String query2 = $"SELECT a.aid, a.name, s3.commonName, f.datetime , a.feedingInterval FROM m2s_animal a LEFT OUTER JOIN m2s_Feed f ON a.aid = f.animalid LEFT OUTER JOIN m2s_Species s3 ON a.speciesName = s3.latinName WHERE a.aid IN (SELECT a2.aid FROM m2s_Staff s2 LEFT OUTER JOIN m2s_oversees o2 ON s2.SID = o2.staffID JOIN m2s_SpeciesGroup sg2 ON o2.sGroupName = sg2.latinName JOIN m2s_Species s2 ON s2.speciesGroup = sg2.latinName JOIN m2s_Animal a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffMemberId}) AND f.dateTime = (SELECT MAX(dateTime) FROM m2s_feed f2 WHERE a.aid = f2.animalid) OR a.aid NOT IN (SELECT DISTINCT animalID FROM m2s_FEED) ORDER BY f.dateTime ASC NULLS FIRST FETCH FIRST 5 ROWS ONLY";
 
             String query = $"SELECT a.aid, a.name, s3.commonName, f.datetime, a.feedingInterval " +
                 $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
@@ -70,11 +75,39 @@ namespace ZooApp
                 $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
                 $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
                 $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffMemberId}) " +
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffID}) " +
                 $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) " +
-                $"OR a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
                 $"ORDER BY f.dateTime ASC NULLS FIRST " +
-                $"FETCH FIRST {NUMBER_OF_ROWS} ROWS ONLY";
+                $"FETCH FIRST {rows} ROWS ONLY";
+
+            DataTable animals = DatabaseHelper.ExecuteQuery(query);
+            return animals;
+        }
+
+        /**<summary>
+         * Gets up to <param>rows</param> animals that this staff member is qualified to feed that have never been fed before.
+         * This table may be empty if all animals have been fed at least once.
+         * 
+         * @Author Dolf ten Have
+         * </summary>
+         * <param name="rows">The maximum number of rows returned.</param>
+         * <param name="staffID">The id of the staff member.</param>
+         * <returns>A Datatable with up to <param>rows</param> animals that have never been fed before.</returns>
+         */
+        private DataTable getFeedingListForStaff_AnimalsNeverFed(int rows, int staffID)
+        {
+            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
+                $"WHERE a.aid IN " +
+                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffID}) " +
+                // All the animals that are not in the feeding table
+                $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
+                $"FETCH FIRST {rows} ROWS ONLY";
 
             DataTable animals = DatabaseHelper.ExecuteQuery(query);
             return animals;
@@ -87,16 +120,21 @@ namespace ZooApp
          * </summary>
          */
         private void displayFeedingList()
-        {
-            DataTable animals = getFeedingList();
+        {            
+            int remainingRows = 6;
 
-            if (staffRole == 0)
-                groupBoxTODO.Text = "Feeding List:";
-            else
-                groupBoxTODO.Text = "Checkup List:";
+            DataTable animals_notFed = getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
+            DataTable animals_fed = null;
+
+            remainingRows -= animals_notFed.Rows.Count;
+            groupBoxTODO.Text = "Feeding List:";
+            
+            if(remainingRows > 0) {
+                animals_fed = getFeedingListForStaff(remainingRows, staffMemberId);
+            }
 
             //If there are no animals that this person has/can feed then a message is displayed to the user.
-            if(animals.Rows.Count < 1) { 
+            if(remainingRows < 1) { 
                 Label lbl = new Label();
                 lbl.Text = "There are no Animals that you need to feed.";
                 lbl.AutoSize= true;
@@ -106,23 +144,24 @@ namespace ZooApp
             }
 
             DateTime currentTime = DateTime.Now;
+            remainingRows = animals_notFed.Rows.Count;
 
             //Displays all the UI components
-            for (int i = 0; i < animals.Rows.Count; i++)
+            for (int i = 0; i < animals_notFed.Rows.Count; i++)
             {
-                //TODO load animals who do not have a last fed date
-                if (!String.IsNullOrWhiteSpace(animals.Rows[i][3].ToString()))
+                makeTodoUiComponent_Feed(animals_notFed.Rows[i][1].ToString(), animals_notFed.Rows[i][2].ToString(), -1, int.Parse(animals_notFed.Rows[i][3].ToString()), i);
+            }
+
+            if (animals_fed != null)
+            {
+                for (int i = 0; i < animals_fed.Rows.Count; i++)
                 {
-                    DateTime lastFed = (DateTime)animals.Rows[i][3];
-                    TimeSpan hours = currentTime - lastFed;                   
+                    DateTime lastFed = (DateTime)animals_fed.Rows[i][3];
+                    TimeSpan hours = currentTime - lastFed;
 
                     int totalTime = (int)hours.TotalHours;
-                    
-                    makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), totalTime, int.Parse(animals.Rows[i][4].ToString()), i);
-                }
-                else
-                {
-                    makeTodoUiComponent_Feed(animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), -1, int.Parse(animals.Rows[i][4].ToString()), i);
+
+                    makeTodoUiComponent_Feed(animals_fed.Rows[i][1].ToString(), animals_fed.Rows[i][2].ToString(), totalTime, int.Parse(animals_fed.Rows[i][4].ToString()), remainingRows + i);
                 }
             }
         }
