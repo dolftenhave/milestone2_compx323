@@ -28,7 +28,7 @@ namespace ZooApp
             displayFeedingList();
 
             // for now, loading the animals at the same time. Will change this in future!
-            
+            populateAnimalComboBox();
         }
 
         /**<summary>
@@ -327,6 +327,77 @@ namespace ZooApp
             txtFeedingInterval.Text = feedingInterval;
         }
 
+        /// <summary>
+        /// Method for populating the Zone UI with elements.
+        /// </summary>
+        private void populateZoneUIElements()
+        {
+
+        }
+
+        private void resetZonePaging()
+        {
+            int NUM_ELEMENTS = 6;
+
+            // If search box contains nothing, then search all.
+            String countQuery;
+            if (textBoxZoneSearch.Text != "")
+            {
+                countQuery = $"SELECT COUNT(*) " +
+                $"FROM {DatabaseHelper.Table("ZONE")} " +
+                $"WHERE name = '{textBoxZoneSearch.Text}' " +
+                $"AND name IN (" +
+                    $"SELECT z.name" +
+                    $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
+                    $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
+                    $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
+                    $"WHERE o.staff = '{staffMemberId}' " +
+                    $"AND o.sgroupname = sg.latinname " +
+                    $"AND sg.latinname = sp.speciesgroup " +
+                    $"AND sp.latinname = a.speciesname " +
+                    $"AND a.enclosureID = e.eid " +
+                    $"AND e.zonename = z.name)";
+            }
+            else
+            {
+                countQuery = $"SELECT COUNT(*) AS \"count\"" +
+                $"FROM {DatabaseHelper.Table("ZONE")} " +
+                $"WHERE name IN (" +
+                    $"SELECT z.name" +
+                    $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
+                    $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
+                    $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
+                    $"WHERE o.staff = '{staffMemberId}' " +
+                    $"AND o.sgroupname = sg.latinname " +
+                    $"AND sg.latinname = sp.speciesgroup " +
+                    $"AND sp.latinname = a.speciesname " +
+                    $"AND a.enclosureID = e.eid " +
+                    $"AND e.zonename = z.name)";
+            }
+
+            DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
+            int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
+            int numPages = (totalCount - 1 / NUM_ELEMENTS) + 1;
+         
+            NumericUpDown nud = this.numericUpDownZonePage;
+            nud.Value = 1;
+            nud.Maximum = numPages;
+            nud.Minimum = 0;
+            
+        }
+
+        /// <summary>
+        /// Method for getting the Zones according to a search string.
+        /// </summary>
+        /// <param name="toSearch"></param>
+        /// <returns></returns>
+        private DataTable getZones(String toSearch = null)
+        {
+            String dataQuery = "";
+            String countQuery = "";
+            return null;
+        }
+
         private void btnSelectZone_Click(object sender, EventArgs e)
         {
             return;
@@ -363,6 +434,8 @@ namespace ZooApp
         /// <param name="e"></param>
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            return;
             // 0 = Home
             // 1 = Animal
             // 2 = Enclosure
@@ -382,6 +455,7 @@ namespace ZooApp
                     return;
                 case 3:
                     // Zone Tab Logic
+                    populateZoneUIElements();
                     return;
                 default:
                     return;
