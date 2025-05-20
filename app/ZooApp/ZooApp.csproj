@@ -98,16 +98,16 @@
     <Compile Include="AddEnclosureForm.Designer.cs">
       <DependentUpon>AddEnclosureForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddSpeciesForm.cs">
+    <Compile Include="Archive\AddSpeciesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddSpeciesForm.Designer.cs">
+    <Compile Include="Archive\AddSpeciesForm.Designer.cs">
       <DependentUpon>AddSpeciesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddSpeciesGroupForm.cs">
+    <Compile Include="Archive\AddSpeciesGroupForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddSpeciesGroupForm.Designer.cs">
+    <Compile Include="Archive\AddSpeciesGroupForm.Designer.cs">
       <DependentUpon>AddSpeciesGroupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddStaffForm.cs">
@@ -134,17 +134,17 @@
     <Compile Include="AddZookeeperForm.Designer.cs">
       <DependentUpon>AddZookeeperForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChecklistForm.cs">
+    <Compile Include="Archive\ChecklistForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChecklistForm.Designer.cs">
+    <Compile Include="Archive\ChecklistForm.Designer.cs">
       <DependentUpon>ChecklistForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseHelper.cs" />
-    <Compile Include="FeedingForm.cs">
+    <Compile Include="Archive\FeedingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FeedingForm.Designer.cs">
+    <Compile Include="Archive\FeedingForm.Designer.cs">
       <DependentUpon>FeedingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
@@ -160,16 +160,16 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Queries.cs" />
-    <Compile Include="SelectSpeciesForm.cs">
+    <Compile Include="Archive\SelectSpeciesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectSpeciesForm.Designer.cs">
+    <Compile Include="Archive\SelectSpeciesForm.Designer.cs">
       <DependentUpon>SelectSpeciesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectSpeciesGroupForm.cs">
+    <Compile Include="Archive\SelectSpeciesGroupForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectSpeciesGroupForm.Designer.cs">
+    <Compile Include="Archive\SelectSpeciesGroupForm.Designer.cs">
       <DependentUpon>SelectSpeciesGroupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectStaffForm.cs">
@@ -178,37 +178,37 @@
     <Compile Include="SelectStaffForm.Designer.cs">
       <DependentUpon>SelectStaffForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectZoneForm.cs">
+    <Compile Include="Archive\SelectZoneForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectZoneForm.Designer.cs">
+    <Compile Include="Archive\SelectZoneForm.Designer.cs">
       <DependentUpon>SelectZoneForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StaffActivityForm.cs">
+    <Compile Include="Archive\StaffActivityForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StaffActivityForm.Designer.cs">
+    <Compile Include="Archive\StaffActivityForm.Designer.cs">
       <DependentUpon>StaffActivityForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm_OLD.cs">
+    <Compile Include="Archive\MainForm_OLD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm_OLD.Designer.cs">
+    <Compile Include="Archive\MainForm_OLD.Designer.cs">
       <DependentUpon>MainForm_OLD.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaffInfo.cs" />
-    <Compile Include="UpdateDeleteStaffForm.cs">
+    <Compile Include="Archive\UpdateDeleteStaffForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdateDeleteStaffForm.Designer.cs">
+    <Compile Include="Archive\UpdateDeleteStaffForm.Designer.cs">
       <DependentUpon>UpdateDeleteStaffForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="VetForm.cs">
+    <Compile Include="Archive\VetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VetForm.Designer.cs">
+    <Compile Include="Archive\VetForm.Designer.cs">
       <DependentUpon>VetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Report.cs">
@@ -223,10 +223,10 @@
     <EmbeddedResource Include="AddEnclosureForm.resx">
       <DependentUpon>AddEnclosureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddSpeciesForm.resx">
+    <EmbeddedResource Include="Archive\AddSpeciesForm.resx">
       <DependentUpon>AddSpeciesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddSpeciesGroupForm.resx">
+    <EmbeddedResource Include="Archive\AddSpeciesGroupForm.resx">
       <DependentUpon>AddSpeciesGroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddStaffForm.resx">
@@ -241,10 +241,10 @@
     <EmbeddedResource Include="AddZookeeperForm.resx">
       <DependentUpon>AddZookeeperForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChecklistForm.resx">
+    <EmbeddedResource Include="Archive\ChecklistForm.resx">
       <DependentUpon>ChecklistForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FeedingForm.resx">
+    <EmbeddedResource Include="Archive\FeedingForm.resx">
       <DependentUpon>FeedingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
@@ -253,22 +253,22 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectSpeciesForm.resx">
+    <EmbeddedResource Include="Archive\SelectSpeciesForm.resx">
       <DependentUpon>SelectSpeciesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectSpeciesGroupForm.resx">
+    <EmbeddedResource Include="Archive\SelectSpeciesGroupForm.resx">
       <DependentUpon>SelectSpeciesGroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectStaffForm.resx">
       <DependentUpon>SelectStaffForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectZoneForm.resx">
+    <EmbeddedResource Include="Archive\SelectZoneForm.resx">
       <DependentUpon>SelectZoneForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StaffActivityForm.resx">
+    <EmbeddedResource Include="Archive\StaffActivityForm.resx">
       <DependentUpon>StaffActivityForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm_OLD.resx">
+    <EmbeddedResource Include="Archive\MainForm_OLD.resx">
       <DependentUpon>MainForm_OLD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -280,10 +280,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UpdateDeleteStaffForm.resx">
+    <EmbeddedResource Include="Archive\UpdateDeleteStaffForm.resx">
       <DependentUpon>UpdateDeleteStaffForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VetForm.resx">
+    <EmbeddedResource Include="Archive\VetForm.resx">
       <DependentUpon>VetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report.resx">
