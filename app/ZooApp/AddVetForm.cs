@@ -47,21 +47,23 @@ namespace ZooApp
                     }
                 }
                 cbSelectVet.Enabled = false;
+                SetCurrentClinic(currentSid.Value);
             }
+
+            btnAdd.Enabled = false;
+            btnUpdate.Enabled = false;
+            btnDelete.Enabled = false;
         }
 
         private void LoadVetList()
         {
-            string query = @"
-        SELECT sid, fName || ' ' || lName AS fullName
-        FROM m2s_Staff
-        WHERE sid IN (SELECT DISTINCT staffID FROM m2s_Care)
-           OR sid = :sid";  // Ensure current vet sid is included
+            string query = $@"
+                SELECT sid, fName || ' ' || lName AS fullName
+                FROM m2s_Staff
+                WHERE sid IN (SELECT DISTINCT staffID FROM m2s_Care)
+                   OR sid = :sid";
 
-            OracleParameter[] param = {
-        new OracleParameter("sid", currentSid.HasValue ? currentSid.Value : -1)
-    };
-
+            OracleParameter[] param = { new OracleParameter("sid", currentSid ?? -1) };
             DataTable vets = DatabaseHelper.ExecuteQuery(query, param);
 
             cbSelectVet.Items.Clear();
@@ -70,57 +72,72 @@ namespace ZooApp
                 cbSelectVet.Items.Add(new ComboBoxItem(row["fullName"].ToString(), row["sid"].ToString()));
             }
 
-            if (currentSid.HasValue)
-            {
-                foreach (ComboBoxItem item in cbSelectVet.Items)
-                {
-                    if (item.Value == currentSid.Value.ToString())
-                    {
-                        cbSelectVet.SelectedItem = item;
-                        break;
-                    }
-                }
-                cbSelectVet.Enabled = false;
-            }
+            cbSelectVet.SelectedIndexChanged += cbSelectVet_SelectedIndexChanged;
         }
-
 
         private void LoadClinicList()
         {
-            string query = "SELECT DISTINCT clinic FROM m2s_Staff WHERE clinic IS NOT NULL ORDER BY clinic";
+            cbClinics.Items.Clear();
+            cbClinics.Items.Add("Add New Clinic");
 
+            string query = "SELECT DISTINCT clinic FROM m2s_Staff WHERE clinic IS NOT NULL ORDER BY clinic";
             DataTable clinics = DatabaseHelper.ExecuteQuery(query);
-            lbClinics.Items.Clear();
 
             foreach (DataRow row in clinics.Rows)
             {
-                lbClinics.Items.Add(row["clinic"].ToString());
+                cbClinics.Items.Add(row["clinic"].ToString());
+            }
+
+            cbClinics.SelectedIndex = 0;
+        }
+
+        private void SetCurrentClinic(int sid)
+        {
+            string query = $"SELECT clinic FROM {DatabaseHelper.Table("Staff")} WHERE sid = :sid";
+            OracleParameter[] param = { new OracleParameter("sid", sid) };
+            DataTable result = DatabaseHelper.ExecuteQuery(query, param);
+
+            txtCurrentClinic.Text = (result.Rows.Count > 0 && result.Rows[0]["clinic"] != DBNull.Value)
+                ? result.Rows[0]["clinic"].ToString()
+                : "None";
+        }
+
+        private void cbSelectVet_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbSelectVet.SelectedItem is ComboBoxItem selectedVet)
+            {
+                SetCurrentClinic(int.Parse(selectedVet.Value));
+                cbClinics.SelectedIndex = 0;
+                btnAdd.Enabled = true;
             }
         }
-        private void btnAssign_Click(object sender, EventArgs e)
-        {
-            if (cbSelectVet.SelectedItem is ComboBoxItem vet && !string.IsNullOrWhiteSpace(txtClinicName.Text))
-            {
-                string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
-                OracleParameter[] parameters = {
-                    new OracleParameter("clinic", txtClinicName.Text.Trim()),
-                    new OracleParameter("sid", int.Parse(vet.Value))
-                };
 
-                DatabaseHelper.ExecuteNonQuery(query, parameters);
-                MessageBox.Show("Clinic assigned to vet successfully.");
-                LoadClinicList();
-                this.Hide();
-                new AddStaffForm().ShowDialog();
+        private void cbClinics_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbClinics.SelectedIndex == 0)
+            {
+                txtClinicName.Clear();
+                btnAdd.Enabled = cbSelectVet.SelectedItem != null;
+                btnUpdate.Enabled = false;
+                btnDelete.Enabled = false;
             }
             else
             {
-                MessageBox.Show("Please select a vet and enter a clinic name.");
+                txtClinicName.Text = cbClinics.SelectedItem.ToString();
+                btnAdd.Enabled = false;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
             }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (!(cbSelectVet.SelectedItem is ComboBoxItem selectedVet))
+            {
+                MessageBox.Show("Please select a vet before adding a clinic.");
+                return;
+            }
+
             string newClinic = txtClinicName.Text.Trim();
             if (string.IsNullOrWhiteSpace(newClinic))
             {
@@ -128,37 +145,57 @@ namespace ZooApp
                 return;
             }
 
-            string checkQuery = $"SELECT 1 FROM {DatabaseHelper.Table("Staff")} WHERE clinic = :clinic";
-            OracleParameter[] checkParam = { new OracleParameter("clinic", newClinic) };
-            if (DatabaseHelper.ExecuteQuery(checkQuery, checkParam).Rows.Count > 0)
+            string checkQuery = $"SELECT 1 FROM {DatabaseHelper.Table("Staff")} WHERE LOWER(clinic) = LOWER(:clinic)";
+            OracleParameter[] checkParams = { new OracleParameter("clinic", newClinic) };
+            if (DatabaseHelper.ExecuteQuery(checkQuery, checkParams).Rows.Count > 0)
             {
                 MessageBox.Show("Clinic already exists.");
                 return;
             }
 
-            if (currentSid.HasValue)
-            {
-                string update = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
-                OracleParameter[] insertParams = {
-                    new OracleParameter("clinic", newClinic),
-                    new OracleParameter("sid", currentSid.Value)
-                };
-                DatabaseHelper.ExecuteNonQuery(update, insertParams);
-                MessageBox.Show("New clinic added and assigned.");
-                LoadClinicList();
-            }
+            string assignQuery = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
+            OracleParameter[] assignParams = {
+                new OracleParameter("clinic", newClinic),
+                new OracleParameter("sid", int.Parse(selectedVet.Value))
+            };
 
+            DatabaseHelper.ExecuteNonQuery(assignQuery, assignParams);
+            MessageBox.Show("New clinic added and assigned.");
+            txtClinicName.Clear();
+            LoadClinicList();
+            SetCurrentClinic(int.Parse(selectedVet.Value));
+        }
+
+        private void btnAssign_Click(object sender, EventArgs e)
+        {
+            if (cbSelectVet.SelectedItem is ComboBoxItem vet && cbClinics.SelectedItem is string selectedClinic && cbClinics.SelectedIndex != 0)
+            {
+                string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
+                OracleParameter[] parameters = {
+                    new OracleParameter("clinic", selectedClinic),
+                    new OracleParameter("sid", int.Parse(vet.Value))
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                MessageBox.Show("Clinic assigned to vet.");
+                LoadClinicList();
+                SetCurrentClinic(int.Parse(vet.Value));
+            }
+            else
+            {
+                MessageBox.Show("Please select a vet and a clinic.");
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (lbClinics.SelectedItem == null)
+            if (cbClinics.SelectedItem == null || cbClinics.SelectedIndex == 0)
             {
-                MessageBox.Show("Select a clinic to update.");
+                MessageBox.Show("Please select an existing clinic to update.");
                 return;
             }
 
-            string oldClinic = lbClinics.SelectedItem.ToString();
+            string oldClinic = cbClinics.SelectedItem.ToString();
             string newClinic = txtClinicName.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(newClinic))
@@ -172,35 +209,33 @@ namespace ZooApp
                 new OracleParameter("new", newClinic),
                 new OracleParameter("old", oldClinic)
             };
+
             DatabaseHelper.ExecuteNonQuery(query, parameters);
             MessageBox.Show("Clinic updated.");
+            txtClinicName.Clear();
             LoadClinicList();
-            this.Close();
-            new SelectStaffForm().ShowDialog();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (lbClinics.SelectedItem == null)
+            if (cbClinics.SelectedItem == null || cbClinics.SelectedIndex == 0)
             {
-                MessageBox.Show("Select a clinic to delete.");
+                MessageBox.Show("Please select an existing clinic to delete.");
                 return;
             }
 
-            var confirm = MessageBox.Show(
-                "This will remove this clinic assignment from all vets. Proceed?",
-                "Confirm Deletion",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+            var confirm = MessageBox.Show("This will remove the clinic assignment from all vets. Continue?",
+                "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            if (confirm != DialogResult.Yes)
-                return;
+            if (confirm != DialogResult.Yes) return;
 
-            string clinic = lbClinics.SelectedItem.ToString();
+            string clinic = cbClinics.SelectedItem.ToString();
             string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = NULL WHERE clinic = :clinic";
             OracleParameter[] parameters = { new OracleParameter("clinic", clinic) };
 
             DatabaseHelper.ExecuteNonQuery(query, parameters);
+            MessageBox.Show("Clinic deleted.");
+            txtClinicName.Clear();
             LoadClinicList();
         }
 
@@ -209,17 +244,7 @@ namespace ZooApp
             this.Close();
         }
 
-        private void lbClinics_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbClinics.SelectedItem != null)
-            {
-                txtClinicName.Text = lbClinics.SelectedItem.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Helper class for ComboBox items with text and underlying value
-        /// </summary>
+        // ComboBoxItem class used in vet and clinic dropdowns
         public class ComboBoxItem
         {
             public string Text { get; set; }
@@ -238,4 +263,3 @@ namespace ZooApp
         }
     }
 }
-
