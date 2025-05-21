@@ -371,7 +371,7 @@ namespace ZooApp
         /// </summary>
         private void populateZoneUIElements()
         {
-
+            resetZonePaging();
         }
 
         private void resetZonePaging()
@@ -382,15 +382,15 @@ namespace ZooApp
             String countQuery;
             if (textBoxZoneSearch.Text != "")
             {
-                countQuery = $"SELECT COUNT(*) " +
+                countQuery = $"SELECT COUNT(distinct name) " +
                 $"FROM {DatabaseHelper.Table("ZONE")} " +
-                $"WHERE name = '{textBoxZoneSearch.Text}' " +
+                $"WHERE name LIKE '%{textBoxZoneSearch.Text}%' " +
                 $"AND name IN (" +
-                    $"SELECT z.name" +
+                    $"SELECT z.name " +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
                     $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
                     $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
-                    $"WHERE o.staff = '{staffMemberId}' " +
+                    $"WHERE o.staffid = '{staffMemberId}' " +
                     $"AND o.sgroupname = sg.latinname " +
                     $"AND sg.latinname = sp.speciesgroup " +
                     $"AND sp.latinname = a.speciesname " +
@@ -399,14 +399,14 @@ namespace ZooApp
             }
             else
             {
-                countQuery = $"SELECT COUNT(*) AS \"count\"" +
+                countQuery = $"SELECT COUNT(distinct name) AS \"count\" " +
                 $"FROM {DatabaseHelper.Table("ZONE")} " +
                 $"WHERE name IN (" +
-                    $"SELECT z.name" +
+                    $"SELECT z.name " +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
                     $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
                     $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
-                    $"WHERE o.staff = '{staffMemberId}' " +
+                    $"WHERE o.staffid = '{staffMemberId}' " +
                     $"AND o.sgroupname = sg.latinname " +
                     $"AND sg.latinname = sp.speciesgroup " +
                     $"AND sp.latinname = a.speciesname " +
@@ -416,13 +416,12 @@ namespace ZooApp
 
             DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
             int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
-            int numPages = (totalCount - 1 / NUM_ELEMENTS) + 1;
+            int numPages = ((totalCount - 1 )/ NUM_ELEMENTS) + 1;
          
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
+            nud.Minimum = 1;
             nud.Maximum = numPages;
-            nud.Minimum = 0;
-            
         }
 
         /// <summary>
@@ -474,7 +473,7 @@ namespace ZooApp
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            return;
+            //return;
             // 0 = Home
             // 1 = Animal
             // 2 = Enclosure
