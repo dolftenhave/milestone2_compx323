@@ -382,7 +382,9 @@ namespace ZooApp
 
             // Query to get basic info on each Zone to populate the UI elements
             // Change this to be on rowname too?
-            String initZoneDataQuery = $"SELECT distinct z.name, z.colour, z.hexcode rownumber rn" +
+            String initZoneDataQuery = $"SELECT name, colour, hexcode, rownum" +
+                $"FROM " + 
+                    $"(SELECT distinct z.name, z.colour, z.hexcode" +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
                     $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
                     $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
@@ -392,7 +394,8 @@ namespace ZooApp
                     $"AND sp.latinname = a.speciesname " +
                     $"AND a.enclosureID = e.eid " +
                     $"AND e.zonename = z.name" +
-                    $"ORDER BY z.name";
+                    $"ORDER BY z.name) " +
+                    $"";
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
@@ -409,15 +412,9 @@ namespace ZooApp
                 String animalsNeedingQuery = $"";
 
                 DataTable animalCount = DatabaseHelper.ExecuteQuery(animalsNeedingQuery);
-
-
-
+                   
 
             }
-
-            
-
-
         }
 
         private void resetZonePaging()
