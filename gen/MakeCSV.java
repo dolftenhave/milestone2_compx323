@@ -269,6 +269,12 @@ public class MakeCSV {
 				case 16:
 					feedInterval();
 					break;
+				case 17:
+					_null();
+					break;
+				case 18:
+					emptyStr();
+					break;
 				default:
 					System.err.println("Uknown data type'" + genTable[j][0] + "'");
 					System.exit(1);
@@ -424,23 +430,48 @@ public class MakeCSV {
 		varchar(rand.nextInt(2, 4));
 	}
 
+	/**
+	 * Writes a random boolean valriable 0 or 1.
+	 */
 	private static void bool() {
 		write(bools[rand.nextInt(bools.length)]);
 	}
 
+	/**
+	 * Writes a random sex char from sexes
+	 */
 	private static void sex() {
 		write(sexes[rand.nextInt(sexes.length)]);
 	}
 
+	/**
+	 * Writes a random predifined phone prefix from PHONE_PREFIX followed by 7 random numbers between 1 and 9.
+	 */
 	private static void phone() {
 		write(PHONE_PRIFIX[rand.nextInt(PHONE_PRIFIX.length)]);
 		write(getRandomInt(10, 10));
 	}
 
+	/**
+	 * Prints a number between 1 and hour.length.
+	 */
 	private static void feedInterval(){
 		write(hours[rand.nextInt(1, hours.length)]);
 	}
 
+	/**
+	 * Prints the keyword 'null'.
+	 */
+	private static void _null(){
+		write("null");
+	}
+
+	/**
+	 * Prints an empty string.
+	 */
+	private static void emptyStr(){
+		write("");
+	}
 	/**
 	 * Returns a random Integer integer between 1 and length digits long
 	 * 

@@ -22,7 +22,7 @@ public class parseArgs {
 	private static int maxSeqVarcharLen = 0;
 
 	private static ArrayList<String> table; // a "buffer" array that holds the table data before it is written;
-	private static ArrayList<String> csvHeader; //Contrains the column names used by the csv header
+	private static ArrayList<String> csvHeader; // Contrains the column names used by the csv header
 	private static ArrayList<String> files; // The path to the requested file
 	private static ArrayList<String> fileType; // The type of file. 0 for file, 1 for seqFile
 	private static ArrayList<String[]> cols; // The columns used by that file
@@ -43,18 +43,17 @@ public class parseArgs {
 	/**
 	 * Collects the names of the columns of the csv data
 	 */
-	private static void readHeaderNames(){
+	private static void readHeaderNames() {
 		boolean readAllNames = false;
-		while(!readAllNames){
-			if(_args[p].substring(0,1).compareTo("-") == 0){
+		while (!readAllNames) {
+			if (_args[p].substring(0, 1).compareTo("-") == 0) {
 				readAllNames = true;
-			}else{
+			} else {
 				csvHeader.add(_args[p]);
 				p++;
-			}	
+			}
 		}
 	}
-
 
 	/**
 	 * Selects the argument type and passes it on to the matching method for
@@ -118,6 +117,12 @@ public class parseArgs {
 				case "-x":
 					feedInterval();
 					break;
+				case "-n":
+					_null();
+					break;
+				case "-N":
+					emptyStr();
+					break;
 				// Unrecognised argument
 				default:
 					System.err.println("Argument " + p + ", '" + _args[p] + "' was not in the correct format");
@@ -145,11 +150,11 @@ public class parseArgs {
 			out.newLine();
 			out.flush();
 
-			for(int i = 0; i < csvHeader.size()-1; i++){
+			for (int i = 0; i < csvHeader.size() - 1; i++) {
 				out.write(csvHeader.get(i));
 				out.write(",");
 			}
-			out.write(csvHeader.get(csvHeader.size()-1));
+			out.write(csvHeader.get(csvHeader.size() - 1));
 			out.flush();
 			out.newLine();
 
@@ -262,16 +267,17 @@ public class parseArgs {
 	private static void double_() {
 		int a = 0;
 		int b;
-		try{
-			a = Integer.parseInt(_args[p+1]);
-			b = Integer.parseInt(_args[p+2]);
+		try {
+			a = Integer.parseInt(_args[p + 1]);
+			b = Integer.parseInt(_args[p + 2]);
 			a = a - b;
 
-			if(a < 1){
-				System.err.println("parseArgs: Error. The double '" + a+" " +b + "' has a delimiter our of range of the length. Please correct this.");
+			if (a < 1) {
+				System.err.println("parseArgs: Error. The double '" + a + " " + b
+						+ "' has a delimiter our of range of the length. Please correct this.");
 				System.exit(1);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
 		table.add("5 " + a + " " + _args[p + 2]);
@@ -357,13 +363,39 @@ public class parseArgs {
 		p++;
 	}
 
-	private static void phone(){
+	/**
+	 * Creates an emtry in the genTable that will print a random string of 7 numbers
+	 * chars (0-9).
+	 * This is prepended by a set of defined coutnry or number codes of common phone
+	 * prefixes.
+	 */
+	private static void phone() {
 		table.add("15");
 		p++;
 	}
 
-	private static void feedInterval(){
+	/**
+	 * Prints a predifined number of feeding intervals for the zoo app.
+	 */
+	private static void feedInterval() {
 		table.add("16");
+		p++;
+	}
+
+	/**
+	 * Prints the 'null' string.
+	 */
+	private static void _null() {
+		table.add("17");
+		p++;
+	}
+
+	/**
+	 * Prints and empty string. This is the same as leaving a nothing between two
+	 * commas in a csv file.
+	 */
+	private static void emptyStr() {
+		table.add("18");
 		p++;
 	}
 

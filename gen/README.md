@@ -34,6 +34,8 @@ There are several different type of arguments used to greate the data
 - **sex** `-g` will add a single char for sex constrained to 'M' or 'F'
 - **phone** `-p` will add a random NZ based phone number (with the exception of an australian country code).
 - **feedInterval** `-x` will add a random hour between 1 and 23.
+- **Null** `-n` will print the keyword `null` in that position.
+- **Empty String** `-N` will print and empty string. This is is the same as Null for a varchar 2.
 
 _Note:_ Sequential data type are a good use when generating unique data or when you want to ensure that every case in a file is used at least once.
 
@@ -104,6 +106,8 @@ usage `java MakeCSV <n-lines> <path/to/table/file> <output name>`
 | sex         |     14 | 14 | -                      | -                  |
 | phone       |     15 | 15 | -                      | -                  |
 | feedInterval|     16 | 16 | -                      | -                  |
+| null        |     17 | 17 | -                      | -                  |
+| empty string|     18 | 18 | -                      | -                  |
 +-------------+--------+----+------------------------+--------------------+
 ```
 
