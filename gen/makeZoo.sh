@@ -12,7 +12,7 @@ java parseArgs SpeciesGroup latinName commonName -V 3 -v 30
 java parseArgs Zone name colour hexCode -V 3 -v 15 -h 6
 java parseArgs Enclosure eid name biome eSize zoneName -I 1 -v 30 -v 15 -i 4 -F "Zone.csv" 0
 java parseArgs Species latinName commonName requiredBiome speciesGroup -V 4 -v 30 -f "Enclosure.csv" 2 -F "SpeciesGroup.csv" 0
-java parseArgs Staff sid fName lName dob phNumber email streetNumber streetName suburb city postCode clinic sex -I 1 -v 6 -v 10 -d -p -e -i 3 -v 6 -v 7 -v 8 -i 4 -n -g
+java parseArgs Staff sid fName lName dob phNumber email streetNumber streetName suburb city postCode clinic sex -I 1 -v 6 -v 10 -d -p -e -i 3 -v 6 -v 7 -v 8 -i 4 -N -g
 java parseArgs VetStaff sid fName lName dob phNumber email streetNumber streetName suburb city postCode clinic sex -I 12001 -v 6 -v 10 -d -p -e -i 3 -v 6 -v 7 -v 8 -i 4 -f "Clinics.csv" 0 -g
 java parseArgs Animal aid sex feedingInterval name weight originCountry dob enclosureID speciesName -I 1 -g -x -v 8 -o 10 2 -f "data/slim-3.csv" 1 -d -F "Enclosure.csv" 0 -F "Species.csv" 0
 java parseArgs Oversees sGroupName staffID -F "SpeciesGroup.csv" 0 -F "Staff.csv" 0
@@ -34,11 +34,13 @@ java MakeCSV 500000 "tables/Feed.tab" Feed
 # total 957,000 lines
 
 # Appends the VetStaff to the end of the staff file, skipping the csv header.
-tail --lines=+1 VetStaff.csv >> Staff.csv
+echo ""  >> Staff.csv
+tail -n +2 VetStaff.csv >> Staff.csv
 rm VetStaff.csv
 rm Clinics.csv
 
-rm -r large/*.csv
+rm -r large/
+mkdir large/
 mv *.csv large/
 
 # comment out this line if you want to see the table files
