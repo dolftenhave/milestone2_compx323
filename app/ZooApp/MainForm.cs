@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using static System.Net.WebRequestMethods;
 
 /**<summary>
  * This is the main page of the application. Giving staff members access to everything they may need to do in the zoo
@@ -13,9 +15,13 @@ namespace ZooApp
         // The ID of the staff member currently looking at this page. All info will be relevent to them
         private int staffMemberId;
         private int staffRole; //0 for ZooKeeper and 1 for Vet
+        private int currentEnclosure; // -1 if no enclosure is selected
+        private List<int> selectedAnimals; //A list of animals currently selected
         public MainForm(int staffMemberId)
         {
+            currentEnclosure = -1;
             this.staffMemberId = staffMemberId;
+            selectedAnimals= new List<int>();
             InitializeComponent();
         }
 
@@ -192,7 +198,7 @@ namespace ZooApp
             Button btnFeed = (Button)this.Controls.Find($"btn_home_feed{n}", true)[0];
             Panel panel = (Panel)this.Controls.Find($"panel_home_feeding{n}", true)[0];
 
-
+            //TODO implement calculateFeedTimeString
             if (totalTime != -1)
             {
                 if (totalTime > FeedingInterval)
@@ -207,7 +213,7 @@ namespace ZooApp
                 //Yes this is terribly ugly
                 if (totalTime > 24)
                 {
-                    totalTime = (int)totalTime/24;
+                    totalTime = (int)totalTime / 24;
                     timeSuffix = " days";
                     if (totalTime > 365)
                     {
@@ -238,6 +244,129 @@ namespace ZooApp
 
             btnFeed.Visible = true;
         }
+
+        /**<summary>
+         * Returns a string vaersion of how long ago the animal was last fed
+         * </summary>
+         */
+        private String calculateLastFedTime(int lastFed, int feedingInterval)
+        {
+            String suffix = "h";
+
+            if (lastFed == -1)
+                return "Never!";
+
+            if(totalTime > 24)
+            { 
+                lastFed = lastFed / 24;
+                suffix = "d";
+                if (lastFed > 365)
+                {
+                    lastFed = lastFed / 365;
+                    suffix = "y";
+                }
+            }
+            
+            return lastFed.ToString()+suffix;
+        }
+
+        /**<summary>
+         * Initialises the Enclosure page
+         * </summary>
+         */
+        private void initialiseEnclosure()
+        {
+            vScrollBar_Enclosure.Value = panel_Enclosure_Animals.VerticalScroll.Value;
+            vScrollBar_Enclosure.Minimum = panel_Enclosure_Animals.VerticalScroll.Minimum;
+            vScrollBar_Enclosure.Minimum = panel_Enclosure_Animals.VerticalScroll.Minimum;
+            vScrollBar_Enclosure.Scroll += vScrollBar_Enclosure_Scroll;
+            vScrollBar_Enclosure.Enabled = false;
+
+            for(int i = 0; i < 20; i++)
+            {
+                Label l = new Label();
+                l.Text = i.ToString();
+                l.Location = new System.Drawing.Point(5, i * 30);
+                panel_Enclosure_Animals.Controls.Add(l);
+            }
+
+            vScrollBar_Enclosure.Enabled = true;
+        }
+
+        /**<summary>
+         * Updates the the position of the panel to match the vertical scroll bar
+         * </summary>
+         */
+        private void vScrollBar_Enclosure_Scroll(object sender, ScrollEventArgs e)
+        {
+            panel_Enclosure_Animals.VerticalScroll.Value = vScrollBar_Enclosure.Value;
+        }
+
+        /**<summary>
+         * Updated the maximum vertical scroll value when a control is added.
+         * </summary>
+         */
+        private void panel_Enclosure_Animals_ControlAdded(object sender, ControlEventArgs e)
+        {
+            vScrollBar_Enclosure.Maximum = panel_Enclosure_Animals.VerticalScroll.Maximum;
+        }
+
+        /**<summary>
+         * Updated the minimum scroll value when a control is removed
+         * </summary>
+         */
+        private void panel_Enclosure_Animals_ControlRemoved(object sender, ControlEventArgs e)
+        {
+            vScrollBar_Enclosure.Minimum = panel_Enclosure_Animals.VerticalScroll.Minimum;
+        }
+
+        private void loadEnclosureAnimals()
+        {
+
+        }
+
+        private Panel makeFeedAnimalUiComponent(int aid, String name, String species, double lastFed)
+        {
+            Panel p = new Panel();
+            Label lName = new Label();
+            Label lSpecies = new Label();
+            Label lLastFed = new Label();
+            CheckBox selectAniaml = new CheckBox();
+
+            // sets the panel size
+            p.Width = panel_Enclosure_Animals.Width;
+            p.Height = 40;
+
+            lName.Text = name;
+            lName.AutoSize = true;
+
+            lSpecies.Text = species;
+            lSpecies.AutoSize = true;
+
+            lLastFed.Text = calculateLastFedTime((int)lastFed);
+            lLastFed.AutoSize = true;
+
+            selectAniaml.CheckedChanged += SelectAniaml_CheckedChanged;
+        }
+
+        /**<summary>
+         * Adds/removes the animal id to the list of the selected animals.
+         * The id is taken from the tag of the sender.
+         * </summary>
+         */
+        private void SelectAniaml_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                selectedAnimals.Add(int.Parse(((CheckBox)sender).Tag));
+            }
+            else
+            {
+                selectedAnimals.Remove(int.Parse(((CheckBox)sender).Tag));
+            }
+        }
+
+
 
         /// <summary>
         /// Get a DataTable of Animals that are relevant to the logged in Staff.
@@ -474,7 +603,7 @@ namespace ZooApp
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            return;
+            //return;
             // 0 = Home
             // 1 = Animal
             // 2 = Enclosure
@@ -490,7 +619,7 @@ namespace ZooApp
                     populateAnimalComboBox();
                     return;
                 case 2:
-                    // Can implement Enclosure tab logic here
+                    //initialiseEnclosure();
                     return;
                 case 3:
                     // Zone Tab Logic
@@ -501,5 +630,7 @@ namespace ZooApp
 
             }
         }
+
+
     }
 }
