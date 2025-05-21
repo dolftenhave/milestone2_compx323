@@ -249,14 +249,14 @@ namespace ZooApp
          * Returns a string vaersion of how long ago the animal was last fed
          * </summary>
          */
-        private String calculateLastFedTime(int lastFed, int feedingInterval)
+        private String calculateLastFedTime(int lastFed)
         {
             String suffix = "h";
 
             if (lastFed == -1)
                 return "Never!";
 
-            if(totalTime > 24)
+            if(lastFed > 24)
             { 
                 lastFed = lastFed / 24;
                 suffix = "d";
@@ -284,10 +284,10 @@ namespace ZooApp
 
             for(int i = 0; i < 20; i++)
             {
-                Label l = new Label();
-                l.Text = i.ToString();
-                l.Location = new System.Drawing.Point(5, i * 30);
-                panel_Enclosure_Animals.Controls.Add(l);
+                Panel p = makeFeedAnimalUiComponent_Enclosure(i, $"Test {i}", $"Species", 4.0);
+                p.Location = new System.Drawing.Point(0, i * 25);
+                p.BackColor = System.Drawing.Color.Pink;
+                panel_Enclosure_Animals.Controls.Add(p);
             }
 
             vScrollBar_Enclosure.Enabled = true;
@@ -325,44 +325,50 @@ namespace ZooApp
 
         }
 
-        private Panel makeFeedAnimalUiComponent(int aid, String name, String species, double lastFed)
+        /**<summary>
+         * Creates a panel with information about an animal and a checkbox to select it
+         * </summary>
+         */
+        private Panel makeFeedAnimalUiComponent_Enclosure(int aid, String name, String species, double lastFed)
         {
             Panel p = new Panel();
-            Label lName = new Label();
-            Label lSpecies = new Label();
-            Label lLastFed = new Label();
-            CheckBox selectAniaml = new CheckBox();
+            Label animal = new Label();
+            CheckBox selectAnimal = new CheckBox();
 
             // sets the panel size
             p.Width = panel_Enclosure_Animals.Width;
-            p.Height = 40;
+            p.Height = 24;
 
-            lName.Text = name;
-            lName.AutoSize = true;
+            animal.Text = $"{name}, {species}, {calculateLastFedTime((int)lastFed)}";
+            animal.AutoSize = true;
 
-            lSpecies.Text = species;
-            lSpecies.AutoSize = true;
+            p.Controls.Add(animal);
+            animal.Location = new System.Drawing.Point(0, 0);
 
-            lLastFed.Text = calculateLastFedTime((int)lastFed);
-            lLastFed.AutoSize = true;
+            p.Controls.Add(selectAnimal);
+            selectAnimal.Location = new System.Drawing.Point(p.Width - selectAnimal.Width - 5, 0);
+            selectAnimal.Tag = animal;
+            selectAnimal.CheckedChanged += SelectAnimal_CheckedChanged;
 
-            selectAniaml.CheckedChanged += SelectAniaml_CheckedChanged;
+            return p;
         }
+
 
         /**<summary>
          * Adds/removes the animal id to the list of the selected animals.
          * The id is taken from the tag of the sender.
          * </summary>
          */
-        private void SelectAniaml_CheckedChanged(object sender, EventArgs e)
+        private void SelectAnimal_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
             {
-                selectedAnimals.Add(int.Parse(((CheckBox)sender).Tag));
+                selectedAnimals.Add(int.Parse(((CheckBox)sender).Tag.ToString()));
+                MessageBox.Show($"Added {((CheckBox)sender).Tag.ToString()}");
             }
             else
             {
-                selectedAnimals.Remove(int.Parse(((CheckBox)sender).Tag));
+                selectedAnimals.Remove(int.Parse(((CheckBox)sender).Tag.ToString()));
             }
         }
 

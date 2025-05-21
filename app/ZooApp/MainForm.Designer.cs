@@ -19,6 +19,7 @@ namespace ZooApp
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
             this.lblStaffName = new System.Windows.Forms.Label();
@@ -82,6 +83,8 @@ namespace ZooApp
             this.lblInterval = new System.Windows.Forms.Label();
             this.btnAddAnimal = new System.Windows.Forms.Button();
             this.tabPageEnclosure = new System.Windows.Forms.TabPage();
+            this.vScrollBar_Enclosure = new System.Windows.Forms.VScrollBar();
+            this.panel_Enclosure_Animals = new System.Windows.Forms.Panel();
             this.label_Enclosure_Output = new System.Windows.Forms.Label();
             this.button_Enclosure_Search = new System.Windows.Forms.Button();
             this.comboBox_Enclosure_Search = new System.Windows.Forms.ComboBox();
@@ -118,8 +121,7 @@ namespace ZooApp
             this.buttonSelectZone1 = new System.Windows.Forms.Button();
             this.labelZoneName1 = new System.Windows.Forms.Label();
             this.btnAddZone = new System.Windows.Forms.Button();
-            this.panel_Enclosure_Animals = new System.Windows.Forms.Panel();
-            this.vScrollBar_Enclosure = new System.Windows.Forms.VScrollBar();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.groupBoxTODO.SuspendLayout();
@@ -139,6 +141,7 @@ namespace ZooApp
             this.panelZone2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZonePage)).BeginInit();
             this.panelZone1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -585,6 +588,7 @@ namespace ZooApp
             this.btn_home_feed0.Name = "btn_home_feed0";
             this.btn_home_feed0.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed0.TabIndex = 0;
+            this.btn_home_feed0.Tag = "";
             this.btn_home_feed0.Text = "Feed";
             this.btn_home_feed0.UseVisualStyleBackColor = true;
             this.btn_home_feed0.Visible = false;
@@ -824,6 +828,23 @@ namespace ZooApp
             this.tabPageEnclosure.TabIndex = 3;
             this.tabPageEnclosure.Text = "Enclosure";
             this.tabPageEnclosure.UseVisualStyleBackColor = true;
+            // 
+            // vScrollBar_Enclosure
+            // 
+            this.vScrollBar_Enclosure.Location = new System.Drawing.Point(322, 118);
+            this.vScrollBar_Enclosure.Name = "vScrollBar_Enclosure";
+            this.vScrollBar_Enclosure.Size = new System.Drawing.Size(25, 491);
+            this.vScrollBar_Enclosure.TabIndex = 6;
+            this.vScrollBar_Enclosure.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Enclosure_Scroll);
+            // 
+            // panel_Enclosure_Animals
+            // 
+            this.panel_Enclosure_Animals.Location = new System.Drawing.Point(4, 118);
+            this.panel_Enclosure_Animals.Name = "panel_Enclosure_Animals";
+            this.panel_Enclosure_Animals.Size = new System.Drawing.Size(315, 493);
+            this.panel_Enclosure_Animals.TabIndex = 5;
+            this.panel_Enclosure_Animals.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel_Enclosure_Animals_ControlAdded);
+            this.panel_Enclosure_Animals.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.panel_Enclosure_Animals_ControlRemoved);
             // 
             // label_Enclosure_Output
             // 
@@ -1197,23 +1218,6 @@ namespace ZooApp
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // panel_Enclosure_Animals
-            // 
-            this.panel_Enclosure_Animals.Location = new System.Drawing.Point(4, 118);
-            this.panel_Enclosure_Animals.Name = "panel_Enclosure_Animals";
-            this.panel_Enclosure_Animals.Size = new System.Drawing.Size(315, 493);
-            this.panel_Enclosure_Animals.TabIndex = 5;
-            this.panel_Enclosure_Animals.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel_Enclosure_Animals_ControlAdded);
-            this.panel_Enclosure_Animals.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.panel_Enclosure_Animals_ControlRemoved);
-            // 
-            // vScrollBar_Enclosure
-            // 
-            this.vScrollBar_Enclosure.Location = new System.Drawing.Point(322, 118);
-            this.vScrollBar_Enclosure.Name = "vScrollBar_Enclosure";
-            this.vScrollBar_Enclosure.Size = new System.Drawing.Size(25, 491);
-            this.vScrollBar_Enclosure.TabIndex = 6;
-            this.vScrollBar_Enclosure.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Enclosure_Scroll);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1257,6 +1261,7 @@ namespace ZooApp
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZonePage)).EndInit();
             this.panelZone1.ResumeLayout(false);
             this.panelZone1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1367,5 +1372,6 @@ namespace ZooApp
         private Label labelZoneName2;
         private Panel panel_Enclosure_Animals;
         private VScrollBar vScrollBar_Enclosure;
+        private BindingSource bindingSource1;
     }
 }
