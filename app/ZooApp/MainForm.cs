@@ -13,6 +13,10 @@ namespace ZooApp
         // The ID of the staff member currently looking at this page. All info will be relevent to them
         private int staffMemberId;
         private int staffRole; //0 for ZooKeeper and 1 for Vet
+
+        // Variables for Zone
+        private const int NUM_ZONE_PAGE_ELEMENTS = 6;
+        private String currentZoneName = null;
         public MainForm(int staffMemberId)
         {
             this.staffMemberId = staffMemberId;
@@ -368,16 +372,41 @@ namespace ZooApp
 
         /// <summary>
         /// Method for populating the Zone UI with elements.
+        /// Gets the current page from the NumericUpDown Control.
         /// </summary>
         private void populateZoneUIElements()
         {
-            resetZonePaging();
+            // Query to get basic info on each Zone to populate the UI elements
+            String initZoneDataQuery = $"SELECT distinct z.name, z.colour, z.hexcode " +
+                    $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
+                    $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
+                    $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
+                    $"WHERE o.staffid = {staffMemberId} " +
+                    $"AND o.sgroupname = sg.latinname " +
+                    $"AND sg.latinname = sp.speciesgroup " +
+                    $"AND sp.latinname = a.speciesname " +
+                    $"AND a.enclosureID = e.eid " +
+                    $"AND e.zonename = z.name";
+            if (textBoxZoneSearch.Text != "")
+            {
+                initZoneDataQuery +=
+                    $"AND z.name LIKE '%{textBoxZoneSearch.Text}%'";
+            }
+            else
+            {
+                
+            }
+
+
+
+            NumericUpDown nud = this.numericUpDownZonePage;
+            int currentPage = (int)nud.Value;
+
+
         }
 
         private void resetZonePaging()
         {
-            int NUM_ELEMENTS = 6;
-
             // If search box contains nothing, then search all.
             String countQuery;
             if (textBoxZoneSearch.Text != "")
@@ -416,7 +445,7 @@ namespace ZooApp
 
             DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
             int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
-            int numPages = ((totalCount - 1 )/ NUM_ELEMENTS) + 1;
+            int numPages = ((totalCount - 1 )/ NUM_ZONE_PAGE_ELEMENTS) + 1;
          
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
@@ -493,6 +522,7 @@ namespace ZooApp
                     return;
                 case 3:
                     // Zone Tab Logic
+                    resetZonePaging();
                     populateZoneUIElements();
                     return;
                 default:
