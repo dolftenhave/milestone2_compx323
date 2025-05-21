@@ -6,7 +6,7 @@ This project contains all the code used to creat Milestone 2 for Compx323-25A at
 - Relational Schema - **Joel**
 - Table Creation - **Joel / Dolf / Min Soe**
 - Datasets (large & small) - **Dolf**
-- Application - **Min Soe**
+- Application - **Min Soe / Dolf / Joel**
 
 ## Files
 - [zoo.sql](zoo.sql) Contains two sets of tables. `m2s` and `m2l`. These represent the tables for the small and large data sets.
