@@ -376,8 +376,13 @@ namespace ZooApp
         /// </summary>
         private void populateZoneUIElements()
         {
+            // Get page info
+            NumericUpDown nud = this.numericUpDownZonePage;
+            int currentPage = (int)nud.Value;
+
             // Query to get basic info on each Zone to populate the UI elements
-            String initZoneDataQuery = $"SELECT distinct z.name, z.colour, z.hexcode " +
+            // Change this to be on rowname too?
+            String initZoneDataQuery = $"SELECT distinct z.name, z.colour, z.hexcode rownumber rn" +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
                     $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
                     $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
@@ -386,21 +391,31 @@ namespace ZooApp
                     $"AND sg.latinname = sp.speciesgroup " +
                     $"AND sp.latinname = a.speciesname " +
                     $"AND a.enclosureID = e.eid " +
-                    $"AND e.zonename = z.name";
+                    $"AND e.zonename = z.name" +
+                    $"ORDER BY z.name";
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
                     $"AND z.name LIKE '%{textBoxZoneSearch.Text}%'";
             }
-            else
+
+            DataTable basicZoneInfo = DatabaseHelper.ExecuteQuery(initZoneDataQuery);
+            // WRITE SOMETHING FOR IF NO ZONE IS FOUND
+
+            // Populate UI elements!
+            for (int i = 1; i < basicZoneInfo.Rows.Count + 1; i++)
             {
-                
+                // First get the list of animals in that enclosure that are relevant...
+                String animalsNeedingQuery = $"";
+
+                DataTable animalCount = DatabaseHelper.ExecuteQuery(animalsNeedingQuery);
+
+
+
+
             }
 
-
-
-            NumericUpDown nud = this.numericUpDownZonePage;
-            int currentPage = (int)nud.Value;
+            
 
 
         }
