@@ -28,6 +28,12 @@ namespace ZooApp
 
             cbSelectAnimal.Items.Insert(0, "Add New Animal");
             cbSelectAnimal.SelectedIndex = 0;
+
+            btnUpdateSpecies.Enabled = false;
+            btnDeleteSpecies.Enabled = false;
+            btnUpdateSpeciesGroup.Enabled = false;
+            btnDeleteSpeciesGroup.Enabled = false;
+
         }
 
         private void LoadAnimalList()
@@ -44,18 +50,28 @@ namespace ZooApp
         private void LoadSpeciesDropdown()
         {
             cbSpecies.Items.Clear();
+            cbSpecies.Items.Add("Add New Species"); 
+
             var dt = DatabaseHelper.ExecuteQuery("SELECT latinName FROM m2s_Species ORDER BY latinName");
             foreach (DataRow row in dt.Rows)
                 cbSpecies.Items.Add(row["latinName"].ToString());
+
+            cbSpecies.SelectedIndex = 0;
         }
+
 
         private void LoadSpeciesGroupDropdown()
         {
             cbSpeciesGroup.Items.Clear();
+            cbSpeciesGroup.Items.Add("Add New Species Group"); 
+
             var dt = DatabaseHelper.ExecuteQuery("SELECT latinName FROM m2s_SpeciesGroup ORDER BY latinName");
             foreach (DataRow row in dt.Rows)
                 cbSpeciesGroup.Items.Add(row["latinName"].ToString());
+
+            cbSpeciesGroup.SelectedIndex = 0;
         }
+
 
         private void LoadEnclosureDropdown()
         {
@@ -231,11 +247,20 @@ namespace ZooApp
         {
             this.Close();
         }
-        // === Species Events ===
-
         private void cbSpecies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbSpecies.SelectedItem == null) return;
+            if (cbSpecies.SelectedIndex == 0 || cbSpecies.SelectedItem == null)
+            {
+                // Clear for new species
+                txtLatinName.Clear();
+                txtCommonName.Clear();
+                txtRequiredBiome.Clear();
+                txtRelatedSpeciesGroup.Clear();
+
+                btnUpdateSpecies.Enabled = false;
+                btnDeleteSpecies.Enabled = false;
+                return;
+            }
 
             string selectedLatin = cbSpecies.SelectedItem.ToString();
             string query = "SELECT * FROM m2s_Species WHERE latinName = :name";
@@ -248,8 +273,12 @@ namespace ZooApp
                 txtCommonName.Text = row["commonName"].ToString();
                 txtRequiredBiome.Text = row["requiredBiome"].ToString();
                 txtRelatedSpeciesGroup.Text = row["speciesGroup"].ToString();
+
+                btnUpdateSpecies.Enabled = true;
+                btnDeleteSpecies.Enabled = true;
             }
         }
+
 
         private void btnAddSpecies_Click(object sender, EventArgs e)
         {
@@ -318,11 +347,18 @@ namespace ZooApp
             }
         }
 
-        // === Species Group Events ===
 
         private void cbSpeciesGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbSpeciesGroup.SelectedItem == null) return;
+            if (cbSpeciesGroup.SelectedIndex == 0 || cbSpeciesGroup.SelectedItem == null)
+            {
+                txtGroupLatin.Clear();
+                txtGroupCommon.Clear();
+
+                btnUpdateSpeciesGroup.Enabled = false;
+                btnDeleteSpeciesGroup.Enabled = false;
+                return;
+            }
 
             string selectedLatin = cbSpeciesGroup.SelectedItem.ToString();
             string query = "SELECT * FROM m2s_SpeciesGroup WHERE latinName = :name";
@@ -333,8 +369,12 @@ namespace ZooApp
                 var row = dt.Rows[0];
                 txtGroupLatin.Text = row["latinName"].ToString();
                 txtGroupCommon.Text = row["commonName"].ToString();
+
+                btnUpdateSpeciesGroup.Enabled = true;
+                btnDeleteSpeciesGroup.Enabled = true;
             }
         }
+
 
         private void btnAddSpeciesGroup_Click(object sender, EventArgs e)
         {
