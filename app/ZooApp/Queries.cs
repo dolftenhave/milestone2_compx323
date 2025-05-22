@@ -141,7 +141,121 @@ namespace ZooApp
 
         ORDER BY dateTime DESC";
 
-    }
+        //Line is to make sure i can find my queries 
+        //---------------------------------------------------------------------------//
+        //Animal
 
-    
+        /// <summary>
+        /// Loads all animals for selection (dropdown combo).
+        /// </summary>
+        public static string SelectAllAnimals = $@"
+        SELECT aid, name 
+        FROM {DatabaseHelper.Table("Animal")} 
+        ORDER BY aid";
+
+        /// <summary>
+        /// Inserts a new animal with full details.
+        /// </summary>
+        public static string InsertAnimal = $@"
+        INSERT INTO {DatabaseHelper.Table("Animal")} 
+        (aid, name, dob, weight, originCountry, feedingInterval, sex, enclosureID, speciesName) 
+        VALUES (:aid, :name, :dob, :weight, :origin, :feeding, :sex, :enclosure, :species)";
+
+        /// <summary>
+        /// Updates existing animal details by ID.
+        /// </summary>
+        public static string UpdateAnimal = $@"
+        UPDATE {DatabaseHelper.Table("Animal")} 
+        SET name = :name, dob = :dob, weight = :weight, originCountry = :origin, 
+            feedingInterval = :feeding, sex = :sex, enclosureID = :enclosure, speciesName = :species 
+        WHERE aid = :aid";
+
+        /// <summary>
+        /// Deletes an animal by ID.
+        /// </summary>
+        public static string DeleteAnimal = $@"
+        DELETE FROM {DatabaseHelper.Table("Animal")} 
+        WHERE aid = :aid";
+
+        /// <summary>
+        /// Gets full details for an animal by ID (including species and group join).
+        /// </summary>
+        public static string SelectAnimalById = $@"
+        SELECT a.*, s.commonName AS speciesCommon, s.requiredBiome, s.speciesGroup,
+               sg.commonName AS groupCommon
+        FROM {DatabaseHelper.Table("Animal")} a
+        JOIN {DatabaseHelper.Table("Species")} s ON a.speciesName = s.latinName
+        LEFT JOIN {DatabaseHelper.Table("SpeciesGroup")} sg ON s.speciesGroup = sg.latinName
+        WHERE a.aid = :aid";
+
+        //----------------------------------------------
+        //Species
+
+
+        // Get all species latin names only
+        public static string SelectAllSpecies = $@"
+        SELECT latinName 
+        FROM {DatabaseHelper.Table("Species")} 
+        ORDER BY latinName";
+
+        // Get full species details by latin name
+        public static string SelectSpeciesByLatinName = $@"
+        SELECT * 
+        FROM {DatabaseHelper.Table("Species")} 
+        WHERE latinName = :name";
+
+        // Insert a new species record
+        public static string InsertSpecies = $@"
+        INSERT INTO {DatabaseHelper.Table("Species")} 
+        (latinName, commonName, requiredBiome, speciesGroup) 
+        VALUES (:latin, :common, :biome, :group)";
+
+        // Update an existing species record by latin name
+        public static string UpdateSpecies = $@"
+        UPDATE {DatabaseHelper.Table("Species")} 
+        SET commonName = :common, 
+            requiredBiome = :biome, 
+            speciesGroup = :group 
+        WHERE latinName = :latin";
+
+        // Delete a species record by latin name
+        public static string DeleteSpecies = $@"
+        DELETE FROM {DatabaseHelper.Table("Species")} 
+        WHERE latinName = :latin";
+
+        // Get all species group latin names
+        public static string SelectAllSpeciesGroups = $@"
+        SELECT latinName 
+        FROM {DatabaseHelper.Table("SpeciesGroup")} 
+        ORDER BY latinName";
+
+        // Get full species group details by latin name
+        public static string SelectSpeciesGroupByLatinName = $@"
+        SELECT * 
+        FROM {DatabaseHelper.Table("SpeciesGroup")} 
+        WHERE latinName = :name";
+
+        // Insert a new species group record
+        public static string InsertSpeciesGroup = $@"
+        INSERT INTO {DatabaseHelper.Table("SpeciesGroup")} 
+        (latinName, commonName) 
+        VALUES (:latin, :common)";
+
+        // Update an existing species group record by latin name
+        public static string UpdateSpeciesGroup = $@"
+        UPDATE {DatabaseHelper.Table("SpeciesGroup")} 
+        SET commonName = :common 
+        WHERE latinName = :latin";
+
+        // Delete a species group record by latin name
+        public static string DeleteSpeciesGroup = $@"
+        DELETE FROM {DatabaseHelper.Table("SpeciesGroup")} 
+        WHERE latinName = :latin";
+
+
+
+
+
+
+    }
 }

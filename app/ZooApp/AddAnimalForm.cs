@@ -33,7 +33,6 @@ namespace ZooApp
             btnDeleteSpecies.Enabled = false;
             btnUpdateSpeciesGroup.Enabled = false;
             btnDeleteSpeciesGroup.Enabled = false;
-
         }
 
         private void LoadAnimalList()
@@ -41,8 +40,7 @@ namespace ZooApp
             cbSelectAnimal.Items.Clear();
             cbSelectAnimal.Items.Add("Add New Animal");
 
-            string query = "SELECT aid, name FROM m2s_Animal ORDER BY aid";
-            var dt = DatabaseHelper.ExecuteQuery(query);
+            var dt = DatabaseHelper.ExecuteQuery(Queries.SelectAllAnimals);
             foreach (DataRow row in dt.Rows)
                 cbSelectAnimal.Items.Add(new ComboBoxItem($"{row["aid"]} - {row["name"]}", row["aid"].ToString()));
         }
@@ -50,36 +48,35 @@ namespace ZooApp
         private void LoadSpeciesDropdown()
         {
             cbSpecies.Items.Clear();
-            cbSpecies.Items.Add("Add New Species"); 
+            cbSpecies.Items.Add("Add New Species");
 
-            var dt = DatabaseHelper.ExecuteQuery("SELECT latinName FROM m2s_Species ORDER BY latinName");
+            var dt = DatabaseHelper.ExecuteQuery(Queries.SelectAllSpecies);
             foreach (DataRow row in dt.Rows)
                 cbSpecies.Items.Add(row["latinName"].ToString());
 
             cbSpecies.SelectedIndex = 0;
         }
 
-
         private void LoadSpeciesGroupDropdown()
         {
             cbSpeciesGroup.Items.Clear();
-            cbSpeciesGroup.Items.Add("Add New Species Group"); 
+            cbSpeciesGroup.Items.Add("Add New Species Group");
 
-            var dt = DatabaseHelper.ExecuteQuery("SELECT latinName FROM m2s_SpeciesGroup ORDER BY latinName");
+            var dt = DatabaseHelper.ExecuteQuery(Queries.SelectAllSpeciesGroups);
             foreach (DataRow row in dt.Rows)
                 cbSpeciesGroup.Items.Add(row["latinName"].ToString());
 
             cbSpeciesGroup.SelectedIndex = 0;
         }
 
-
         private void LoadEnclosureDropdown()
         {
             cbEnclosure.Items.Clear();
-            var dt = DatabaseHelper.ExecuteQuery("SELECT eid FROM m2s_Enclosure ORDER BY eid");
+            var dt = DatabaseHelper.ExecuteQuery(Queries.LoadEnclosuresQuery);
             foreach (DataRow row in dt.Rows)
                 cbEnclosure.Items.Add(row["eid"].ToString());
         }
+
         private void cbSelectAnimal_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbSelectAnimal.SelectedIndex == 0 || cbSelectAnimal.SelectedItem == null || cbSelectAnimal.SelectedItem.ToString() == "Add New Animal")
@@ -100,17 +97,8 @@ namespace ZooApp
 
         private void LoadAnimalById(int aid)
         {
-            string query = $@"
-                SELECT a.*, s.commonName AS speciesCommon, s.requiredBiome, s.speciesGroup,
-                       sg.commonName AS groupCommon
-                FROM m2s_Animal a
-                JOIN m2s_Species s ON a.speciesName = s.latinName
-                LEFT JOIN m2s_SpeciesGroup sg ON s.speciesGroup = sg.latinName
-                WHERE a.aid = :aid";
-
-            var dt = DatabaseHelper.ExecuteQuery(query, new[] {
-                new OracleParameter("aid", aid)
-            });
+            string query = Queries.SelectAnimalById;
+            var dt = DatabaseHelper.ExecuteQuery(query, new[] { new OracleParameter("aid", aid) });
 
             if (dt.Rows.Count == 0) return;
 
@@ -145,7 +133,6 @@ namespace ZooApp
             if (cbSex.Items.Count > 0) cbSex.SelectedIndex = 0;
             dtpDOB.Value = DateTime.Today;
         }
-
         private void butAdd_Click(object sender, EventArgs e)
         {
             try
@@ -159,24 +146,22 @@ namespace ZooApp
                 int enclosure = int.Parse(cbEnclosure.SelectedItem.ToString());
                 string species = cbSpecies.SelectedItem.ToString();
 
-                string query = "SELECT NVL(MAX(aid), 0) + 1 FROM m2s_Animal";
-                int newAid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(query).Rows[0][0]);
+                string nextIdQuery = "SELECT NVL(MAX(aid), 0) + 1 FROM " + DatabaseHelper.Table("Animal");
+                int newAid = Convert.ToInt32(DatabaseHelper.ExecuteQuery(nextIdQuery).Rows[0][0]);
 
-                string insert = @"
-                    INSERT INTO m2s_Animal (aid, name, dob, weight, originCountry, feedingInterval, sex, enclosureID, speciesName)
-                    VALUES (:aid, :name, :dob, :weight, :origin, :feeding, :sex, :enclosure, :species)";
+                string insert = Queries.InsertAnimal;
 
                 OracleParameter[] parameters = {
-                    new OracleParameter("aid", newAid),
-                    new OracleParameter("name", name),
-                    new OracleParameter("dob", dob),
-                    new OracleParameter("weight", weight),
-                    new OracleParameter("origin", origin),
-                    new OracleParameter("feeding", feeding),
-                    new OracleParameter("sex", sex),
-                    new OracleParameter("enclosure", enclosure),
-                    new OracleParameter("species", species)
-                };
+            new OracleParameter("aid", newAid),
+            new OracleParameter("name", name),
+            new OracleParameter("dob", dob),
+            new OracleParameter("weight", weight),
+            new OracleParameter("origin", origin),
+            new OracleParameter("feeding", feeding),
+            new OracleParameter("sex", sex),
+            new OracleParameter("enclosure", enclosure),
+            new OracleParameter("species", species)
+        };
 
                 DatabaseHelper.ExecuteNonQuery(insert, parameters);
                 MessageBox.Show("Animal added.");
@@ -195,22 +180,19 @@ namespace ZooApp
 
             try
             {
-                string update = @"
-                    UPDATE m2s_Animal SET name = :name, dob = :dob, weight = :weight, originCountry = :origin,
-                    feedingInterval = :feeding, sex = :sex, enclosureID = :enclosure, speciesName = :species
-                    WHERE aid = :aid";
+                string update = Queries.UpdateAnimal;
 
                 OracleParameter[] parameters = {
-                    new OracleParameter("name", txtAnimalName.Text.Trim()),
-                    new OracleParameter("dob", dtpDOB.Value),
-                    new OracleParameter("weight", decimal.Parse(txtWeight.Text)),
-                    new OracleParameter("origin", txtOrigin.Text.Trim().ToUpper()),
-                    new OracleParameter("feeding", int.Parse(txtFeeding.Text)),
-                    new OracleParameter("sex", cbSex.SelectedItem.ToString()),
-                    new OracleParameter("enclosure", cbEnclosure.SelectedItem.ToString()),
-                    new OracleParameter("species", cbSpecies.SelectedItem.ToString()),
-                    new OracleParameter("aid", editingAid)
-                };
+            new OracleParameter("name", txtAnimalName.Text.Trim()),
+            new OracleParameter("dob", dtpDOB.Value),
+            new OracleParameter("weight", decimal.Parse(txtWeight.Text)),
+            new OracleParameter("origin", txtOrigin.Text.Trim().ToUpper()),
+            new OracleParameter("feeding", int.Parse(txtFeeding.Text)),
+            new OracleParameter("sex", cbSex.SelectedItem.ToString()),
+            new OracleParameter("enclosure", cbEnclosure.SelectedItem.ToString()),
+            new OracleParameter("species", cbSpecies.SelectedItem.ToString()),
+            new OracleParameter("aid", editingAid)
+        };
 
                 DatabaseHelper.ExecuteNonQuery(update, parameters);
                 MessageBox.Show("Animal updated.");
@@ -230,8 +212,10 @@ namespace ZooApp
 
             try
             {
-                string delete = "DELETE FROM m2s_Animal WHERE aid = :aid";
-                DatabaseHelper.ExecuteNonQuery(delete, new[] { new OracleParameter("aid", editingAid) });
+                string delete = Queries.DeleteAnimal;
+                DatabaseHelper.ExecuteNonQuery(delete, new[] {
+            new OracleParameter("aid", editingAid)
+        });
                 MessageBox.Show("Animal deleted.");
                 LoadAnimalList();
                 cbSelectAnimal.SelectedIndex = 0;
@@ -245,13 +229,13 @@ namespace ZooApp
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Add Animal Form Cancel");
             this.Close();
         }
         private void cbSpecies_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbSpecies.SelectedIndex == 0 || cbSpecies.SelectedItem == null)
             {
-                // Clear for new species
                 txtLatinName.Clear();
                 txtCommonName.Clear();
                 txtRequiredBiome.Clear();
@@ -263,8 +247,9 @@ namespace ZooApp
             }
 
             string selectedLatin = cbSpecies.SelectedItem.ToString();
-            string query = "SELECT * FROM m2s_Species WHERE latinName = :name";
-            var dt = DatabaseHelper.ExecuteQuery(query, new[] { new OracleParameter("name", selectedLatin) });
+            var dt = DatabaseHelper.ExecuteQuery(Queries.SelectSpeciesByLatinName, new[] {
+        new OracleParameter("name", selectedLatin)
+    });
 
             if (dt.Rows.Count > 0)
             {
@@ -279,21 +264,18 @@ namespace ZooApp
             }
         }
 
-
         private void btnAddSpecies_Click(object sender, EventArgs e)
         {
             try
             {
-                string insert = @"
-                    INSERT INTO m2s_Species (latinName, commonName, requiredBiome, speciesGroup)
-                    VALUES (:latin, :common, :biome, :group)";
+                string insert = Queries.InsertSpecies;
 
                 OracleParameter[] parameters = {
-                    new OracleParameter("latin", txtLatinName.Text.Trim()),
-                    new OracleParameter("common", txtCommonName.Text.Trim()),
-                    new OracleParameter("biome", txtRequiredBiome.Text.Trim()),
-                    new OracleParameter("group", txtRelatedSpeciesGroup.Text.Trim())
-                };
+            new OracleParameter("latin", txtLatinName.Text.Trim()),
+            new OracleParameter("common", txtCommonName.Text.Trim()),
+            new OracleParameter("biome", txtRequiredBiome.Text.Trim()),
+            new OracleParameter("group", txtRelatedSpeciesGroup.Text.Trim())
+        };
 
                 DatabaseHelper.ExecuteNonQuery(insert, parameters);
                 MessageBox.Show("Species added.");
@@ -309,16 +291,14 @@ namespace ZooApp
         {
             try
             {
-                string update = @"
-                    UPDATE m2s_Species SET commonName = :common, requiredBiome = :biome, speciesGroup = :group
-                    WHERE latinName = :latin";
+                string update = Queries.UpdateSpecies;
 
                 OracleParameter[] parameters = {
-                    new OracleParameter("common", txtCommonName.Text.Trim()),
-                    new OracleParameter("biome", txtRequiredBiome.Text.Trim()),
-                    new OracleParameter("group", txtRelatedSpeciesGroup.Text.Trim()),
-                    new OracleParameter("latin", txtLatinName.Text.Trim())
-                };
+            new OracleParameter("common", txtCommonName.Text.Trim()),
+            new OracleParameter("biome", txtRequiredBiome.Text.Trim()),
+            new OracleParameter("group", txtRelatedSpeciesGroup.Text.Trim()),
+            new OracleParameter("latin", txtLatinName.Text.Trim())
+        };
 
                 DatabaseHelper.ExecuteNonQuery(update, parameters);
                 MessageBox.Show("Species updated.");
@@ -334,10 +314,10 @@ namespace ZooApp
         {
             try
             {
-                string delete = "DELETE FROM m2s_Species WHERE latinName = :latin";
+                string delete = Queries.DeleteSpecies;
                 DatabaseHelper.ExecuteNonQuery(delete, new[] {
-                    new OracleParameter("latin", txtLatinName.Text.Trim())
-                });
+            new OracleParameter("latin", txtLatinName.Text.Trim())
+        });
                 MessageBox.Show("Species deleted.");
                 LoadSpeciesDropdown();
             }
@@ -346,7 +326,6 @@ namespace ZooApp
                 MessageBox.Show("Delete species failed: " + ex.Message);
             }
         }
-
 
         private void cbSpeciesGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -361,8 +340,9 @@ namespace ZooApp
             }
 
             string selectedLatin = cbSpeciesGroup.SelectedItem.ToString();
-            string query = "SELECT * FROM m2s_SpeciesGroup WHERE latinName = :name";
-            var dt = DatabaseHelper.ExecuteQuery(query, new[] { new OracleParameter("name", selectedLatin) });
+            var dt = DatabaseHelper.ExecuteQuery(Queries.SelectSpeciesGroupByLatinName, new[] {
+        new OracleParameter("name", selectedLatin)
+    });
 
             if (dt.Rows.Count > 0)
             {
@@ -375,16 +355,15 @@ namespace ZooApp
             }
         }
 
-
         private void btnAddSpeciesGroup_Click(object sender, EventArgs e)
         {
             try
             {
-                string insert = "INSERT INTO m2s_SpeciesGroup (latinName, commonName) VALUES (:latin, :common)";
+                string insert = Queries.InsertSpeciesGroup;
                 DatabaseHelper.ExecuteNonQuery(insert, new[] {
-                    new OracleParameter("latin", txtGroupLatin.Text.Trim()),
-                    new OracleParameter("common", txtGroupCommon.Text.Trim())
-                });
+            new OracleParameter("latin", txtGroupLatin.Text.Trim()),
+            new OracleParameter("common", txtGroupCommon.Text.Trim())
+        });
                 MessageBox.Show("Group added.");
                 LoadSpeciesGroupDropdown();
             }
@@ -398,11 +377,11 @@ namespace ZooApp
         {
             try
             {
-                string update = "UPDATE m2s_SpeciesGroup SET commonName = :common WHERE latinName = :latin";
+                string update = Queries.UpdateSpeciesGroup;
                 DatabaseHelper.ExecuteNonQuery(update, new[] {
-                    new OracleParameter("common", txtGroupCommon.Text.Trim()),
-                    new OracleParameter("latin", txtGroupLatin.Text.Trim())
-                });
+            new OracleParameter("common", txtGroupCommon.Text.Trim()),
+            new OracleParameter("latin", txtGroupLatin.Text.Trim())
+        });
                 MessageBox.Show("Group updated.");
                 LoadSpeciesGroupDropdown();
             }
@@ -416,10 +395,10 @@ namespace ZooApp
         {
             try
             {
-                string delete = "DELETE FROM m2s_SpeciesGroup WHERE latinName = :latin";
+                string delete = Queries.DeleteSpeciesGroup;
                 DatabaseHelper.ExecuteNonQuery(delete, new[] {
-                    new OracleParameter("latin", txtGroupLatin.Text.Trim())
-                });
+            new OracleParameter("latin", txtGroupLatin.Text.Trim())
+        });
                 MessageBox.Show("Group deleted.");
                 LoadSpeciesGroupDropdown();
             }
@@ -429,7 +408,6 @@ namespace ZooApp
             }
         }
 
-        // === ComboBoxItem helper class ===
         public class ComboBoxItem
         {
             public string Text { get; set; }
@@ -445,4 +423,5 @@ namespace ZooApp
         }
     }
 }
+
 

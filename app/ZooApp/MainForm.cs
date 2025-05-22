@@ -588,12 +588,12 @@ namespace ZooApp
 
             DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
             int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
-            int numPages = ((totalCount - 1 )/ NUM_ZONE_PAGE_ELEMENTS) + 1;
+            //int numPages = ((totalCount - 1 )/ NUM_ZONE_PAGE_ELEMENTS) + 1;
          
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
             nud.Minimum = 1;
-            nud.Maximum = numPages;
+            //nud.Maximum = numPages;
         }
 
         /// <summary>
