@@ -110,15 +110,11 @@
     <Compile Include="Archive\AddSpeciesGroupForm.Designer.cs">
       <DependentUpon>AddSpeciesGroupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddStaffForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="AddStaffForm.cs" />
     <Compile Include="AddStaffForm.Designer.cs">
       <DependentUpon>AddStaffForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddVetForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="AddVetForm.cs" />
     <Compile Include="AddVetForm.Designer.cs">
       <DependentUpon>AddVetForm.cs</DependentUpon>
     </Compile>
@@ -128,9 +124,7 @@
     <Compile Include="AddZoneForm.Designer.cs">
       <DependentUpon>AddZoneForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddZookeeperForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="AddZookeeperForm.cs" />
     <Compile Include="AddZookeeperForm.Designer.cs">
       <DependentUpon>AddZookeeperForm.cs</DependentUpon>
     </Compile>
