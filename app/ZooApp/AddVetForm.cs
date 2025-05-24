@@ -5,7 +5,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
-    public partial class AddVetForm : Form
+    /*public partial class AddVetForm : Form
     {
         private int? currentSid;
 
@@ -113,7 +113,7 @@ namespace ZooApp
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!(cbSelectVet.SelectedItem is ComboBoxItem selectedVet))
+*//*            if (!(cbSelectVet.SelectedItem is ComboBoxItem selectedVet))
             {
                 MessageBox.Show("Please select a vet before adding a clinic.");
                 return;
@@ -142,11 +142,11 @@ namespace ZooApp
             MessageBox.Show("New clinic added and assigned.");
             txtClinicName.Clear();
             LoadClinicList();
-            SetCurrentClinic(int.Parse(selectedVet.Value));
+            SetCurrentClinic(int.Parse(selectedVet.Value));*//*
         }
 
         private void btnAssign_Click(object sender, EventArgs e)
-        {
+        {*//*
             if (cbSelectVet.SelectedItem is ComboBoxItem vet &&
                 cbClinics.SelectedItem is string selectedClinic &&
                 cbClinics.SelectedIndex != 0)
@@ -166,12 +166,12 @@ namespace ZooApp
                 MessageBox.Show("Please select a vet and a clinic.");
             }
 
-            this.Close();
+            this.Close();*//*
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (cbClinics.SelectedItem == null || cbClinics.SelectedIndex == 0)
+*//*            if (cbClinics.SelectedItem == null || cbClinics.SelectedIndex == 0)
             {
                 MessageBox.Show("Please select an existing clinic to update.");
                 return;
@@ -194,12 +194,12 @@ namespace ZooApp
             DatabaseHelper.ExecuteNonQuery(Queries.UpdateClinicName, parameters);
             MessageBox.Show("Clinic updated.");
             txtClinicName.Clear();
-            LoadClinicList();
+            LoadClinicList();*//*
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (cbClinics.SelectedItem == null || cbClinics.SelectedIndex == 0)
+           *//* if (cbClinics.SelectedItem == null || cbClinics.SelectedIndex == 0)
             {
                 MessageBox.Show("Please select an existing clinic to delete.");
                 return;
@@ -216,7 +216,7 @@ namespace ZooApp
             DatabaseHelper.ExecuteNonQuery(Queries.DeleteClinic, parameters);
             MessageBox.Show("Clinic deleted.");
             txtClinicName.Clear();
-            LoadClinicList();
+            LoadClinicList();*//*
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -240,6 +240,6 @@ namespace ZooApp
                 return Text;
             }
         }
-    }
+    }*/
 }
 

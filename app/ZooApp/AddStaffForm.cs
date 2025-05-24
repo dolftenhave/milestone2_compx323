@@ -5,7 +5,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
-    public partial class AddStaffForm : Form
+    /*public partial class AddStaffForm : Form
     {
         private bool isEditMode = false;
         private int editingSid = -1;
@@ -352,7 +352,7 @@ namespace ZooApp
         }
 
         public override string ToString() => Text;
-    }
+    }*/
 }
 
 

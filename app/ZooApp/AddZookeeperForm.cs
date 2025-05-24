@@ -6,7 +6,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
-    public partial class AddZookeeperForm : Form
+    /*public partial class AddZookeeperForm : Form
     {
         private int? currentSid;
 
@@ -105,7 +105,7 @@ namespace ZooApp
 
         private void cbSelectZookeeper_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
+            *//*if (!(cbSelectZookeeper.SelectedItem is ComboBoxItem selectedKeeper))
                 return;
 
             int sid = int.Parse(selectedKeeper.Value);
@@ -131,7 +131,7 @@ namespace ZooApp
                         .Any(r => r["sGroupName"].ToString() == item.Value);
                     clbGroups.SetItemChecked(i, isAssigned);
                 }
-            }
+            }*//*
         }
 
         public class ComboBoxItem
@@ -148,5 +148,5 @@ namespace ZooApp
             public override string ToString() => Text;
         }
    
-    }
+    }*/
 }
