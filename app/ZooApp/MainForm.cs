@@ -262,7 +262,9 @@ namespace ZooApp
             tabControlMain.SelectTab(2);
         }
 
-        /**<summary>Gets the enclosure id of an animal</summary>*/
+        /**<summary>Gets the enclosure id of an animal.</summary>
+         *<returns>An integer with the id of the enclosure that the animal is in.</returns>
+         */
         private int getAnimalEnclosure(int aid)
         {
             String query = $"SELECT enclosureid FROM {DatabaseHelper.Table("ANIMAL")} WHERE aid = {aid}";
@@ -349,18 +351,24 @@ namespace ZooApp
          */
         private DataTable getEnclosureAnimals(int sid, int eid)
         {
-            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} " +
-                $"WHERE enclosureID = {eid} AND aid IN " +
+            String query = $"SELECT a.aid, a.name, a.speciesName, f.datetime " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
+                $"WHERE enclosureID = {eid} AND a.aid IN " +
                 $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
                 $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
                 $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
                 $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {sid})";
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {sid}) " +
+                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) ";
             DataTable animals = DatabaseHelper.ExecuteQuery(query);
             return animals;
         }
 
+        /**<summary>
+         * This loads all the animals that the zookeper is allowed to care for for a given enclosure int o the enxlosure tab.
+         * </summary>
+         */
         private void loadEnclosureAnimals()
         {
             //Doesnt load any animal data if no enclosure is currently selected
@@ -369,14 +377,14 @@ namespace ZooApp
                 return;
             }
 
-            DataTable animals = getEnclosureAnimals(currentEnclosure, staffMemberId);
+            DataTable animals = getEnclosureAnimals(staffMemberId, currentEnclosure);
 
             DateTime currentTime = DateTime.Now;
 
             for (int i = 0; i < animals.Rows.Count; i++)
             {
                 Panel p;
-                if (animals.Rows[i][3].ToString() == null)
+                if (animals.Rows[i][3] == null)
                 {
                     p = makeFeedAnimalUiComponent_Enclosure(int.Parse(animals.Rows[i][0].ToString()), animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), -1);
                 }
@@ -479,7 +487,14 @@ namespace ZooApp
          */
         private void button_feedGroup_Click(object sender, EventArgs e)
         {
-
+            String animalList = "Feeding (aid): [";
+            for(int i = 0; i < selectedAnimals.Count - 1; i++)
+            {
+                animalList += selectedAnimals[i].ToString();
+                animalList += ",";
+            }
+            animalList += selectedAnimals[selectedAnimals.Count - 1].ToString() + "]";
+            MessageBox.Show(animalList);
         }
 
 

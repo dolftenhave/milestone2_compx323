@@ -11,8 +11,8 @@ namespace ZooApp
 
         // Change this to your actual connection string
         //public static string connectionString = "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
-        public static string connectionString = "User Id=jc550;Password=NqzX7u384s;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
-        //public static string connectionString = "User Id=dt194;Password=W967XuxynR;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+        //public static string connectionString = "User Id=jc550;Password=NqzX7u384s;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+        public static string connectionString = "User Id=dt194;Password=W967XuxynR;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
 
         // Used to switch between datasets (M2S, M21, etc.)
         public static void SetTablePrefix(string prefix)
