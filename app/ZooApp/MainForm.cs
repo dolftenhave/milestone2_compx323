@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using static System.Net.WebRequestMethods;
+using System.Drawing;
 
 /**<summary>
  * This is the main page of the application. Giving staff members access to everything they may need to do in the zoo
@@ -540,11 +541,49 @@ namespace ZooApp
             for (int i = 1; i < basicZoneInfo.Rows.Count + 1; i++)
             {
                 // First get the list of animals in that enclosure that are relevant...
-                String animalsNeedingQuery = $"";
+                String animalsNeedingQuery = $"SELECT t.aid, a.feedinginterval, t.\"MAX(F.DATETIME)\" as \"DATETIME\" " +
+                    $"FROM m2s_animal a, " +
+                    $"(SELECT a.aid, MAX(f.datetime) " +
+                    $"FROM m2s_enclosure e, " +
+                    $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("FEED")} f, {DatabaseHelper.Table("CARE")} c, " +
+                    $"{DatabaseHelper.Table("SPECIES")} sp, {DatabaseHelper.Table("SPECIESGROUP")} sg, " +
+                    $"{DatabaseHelper.Table("OVERSEES")} o " +
+                    $"WHERE o.staffid = '{staffMemberId}' " +
+                    $"AND o.sgroupname = sg.latinname " +
+                    $"AND sg.latinname = sp.speciesgroup " +
+                    $"AND sp.latinname = a.speciesname " +
+                    $"AND a.enclosureID = e.eid " +
+                    $"AND e.zonename = 'Africa' " +
+                    $"AND f.animalid = a.aid " +
+                    $"GROUP BY a.aid) t " +
+                    $"WHERE a.aid = t.aid";
 
                 DataTable animalCount = DatabaseHelper.ExecuteQuery(animalsNeedingQuery);
-                   
 
+                // Get the number of animals that could be helped
+                int numAnimalsNeedingCare = 0;
+                for (int j = 0; j < animalCount.Rows.Count; j++)
+                {
+                    int fInterval = int.Parse(animalCount.Rows[j]["feedingInterval"].ToString());
+                    DateTime minDate = DateTime.Today.AddMinutes(-(fInterval * 60));
+                    if (minDate > DateTime.Parse(animalCount.Rows[j]["datetime"].ToString())) numAnimalsNeedingCare++;
+                }
+
+                Panel panelZ = (Panel)this.Controls.Find($"panelZone{i}", true)[0];
+                Label zoneNameLabel = (Label)this.Controls.Find($"labelZoneName{i}", true)[0];
+                Label animalsNeedingAttention = (Label)this.Controls.Find($"labelZoneAnimalsAttention{i}", true)[0];
+
+                panelZ.BackColor = (Color)ColorTranslator.FromHtml("#" + basicZoneInfo.Rows[i - 1]["hexcode"].ToString());
+                zoneNameLabel.Text = basicZoneInfo.Rows[i - 1]["name"].ToString();
+                animalsNeedingAttention.Text = $"{numAnimalsNeedingCare} animals you can attend to!";
+
+                panelZ.Show();
+            }
+
+            for (int i = basicZoneInfo.Rows.Count + 1; i < 7; i++)
+            {
+                Panel panelZ = (Panel)this.Controls.Find($"panelZone{i}", true)[0];
+                panelZ.Hide();
             }
         }
 
