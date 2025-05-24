@@ -513,9 +513,9 @@ namespace ZooApp
 
             // Query to get basic info on each Zone to populate the UI elements
             // Change this to be on rowname too?
-            String initZoneDataQuery = $"SELECT name, colour, hexcode, rownum" +
+            String initZoneDataQuery = $"SELECT name, colour, hexcode, rownum " +
                 $"FROM " + 
-                    $"(SELECT distinct z.name, z.colour, z.hexcode" +
+                    $"(SELECT distinct z.name, z.colour, z.hexcode " +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
                     $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
                     $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o " +
@@ -524,13 +524,13 @@ namespace ZooApp
                     $"AND sg.latinname = sp.speciesgroup " +
                     $"AND sp.latinname = a.speciesname " +
                     $"AND a.enclosureID = e.eid " +
-                    $"AND e.zonename = z.name" +
+                    $"AND e.zonename = z.name " +
                     $"ORDER BY z.name) " +
                     $"";
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
-                    $"AND z.name LIKE '%{textBoxZoneSearch.Text}%'";
+                    $"WHERE z.name LIKE '%{textBoxZoneSearch.Text}%'";
             }
 
             DataTable basicZoneInfo = DatabaseHelper.ExecuteQuery(initZoneDataQuery);
@@ -550,6 +550,7 @@ namespace ZooApp
 
         private void resetZonePaging()
         {
+            int numBoxes = 6;
             // If search box contains nothing, then search all.
             String countQuery;
             if (textBoxZoneSearch.Text != "")
@@ -588,7 +589,7 @@ namespace ZooApp
 
             DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
             int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
-            int numPages = ((totalCount - 1 )/ NUM_ZONE_PAGE_ELEMENTS) + 1;
+            int numPages = ((totalCount - 1 )/ numBoxes) + 1;
          
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
