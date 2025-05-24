@@ -17,11 +17,15 @@ namespace ZooApp
         private int staffRole; //0 for ZooKeeper and 1 for Vet
         private int currentEnclosure; // -1 if no enclosure is selected
         private List<int> selectedAnimals; //A list of animals currently selected
+        private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
+
+
         public MainForm(int staffMemberId)
         {
             currentEnclosure = -1;
             this.staffMemberId = staffMemberId;
             selectedAnimals= new List<int>();
+            selectedAnimalsCheckboxList= new List<CheckBox>();
             InitializeComponent();
         }
 
@@ -155,7 +159,7 @@ namespace ZooApp
             //Displays all the UI components
             for (int i = 0; i < animals_notFed.Rows.Count; i++)
             {
-                makeTodoUiComponent_Feed(animals_notFed.Rows[i][1].ToString(), animals_notFed.Rows[i][2].ToString(), -1, int.Parse(animals_notFed.Rows[i][3].ToString()), i);
+                makeTodoUiComponent_Feed(int.Parse(animals_fed.Rows[i][0].ToString()),animals_notFed.Rows[i][1].ToString(), animals_notFed.Rows[i][2].ToString(), -1, int.Parse(animals_notFed.Rows[i][3].ToString()), i);
             }
 
             if (animals_fed != null)
@@ -167,7 +171,7 @@ namespace ZooApp
 
                     int totalTime = (int)hours.TotalHours;
 
-                    makeTodoUiComponent_Feed(animals_fed.Rows[i][1].ToString(), animals_fed.Rows[i][2].ToString(), totalTime, int.Parse(animals_fed.Rows[i][4].ToString()), remainingRows + i);
+                    makeTodoUiComponent_Feed(int.Parse(animals_fed.Rows[i][0].ToString()),animals_fed.Rows[i][1].ToString(), animals_fed.Rows[i][2].ToString(), totalTime, int.Parse(animals_fed.Rows[i][4].ToString()), remainingRows + i);
                 }
             }
         }
@@ -183,7 +187,7 @@ namespace ZooApp
          * <param name="FeedingInterval">The feeding interval of the animal</param>
          * <param name="n">The row number that this control was generated from</param>
          */
-        private void makeTodoUiComponent_Feed(String name, String speciesName, int totalTime, int FeedingInterval, int n)
+        private void makeTodoUiComponent_Feed(int aid, String name, String speciesName, int totalTime, int FeedingInterval, int n)
         {
             String timeSuffix = " hours";
             String overDue = "";
@@ -243,7 +247,29 @@ namespace ZooApp
             
 
             btnFeed.Visible = true;
+            btnFeed.Tag = aid;
+            btnFeed.Click += btnFeedClicked;
         }
+
+        /**<summary>
+         * An event handler that sends the user to the Enclosure tab.
+         * It sets the current Enclosure to this tab and moved the user over to the enclosure tab
+         * </summary>
+         */
+        private void btnFeedClicked(object sender, EventArgs e)
+        {
+            currentEnclosure = getAnimalEnclosure(int.Parse(((Button)sender).Tag.ToString()));
+            tabControlMain.SelectTab(2);
+        }
+
+        /**<summary>Gets the enclosure id of an animal</summary>*/
+        private int getAnimalEnclosure(int aid)
+        {
+            String query = $"SELECT enclosureid FROM {DatabaseHelper.Table("ANIMAL")} WHERE aid = {aid}";
+            DataTable eid = DatabaseHelper.ExecuteQuery(query);
+            return int.Parse(eid.Rows[0][0].ToString());
+        }
+
 
         /**<summary>
          * Returns a string vaersion of how long ago the animal was last fed
@@ -282,13 +308,7 @@ namespace ZooApp
             vScrollBar_Enclosure.Scroll += vScrollBar_Enclosure_Scroll;
             vScrollBar_Enclosure.Enabled = false;
 
-            for(int i = 0; i < 20; i++)
-            {
-                Panel p = makeFeedAnimalUiComponent_Enclosure(i, $"Test {i}", $"Species", 4.0);
-                p.Location = new System.Drawing.Point(0, i * 25);
-                p.BackColor = System.Drawing.Color.Pink;
-                panel_Enclosure_Animals.Controls.Add(p);
-            }
+            loadEnclosureAnimals();
 
             vScrollBar_Enclosure.Enabled = true;
         }
@@ -320,16 +340,63 @@ namespace ZooApp
             vScrollBar_Enclosure.Minimum = panel_Enclosure_Animals.VerticalScroll.Minimum;
         }
 
+        /**<summary>
+         * Return all the animals from a given enclosure that the given staff member is allowed to care for.
+         * </summary>
+         * <param name="sid">Staff ID</param>
+         * <param name="eid">Enclosure ID</param>
+         * <returns>A datatable with the animal id, name, species, last fed date and feeding interval for each animal.</returns>
+         */
+        private DataTable getEnclosureAnimals(int sid, int eid)
+        {
+            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} " +
+                $"WHERE enclosureID = {eid} AND aid IN " +
+                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {sid})";
+            DataTable animals = DatabaseHelper.ExecuteQuery(query);
+            return animals;
+        }
+
         private void loadEnclosureAnimals()
         {
+            //Doesnt load any animal data if no enclosure is currently selected
+            if(currentEnclosure == -1)
+            {
+                return;
+            }
 
+            DataTable animals = getEnclosureAnimals(currentEnclosure, staffMemberId);
+
+            DateTime currentTime = DateTime.Now;
+
+            for (int i = 0; i < animals.Rows.Count; i++)
+            {
+                Panel p;
+                if (animals.Rows[i][3].ToString() == null)
+                {
+                    p = makeFeedAnimalUiComponent_Enclosure(int.Parse(animals.Rows[i][0].ToString()), animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), -1);
+                }
+                else
+                {
+                    DateTime lastFed = (DateTime)animals.Rows[i][3];
+                    TimeSpan hours = currentTime - lastFed;
+
+                    p = makeFeedAnimalUiComponent_Enclosure(int.Parse(animals.Rows[i][0].ToString()), animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), (int)hours.TotalHours);
+                }
+                p.Location = new System.Drawing.Point(0, i * 25);
+                panel_Enclosure_Animals.Controls.Add(p);
+            }
         }
 
         /**<summary>
          * Creates a panel with information about an animal and a checkbox to select it
          * </summary>
          */
-        private Panel makeFeedAnimalUiComponent_Enclosure(int aid, String name, String species, double lastFed)
+        private Panel makeFeedAnimalUiComponent_Enclosure(int aid, String name, String species,int lastFed)
         {
             Panel p = new Panel();
             Label animal = new Label();
@@ -339,7 +406,7 @@ namespace ZooApp
             p.Width = panel_Enclosure_Animals.Width;
             p.Height = 24;
 
-            animal.Text = $"{name}, {species}, {calculateLastFedTime((int)lastFed)}";
+            animal.Text = $"{name}, {species}, {calculateLastFedTime(lastFed)}";
             animal.AutoSize = true;
 
             p.Controls.Add(animal);
@@ -347,8 +414,9 @@ namespace ZooApp
 
             p.Controls.Add(selectAnimal);
             selectAnimal.Location = new System.Drawing.Point(p.Width - selectAnimal.Width - 5, 0);
-            selectAnimal.Tag = animal;
+            selectAnimal.Tag = aid;
             selectAnimal.CheckedChanged += SelectAnimal_CheckedChanged;
+            selectedAnimalsCheckboxList.Add(selectAnimal);
 
             return p;
         }
@@ -364,12 +432,54 @@ namespace ZooApp
             if (((CheckBox)sender).Checked)
             {
                 selectedAnimals.Add(int.Parse(((CheckBox)sender).Tag.ToString()));
-                MessageBox.Show($"Added {((CheckBox)sender).Tag.ToString()}");
             }
             else
             {
                 selectedAnimals.Remove(int.Parse(((CheckBox)sender).Tag.ToString()));
             }
+
+            //Dissables the button when it is clicked.
+            if(selectedAnimals.Count == 0)
+            {
+                button_feedGroup.Enabled = false;
+            }
+            else
+            {
+                button_feedGroup.Enabled = true;
+            }
+        }
+
+        /**<summary>
+         * Deselects all the animals currently selected for feeding
+         * </summary>
+         */
+        private void button_selectAllFeed_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < selectedAnimalsCheckboxList.Count; i++)
+            {
+                selectedAnimalsCheckboxList[i].Checked = true;
+            }
+        }
+
+        /**<summary>
+         * Unselects all the animals in the list.
+         * </summary>
+         */
+        private void button_selectNoneFeed_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < selectedAnimalsCheckboxList.Count; i++)
+            {
+                selectedAnimalsCheckboxList[i].Checked = false;
+            }
+        }
+
+        /**<summary>
+         * Feeds all the animals that are currently selected
+         * </summary>
+         */
+        private void button_feedGroup_Click(object sender, EventArgs e)
+        {
+
         }
 
 
@@ -625,7 +735,7 @@ namespace ZooApp
                     populateAnimalComboBox();
                     return;
                 case 2:
-                    //initialiseEnclosure();
+                    initialiseEnclosure();
                     return;
                 case 3:
                     // Zone Tab Logic
