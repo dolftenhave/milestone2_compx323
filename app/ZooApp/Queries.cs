@@ -140,7 +140,6 @@ namespace ZooApp
         JOIN {DatabaseHelper.Table("ANIMAL")} A ON C.animalID = A.aid
 
         ORDER BY dateTime DESC";
-
         //Line is to make sure i can find my queries 
         //---------------------------------------------------------------------------//
         //Animal
@@ -224,10 +223,9 @@ namespace ZooApp
         WHERE latinName = :latin";
 
         // Get all species group latin names
-        public static string SelectAllSpeciesGroups = $@"
-        SELECT latinName 
-        FROM {DatabaseHelper.Table("SpeciesGroup")} 
-        ORDER BY latinName";
+        public static string SelectAllSpeciesGroups =>
+            $"SELECT commonName, latinName FROM {DatabaseHelper.Table("SpeciesGroup")} ORDER BY commonName";
+
 
         // Get full species group details by latin name
         public static string SelectSpeciesGroupByLatinName = $@"
@@ -252,10 +250,233 @@ namespace ZooApp
         DELETE FROM {DatabaseHelper.Table("SpeciesGroup")} 
         WHERE latinName = :latin";
 
+        // === Staff Queries ===
 
+        /// <summary>
+        /// Selects all staff (SID, first name, last name) for dropdown use.
+        /// </summary>
+        public static string SelectAllStaffBasic = $@"
+        SELECT sid, fName, lName 
+        FROM {DatabaseHelper.Table("Staff")} 
+        ORDER BY sid";
 
+        /// <summary>
+        /// Gets the next available staff ID.
+        /// </summary>
+        public static string GetNextStaffId = $@"
+        SELECT NVL(MAX(sid), 0) + 1 
+        FROM {DatabaseHelper.Table("Staff")}";
 
+        /// <summary>
+        /// Selects a staff record by ID.
+        /// </summary>
+        public static string SelectStaffById = $@"
+        SELECT * 
+        FROM {DatabaseHelper.Table("Staff")} 
+        WHERE sid = :sid";
 
+        /// <summary>
+        /// Inserts a new staff record.
+        /// </summary>
+        public static string InsertStaff = $@"
+        INSERT INTO {DatabaseHelper.Table("Staff")}
+        (sid, fName, lName, dob, phNumber, email, streetNumber, streetName, suburb, city, postCode, sex)
+        VALUES
+        (:sid, :fName, :lName, :dob, :phNumber, :email, :streetNumber, :streetName, :suburb, :city, :postCode, :sex)";
 
+        /// <summary>
+        /// Updates an existing staff record.
+        /// </summary>
+        public static string UpdateStaff = $@"
+        UPDATE {DatabaseHelper.Table("Staff")} SET 
+            fName = :fName,
+            lName = :lName,
+            dob = :dob,
+            phNumber = :phNumber,
+            email = :email,
+            streetNumber = :streetNumber,
+            streetName = :streetName,
+            suburb = :suburb,
+            city = :city,
+            postCode = :postCode,
+            sex = :sex
+        WHERE sid = :sid";
+
+        /// <summary>
+        /// Deletes a staff record by SID.
+        /// </summary>
+        public static string DeleteStaff = $@"
+        DELETE FROM {DatabaseHelper.Table("Staff")} 
+        WHERE sid = :sid";
+
+        //--------------------------------
+        //Care
+
+        /// <summary>
+        /// Checks if a vet already has a care record.
+        /// </summary>
+        public static string CheckVetCareExists = $@"
+        SELECT 1 
+        FROM {DatabaseHelper.Table("Care")} 
+        WHERE staffID = :sid 
+        FETCH FIRST 1 ROWS ONLY";
+
+        /// <summary>
+        /// Inserts a dummy care entry for a new vet.
+        /// </summary>
+        public static string InsertDummyCare = $@"
+        INSERT INTO {DatabaseHelper.Table("Care")}
+        (staffID, animalID, dateTime, care, notes)
+        VALUES (:sid, :aid, :dt, :care, :notes)";
+
+        /// <summary>
+        /// Deletes all care records for a staff ID.
+        /// </summary>
+        public static string DeleteCareByStaff = $@"
+        DELETE FROM {DatabaseHelper.Table("Care")} 
+        WHERE staffID = :sid";
+
+        //---------------------------------------------
+        //Oversees
+
+        /// <summary>
+        /// Checks if a zookeeper is already linked to a species group.
+        /// </summary>
+        public static string CheckOverseesExists = $@"
+        SELECT 1 
+        FROM {DatabaseHelper.Table("Oversees")} 
+        WHERE staffID = :sid 
+        FETCH FIRST 1 ROWS ONLY";
+
+        /// <summary>
+        /// Inserts a dummy oversees entry for a zookeeper.
+        /// </summary>
+        public static string InsertDummyOversees = $@"
+        INSERT INTO {DatabaseHelper.Table("Oversees")}
+        (sGroupName, staffID)
+        VALUES (:grp, :sid)";
+
+        /// <summary>
+        /// Deletes all oversees entries for a staff ID.
+        /// </summary>
+        public static string DeleteOverseesByStaff = $@"
+        DELETE FROM {DatabaseHelper.Table("Oversees")} 
+        WHERE staffID = :sid";
+
+        //-------------------------
+        //Feed
+
+        /// <summary>
+        /// Deletes all feed records for a staff ID.
+        /// </summary>
+        public static string DeleteFeedByStaff = $@"
+        DELETE FROM {DatabaseHelper.Table("Feed")} 
+        WHERE staffID = :sid";
+
+        //------------------------------------------
+        //Vet Clinic
+
+        /// <summary>
+        /// Selects all Vets (SID and full name) from Staff who appear in Care table, including a given SID fallback.
+        /// </summary>
+        public static string SelectAllVets = $@"
+        SELECT sid, fName || ' ' || lName AS fullName
+        FROM {DatabaseHelper.Table("Staff")}
+        WHERE sid IN (
+            SELECT DISTINCT staffID FROM {DatabaseHelper.Table("Care")}
+        ) OR sid = :sid";
+
+        /// <summary>
+        /// Gets distinct list of clinic names used in Staff table.
+        /// </summary>
+        public static string SelectDistinctClinics = $@"
+        SELECT DISTINCT clinic 
+        FROM {DatabaseHelper.Table("Staff")} 
+        WHERE clinic IS NOT NULL 
+        ORDER BY clinic";
+
+        /// <summary>
+        /// Gets the current clinic assigned to a staff member.
+        /// </summary>
+        public static string SelectClinicBySid = $@"
+        SELECT clinic 
+        FROM {DatabaseHelper.Table("Staff")} 
+        WHERE sid = :sid";
+
+        /// <summary>
+        /// Checks if a clinic already exists in Staff records.
+        /// </summary>
+        public static string CheckClinicExists = $@"
+        SELECT 1 
+        FROM {DatabaseHelper.Table("Staff")} 
+        WHERE LOWER(clinic) = LOWER(:clinic)";
+
+        /// <summary>
+        /// Assigns a new or existing clinic to a staff member.
+        /// </summary>
+        public static string AssignClinicToStaff = $@"
+        UPDATE {DatabaseHelper.Table("Staff")} 
+        SET clinic = :clinic 
+        WHERE sid = :sid";
+
+        /// <summary>
+        /// Updates all staff who are assigned to a specific clinic name.
+        /// </summary>
+        public static string UpdateClinicName = $@"
+        UPDATE {DatabaseHelper.Table("Staff")} 
+        SET clinic = :new 
+        WHERE clinic = :old";
+
+        /// <summary>
+        /// Deletes a clinic assignment (sets to NULL) from all staff assigned to it.
+        /// </summary>
+        public static string DeleteClinic = $@"
+        UPDATE {DatabaseHelper.Table("Staff")} 
+        SET clinic = NULL 
+        WHERE clinic = :clinic";
+
+        //-------------------------------------
+        //Zookeeper Assignment
+
+        /// <summary>
+        /// Retrieves all staff that are zookeepers (those listed in Oversees table).
+        /// </summary>
+        public static string SelectAllZookeepers = $@"
+        SELECT s.sid, s.fName || ' ' || s.lName AS fullName
+        FROM {DatabaseHelper.Table("Staff")} s
+        WHERE s.sid IN (
+            SELECT DISTINCT staffID FROM {DatabaseHelper.Table("Oversees")}
+        )";
+
+        /// <summary>
+        /// Retrieves common names of all species groups.
+        /// </summary>
+        public static string SelectAllSpeciesGroupNames = $@"
+        SELECT commonName 
+        FROM {DatabaseHelper.Table("SpeciesGroup")} 
+        ORDER BY commonName";
+
+        /// <summary>
+        /// Deletes all species group assignments for the specified staff member.
+        /// </summary>
+        public static string DeleteZookeeperAssignments = $@"
+        DELETE FROM {DatabaseHelper.Table("Oversees")} 
+        WHERE staffID = :sid";
+
+        /// <summary>
+        /// Inserts a new species group assignment for a zookeeper.
+        /// </summary>
+        public static string InsertZookeeperAssignment = $@"
+        INSERT INTO {DatabaseHelper.Table("Oversees")} 
+        (sGroupName, staffID) VALUES (:grp, :sid)";
+
+        /// <summary>
+        /// Retrieves assigned species groups for a given zookeeper.
+        /// </summary>
+        public static string SelectAssignedGroupsByStaff = $@"
+        SELECT sGroupName 
+        FROM {DatabaseHelper.Table("Oversees")} 
+        WHERE staffID = :sid";
     }
 }
+

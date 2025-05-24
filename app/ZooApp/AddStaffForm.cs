@@ -5,7 +5,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
-    /*public partial class AddStaffForm : Form
+    public partial class AddStaffForm : Form
     {
         private bool isEditMode = false;
         private int editingSid = -1;
@@ -336,23 +336,20 @@ namespace ZooApp
             cbRole.SelectedItem = role;
         }
 
-        private void lblTitle_Click(object sender, EventArgs e) { }
-
-    }
-
-    public class ComboBoxItem
-    {
-        public string Text { get; set; }
-        public string Value { get; set; }
-
-        public ComboBoxItem(string text, string value)
+        public class ComboBoxItem
         {
-            Text = text;
-            Value = value;
-        }
+            public string Text { get; set; }
+            public string Value { get; set; }
 
-        public override string ToString() => Text;
-    }*/
+            public ComboBoxItem(string text, string value)
+            {
+                Text = text;
+                Value = value;
+            }
+
+            public override string ToString() => Text;
+        }
+    }
 }
 
 
