@@ -83,7 +83,6 @@ namespace ZooApp
 
             DataTable animals_notFed = Queries.getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
             DataTable animals_fed = null;
-            MessageBox.Show("not fed: " + animals_notFed.Rows.Count.ToString());
 
             remainingRows -= animals_notFed.Rows.Count;
             groupBoxTODO.Text = "Feeding List:";
