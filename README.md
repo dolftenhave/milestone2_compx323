@@ -14,6 +14,7 @@ This project contains all the code used to creat Milestone 2 for Compx323-25A at
 - [large/](./large) - Contains the CSV files that hold the data for the large data sets.
 - [app/](./app) - Contains the Application.
 - [gen/](./gen) - Contains the data generation code.
+- [mongo/](./mongo) - Contains all the .json file to implement the zoo database in MongoDB.
 - [createImportSQL.sh](createImportSQL.sh) - If placed inside the directly of your csv files, it will generate an import sql file to load all the files into the database. 
 
 ### createImportSQL
