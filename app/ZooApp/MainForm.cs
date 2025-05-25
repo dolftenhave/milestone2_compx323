@@ -66,64 +66,9 @@ namespace ZooApp
             return dt.Rows[0][0].ToString();
         }
 
-        /**<summary>
-         * Gets the list of all animals that this staff member is qualified to feed and have previously been feed at least once.
-         * @author Dolf ten Have.
-         * </summary>
-         * <param name="rows">The maximum number of rows returned.</param>
-         * <param name="staffID">The id of the staff member.</param>
-         * <returns>A DataTable containg information about the animals that that person can feed.</returns>
-         */
-        private DataTable getFeedingListForStaff(int rows, int staffID)
-        {
-            //String query2 = $"SELECT a.aid, a.name, s3.commonName, f.datetime , a.feedingInterval FROM m2s_animal a LEFT OUTER JOIN m2s_Feed f ON a.aid = f.animalid LEFT OUTER JOIN m2s_Species s3 ON a.speciesName = s3.latinName WHERE a.aid IN (SELECT a2.aid FROM m2s_Staff s2 LEFT OUTER JOIN m2s_oversees o2 ON s2.SID = o2.staffID JOIN m2s_SpeciesGroup sg2 ON o2.sGroupName = sg2.latinName JOIN m2s_Species s2 ON s2.speciesGroup = sg2.latinName JOIN m2s_Animal a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffMemberId}) AND f.dateTime = (SELECT MAX(dateTime) FROM m2s_feed f2 WHERE a.aid = f2.animalid) OR a.aid NOT IN (SELECT DISTINCT animalID FROM m2s_FEED) ORDER BY f.dateTime ASC NULLS FIRST FETCH FIRST 5 ROWS ONLY";
 
-            String query = $"SELECT a.aid, a.name, s3.commonName, f.datetime, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
-                $"WHERE a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffID}) " +
-                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) " +
-                $"ORDER BY f.dateTime ASC NULLS FIRST " +
-                $"FETCH FIRST {rows} ROWS ONLY";
 
-            DataTable animals = DatabaseHelper.ExecuteQuery(query);
-            return animals;
-        }
 
-        /**<summary>
-         * Gets up to <param>rows</param> animals that this staff member is qualified to feed that have never been fed before.
-         * This table may be empty if all animals have been fed at least once.
-         * 
-         * @Author Dolf ten Have
-         * </summary>
-         * <param name="rows">The maximum number of rows returned.</param>
-         * <param name="staffID">The id of the staff member.</param>
-         * <returns>A Datatable with up to <param>rows</param> animals that have never been fed before.</returns>
-         */
-        private DataTable getFeedingListForStaff_AnimalsNeverFed(int rows, int staffID)
-        {
-            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
-                $"WHERE a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffID}) " +
-                // All the animals that are not in the feeding table
-                $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
-                $"FETCH FIRST {rows} ROWS ONLY";
-
-            DataTable animals = DatabaseHelper.ExecuteQuery(query);
-            return animals;
-        }
 
         /**<summary>
          * Displays the list of animals that need feeding on the home page
@@ -135,14 +80,14 @@ namespace ZooApp
         {            
             int remainingRows = 6;
 
-            DataTable animals_notFed = getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
+            DataTable animals_notFed = Queries.getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
             DataTable animals_fed = null;
 
             remainingRows -= animals_notFed.Rows.Count;
             groupBoxTODO.Text = "Feeding List:";
             
             if(remainingRows > 0) {
-                animals_fed = getFeedingListForStaff(remainingRows, staffMemberId);
+                animals_fed = Queries.getFeedingListForStaff(remainingRows, staffMemberId);
             }
 
             //If there are no animals that this person has/can feed then a message is displayed to the user.
@@ -357,7 +302,7 @@ namespace ZooApp
                 return;
             }
 
-            DataTable enclosureList = getEnclosuresByName(textBox_Enclosure_Search.Text);
+            DataTable enclosureList = Queries.getEnclosuresByName(textBox_Enclosure_Search.Text);
 
             EnclosureIdList.Clear();
             comboBox_Enclosure_Search.Items.Clear();
@@ -372,21 +317,6 @@ namespace ZooApp
                 comboBox_Enclosure_Search.Items.Add(enclosureList.Rows[i][1].ToString() + " Enclosure");
                 EnclosureIdList.Add(int.Parse(enclosureList.Rows[i][0].ToString()));
             }
-        }
-
-        /**<summary>
-         * Searches for all enclosures who's name is a partial match for the current string in the search box
-         * </summary>
-         * <param name="name" type="String">The name of the enclosure.</param>
-         * <returns>A DataTable with a list of all enclosure names that match the current search. May be empty.</returns>
-         */
-        private DataTable getEnclosuresByName(string name)
-        {
-            String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :search";
-            List<Oracle.ManagedDataAccess.Client.OracleParameter> parameters = new List<Oracle.ManagedDataAccess.Client.OracleParameter>();
-            parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("search", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2));
-            parameters[0].Value = $"%{name}%";
-            return DatabaseHelper.ExecuteQueryUsingParamList(query, parameters);
         }
 
         /**<summary>
@@ -412,42 +342,9 @@ namespace ZooApp
             loadEnclosureAnimals();
         }
 
-        /**<summary>
-         * Gets the Name of an enclosure based on the id
-         * </summary>
-         * <param name="eid">The enclosure ID.</param>
-         * <returns>
-         * A DataTable containing the Name of the enclosure.
-         * </returns>
-         */
-        private DataTable getEnclosureNameById(int eid)
-        {
-            String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = {eid}";
-            return DatabaseHelper.ExecuteQuery(query);
-        }
 
-        /**<summary>
-         * Return all the animals from a given enclosure that the given staff member is allowed to care for.
-         * </summary>
-         * <param name="sid">Staff ID</param>
-         * <param name="eid">Enclosure ID</param>
-         * <returns>A datatable with the animal id, name, species, last fed date and feeding interval for each animal.</returns>
-         */
-        private DataTable getEnclosureAnimals(int sid, int eid)
-        {
-            String query = $"SELECT a.aid, a.name, a.speciesName, f.datetime " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
-                $"WHERE enclosureID = {eid} AND a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {sid}) " +
-                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) ";
-            DataTable animals = DatabaseHelper.ExecuteQuery(query);
-            return animals;
-        }
+
+
 
         /**<summary>
          * This loads all the animals that the zookeper is allowed to care for for a given enclosure int o the enxlosure tab.
@@ -461,9 +358,9 @@ namespace ZooApp
                 return;
             }
 
-            DataTable animals = getEnclosureAnimals(staffMemberId, currentEnclosure);
+            DataTable animals = Queries.getEnclosureAnimals(staffMemberId, currentEnclosure);
             comboBox_Enclosure_Search.Items.Clear();
-            comboBox_Enclosure_Search.Items.Add(getEnclosureNameById(currentEnclosure).Rows[0][0].ToString() + " Enclosure");
+            comboBox_Enclosure_Search.Items.Add(Queries.getEnclosureNameById(currentEnclosure).Rows[0][0].ToString() + " Enclosure");
             comboBox_Enclosure_Search.SelectedIndex = 0;
             panel_Enclosure_Animals.Controls.Clear();
             selectedAnimalsCheckboxList.Clear();

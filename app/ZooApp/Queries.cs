@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
@@ -477,6 +479,125 @@ namespace ZooApp
         SELECT sGroupName 
         FROM {DatabaseHelper.Table("Oversees")} 
         WHERE staffID = :sid";
+
+        /**<summary>
+        * Gets the list of all animals that this staff member is qualified to feed and have previously been feed at least once.
+        * @author Dolf ten Have.
+        * </summary>
+        * <param name="rows">The maximum number of rows returned.</param>
+        * <param name="sid">The id of the staff member.</param>
+        * <returns>A DataTable containg information about the animals that that person can feed.</returns>
+        */
+        public static DataTable getFeedingListForStaff(int rows, int sid)
+        {
+            String query = $"SELECT a.aid, a.name, s3.commonName, f.datetime, a.feedingInterval " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
+                $"WHERE a.aid IN " +
+                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid) " +
+                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) " +
+                $"ORDER BY f.dateTime ASC NULLS FIRST " +
+                $"FETCH FIRST :nrows ROWS ONLY";
+
+            List<OracleParameter> parameters = new List<OracleParameter>();
+            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.ReturnValue));
+            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.ReturnValue));
+
+            DataTable animals = DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+            return animals;
+        }
+
+        /**<summary>
+         * Gets up to <param>rows</param> animals that this staff member is qualified to feed that have never been fed before.
+         * This table may be empty if all animals have been fed at least once.
+         * 
+         * @Author Dolf ten Have
+         * </summary>
+         * <param name="rows">The maximum number of rows returned.</param>
+         * <param name="sid">The id of the staff member.</param>
+         * <returns>A Datatable with up to <param>rows</param> animals that have never been fed before.</returns>
+         */
+        public static DataTable getFeedingListForStaff_AnimalsNeverFed(int rows, int sid)
+        {
+            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
+                $"WHERE a.aid IN " +
+                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid) " +
+                // All the animals that are not in the feeding table
+                $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
+                $"FETCH FIRST :nrows ROWS ONLY";
+            List<OracleParameter> parameters= new List<OracleParameter>();
+
+            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.ReturnValue));
+            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.ReturnValue));         
+
+            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+        }
+
+        /**<summary>
+         * Searches for all enclosures who's name is a partial match for the current string in the search box
+         * </summary>
+         * <param name="name" type="String">The name of the enclosure.</param>
+         * <returns>A DataTable with a list of all enclosure names that match the current search. May be empty.</returns>
+         */
+        public static DataTable getEnclosuresByName(string name)
+        {
+            String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :name";
+            List<OracleParameter> parameters = new List<OracleParameter>();
+            parameters.Add(new OracleParameter("name", OracleDbType.Varchar2, $"%{name}%", ParameterDirection.Input));
+            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+        }
+
+        /**<summary>
+         * Gets the Name of an enclosure based on the id
+         * </summary>
+         * <param name="eid">The enclosure ID.</param>
+         * <returns>
+         * A DataTable containing the Name of the enclosure.
+         * </returns>
+         */
+        public static DataTable getEnclosureNameById(int eid)
+        {
+            String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = :eid";
+            List<OracleParameter> paramList = new List<OracleParameter>();
+            paramList.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
+            return DatabaseHelper.ExecuteQuery(query, paramList.ToArray());
+        }
+
+        /**<summary>
+         * Return all the animals from a given enclosure that the given staff member is allowed to care for.
+         * </summary>
+         * <param name="sid">Staff ID</param>
+         * <param name="eid">Enclosure ID</param>
+         * <returns>A datatable with the animal id, name, species, last fed date and feeding interval for each animal.</returns>
+         */
+        public static DataTable getEnclosureAnimals(int sid, int eid)
+        {
+            String query = $"SELECT a.aid, a.name, a.speciesName, f.datetime " +
+                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
+                $"WHERE enclosureID = :eid AND a.aid IN " +
+                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid ) " +
+                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) ";
+            List<OracleParameter> parameters = new List<OracleParameter>();
+            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
+            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+        }
     }
 }
 

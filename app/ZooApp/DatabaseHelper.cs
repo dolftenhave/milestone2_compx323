@@ -33,7 +33,13 @@ namespace ZooApp
             return toConvert.ToString("yyyy-MM-dd");
         }
 
-        // Executes a SELECT and returns a filled DataTable
+        /**<summary>
+         * Executes a Query on the database.
+         * </summary>
+         * <param name="query">The Query String.</param>
+         * <param name="parameters">A list of OracleParameters. Can be null</param>
+         * <returns>A DataTable containg query results.</returns>
+         */
         public static DataTable ExecuteQuery(string query, OracleParameter[] parameters = null)
         {
             DataTable dt = new DataTable();
@@ -56,34 +62,6 @@ namespace ZooApp
             return dt;
         }
 
-        /**<summary>
-         * Executes a query on the database using a list of parameters
-         * </summary>
-         * <param name="query">The query String.</param>
-         * <param name="parameters">A list of aparameters. May be null.</param>
-         * <returns>A DataTable with the results of the query. May have 0 rows.</returns>
-         */
-        public static DataTable ExecuteQueryUsingParamList(string query, List<OracleParameter> parameters = null)
-        {
-            DataTable dt = new DataTable();
-
-            using (OracleConnection conn = new OracleConnection(connectionString))
-            {
-                conn.Open();
-                using (OracleCommand cmd = new OracleCommand(query, conn))
-                {
-                    if (parameters != null)
-                        cmd.Parameters.AddRange(parameters.ToArray());
-
-                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
-                    {
-                        adapter.Fill(dt);
-                    }
-                }
-            }
-
-            return dt;
-        }
 
         // Executes INSERT, UPDATE, or DELETE with parameters
         public static void ExecuteNonQuery(string query, OracleParameter[] parameters)
