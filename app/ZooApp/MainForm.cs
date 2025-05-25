@@ -18,6 +18,7 @@ namespace ZooApp
         private int currentEnclosure; // -1 if no enclosure is selected
         private List<int> selectedAnimals; //A list of animals currently selected
         private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
+        private List<int> EnclosureIdList; //Contains a list of id's of all the enclosures that have currently been searched for.
 
 
         public MainForm(int staffMemberId)
@@ -26,6 +27,7 @@ namespace ZooApp
             this.staffMemberId = staffMemberId;
             selectedAnimals= new List<int>();
             selectedAnimalsCheckboxList= new List<CheckBox>();
+            EnclosureIdList= new List<int>();
             InitializeComponent();
         }
 
@@ -343,6 +345,96 @@ namespace ZooApp
         }
 
         /**<summary>
+         * Gets the enclosure name based on the ID of the enclosure.
+         * If the search texbox is empty, then nothing is searched.
+         * </summary>
+         */
+        private void button_Enclosure_Search_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(textBox_Enclosure_Search.Text))
+            {
+                MessageBox.Show("Please enter something into the search bar before searching.");
+                return;
+            }
+
+            DataTable enclosureList = getEnclosuresByName(textBox_Enclosure_Search.Text);
+
+            EnclosureIdList.Clear();
+            comboBox_Enclosure_Search.Items.Clear();
+
+            //Informs the user if nothing is found
+            if (enclosureList.Rows.Count == 0)
+            {
+                comboBox_Enclosure_Search.Items.Add("No Results Found.");
+                comboBox_Enclosure_Search.Enabled = false;
+                comboBox_Enclosure_Search.SelectedIndex = 0;
+            }
+
+            comboBox_Enclosure_Search.Items.Add(enclosureList.Rows.Count.ToString() + " Enclosures Found");
+            //Adds a spoof id so that when a real enclosure is selected, it matches it list position
+            EnclosureIdList.Add(-1);
+            comboBox_Enclosure_Search.SelectedIndex = 0;
+
+            for(int i = 0; i < enclosureList.Rows.Count; i++)
+            {
+                comboBox_Enclosure_Search.Items.Add(enclosureList.Rows[i][1].ToString());
+                EnclosureIdList.Add(int.Parse(enclosureList.Rows[i][0].ToString()));
+            }
+        }
+
+        /**<summary>
+         * Searches for all enclosures who's name is a partial match for the current string in the search box
+         * </summary>
+         * <param name="name" type="String">The name of the enclosure.</param>
+         * <returns>A DataTable with a list of all enclosure names that match the current search. May be empty.</returns>
+         */
+        private DataTable getEnclosuresByName(string name)
+        {
+            String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :search";
+            List<Oracle.ManagedDataAccess.Client.OracleParameter> parameters = new List<Oracle.ManagedDataAccess.Client.OracleParameter>();
+            parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("search", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2));
+            parameters[0].Value = $"%{name}%";
+            return DatabaseHelper.ExecuteQueryUsingParamList(query, parameters);
+        }
+
+        /**<summary>
+         * Sets the current Enclosure to the enclosure that is selected from the list of enclosures.
+         * Then calls loadEnclosureAnimals().
+         * </summary>
+         */
+        private void comboBox_Enclosure_Search_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //If the selected index is 0 then nothing new is loaded. This is the case if the header is selected or if there is already an enclosure loaded.
+            if(comboBox_Enclosure_Search.SelectedIndex == 0)
+            {
+                return;
+            }
+
+            //If this is already the currentEnclosure, then the list is not reloaded
+            if(comboBox_Enclosure_Search.SelectedIndex == currentEnclosure)
+            {
+                return;
+            }
+            
+            currentEnclosure = EnclosureIdList[comboBox_Enclosure_Search.SelectedIndex];
+            loadEnclosureAnimals();
+        }
+
+        /**<summary>
+         * Gets the Name of an enclosure based on the id
+         * </summary>
+         * <param name="eid">The enclosure ID.</param>
+         * <returns>
+         * A DataTable containing the Name of the enclosure.
+         * </returns>
+         */
+        private DataTable getEnclosureNameById(int eid)
+        {
+            String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = {eid}";
+            return DatabaseHelper.ExecuteQuery(query);
+        }
+
+        /**<summary>
          * Return all the animals from a given enclosure that the given staff member is allowed to care for.
          * </summary>
          * <param name="sid">Staff ID</param>
@@ -378,6 +470,9 @@ namespace ZooApp
             }
 
             DataTable animals = getEnclosureAnimals(staffMemberId, currentEnclosure);
+            comboBox_Enclosure_Search.Items.Clear();
+            comboBox_Enclosure_Search.Items.Add(getEnclosureNameById(currentEnclosure).Rows[0][0].ToString() + " Enclosure");
+            comboBox_Enclosure_Search.SelectedIndex = 0;
 
             DateTime currentTime = DateTime.Now;
 

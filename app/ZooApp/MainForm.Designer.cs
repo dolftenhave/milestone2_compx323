@@ -988,6 +988,7 @@ namespace ZooApp
             this.button_Enclosure_Search.TabIndex = 3;
             this.button_Enclosure_Search.Text = "Find";
             this.button_Enclosure_Search.UseVisualStyleBackColor = true;
+            this.button_Enclosure_Search.Click += new System.EventHandler(this.button_Enclosure_Search_Click);
             // 
             // comboBox_Enclosure_Search
             // 
@@ -999,6 +1000,7 @@ namespace ZooApp
             this.comboBox_Enclosure_Search.Name = "comboBox_Enclosure_Search";
             this.comboBox_Enclosure_Search.Size = new System.Drawing.Size(666, 45);
             this.comboBox_Enclosure_Search.TabIndex = 2;
+            this.comboBox_Enclosure_Search.SelectedIndexChanged += new System.EventHandler(this.comboBox_Enclosure_Search_SelectedIndexChanged);
             // 
             // label2
             // 

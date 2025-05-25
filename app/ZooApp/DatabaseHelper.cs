@@ -1,6 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
+using System.Collections.Generic;
 
 namespace ZooApp
 {
@@ -44,6 +45,35 @@ namespace ZooApp
                 {
                     if (parameters != null)
                         cmd.Parameters.AddRange(parameters);
+
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+
+            return dt;
+        }
+
+        /**<summary>
+         * Executes a query on the database using a list of parameters
+         * </summary>
+         * <param name="query">The query String.</param>
+         * <param name="parameters">A list of aparameters. May be null.</param>
+         * <returns>A DataTable with the results of the query. May have 0 rows.</returns>
+         */
+        public static DataTable ExecuteQueryUsingParamList(string query, List<OracleParameter> parameters = null)
+        {
+            DataTable dt = new DataTable();
+
+            using (OracleConnection conn = new OracleConnection(connectionString))
+            {
+                conn.Open();
+                using (OracleCommand cmd = new OracleCommand(query, conn))
+                {
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters.ToArray());
 
                     using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
                     {
