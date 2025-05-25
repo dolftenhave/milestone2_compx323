@@ -1140,6 +1140,7 @@ namespace ZooApp
             this.numericUpDownZonePage.Name = "numericUpDownZonePage";
             this.numericUpDownZonePage.Size = new System.Drawing.Size(57, 20);
             this.numericUpDownZonePage.TabIndex = 20;
+            this.numericUpDownZonePage.ValueChanged += new System.EventHandler(this.numericUpDownZonePage_ValueChanged);
             // 
             // buttonZoneSearch
             // 

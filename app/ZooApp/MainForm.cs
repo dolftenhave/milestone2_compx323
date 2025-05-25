@@ -512,11 +512,16 @@ namespace ZooApp
             // Get page info
             NumericUpDown nud = this.numericUpDownZonePage;
             int currentPage = (int)nud.Value;
+            // bottom row inclusive
+            int bottomRowNum = ((currentPage - 1) * 6) + 1;
+            // top row inclusive
+            int topRowNum = currentPage * 6;
 
             // Query to get basic info on each Zone to populate the UI elements
             // Change this to be on rowname too?
-            String initZoneDataQuery = $"SELECT name, colour, hexcode, rownum " +
-                $"FROM " + 
+            String initZoneDataQuery = $"SELECT * FROM " +
+                $"(SELECT name, colour, hexcode, rownum rnum " +
+                $"FROM " +
                     $"(SELECT distinct z.name, z.colour, z.hexcode " +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
                     $"{DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("SPECIES")} sp, " +
@@ -528,7 +533,8 @@ namespace ZooApp
                     $"AND a.enclosureID = e.eid " +
                     $"AND e.zonename = z.name " +
                     $"ORDER BY z.name) " +
-                    $"";
+                    $"WHERE rownum <= {topRowNum}) " +
+                    $"WHERE rnum >= {bottomRowNum} ";
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
@@ -718,6 +724,11 @@ namespace ZooApp
         private void buttonZoneSearch_Click(object sender, EventArgs e)
         {
             resetZonePaging();
+            populateZoneUIElements();
+        }
+
+        private void numericUpDownZonePage_ValueChanged(object sender, EventArgs e)
+        {
             populateZoneUIElements();
         }
     }
