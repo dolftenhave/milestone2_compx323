@@ -532,7 +532,7 @@ namespace ZooApp
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
-                    $"WHERE z.name LIKE '%{textBoxZoneSearch.Text}%'";
+                    $"WHERE name LIKE '%{textBoxZoneSearch.Text}%'";
             }
 
             DataTable basicZoneInfo = DatabaseHelper.ExecuteQuery(initZoneDataQuery);
@@ -595,7 +595,7 @@ namespace ZooApp
             String countQuery;
             if (textBoxZoneSearch.Text != "")
             {
-                countQuery = $"SELECT COUNT(distinct name) " +
+                countQuery = $"SELECT COUNT(distinct name) as \"count\" " +
                 $"FROM {DatabaseHelper.Table("ZONE")} " +
                 $"WHERE name LIKE '%{textBoxZoneSearch.Text}%' " +
                 $"AND name IN (" +
@@ -715,6 +715,10 @@ namespace ZooApp
             }
         }
 
-
+        private void buttonZoneSearch_Click(object sender, EventArgs e)
+        {
+            resetZonePaging();
+            populateZoneUIElements();
+        }
     }
 }

@@ -1149,6 +1149,7 @@ namespace ZooApp
             this.buttonZoneSearch.TabIndex = 19;
             this.buttonZoneSearch.Text = "Search";
             this.buttonZoneSearch.UseVisualStyleBackColor = true;
+            this.buttonZoneSearch.Click += new System.EventHandler(this.buttonZoneSearch_Click);
             // 
             // labelZoneSearch
             // 
