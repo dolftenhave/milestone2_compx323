@@ -2,6 +2,16 @@
 
 This folder contains all the documents needed to implement zoo.sql in mongodb.
 
+## Collections
+
+There are 6 total json documents. Each of which will go into their own collection.
+- [Care](Care.json) containing all the care information for each animal.
+- [Feed](Feed.json) Containgin all the Feeding information for each anonimal.
+- [Oversees](Oversees.json) Containing all the information of which zooKeeper oversees what speciesGroup.
+- [Staff](Staff.json) StaffInfo.
+- [Zone](Zone.json) Zone, Enclosure.
+- [SpeciesGroup](speciesGroup.json) SpeasiesGroup, Species and Animal.
+
 [ER diagram](https://lucid.app/lucidchart/62e459d5-6a2c-4536-8235-2b0af8881b8c/edit?invitationId=inv_ec5c393a-edbf-48fc-a2c2-229d7e7fc4e2&page=0_0#).
 
 ### Staff
