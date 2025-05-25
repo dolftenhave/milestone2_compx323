@@ -1,17 +1,17 @@
 -- Zone, Enclosure
 {"name":"Africa", "colour":"Yellow", "hexcode":"FFFF00","enclosures":[
-	{"eid":2, "name":"Savnna Herds", "biome":"Savanna","eSize": 847,},
-	{"eid":3, "name":"Lions", "biome":"Savanna","eSize": 657,}
+	{"eid":2, "name":"Savnna Herds", "biome":"Savanna","eSize": 847},
+	{"eid":3, "name":"Lions", "biome":"Savanna","eSize": 657}
 ]}
 {"name":"Native", "colour":"Green", "hexcode":"008000","enclosures":[
-	{"eid":1, "name":"Mexican Terantula", "biome":"Arrid","eSize": 2,},
-	{"eid":91, "name":"Black Widow","biome":"Jungle","eSize": 2,},
-	{"eid":4, "name":"Kiwi", "biome":"Forest","eSize": 42,},
-	{"eid":5, "name":"Forest", "biome":"Forest","eSize": 210,}
+	{"eid":1, "name":"Mexican Terantula", "biome":"Arrid","eSize": 2},
+	{"eid":91, "name":"Black Widow","biome":"Jungle","eSize": 2},
+	{"eid":4, "name":"Kiwi", "biome":"Forest","eSize": 42},
+	{"eid":5, "name":"Forest", "biome":"Forest","eSize": 210}
 ]}
 {"name":"Australia", "colour":"Red", "hexcode":"E4002B","enclosures":[
-	{"eid":6, "name":"Marsupials", "biome":"Woodland","eSize": 374,},
-	{"eid":90, "name":"Australian Bush", "biome":"Forest","eSize": 434,}
+	{"eid":6, "name":"Marsupials", "biome":"Woodland","eSize": 374},
+	{"eid":90, "name":"Australian Bush", "biome":"Forest","eSize": 434}
 ]}
 
 --Species Group, Species, Animal
