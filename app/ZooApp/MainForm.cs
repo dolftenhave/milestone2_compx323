@@ -399,6 +399,7 @@ namespace ZooApp
             return staffAnimals;
         }
 
+        ///
         /// <summary>
         /// Method for populating the animal combobox.
         /// </summary>
@@ -553,7 +554,7 @@ namespace ZooApp
                     $"AND sg.latinname = sp.speciesgroup " +
                     $"AND sp.latinname = a.speciesname " +
                     $"AND a.enclosureID = e.eid " +
-                    $"AND e.zonename = 'Africa' " +
+                    $"AND e.zonename = '{basicZoneInfo.Rows[i - 1]["name"].ToString()}' " +
                     $"AND f.animalid = a.aid " +
                     $"GROUP BY a.aid) t " +
                     $"WHERE a.aid = t.aid";
