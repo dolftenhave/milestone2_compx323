@@ -362,14 +362,6 @@ namespace ZooApp
             EnclosureIdList.Clear();
             comboBox_Enclosure_Search.Items.Clear();
 
-            //Informs the user if nothing is found
-            if (enclosureList.Rows.Count == 0)
-            {
-                comboBox_Enclosure_Search.Items.Add("No Results Found.");
-                comboBox_Enclosure_Search.Enabled = false;
-                comboBox_Enclosure_Search.SelectedIndex = 0;
-            }
-
             comboBox_Enclosure_Search.Items.Add(enclosureList.Rows.Count.ToString() + " Enclosures Found");
             //Adds a spoof id so that when a real enclosure is selected, it matches it list position
             EnclosureIdList.Add(-1);
@@ -377,7 +369,7 @@ namespace ZooApp
 
             for(int i = 0; i < enclosureList.Rows.Count; i++)
             {
-                comboBox_Enclosure_Search.Items.Add(enclosureList.Rows[i][1].ToString());
+                comboBox_Enclosure_Search.Items.Add(enclosureList.Rows[i][1].ToString() + " Enclosure");
                 EnclosureIdList.Add(int.Parse(enclosureList.Rows[i][0].ToString()));
             }
         }
@@ -473,6 +465,11 @@ namespace ZooApp
             comboBox_Enclosure_Search.Items.Clear();
             comboBox_Enclosure_Search.Items.Add(getEnclosureNameById(currentEnclosure).Rows[0][0].ToString() + " Enclosure");
             comboBox_Enclosure_Search.SelectedIndex = 0;
+            panel_Enclosure_Animals.Controls.Clear();
+            selectedAnimalsCheckboxList.Clear();
+            selectedAnimals.Clear();
+            button_feedGroup.Enabled = false;
+            textBox_Enclosure_Search.Text = string.Empty;
 
             DateTime currentTime = DateTime.Now;
 
