@@ -1,14 +1,4 @@
-﻿/**
- * AddVetForm.cs
- *
- * Handles assigning and managing vet clinic assignments.
- * Allows Add, Update, Delete of clinic names and assigning them to selected vets.
- * Only staff in the Care table are treated as Vets.
- *
- * @author Min Soe Htut
- */
-
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
@@ -57,14 +47,8 @@ namespace ZooApp
 
         private void LoadVetList()
         {
-            string query = $@"
-                SELECT sid, fName || ' ' || lName AS fullName
-                FROM m2s_Staff
-                WHERE sid IN (SELECT DISTINCT staffID FROM m2s_Care)
-                   OR sid = :sid";
-
             OracleParameter[] param = { new OracleParameter("sid", currentSid ?? -1) };
-            DataTable vets = DatabaseHelper.ExecuteQuery(query, param);
+            DataTable vets = DatabaseHelper.ExecuteQuery(Queries.SelectAllVets, param);
 
             cbSelectVet.Items.Clear();
             foreach (DataRow row in vets.Rows)
@@ -80,8 +64,7 @@ namespace ZooApp
             cbClinics.Items.Clear();
             cbClinics.Items.Add("Add New Clinic");
 
-            string query = "SELECT DISTINCT clinic FROM m2s_Staff WHERE clinic IS NOT NULL ORDER BY clinic";
-            DataTable clinics = DatabaseHelper.ExecuteQuery(query);
+            DataTable clinics = DatabaseHelper.ExecuteQuery(Queries.SelectDistinctClinics);
 
             foreach (DataRow row in clinics.Rows)
             {
@@ -93,9 +76,8 @@ namespace ZooApp
 
         private void SetCurrentClinic(int sid)
         {
-            string query = $"SELECT clinic FROM {DatabaseHelper.Table("Staff")} WHERE sid = :sid";
             OracleParameter[] param = { new OracleParameter("sid", sid) };
-            DataTable result = DatabaseHelper.ExecuteQuery(query, param);
+            DataTable result = DatabaseHelper.ExecuteQuery(Queries.SelectClinicBySid, param);
 
             txtCurrentClinic.Text = (result.Rows.Count > 0 && result.Rows[0]["clinic"] != DBNull.Value)
                 ? result.Rows[0]["clinic"].ToString()
@@ -129,7 +111,6 @@ namespace ZooApp
                 btnDelete.Enabled = true;
             }
         }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (!(cbSelectVet.SelectedItem is ComboBoxItem selectedVet))
@@ -145,21 +126,19 @@ namespace ZooApp
                 return;
             }
 
-            string checkQuery = $"SELECT 1 FROM {DatabaseHelper.Table("Staff")} WHERE LOWER(clinic) = LOWER(:clinic)";
             OracleParameter[] checkParams = { new OracleParameter("clinic", newClinic) };
-            if (DatabaseHelper.ExecuteQuery(checkQuery, checkParams).Rows.Count > 0)
+            if (DatabaseHelper.ExecuteQuery(Queries.CheckClinicExists, checkParams).Rows.Count > 0)
             {
                 MessageBox.Show("Clinic already exists.");
                 return;
             }
 
-            string assignQuery = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
             OracleParameter[] assignParams = {
-                new OracleParameter("clinic", newClinic),
-                new OracleParameter("sid", int.Parse(selectedVet.Value))
-            };
+        new OracleParameter("clinic", newClinic),
+        new OracleParameter("sid", int.Parse(selectedVet.Value))
+    };
 
-            DatabaseHelper.ExecuteNonQuery(assignQuery, assignParams);
+            DatabaseHelper.ExecuteNonQuery(Queries.AssignClinicToStaff, assignParams);
             MessageBox.Show("New clinic added and assigned.");
             txtClinicName.Clear();
             LoadClinicList();
@@ -168,15 +147,16 @@ namespace ZooApp
 
         private void btnAssign_Click(object sender, EventArgs e)
         {
-            if (cbSelectVet.SelectedItem is ComboBoxItem vet && cbClinics.SelectedItem is string selectedClinic && cbClinics.SelectedIndex != 0)
+            if (cbSelectVet.SelectedItem is ComboBoxItem vet &&
+                cbClinics.SelectedItem is string selectedClinic &&
+                cbClinics.SelectedIndex != 0)
             {
-                string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :clinic WHERE sid = :sid";
                 OracleParameter[] parameters = {
-                    new OracleParameter("clinic", selectedClinic),
-                    new OracleParameter("sid", int.Parse(vet.Value))
-                };
+            new OracleParameter("clinic", selectedClinic),
+            new OracleParameter("sid", int.Parse(vet.Value))
+        };
 
-                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                DatabaseHelper.ExecuteNonQuery(Queries.AssignClinicToStaff, parameters);
                 MessageBox.Show("Clinic assigned to vet.");
                 LoadClinicList();
                 SetCurrentClinic(int.Parse(vet.Value));
@@ -185,6 +165,7 @@ namespace ZooApp
             {
                 MessageBox.Show("Please select a vet and a clinic.");
             }
+
             this.Close();
         }
 
@@ -205,13 +186,12 @@ namespace ZooApp
                 return;
             }
 
-            string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = :new WHERE clinic = :old";
             OracleParameter[] parameters = {
-                new OracleParameter("new", newClinic),
-                new OracleParameter("old", oldClinic)
-            };
+        new OracleParameter("new", newClinic),
+        new OracleParameter("old", oldClinic)
+    };
 
-            DatabaseHelper.ExecuteNonQuery(query, parameters);
+            DatabaseHelper.ExecuteNonQuery(Queries.UpdateClinicName, parameters);
             MessageBox.Show("Clinic updated.");
             txtClinicName.Clear();
             LoadClinicList();
@@ -231,10 +211,9 @@ namespace ZooApp
             if (confirm != DialogResult.Yes) return;
 
             string clinic = cbClinics.SelectedItem.ToString();
-            string query = $"UPDATE {DatabaseHelper.Table("Staff")} SET clinic = NULL WHERE clinic = :clinic";
             OracleParameter[] parameters = { new OracleParameter("clinic", clinic) };
 
-            DatabaseHelper.ExecuteNonQuery(query, parameters);
+            DatabaseHelper.ExecuteNonQuery(Queries.DeleteClinic, parameters);
             MessageBox.Show("Clinic deleted.");
             txtClinicName.Clear();
             LoadClinicList();
@@ -245,7 +224,6 @@ namespace ZooApp
             this.Close();
         }
 
-        // ComboBoxItem class used in vet and clinic dropdowns
         public class ComboBoxItem
         {
             public string Text { get; set; }
@@ -264,3 +242,4 @@ namespace ZooApp
         }
     }
 }
+

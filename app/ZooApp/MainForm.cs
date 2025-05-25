@@ -18,11 +18,17 @@ namespace ZooApp
         private int staffRole; //0 for ZooKeeper and 1 for Vet
         private int currentEnclosure; // -1 if no enclosure is selected
         private List<int> selectedAnimals; //A list of animals currently selected
+        private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
+        private List<int> EnclosureIdList; //Contains a list of id's of all the enclosures that have currently been searched for.
+
+
         public MainForm(int staffMemberId)
         {
             currentEnclosure = -1;
             this.staffMemberId = staffMemberId;
             selectedAnimals= new List<int>();
+            selectedAnimalsCheckboxList= new List<CheckBox>();
+            EnclosureIdList= new List<int>();
             InitializeComponent();
         }
 
@@ -61,64 +67,9 @@ namespace ZooApp
             return dt.Rows[0][0].ToString();
         }
 
-        /**<summary>
-         * Gets the list of all animals that this staff member is qualified to feed and have previously been feed at least once.
-         * @author Dolf ten Have.
-         * </summary>
-         * <param name="rows">The maximum number of rows returned.</param>
-         * <param name="staffID">The id of the staff member.</param>
-         * <returns>A DataTable containg information about the animals that that person can feed.</returns>
-         */
-        private DataTable getFeedingListForStaff(int rows, int staffID)
-        {
-            //String query2 = $"SELECT a.aid, a.name, s3.commonName, f.datetime , a.feedingInterval FROM m2s_animal a LEFT OUTER JOIN m2s_Feed f ON a.aid = f.animalid LEFT OUTER JOIN m2s_Species s3 ON a.speciesName = s3.latinName WHERE a.aid IN (SELECT a2.aid FROM m2s_Staff s2 LEFT OUTER JOIN m2s_oversees o2 ON s2.SID = o2.staffID JOIN m2s_SpeciesGroup sg2 ON o2.sGroupName = sg2.latinName JOIN m2s_Species s2 ON s2.speciesGroup = sg2.latinName JOIN m2s_Animal a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffMemberId}) AND f.dateTime = (SELECT MAX(dateTime) FROM m2s_feed f2 WHERE a.aid = f2.animalid) OR a.aid NOT IN (SELECT DISTINCT animalID FROM m2s_FEED) ORDER BY f.dateTime ASC NULLS FIRST FETCH FIRST 5 ROWS ONLY";
 
-            String query = $"SELECT a.aid, a.name, s3.commonName, f.datetime, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
-                $"WHERE a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffID}) " +
-                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) " +
-                $"ORDER BY f.dateTime ASC NULLS FIRST " +
-                $"FETCH FIRST {rows} ROWS ONLY";
 
-            DataTable animals = DatabaseHelper.ExecuteQuery(query);
-            return animals;
-        }
 
-        /**<summary>
-         * Gets up to <param>rows</param> animals that this staff member is qualified to feed that have never been fed before.
-         * This table may be empty if all animals have been fed at least once.
-         * 
-         * @Author Dolf ten Have
-         * </summary>
-         * <param name="rows">The maximum number of rows returned.</param>
-         * <param name="staffID">The id of the staff member.</param>
-         * <returns>A Datatable with up to <param>rows</param> animals that have never been fed before.</returns>
-         */
-        private DataTable getFeedingListForStaff_AnimalsNeverFed(int rows, int staffID)
-        {
-            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
-                $"WHERE a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = {staffID}) " +
-                // All the animals that are not in the feeding table
-                $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
-                $"FETCH FIRST {rows} ROWS ONLY";
-
-            DataTable animals = DatabaseHelper.ExecuteQuery(query);
-            return animals;
-        }
 
         /**<summary>
          * Displays the list of animals that need feeding on the home page
@@ -130,15 +81,18 @@ namespace ZooApp
         {            
             int remainingRows = 6;
 
-            DataTable animals_notFed = getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
+            DataTable animals_notFed = Queries.getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
             DataTable animals_fed = null;
+            MessageBox.Show("not fed: " + animals_notFed.Rows.Count.ToString());
 
             remainingRows -= animals_notFed.Rows.Count;
             groupBoxTODO.Text = "Feeding List:";
             
             if(remainingRows > 0) {
-                animals_fed = getFeedingListForStaff(remainingRows, staffMemberId);
+                animals_fed = Queries.getFeedingListForStaff(remainingRows, staffMemberId);
             }
+
+            //MessageBox.Show("fed: " + animals_fed.Rows.Count.ToString());
 
             //If there are no animals that this person has/can feed then a message is displayed to the user.
             if(remainingRows < 1) { 
@@ -156,7 +110,7 @@ namespace ZooApp
             //Displays all the UI components
             for (int i = 0; i < animals_notFed.Rows.Count; i++)
             {
-                makeTodoUiComponent_Feed(animals_notFed.Rows[i][1].ToString(), animals_notFed.Rows[i][2].ToString(), -1, int.Parse(animals_notFed.Rows[i][3].ToString()), i);
+                makeTodoUiComponent_Feed(int.Parse(animals_fed.Rows[i][0].ToString()),animals_notFed.Rows[i][1].ToString(), animals_notFed.Rows[i][2].ToString(), -1, int.Parse(animals_notFed.Rows[i][3].ToString()), i);
             }
 
             if (animals_fed != null)
@@ -168,7 +122,7 @@ namespace ZooApp
 
                     int totalTime = (int)hours.TotalHours;
 
-                    makeTodoUiComponent_Feed(animals_fed.Rows[i][1].ToString(), animals_fed.Rows[i][2].ToString(), totalTime, int.Parse(animals_fed.Rows[i][4].ToString()), remainingRows + i);
+                    makeTodoUiComponent_Feed(int.Parse(animals_fed.Rows[i][0].ToString()),animals_fed.Rows[i][1].ToString(), animals_fed.Rows[i][2].ToString(), totalTime, int.Parse(animals_fed.Rows[i][4].ToString()), remainingRows + i);
                 }
             }
         }
@@ -184,7 +138,7 @@ namespace ZooApp
          * <param name="FeedingInterval">The feeding interval of the animal</param>
          * <param name="n">The row number that this control was generated from</param>
          */
-        private void makeTodoUiComponent_Feed(String name, String speciesName, int totalTime, int FeedingInterval, int n)
+        private void makeTodoUiComponent_Feed(int aid, String name, String speciesName, int totalTime, int FeedingInterval, int n)
         {
             String timeSuffix = " hours";
             String overDue = "";
@@ -244,7 +198,31 @@ namespace ZooApp
             
 
             btnFeed.Visible = true;
+            btnFeed.Tag = aid;
+            btnFeed.Click += btnFeedClicked;
         }
+
+        /**<summary>
+         * An event handler that sends the user to the Enclosure tab.
+         * It sets the current Enclosure to this tab and moved the user over to the enclosure tab
+         * </summary>
+         */
+        private void btnFeedClicked(object sender, EventArgs e)
+        {
+            currentEnclosure = getAnimalEnclosure(int.Parse(((Button)sender).Tag.ToString()));
+            tabControlMain.SelectTab(2);
+        }
+
+        /**<summary>Gets the enclosure id of an animal.</summary>
+         *<returns>An integer with the id of the enclosure that the animal is in.</returns>
+         */
+        private int getAnimalEnclosure(int aid)
+        {
+            String query = $"SELECT enclosureid FROM {DatabaseHelper.Table("ANIMAL")} WHERE aid = {aid}";
+            DataTable eid = DatabaseHelper.ExecuteQuery(query);
+            return int.Parse(eid.Rows[0][0].ToString());
+        }
+
 
         /**<summary>
          * Returns a string vaersion of how long ago the animal was last fed
@@ -283,13 +261,7 @@ namespace ZooApp
             vScrollBar_Enclosure.Scroll += vScrollBar_Enclosure_Scroll;
             vScrollBar_Enclosure.Enabled = false;
 
-            for(int i = 0; i < 20; i++)
-            {
-                Panel p = makeFeedAnimalUiComponent_Enclosure(i, $"Test {i}", $"Species", 4.0);
-                p.Location = new System.Drawing.Point(0, i * 25);
-                p.BackColor = System.Drawing.Color.Pink;
-                panel_Enclosure_Animals.Controls.Add(p);
-            }
+            loadEnclosureAnimals();
 
             vScrollBar_Enclosure.Enabled = true;
         }
@@ -321,16 +293,111 @@ namespace ZooApp
             vScrollBar_Enclosure.Minimum = panel_Enclosure_Animals.VerticalScroll.Minimum;
         }
 
+        /**<summary>
+         * Gets the enclosure name based on the ID of the enclosure.
+         * If the search texbox is empty, then nothing is searched.
+         * </summary>
+         */
+        private void button_Enclosure_Search_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(textBox_Enclosure_Search.Text))
+            {
+                MessageBox.Show("Please enter something into the search bar before searching.");
+                return;
+            }
+
+            DataTable enclosureList = Queries.getEnclosuresByName(textBox_Enclosure_Search.Text);
+
+            EnclosureIdList.Clear();
+            comboBox_Enclosure_Search.Items.Clear();
+
+            comboBox_Enclosure_Search.Items.Add(enclosureList.Rows.Count.ToString() + " Enclosures Found");
+            //Adds a spoof id so that when a real enclosure is selected, it matches it list position
+            EnclosureIdList.Add(-1);
+            comboBox_Enclosure_Search.SelectedIndex = 0;
+
+            for(int i = 0; i < enclosureList.Rows.Count; i++)
+            {
+                comboBox_Enclosure_Search.Items.Add(enclosureList.Rows[i][1].ToString() + " Enclosure");
+                EnclosureIdList.Add(int.Parse(enclosureList.Rows[i][0].ToString()));
+            }
+        }
+
+        /**<summary>
+         * Sets the current Enclosure to the enclosure that is selected from the list of enclosures.
+         * Then calls loadEnclosureAnimals().
+         * </summary>
+         */
+        private void comboBox_Enclosure_Search_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //If the selected index is 0 then nothing new is loaded. This is the case if the header is selected or if there is already an enclosure loaded.
+            if(comboBox_Enclosure_Search.SelectedIndex == 0)
+            {
+                return;
+            }
+
+            //If this is already the currentEnclosure, then the list is not reloaded
+            if(comboBox_Enclosure_Search.SelectedIndex == currentEnclosure)
+            {
+                return;
+            }
+            
+            currentEnclosure = EnclosureIdList[comboBox_Enclosure_Search.SelectedIndex];
+            loadEnclosureAnimals();
+        }
+
+
+
+
+
+        /**<summary>
+         * This loads all the animals that the zookeper is allowed to care for for a given enclosure int o the enxlosure tab.
+         * </summary>
+         */
         private void loadEnclosureAnimals()
         {
+            //Doesnt load any animal data if no enclosure is currently selected
+            if(currentEnclosure == -1)
+            {
+                return;
+            }
 
+            DataTable animals = Queries.getEnclosureAnimals(staffMemberId, currentEnclosure);
+            comboBox_Enclosure_Search.Items.Clear();
+            comboBox_Enclosure_Search.Items.Add(Queries.getEnclosureNameById(currentEnclosure).Rows[0][0].ToString() + " Enclosure");
+            comboBox_Enclosure_Search.SelectedIndex = 0;
+            panel_Enclosure_Animals.Controls.Clear();
+            selectedAnimalsCheckboxList.Clear();
+            selectedAnimals.Clear();
+            button_feedGroup.Enabled = false;
+            textBox_Enclosure_Search.Text = string.Empty;
+
+            DateTime currentTime = DateTime.Now;
+
+            for (int i = 0; i < animals.Rows.Count; i++)
+            {
+                Panel p;
+                if (animals.Rows[i][3] == null)
+                {
+                    p = makeFeedAnimalUiComponent_Enclosure(int.Parse(animals.Rows[i][0].ToString()), animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), -1);
+                }
+                else
+                {
+                    DateTime lastFed = (DateTime)animals.Rows[i][3];
+                    TimeSpan hours = currentTime - lastFed;
+
+                    p = makeFeedAnimalUiComponent_Enclosure(int.Parse(animals.Rows[i][0].ToString()), animals.Rows[i][1].ToString(), animals.Rows[i][2].ToString(), (int)hours.TotalHours);
+                }
+                p.Location = new System.Drawing.Point(0, i * 25);
+                panel_Enclosure_Animals.Controls.Add(p);
+            }
         }
 
         /**<summary>
          * Creates a panel with information about an animal and a checkbox to select it
          * </summary>
          */
-        private Panel makeFeedAnimalUiComponent_Enclosure(int aid, String name, String species, double lastFed)
+        private Panel makeFeedAnimalUiComponent_Enclosure(int aid, String name, String species,int lastFed)
         {
             Panel p = new Panel();
             Label animal = new Label();
@@ -340,7 +407,7 @@ namespace ZooApp
             p.Width = panel_Enclosure_Animals.Width;
             p.Height = 24;
 
-            animal.Text = $"{name}, {species}, {calculateLastFedTime((int)lastFed)}";
+            animal.Text = $"{name}, {species}, {calculateLastFedTime(lastFed)}";
             animal.AutoSize = true;
 
             p.Controls.Add(animal);
@@ -348,8 +415,9 @@ namespace ZooApp
 
             p.Controls.Add(selectAnimal);
             selectAnimal.Location = new System.Drawing.Point(p.Width - selectAnimal.Width - 5, 0);
-            selectAnimal.Tag = animal;
+            selectAnimal.Tag = aid;
             selectAnimal.CheckedChanged += SelectAnimal_CheckedChanged;
+            selectedAnimalsCheckboxList.Add(selectAnimal);
 
             return p;
         }
@@ -365,12 +433,61 @@ namespace ZooApp
             if (((CheckBox)sender).Checked)
             {
                 selectedAnimals.Add(int.Parse(((CheckBox)sender).Tag.ToString()));
-                MessageBox.Show($"Added {((CheckBox)sender).Tag.ToString()}");
             }
             else
             {
                 selectedAnimals.Remove(int.Parse(((CheckBox)sender).Tag.ToString()));
             }
+
+            //Dissables the button when it is clicked.
+            if(selectedAnimals.Count == 0)
+            {
+                button_feedGroup.Enabled = false;
+            }
+            else
+            {
+                button_feedGroup.Enabled = true;
+            }
+        }
+
+        /**<summary>
+         * Deselects all the animals currently selected for feeding
+         * </summary>
+         */
+        private void button_selectAllFeed_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < selectedAnimalsCheckboxList.Count; i++)
+            {
+                selectedAnimalsCheckboxList[i].Checked = true;
+            }
+        }
+
+        /**<summary>
+         * Unselects all the animals in the list.
+         * </summary>
+         */
+        private void button_selectNoneFeed_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < selectedAnimalsCheckboxList.Count; i++)
+            {
+                selectedAnimalsCheckboxList[i].Checked = false;
+            }
+        }
+
+        /**<summary>
+         * Feeds all the animals that are currently selected
+         * </summary>
+         */
+        private void button_feedGroup_Click(object sender, EventArgs e)
+        {
+            String animalList = "Feeding (aid): [";
+            for(int i = 0; i < selectedAnimals.Count - 1; i++)
+            {
+                animalList += selectedAnimals[i].ToString();
+                animalList += ",";
+            }
+            animalList += selectedAnimals[selectedAnimals.Count - 1].ToString() + "]";
+            MessageBox.Show(animalList);
         }
 
 
@@ -640,7 +757,7 @@ namespace ZooApp
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
             nud.Minimum = 1;
-            nud.Maximum = numPages;
+            //nud.Maximum = numPages;
         }
 
         /// <summary>
@@ -708,7 +825,7 @@ namespace ZooApp
                     populateAnimalComboBox();
                     return;
                 case 2:
-                    //initialiseEnclosure();
+                    initialiseEnclosure();
                     return;
                 case 3:
                     // Zone Tab Logic

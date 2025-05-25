@@ -1,6 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
+using System.Collections.Generic;
 
 namespace ZooApp
 {
@@ -11,8 +12,8 @@ namespace ZooApp
 
         // Change this to your actual connection string
         //public static string connectionString = "User Id=mh1155;Password=VwDzrCNPjV;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
-        public static string connectionString = "User Id=jc550;Password=NqzX7u384s;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
-        //public static string connectionString = "User Id=dt194;Password=W967XuxynR;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+        //public static string connectionString = "User Id=jc550;Password=NqzX7u384s;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
+        public static string connectionString = "User Id=dt194;Password=W967XuxynR;Data Source=oracle.cms.waikato.ac.nz:1521/teaching;";
 
         // Used to switch between datasets (M2S, M21, etc.)
         public static void SetTablePrefix(string prefix)
@@ -32,7 +33,13 @@ namespace ZooApp
             return toConvert.ToString("yyyy-MM-dd");
         }
 
-        // Executes a SELECT and returns a filled DataTable
+        /**<summary>
+         * Executes a Query on the database.
+         * </summary>
+         * <param name="query">The Query String.</param>
+         * <param name="parameters">A list of OracleParameters. Can be null</param>
+         * <returns>A DataTable containg query results.</returns>
+         */
         public static DataTable ExecuteQuery(string query, OracleParameter[] parameters = null)
         {
             DataTable dt = new DataTable();
@@ -51,9 +58,9 @@ namespace ZooApp
                     }
                 }
             }
-
             return dt;
         }
+
 
         // Executes INSERT, UPDATE, or DELETE with parameters
         public static void ExecuteNonQuery(string query, OracleParameter[] parameters)
