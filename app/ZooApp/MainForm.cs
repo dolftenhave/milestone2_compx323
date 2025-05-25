@@ -657,7 +657,7 @@ namespace ZooApp
 
         private void btnSelectZone_Click(object sender, EventArgs e)
         {
-            return;
+            tabControlMain.SelectedIndex = 2;
         }
 
         private void btnAddFeed_Click(object sender, EventArgs e)
