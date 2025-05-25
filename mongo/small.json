@@ -1,0 +1,292 @@
+-- Zone, Enclosure
+{ "name":"Africa", "colour":"Yellow", "hexcode":"FFFF00", "enclosures":[
+	{"eid":2, "name":"Savnna Herds", "biome":"Savanna","eSize": 847},
+	{"eid":3, "name":"Lions", "biome":"Savanna","eSize": 657}
+]}
+{ "name":"Native", "colour":"Green", "hexcode":"008000", "enclosures":[
+	{"eid":1, "name":"Mexican Terantula", "biome":"Arrid","eSize": 2},
+	{"eid":91, "name":"Black Widow","biome":"Jungle","eSize": 2},
+	{"eid":4, "name":"Kiwi", "biome":"Forest","eSize": 42},
+	{"eid":5, "name":"Forest", "biome":"Forest","eSize": 210}
+]}
+{ "name":"Australia", "colour":"Red", "hexcode":"E4002B","enclosures":[
+	{"eid":6, "name":"Marsupials", "biome":"Woodland","eSize": 374},
+	{"eid":90, "name":"Australian Bush", "biome":"Forest","eSize": 434}
+]}
+
+--Species Group, Species, Animal
+{"latinName":"Arachnida", "commonName":"Spider","species":[
+	{"latinName":"Latrodectus occidentalis", "commonName":"Mexican Black Widow Spider", "requiredBiome":"Jungle","animals":[
+		{"aid":1,"sex":"M","feedingInterval": 12, "name":"Roberto","weight": 1.0, "originCountry":"MEX", "dob":{"$date":"2023-04-21"}}
+	]},
+	{"latinName":"Aphonopelma chalcodes", "commonName":"western desert tarantula", "requiredBiome":"Arrid","animals":[
+		{"aid":2, "sex":"F","feedingInterval": 48, "name":"Chika","weight": 150.0, "originCountry":"USA", "dob":{"$date":"2013-05-30"}}
+	]}
+]}
+{"latinName":"Carnivora", "commonName":"Carnivores","species":[
+	{"latinName":"Panthera leo", "commonName":"Lion", "requiredBiome":"Savanna","animals":[
+		{"aid":3, "sex":"M","feedingInterval": 24, "name":"Leo","weight": 212345.0, "originCountry":"TZA", "dob":{"$date":"2017-04-11"}},
+		{"aid":4, "sex":"F","feedingInterval": 24, "name":"Sarah","weight": 120334.0, "originCountry":"TZA", "dob":{"$date":"2020-04-19"}},
+		{"aid":5,"sex":"F","feedingInterval": 24, "name":"Lily","weight": 140342.0, "originCountry":"TZA", "dob":{"$date":"2019-07-17"}},
+		{"aid":6, "sex":"F","feedingInterval": 24, "name":"Stephanie","weight": 60376.0, "originCountry":"TZA", "dob":{"$date":"2024-11-12"}}
+	]}
+]}
+{"latinName":"Apterygiformes", "commonName":"Kiwi","species":[
+	{"latinName":"Apteryx haastii", "commonName":"Great Spotted Kiwi", "requiredBiome":"Forest", "animals":[
+		{"aid":7, "sex":"M","feedingInterval": 24, "name":"Tama","weight": 2053.0, "originCountry":"NZL", "dob":{"$date":"1994-01-01"}},
+		{"aid":8, "sex":"M","feedingInterval": 24, "name":"Richie","weight": 1934.0, "originCountry":"NZL", "dob":{"$date":"1997-12-31"}},
+		{"aid":9, "sex":"F","feedingInterval": 24, "name":"Grace","weight": 2513.0, "originCountry":"NZL", "dob":{"$date":"2015-03-03"}}
+	]}
+]}
+{"latinName":"Proboscidea", "commonName":"Elephant","species":[
+	{"latinName":"Loxodonta africana", "commonName":"African Bush Elephant", "requiredBiome":"Savanna", "animals":[
+		{"aid":10, "sex":"F","feedingInterval": 12, "name":"Tiffany","weight": 6134000.0, "originCountry":"ZAF", "dob":{"$date":"1992-07-19"}},
+		{"aid":11, "sex":"M","feedingInterval": 12, "name":"Dumbo","weight": 3240000.0, "originCountry":"ZAF", "dob":{"$date":"1989-12-03"}}
+	]},
+	{"latinName":"Diceros bicornis", "commonName":"Black Rhinoceros", "requiredBiome":"Savanna", "animals":[
+		{"aid":24, "sex":"F","feedingInterval": 12, "name":"Bertha","weight": 1450000.0, "originCountry":"ZAF", "dob":{"$date":"1985-04-23"}}
+]}
+]}
+{"latinName":"Diprotodontia", "commonName":"Marsupials","species":[
+	{"latinName":"Macropus giganteus", "commonName":"Eastern Grey Kangaroo", "requiredBiome":"Woodland", "animals":[
+		{"aid":12, "sex":"M","feedingInterval": 12, "name":"Tigger","weight": 17300.0, "originCountry":"AUS", "dob":{"$date":"2004-11-12"}},
+		{"aid":13, "sex":"F","feedingInterval": 12, "name":"Zongo","weight": 19200.0, "originCountry":"AUS", "dob":{"$date":"2005-12-13"}},
+		{"aid":14, "sex":"F","feedingInterval": 12, "name":"Skippy","weight": 17500.0, "originCountry":"AUS", "dob":{"$date":"2013-01-14"}}
+	]},
+	{"latinName":"Notamacropus rufogriseus", "commonName":"Red-Necked Wallaby", "requiredBiome":"Woodland", "animals":[
+		{"aid":15, "sex":"M","feedingInterval": 12, "name":"Bazza","weight": 19430.0, "originCountry":"AUS", "dob":{"$date":"2012-05-23"}},
+		{"aid":16, "sex":"M","feedingInterval": 12, "name":"Steve","weight": 17800.0, "originCountry":"AUS", "dob":{"$date":"2017-08-06"}},
+		{"aid":17, "sex":"F","feedingInterval": 12, "name":"Anette","weight": 13210.0, "originCountry":"AUS", "dob":{"$date":"2015-08-27"}},
+		{"aid":18, "sex":"F","feedingInterval": 12, "name":"Coutney","weight": 3325.0, "originCountry":"AUS", "dob":{"$date":"2025-01-17"}}
+	]}
+]}
+{"latinName":"Perissodactyla", "commonName":"horses, added, zebra","species":[
+	{"latinName":"Equus quagga", "commonName":"Plains Zebra", "requiredBiome":"Savanna", "animals":[
+		{"aid":19, "sex":"M","feedingInterval": 12, "name":"Stripy","weight": 412900.0, "originCountry":"NAM", "dob":{"$date":"1987-01-16"}},
+		{"aid":20, "sex":"M","feedingInterval": 12, "name":"Clopper","weight": 390000.0, "originCountry":"NAM", "dob":{"$date":"1996-02-17"}},
+		{"aid":21, "sex":"F","feedingInterval": 12, "name":"Jess","weight": 375300.0, "originCountry":"NAM", "dob":{"$date":"1997-04-23"}},
+		{"aid":22, "sex":"F","feedingInterval": 12, "name":"Fran","weight": 402300.0, "originCountry":"NAM", "dob":{"$date":"2007-05-28"}},
+		{"aid":23, "sex":"F","feedingInterval": 12, "name":"Stella","weight": 401400.0, "originCountry":"NAM", "dob":{"$date":"2017-07-14"}}
+	]}
+]}
+
+-- Staff
+{"sid": 1,"fName": "Sam", "lName":"Cotton", "dob":{"$date":"1986-04-01"}, "phoneNumber":"+64223278952","email":"Sam.C@zoo.com","address":{
+	"streetNumber":32, "streetName":"Rim Road", "suburb":"Claudlands", "city":"Hamilton", "postCode":"3216"},
+"sex":"M"}
+{"sid": 2,"fName": "Grace", "lName":"White", "dob":{"$date":"1996-07-24"}, "phoneNumber":"0246549875","email":"GraceWhite547@hotmail.com","address":{
+	"streetNumber":7396, "streetName":"SH1", "suburb":"Karapiro", "city":"Waikato", "postCode":"3472"},
+"clinic":"Karapiro Vets","sex":"F"}
+{"sid": 3,"fName": "Bruce", "lName":"Batton", "dob":{"$date":"1975-07-13"}, "phoneNumber":"0225768945","email":"BrucieTheBest@gmail.com","address":{
+	"streetNumber":32, "streetName":"Masters Ave", "suburb":"Silverdale", "city":"Hamilton", "postCode":"3216"},
+"sex":"M"}
+{"sid": 4,"fName": "Bryce", "lName":"Trainer", "dob":{"$date":"1998-07-24"}, "phoneNumber":"0224519736","email":"BryceTrainsALot@outlook.com","address":{
+	"streetNumber": 54, "streetName":"Hillcrest rd", "suburb":"Hillcrest", "city":"Hamilton", "postCode":"3216"},
+"clinic":"Newstead Vets","sex":"F"}
+{"sid": 5,"fName": "Kendal", "lName":"Tanner", "dob":{"$date":"2001-01-16"}, "phoneNumber":"0219843275","email":"kt175@notReal.students.waikato.ac.nz","address":{
+	"streetNumber":3, "streetName":"Paul Close", "suburb":"Hillcrest", "city":"Hamilton", "postCode":"3216"},
+"sex":"F"}
+
+-- Oversees 
+{"sGroupName":"Arachnida","staffID": 1}
+{"sGroupName":"Carnivora","staffID": 1}
+{"sGroupName":"Apterygiformes","staffID": 1}
+{"sGroupName":"Arachnida","staffID": 3}
+{"sGroupName":"Carnivora","staffID": 3}
+{"sGroupName":"Apterygiformes","staffID": 3}
+{"sGroupName":"Apterygiformes","staffID": 5}
+{"sGroupName":"Diprotodontia","staffID": 5}
+{"sGroupName":"Proboscidea","staffID": 3}
+{"sGroupName":"Proboscidea","staffID": 1}
+{"sGroupName":"Diprotodontia","staffID": 1}
+{"sGroupName":"Perissodactyla","staffID": 1}
+{"sGroupName":"Perissodactyla","staffID": 3}
+
+-- Care 
+{"staffID":2,"animalID": 19, "datetime":{"$date":"2025-04-03T10:30:00"}, "care":"Trimmed Hoofs"}
+{"staffID":2,"animalID": 20, "datetime":{"$date":"2025-04-03T10:40:00"}, "care":"Trimmed Hoofs"}
+{"staffID":2,"animalID": 21, "datetime":{"$date":"2025-04-03T10:50:00"}, "care":"Trimmed Hoofs"}
+{"staffID":2,"animalID": 22, "datetime":{"$date":"2025-04-03T11:00:00"}, "care":"Trimmed Hoofs"}
+{"staffID":2,"animalID": 23, "datetime":{"$date":"2025-04-03T11:10:00"}, "care":"Trimmed Hoofs"}
+{"staffID":4,"animalID": 8, "datetime":{"$date":"2025-01-06T11:10:00"}, "care":"Trouble Breathing", "notes":"The kiwi seemed to have trouble breathing. Coming back in 2 days for further Chechup."}
+{"staffID":4,"animalID": 8, "datetime":{"$date":"2025-01-08T12:10:00"}, "care":"Trouble Breathing", "notes":"Medicine seemed to have worked. No further care needed"}
+-- Feed
+
+
+-- Black Widow Spider
+{"staffID":1,"animalID": 1, "datetime":{"$date":"2025-04-03T10:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":1,"animalID": 1, "datetime":{"$date":"2025-04-02T10:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":1,"animalID": 1, "datetime":{"$date":"2025-04-04T10:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":1,"animalID": 1, "datetime":{"$date":"2025-04-05T10:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":2,"animalID": 1, "datetime":{"$date":"2025-04-03T22:40:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":2,"animalID": 1, "datetime":{"$date":"2025-04-02T22:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":2,"animalID": 1, "datetime":{"$date":"2025-04-04T22:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+{"staffID":2,"animalID": 1, "datetime":{"$date":"2025-04-05T22:30:00"},"amount": 0.2, "foodType":"Meal Worm"}
+
+-- Terantual
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-03T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-01T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-07T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-09T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-11T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-13T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 2, "datetime":{"$date":"2025-04-15T12:30:00"},"amount": 20.0,"foodType":"Meat"}
+
+-- Lion Enclosure
+{"staffID":3,"animalID": 3,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 4,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 5,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 6,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 3,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 4,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 5,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 6,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 3,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 4,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 5,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":1,"animalID": 6,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 3,"datetime":{"$date":"2025-04-17T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 4,"datetime":{"$date":"2025-04-17T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 5,"datetime":{"$date":"2025-04-17T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+{"staffID":3,"animalID": 6,"datetime":{"$date":"2025-04-17T12:30:00"},"amount":3000.0,"foodType":"Meat"}
+
+-- Kiwi Enclosure
+{"staffID":5,"animalID": 7,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 8,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 9,"datetime":{"$date":"2025-04-11T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+
+{"staffID":5,"animalID": 7,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 8,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 9,"datetime":{"$date":"2025-04-13T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+
+{"staffID":5,"animalID": 7,"datetime":{"$date":"2025-04-14T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 8,"datetime":{"$date":"2025-04-14T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 9,"datetime":{"$date":"2025-04-14T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+
+{"staffID":5,"animalID": 7,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 8,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+{"staffID":5,"animalID": 9,"datetime":{"$date":"2025-04-15T12:30:00"},"amount":20.0,"foodType":"Grubs"}
+
+-- Africa Enclusure
+{"staffID":3,"animalID": 10,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 11,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 19,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 20,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 21,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 22,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 23,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 24,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":8000.0,"foodType":"Hay and Fruits"}
+
+{"staffID":3,"animalID": 10,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 11,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 19,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 20,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 21,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 22,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 23,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 24,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":8000.0,"foodType":"Hay and Fruits"}
+
+{"staffID":3,"animalID": 10,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 11,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 19,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 20,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 21,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 22,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 23,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":3,"animalID": 24,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":8000.0,"foodType":"Hay and Fruits"}
+
+{"staffID":1,"animalID": 10,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 11,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 19,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 20,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 21,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 22,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 23,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 24,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":8000.0,"foodType":"Hay and Fruits"}
+
+{"staffID":1,"animalID": 10,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 11,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":20000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 19,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 20,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 21,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 22,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 23,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":2000.0,"foodType":"Hay and Fruits"}
+{"staffID":1,"animalID": 24,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":8000.0,"foodType":"Hay and Fruits"}
+
+-- Aus enclosure
+{"staffID":3,"animalID":12,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":13,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":14,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":15,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":16,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":17,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":18,"datetime":{"$date":"2025-04-11T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":12,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":13,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":14,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":15,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":16,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":17,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":18,"datetime":{"$date":"2025-04-11T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+
+{"staffID":3,"animalID":12,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":13,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":14,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":15,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":16,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":17,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":18,"datetime":{"$date":"2025-04-12T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":12,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":13,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":14,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":15,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":16,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":17,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":18,"datetime":{"$date":"2025-04-12T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+
+{"staffID":3,"animalID":12,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":13,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":14,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":15,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":16,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":17,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":18,"datetime":{"$date":"2025-04-13T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":12,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":13,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":14,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":15,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":16,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":17,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":18,"datetime":{"$date":"2025-04-13T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+
+{"staffID":3,"animalID":12,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":13,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":14,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":15,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":16,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":17,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":18,"datetime":{"$date":"2025-04-14T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":12,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":13,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":14,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":15,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":16,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":17,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":18,"datetime":{"$date":"2025-04-14T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+
+{"staffID":3,"animalID":12,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":13,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":14,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":15,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":16,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":17,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":3,"animalID":18,"datetime":{"$date":"2025-04-15T15:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":12,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":13,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":14,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":15,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":16,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":17,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+{"staffID":5,"animalID":18,"datetime":{"$date":"2025-04-15T09:30:00"},"amount":1000.0,"foodType":"Cornmeal and Protien"}
+
+-- INSERT INTO m2s_Feed VALUES (3,,TIMESTAMP " ",,"");
