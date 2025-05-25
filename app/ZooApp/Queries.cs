@@ -505,11 +505,10 @@ namespace ZooApp
                 $"FETCH FIRST :nrows ROWS ONLY";
 
             List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.ReturnValue));
-            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.ReturnValue));
+            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.Input));
 
-            DataTable animals = DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
-            return animals;
+            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
         }
 
         /**<summary>
@@ -536,10 +535,10 @@ namespace ZooApp
                 // All the animals that are not in the feeding table
                 $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
                 $"FETCH FIRST :nrows ROWS ONLY";
-            List<OracleParameter> parameters= new List<OracleParameter>();
 
-            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.ReturnValue));
-            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.ReturnValue));         
+            List<OracleParameter> parameters = new List<OracleParameter>();
+            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.Input));
 
             return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
         }
@@ -594,8 +593,8 @@ namespace ZooApp
                 $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid ) " +
                 $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) ";
             List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
             parameters.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
+            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
             return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
         }
     }

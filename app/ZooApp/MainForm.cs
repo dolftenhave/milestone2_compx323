@@ -82,6 +82,7 @@ namespace ZooApp
 
             DataTable animals_notFed = Queries.getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
             DataTable animals_fed = null;
+            MessageBox.Show("not fed: " + animals_notFed.Rows.Count.ToString());
 
             remainingRows -= animals_notFed.Rows.Count;
             groupBoxTODO.Text = "Feeding List:";
@@ -89,6 +90,8 @@ namespace ZooApp
             if(remainingRows > 0) {
                 animals_fed = Queries.getFeedingListForStaff(remainingRows, staffMemberId);
             }
+
+            //MessageBox.Show("fed: " + animals_fed.Rows.Count.ToString());
 
             //If there are no animals that this person has/can feed then a message is displayed to the user.
             if(remainingRows < 1) { 
