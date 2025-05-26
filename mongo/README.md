@@ -5,6 +5,7 @@ This folder contains all the documents needed to implement zoo.sql in mongodb.
 ## Collections
 
 There are 6 total json documents. Each of which will go into their own collection.
+
 - [Care](Care.json) containing all the care information for each animal.
 - [Feed](Feed.json) Containgin all the Feeding information for each anonimal.
 - [Oversees](Oversees.json) Containing all the information of which zooKeeper oversees what speciesGroup.
@@ -17,42 +18,44 @@ There are 6 total json documents. Each of which will go into their own collectio
 ### Staff
 
 The top staff is a zookeeper and the bottom staff member is a vet.
+
 ```json
 {
  "sid":1,
  "fname":"jason",
  "lname":"mamoa",
- "dob": new Date("YYYY-mm-dd"),
+ "dob":{"$date":"YYYY-mm-dd"},
  "phoneNumber":"+64234567890",
  "email":"example@email.com",
- "street_num":"23a",
- "street_name":"street",
- "suburb":"sub",
- "city":"cityname",
- "postcode":"0123",
+ "address":{
+     "street_num":"23a",
+     "street_name":"street",
+     "suburb":"sub",
+     "city":"cityname",
+     "postcode":"0123"
+  },
  "sex":"M",
  "overSees":[
-    {$lookup: 1},
-    {$lookup: 2}
+    {"latinName":"sg1"},
+    {"latinName":"sg2"}
     ]
 }
 {
  "sid":1,
  "fname":"jason",
  "lname":"mamoa",
- "dob": new Date("YYYY-mm-dd"),
+ "dob":{"$date":"YYYY-mm-dd"},
  "phoneNumber":"+64234567890",
  "email":"example@email.com",
- "street_num":"23a",
- "street_name":"street",
- "suburb":"sub",
- "city":"cityname",
- "postcode":"0123",
+ "address":{
+    "street_num":"23a",
+     "street_name":"street",
+     "suburb":"sub",
+     "city":"cityname",
+     "postcode":"0123"
+ },
  "sex":"M",
  "clinic":"this is a vet clinic",
- "care":[
- {$lookup: 1},
- {$looup: 2}]
 }
 ```
 
@@ -67,41 +70,33 @@ The top staff is a zookeeper and the bottom staff member is a vet.
         "common_name":"name11",
         "requred_biome":"biome",
         "animal":[
-            {
-            animal ref
-            }]
+        {
+            "aid":1,
+            "name":"bon",
+            "weight":12.90,
+            "originCountry":"NLD",
+            "dob":{"$date":"YYYY-mm-dd"},
+            "sex":"M",
+            "feedin_interval":24
         }]
+    }]
 }
 ```
 
 ### Zone
+
 ```json
 {
     "name":"e1",
     "Colour":"White",
     "hex_value":"ffffff",
     "enclosure":[
-    { "eid":1,
-    "biome":"jungle",
-    "size":25,
-    "animal":[
-    {
-    animal ref
-    }
+        { "eid":1,
+        "biome":"jungle",
+        "size":25,
+        "animals":[
+        {"aid":1}
     ]}
-}
-```
-### Animal
-
-```json
-{
-    "aid":1,
-    "name":"bon",
-    "weight":12.90,
-    "originCountry":"NLD",
-    "dob": new Date("YYYY-mm-dd"),
-    "sex":"M",
-    "feedin_interval":24 
 }
 ```
 
@@ -109,20 +104,22 @@ The top staff is a zookeeper and the bottom staff member is a vet.
 
 ```json
 {
-    "dateTime": new Date("YYYY-mm-ddTHH:MM:ss"),
+    "dateTime":{"$date":"YYYY-mm-ddTHH:MM:ss"},
     "care":"recieved",
     "notes":"care_notes",
-    "animal":$lookup aid,
-    "staff":$lookup sid
+    "animal":1,
+    "staff":1
 }
 ```
 
-### Care 
+### Care
+
 ```json
-{ 
-    "dateTime": new Date("YYYY-mm-ddTHH:MM:ss"),
+{
+    "dateTime":{"$date":"YYYY-mm-ddTHH:MM:ss"},
     "food_type": "food",
     "ammount":124.00,
-    "animal":$lookup aid,
-    "staff":$lookup sid
+    "animal":1,
+    "staff":1
 }
+```
