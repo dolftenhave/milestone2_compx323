@@ -32,6 +32,7 @@ namespace ZooApp
             selectedAnimals= new List<int>();
             selectedAnimalsCheckboxList= new List<CheckBox>();
             EnclosureIdList= new List<int>();
+            ZoneNameList = new List<String>();
             InitializeComponent();
 
             // For Mongo
@@ -672,6 +673,14 @@ namespace ZooApp
             }
 
             DataTable basicZoneInfo = DatabaseHelper.ExecuteQuery(initZoneDataQuery);
+
+            // Write result to the list of zone names
+            ZoneNameList = new List<String>();
+            for (int i = 0; i < basicZoneInfo.Rows.Count; i++)
+            {
+                ZoneNameList.Add(basicZoneInfo.Rows[i]["name"].ToString());
+            }
+            
             // WRITE SOMETHING FOR IF NO ZONE IS FOUND
 
             // Populate UI elements!
@@ -787,7 +796,30 @@ namespace ZooApp
 
         private void btnSelectZone_Click(object sender, EventArgs e)
         {
+            // 😊 get zone name
+            String btnText = ((Button)sender).Name;
+            int index = int.Parse(btnText.Substring(btnText.Length - 1)) - 1;
+            String zoneName = ZoneNameList[index];
 
+            // Make sure to set the current enclosure to -1!
+            currentEnclosure = -1;
+
+            // Get a DataTable with:
+            // [0] eid
+            // [1] eName
+            String query = $"SELECT distinct e.eid, e.name " +
+                $"FROM {DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} sp, " +
+                $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o, " +
+                $"{DatabaseHelper.Table("ANIMAL")} a " +
+                $"WHERE e.zoneName = '{ZoneNameList[index]}' " +
+                $"AND a.enclosureID = e.eid " +
+                $"AND a.speciesName = sp.latinname " +
+                $"AND sp.speciesgroup = o.sGroupName " +
+                $"AND o.staffID = '{staffMemberId}' ";
+
+            // Run query and populate the enclosure combobox
+            DataTable enclosuresToShow = DatabaseHelper.ExecuteQuery(query);
+            populateEnclosureList_ComboBox_Enclosure_Search(enclosuresToShow);
 
             // Now switch tabs, combobox is populated. 
             tabControlMain.SelectedIndex = 2;
