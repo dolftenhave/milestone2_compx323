@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Text.Json;
+using System.Data;
 
 namespace ZooApp
 {
@@ -30,6 +31,19 @@ namespace ZooApp
         public static List<BsonDocument> FindAll(string collectionName)
         {
             return GetCollection(collectionName).Find(new BsonDocument()).ToList();
+        }
+
+        /**<summary>
+         * An internal method that converts the data returnd form the mongoDB collection to a DataTable.
+         * </summary>
+         * <param name="data">The IMongoDatabase results.</param>
+         * <returns>A DataTable containing all MongoDatabase data</returns>
+         */
+        private static DataTable toDataTable(IMongoDatabase data)
+        {
+            DataTable dt = new DataTable();
+            //TODO Dolf will implement.
+            return dt;
         }
 
         public static void InsertDocument(string collectionName, BsonDocument document)
