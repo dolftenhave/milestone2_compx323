@@ -20,6 +20,7 @@ namespace ZooApp
         private List<int> selectedAnimals; //A list of animals currently selected
         private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
         private List<int> EnclosureIdList; //Contains a list of id's of all the enclosures that have currently been searched for.
+        private List<String> ZoneNameList; //A list of the zones that are currently selected 
         
         // For Mongo
         private readonly bool usingMongo;
@@ -311,11 +312,11 @@ namespace ZooApp
         }
 
         /**<summary>
-         * Adds all the enclosures in the list too the combobox.
+         * Adds all the enclosures in the DataTable to the ComboBox.
          * 
          * !! IMPORTANT !!
          * 
-         * The list MUSTbe in the format [0]eid,[1]enclosure name.
+         * The list MUST be in the format [0]eid,[1]enclosure name.
          * 
          * If you are passing this in from another tab then you may want to set currentEnclosure to -1.
          * </summary>
@@ -786,10 +787,10 @@ namespace ZooApp
 
         private void btnSelectZone_Click(object sender, EventArgs e)
         {
-            // will do the thing for enclosures... 
+
+
+            // Now switch tabs, combobox is populated. 
             tabControlMain.SelectedIndex = 2;
-            
-            // then put the zone enclosures in
         }
 
         private void btnAddFeed_Click(object sender, EventArgs e)
