@@ -4,9 +4,11 @@ This project contains all the code used to creat Milestone 2 for Compx323-25A at
 
 ## Tasks
 - Relational Schema - **Joel**
-- Table Creation - **Joel / Dolf / Min Soe**
+- Table Creation - **Joel / Dolf / Min Soe Htut**
 - Datasets (large & small) - **Dolf**
-- Application - **Min Soe**
+- Application - **Min Soe Htut**
+- MongoDB Data sets - **Dolf**
+- MongoDB Application Extension - **Min Soe Htut** 
 
 ## Files
 - [zoo.sql](zoo.sql) Contains two sets of tables. `m2s` and `m2l`. These represent the tables for the small and large data sets.

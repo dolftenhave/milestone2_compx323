@@ -20,7 +20,9 @@ namespace ZooApp
         private List<int> selectedAnimals; //A list of animals currently selected
         private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
         private List<int> EnclosureIdList; //Contains a list of id's of all the enclosures that have currently been searched for.
-
+        
+        // For Mongo
+        private readonly bool usingMongo;
 
         public MainForm(int staffMemberId)
         {
@@ -30,6 +32,9 @@ namespace ZooApp
             selectedAnimalsCheckboxList= new List<CheckBox>();
             EnclosureIdList= new List<int>();
             InitializeComponent();
+
+            // For Mongo
+            usingMongo = LoginForm.SelectedDataset.Contains("MongoDB");
         }
 
         /**<summary>
@@ -37,6 +42,7 @@ namespace ZooApp
          * </summary>
          */
         private void MainForm_Load(object sender, EventArgs e) {
+            
             lblStaffName.Text = $"Welcome, {getStaffDetails()}";
             if(staffRole == 0)
                 displayFeedingList();
@@ -340,10 +346,6 @@ namespace ZooApp
             currentEnclosure = EnclosureIdList[comboBox_Enclosure_Search.SelectedIndex];
             loadEnclosureAnimals();
         }
-
-
-
-
 
         /**<summary>
          * This loads all the animals that the zookeper is allowed to care for for a given enclosure int o the enxlosure tab.

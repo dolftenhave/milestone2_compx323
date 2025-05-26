@@ -272,7 +272,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaffInfo.cs" />
     <Compile Include="Archive\UpdateDeleteStaffForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -291,6 +290,7 @@
     <Compile Include="Report.Designer.cs">
       <DependentUpon>Report.cs</DependentUpon>
     </Compile>
+    <Compile Include="Staff.cs" />
     <EmbeddedResource Include="AddAnimalForm.resx">
       <DependentUpon>AddAnimalForm.cs</DependentUpon>
     </EmbeddedResource>
