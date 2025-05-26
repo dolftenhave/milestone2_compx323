@@ -771,7 +771,10 @@ namespace ZooApp
 
         private void btnSelectZone_Click(object sender, EventArgs e)
         {
+            // will do the thing for enclosures... 
             tabControlMain.SelectedIndex = 2;
+            
+            // then put the zone enclosures in
         }
 
         private void btnAddFeed_Click(object sender, EventArgs e)

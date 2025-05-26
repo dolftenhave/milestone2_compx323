@@ -156,10 +156,9 @@ namespace ZooApp
             this.tabControlMain.Controls.Add(this.tabZone);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
-            this.tabControlMain.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(720, 1231);
+            this.tabControlMain.Size = new System.Drawing.Size(360, 646);
             this.tabControlMain.TabIndex = 0;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
@@ -168,11 +167,10 @@ namespace ZooApp
             this.tabHome.Controls.Add(this.lblStaffName);
             this.tabHome.Controls.Add(this.groupBoxTODO);
             this.tabHome.Controls.Add(this.lblStaffNameWelcome);
-            this.tabHome.Location = new System.Drawing.Point(8, 39);
-            this.tabHome.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabHome.Location = new System.Drawing.Point(4, 22);
             this.tabHome.Name = "tabHome";
-            this.tabHome.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabHome.Size = new System.Drawing.Size(704, 1184);
+            this.tabHome.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabHome.Size = new System.Drawing.Size(352, 456);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
@@ -180,10 +178,9 @@ namespace ZooApp
             // lblStaffName
             // 
             this.lblStaffName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblStaffName.Location = new System.Drawing.Point(12, 6);
-            this.lblStaffName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblStaffName.Location = new System.Drawing.Point(6, 3);
             this.lblStaffName.Name = "lblStaffName";
-            this.lblStaffName.Size = new System.Drawing.Size(660, 58);
+            this.lblStaffName.Size = new System.Drawing.Size(330, 30);
             this.lblStaffName.TabIndex = 0;
             this.lblStaffName.Text = "Welcome, [Staff Name]";
             this.lblStaffName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -196,11 +193,9 @@ namespace ZooApp
             this.groupBoxTODO.Controls.Add(this.panel_home_feeding2);
             this.groupBoxTODO.Controls.Add(this.panel_home_feeding1);
             this.groupBoxTODO.Controls.Add(this.panel_home_feeding0);
-            this.groupBoxTODO.Location = new System.Drawing.Point(6, 69);
-            this.groupBoxTODO.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxTODO.Location = new System.Drawing.Point(3, 36);
             this.groupBoxTODO.Name = "groupBoxTODO";
-            this.groupBoxTODO.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBoxTODO.Size = new System.Drawing.Size(682, 1097);
+            this.groupBoxTODO.Size = new System.Drawing.Size(341, 570);
             this.groupBoxTODO.TabIndex = 1;
             this.groupBoxTODO.TabStop = false;
             this.groupBoxTODO.Text = "TODO";
@@ -212,20 +207,18 @@ namespace ZooApp
             this.panel_home_feeding5.Controls.Add(this.lbl_home_animalSpecies5);
             this.panel_home_feeding5.Controls.Add(this.lbl_home_animalName5);
             this.panel_home_feeding5.Controls.Add(this.btn_home_feed5);
-            this.panel_home_feeding5.Location = new System.Drawing.Point(12, 906);
-            this.panel_home_feeding5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_home_feeding5.Location = new System.Drawing.Point(6, 471);
             this.panel_home_feeding5.Name = "panel_home_feeding5";
-            this.panel_home_feeding5.Size = new System.Drawing.Size(650, 164);
+            this.panel_home_feeding5.Size = new System.Drawing.Size(325, 85);
             this.panel_home_feeding5.TabIndex = 6;
             // 
             // lbl_home_timeSinceFeed5
             // 
             this.lbl_home_timeSinceFeed5.AutoSize = true;
             this.lbl_home_timeSinceFeed5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_timeSinceFeed5.Location = new System.Drawing.Point(194, 81);
-            this.lbl_home_timeSinceFeed5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_timeSinceFeed5.Location = new System.Drawing.Point(97, 42);
             this.lbl_home_timeSinceFeed5.Name = "lbl_home_timeSinceFeed5";
-            this.lbl_home_timeSinceFeed5.Size = new System.Drawing.Size(171, 63);
+            this.lbl_home_timeSinceFeed5.Size = new System.Drawing.Size(87, 31);
             this.lbl_home_timeSinceFeed5.TabIndex = 5;
             this.lbl_home_timeSinceFeed5.Text = "24Hrs";
             this.lbl_home_timeSinceFeed5.Visible = false;
@@ -234,10 +227,9 @@ namespace ZooApp
             // 
             this.lbl_home_f5.AutoSize = true;
             this.lbl_home_f5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_f5.Location = new System.Drawing.Point(6, 81);
-            this.lbl_home_f5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_f5.Location = new System.Drawing.Point(3, 42);
             this.lbl_home_f5.Name = "lbl_home_f5";
-            this.lbl_home_f5.Size = new System.Drawing.Size(151, 37);
+            this.lbl_home_f5.Size = new System.Drawing.Size(76, 20);
             this.lbl_home_f5.TabIndex = 4;
             this.lbl_home_f5.Text = "Last Fed:";
             this.lbl_home_f5.Visible = false;
@@ -246,10 +238,9 @@ namespace ZooApp
             // 
             this.lbl_home_animalSpecies5.AutoSize = true;
             this.lbl_home_animalSpecies5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalSpecies5.Location = new System.Drawing.Point(6, 47);
-            this.lbl_home_animalSpecies5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalSpecies5.Location = new System.Drawing.Point(3, 24);
             this.lbl_home_animalSpecies5.Name = "lbl_home_animalSpecies5";
-            this.lbl_home_animalSpecies5.Size = new System.Drawing.Size(525, 36);
+            this.lbl_home_animalSpecies5.Size = new System.Drawing.Size(248, 18);
             this.lbl_home_animalSpecies5.TabIndex = 2;
             this.lbl_home_animalSpecies5.Text = "123456789123456789123456789123";
             this.lbl_home_animalSpecies5.Visible = false;
@@ -258,20 +249,18 @@ namespace ZooApp
             // 
             this.lbl_home_animalName5.AutoSize = true;
             this.lbl_home_animalName5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalName5.Location = new System.Drawing.Point(-4, 8);
-            this.lbl_home_animalName5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalName5.Location = new System.Drawing.Point(-2, 4);
             this.lbl_home_animalName5.Name = "lbl_home_animalName5";
-            this.lbl_home_animalName5.Size = new System.Drawing.Size(579, 37);
+            this.lbl_home_animalName5.Size = new System.Drawing.Size(309, 20);
             this.lbl_home_animalName5.TabIndex = 1;
             this.lbl_home_animalName5.Text = "123456789123456789123456789123";
             this.lbl_home_animalName5.Visible = false;
             // 
             // btn_home_feed5
             // 
-            this.btn_home_feed5.Location = new System.Drawing.Point(492, 52);
-            this.btn_home_feed5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_home_feed5.Location = new System.Drawing.Point(246, 27);
             this.btn_home_feed5.Name = "btn_home_feed5";
-            this.btn_home_feed5.Size = new System.Drawing.Size(152, 106);
+            this.btn_home_feed5.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed5.TabIndex = 0;
             this.btn_home_feed5.Text = "Feed";
             this.btn_home_feed5.UseVisualStyleBackColor = true;
@@ -284,20 +273,18 @@ namespace ZooApp
             this.panel_home_feeding4.Controls.Add(this.lbl_home_animalSpecies4);
             this.panel_home_feeding4.Controls.Add(this.lbl_home_animalName4);
             this.panel_home_feeding4.Controls.Add(this.btn_home_feed4);
-            this.panel_home_feeding4.Location = new System.Drawing.Point(10, 731);
-            this.panel_home_feeding4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_home_feeding4.Location = new System.Drawing.Point(5, 380);
             this.panel_home_feeding4.Name = "panel_home_feeding4";
-            this.panel_home_feeding4.Size = new System.Drawing.Size(650, 164);
+            this.panel_home_feeding4.Size = new System.Drawing.Size(325, 85);
             this.panel_home_feeding4.TabIndex = 5;
             // 
             // lbl_home_timeSinceFeed4
             // 
             this.lbl_home_timeSinceFeed4.AutoSize = true;
             this.lbl_home_timeSinceFeed4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_timeSinceFeed4.Location = new System.Drawing.Point(196, 81);
-            this.lbl_home_timeSinceFeed4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_timeSinceFeed4.Location = new System.Drawing.Point(98, 42);
             this.lbl_home_timeSinceFeed4.Name = "lbl_home_timeSinceFeed4";
-            this.lbl_home_timeSinceFeed4.Size = new System.Drawing.Size(171, 63);
+            this.lbl_home_timeSinceFeed4.Size = new System.Drawing.Size(87, 31);
             this.lbl_home_timeSinceFeed4.TabIndex = 5;
             this.lbl_home_timeSinceFeed4.Text = "24Hrs";
             this.lbl_home_timeSinceFeed4.Visible = false;
@@ -306,10 +293,9 @@ namespace ZooApp
             // 
             this.lbl_home_f4.AutoSize = true;
             this.lbl_home_f4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_f4.Location = new System.Drawing.Point(10, 81);
-            this.lbl_home_f4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_f4.Location = new System.Drawing.Point(5, 42);
             this.lbl_home_f4.Name = "lbl_home_f4";
-            this.lbl_home_f4.Size = new System.Drawing.Size(151, 37);
+            this.lbl_home_f4.Size = new System.Drawing.Size(76, 20);
             this.lbl_home_f4.TabIndex = 4;
             this.lbl_home_f4.Text = "Last Fed:";
             this.lbl_home_f4.Visible = false;
@@ -318,10 +304,9 @@ namespace ZooApp
             // 
             this.lbl_home_animalSpecies4.AutoSize = true;
             this.lbl_home_animalSpecies4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalSpecies4.Location = new System.Drawing.Point(6, 47);
-            this.lbl_home_animalSpecies4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalSpecies4.Location = new System.Drawing.Point(3, 24);
             this.lbl_home_animalSpecies4.Name = "lbl_home_animalSpecies4";
-            this.lbl_home_animalSpecies4.Size = new System.Drawing.Size(525, 36);
+            this.lbl_home_animalSpecies4.Size = new System.Drawing.Size(248, 18);
             this.lbl_home_animalSpecies4.TabIndex = 2;
             this.lbl_home_animalSpecies4.Text = "123456789123456789123456789123";
             this.lbl_home_animalSpecies4.Visible = false;
@@ -330,20 +315,18 @@ namespace ZooApp
             // 
             this.lbl_home_animalName4.AutoSize = true;
             this.lbl_home_animalName4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalName4.Location = new System.Drawing.Point(-4, 8);
-            this.lbl_home_animalName4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalName4.Location = new System.Drawing.Point(-2, 4);
             this.lbl_home_animalName4.Name = "lbl_home_animalName4";
-            this.lbl_home_animalName4.Size = new System.Drawing.Size(579, 37);
+            this.lbl_home_animalName4.Size = new System.Drawing.Size(309, 20);
             this.lbl_home_animalName4.TabIndex = 1;
             this.lbl_home_animalName4.Text = "123456789123456789123456789123";
             this.lbl_home_animalName4.Visible = false;
             // 
             // btn_home_feed4
             // 
-            this.btn_home_feed4.Location = new System.Drawing.Point(492, 52);
-            this.btn_home_feed4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_home_feed4.Location = new System.Drawing.Point(246, 27);
             this.btn_home_feed4.Name = "btn_home_feed4";
-            this.btn_home_feed4.Size = new System.Drawing.Size(152, 106);
+            this.btn_home_feed4.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed4.TabIndex = 0;
             this.btn_home_feed4.Text = "Feed";
             this.btn_home_feed4.UseVisualStyleBackColor = true;
@@ -356,20 +339,18 @@ namespace ZooApp
             this.panel_home_feeding3.Controls.Add(this.lbl_home_animalSpecies3);
             this.panel_home_feeding3.Controls.Add(this.lbl_home_animalName3);
             this.panel_home_feeding3.Controls.Add(this.btn_home_feed3);
-            this.panel_home_feeding3.Location = new System.Drawing.Point(12, 556);
-            this.panel_home_feeding3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_home_feeding3.Location = new System.Drawing.Point(6, 289);
             this.panel_home_feeding3.Name = "panel_home_feeding3";
-            this.panel_home_feeding3.Size = new System.Drawing.Size(650, 164);
+            this.panel_home_feeding3.Size = new System.Drawing.Size(325, 85);
             this.panel_home_feeding3.TabIndex = 4;
             // 
             // lbl_home_timeSinceFeed3
             // 
             this.lbl_home_timeSinceFeed3.AutoSize = true;
             this.lbl_home_timeSinceFeed3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_timeSinceFeed3.Location = new System.Drawing.Point(194, 81);
-            this.lbl_home_timeSinceFeed3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_timeSinceFeed3.Location = new System.Drawing.Point(97, 42);
             this.lbl_home_timeSinceFeed3.Name = "lbl_home_timeSinceFeed3";
-            this.lbl_home_timeSinceFeed3.Size = new System.Drawing.Size(171, 63);
+            this.lbl_home_timeSinceFeed3.Size = new System.Drawing.Size(87, 31);
             this.lbl_home_timeSinceFeed3.TabIndex = 5;
             this.lbl_home_timeSinceFeed3.Text = "24Hrs";
             this.lbl_home_timeSinceFeed3.Visible = false;
@@ -378,10 +359,9 @@ namespace ZooApp
             // 
             this.lbl_home_f3.AutoSize = true;
             this.lbl_home_f3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_f3.Location = new System.Drawing.Point(10, 81);
-            this.lbl_home_f3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_f3.Location = new System.Drawing.Point(5, 42);
             this.lbl_home_f3.Name = "lbl_home_f3";
-            this.lbl_home_f3.Size = new System.Drawing.Size(151, 37);
+            this.lbl_home_f3.Size = new System.Drawing.Size(76, 20);
             this.lbl_home_f3.TabIndex = 4;
             this.lbl_home_f3.Text = "Last Fed:";
             this.lbl_home_f3.Visible = false;
@@ -390,10 +370,9 @@ namespace ZooApp
             // 
             this.lbl_home_animalSpecies3.AutoSize = true;
             this.lbl_home_animalSpecies3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalSpecies3.Location = new System.Drawing.Point(6, 47);
-            this.lbl_home_animalSpecies3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalSpecies3.Location = new System.Drawing.Point(3, 24);
             this.lbl_home_animalSpecies3.Name = "lbl_home_animalSpecies3";
-            this.lbl_home_animalSpecies3.Size = new System.Drawing.Size(525, 36);
+            this.lbl_home_animalSpecies3.Size = new System.Drawing.Size(248, 18);
             this.lbl_home_animalSpecies3.TabIndex = 2;
             this.lbl_home_animalSpecies3.Text = "123456789123456789123456789123";
             this.lbl_home_animalSpecies3.Visible = false;
@@ -402,20 +381,18 @@ namespace ZooApp
             // 
             this.lbl_home_animalName3.AutoSize = true;
             this.lbl_home_animalName3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalName3.Location = new System.Drawing.Point(-4, 8);
-            this.lbl_home_animalName3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalName3.Location = new System.Drawing.Point(-2, 4);
             this.lbl_home_animalName3.Name = "lbl_home_animalName3";
-            this.lbl_home_animalName3.Size = new System.Drawing.Size(579, 37);
+            this.lbl_home_animalName3.Size = new System.Drawing.Size(309, 20);
             this.lbl_home_animalName3.TabIndex = 1;
             this.lbl_home_animalName3.Text = "123456789123456789123456789123";
             this.lbl_home_animalName3.Visible = false;
             // 
             // btn_home_feed3
             // 
-            this.btn_home_feed3.Location = new System.Drawing.Point(492, 52);
-            this.btn_home_feed3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_home_feed3.Location = new System.Drawing.Point(246, 27);
             this.btn_home_feed3.Name = "btn_home_feed3";
-            this.btn_home_feed3.Size = new System.Drawing.Size(152, 106);
+            this.btn_home_feed3.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed3.TabIndex = 0;
             this.btn_home_feed3.Text = "Feed";
             this.btn_home_feed3.UseVisualStyleBackColor = true;
@@ -428,20 +405,18 @@ namespace ZooApp
             this.panel_home_feeding2.Controls.Add(this.lbl_home_animalSpecies2);
             this.panel_home_feeding2.Controls.Add(this.lbl_home_animalName2);
             this.panel_home_feeding2.Controls.Add(this.btn_home_feed2);
-            this.panel_home_feeding2.Location = new System.Drawing.Point(12, 381);
-            this.panel_home_feeding2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_home_feeding2.Location = new System.Drawing.Point(6, 198);
             this.panel_home_feeding2.Name = "panel_home_feeding2";
-            this.panel_home_feeding2.Size = new System.Drawing.Size(650, 164);
+            this.panel_home_feeding2.Size = new System.Drawing.Size(325, 85);
             this.panel_home_feeding2.TabIndex = 3;
             // 
             // lbl_home_timeSinceFeed2
             // 
             this.lbl_home_timeSinceFeed2.AutoSize = true;
             this.lbl_home_timeSinceFeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_timeSinceFeed2.Location = new System.Drawing.Point(194, 81);
-            this.lbl_home_timeSinceFeed2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_timeSinceFeed2.Location = new System.Drawing.Point(97, 42);
             this.lbl_home_timeSinceFeed2.Name = "lbl_home_timeSinceFeed2";
-            this.lbl_home_timeSinceFeed2.Size = new System.Drawing.Size(171, 63);
+            this.lbl_home_timeSinceFeed2.Size = new System.Drawing.Size(87, 31);
             this.lbl_home_timeSinceFeed2.TabIndex = 5;
             this.lbl_home_timeSinceFeed2.Text = "24Hrs";
             this.lbl_home_timeSinceFeed2.Visible = false;
@@ -450,10 +425,9 @@ namespace ZooApp
             // 
             this.lbl_home_f2.AutoSize = true;
             this.lbl_home_f2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_f2.Location = new System.Drawing.Point(10, 81);
-            this.lbl_home_f2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_f2.Location = new System.Drawing.Point(5, 42);
             this.lbl_home_f2.Name = "lbl_home_f2";
-            this.lbl_home_f2.Size = new System.Drawing.Size(151, 37);
+            this.lbl_home_f2.Size = new System.Drawing.Size(76, 20);
             this.lbl_home_f2.TabIndex = 4;
             this.lbl_home_f2.Text = "Last Fed:";
             this.lbl_home_f2.Visible = false;
@@ -462,10 +436,9 @@ namespace ZooApp
             // 
             this.lbl_home_animalSpecies2.AutoSize = true;
             this.lbl_home_animalSpecies2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalSpecies2.Location = new System.Drawing.Point(6, 47);
-            this.lbl_home_animalSpecies2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalSpecies2.Location = new System.Drawing.Point(3, 24);
             this.lbl_home_animalSpecies2.Name = "lbl_home_animalSpecies2";
-            this.lbl_home_animalSpecies2.Size = new System.Drawing.Size(525, 36);
+            this.lbl_home_animalSpecies2.Size = new System.Drawing.Size(248, 18);
             this.lbl_home_animalSpecies2.TabIndex = 2;
             this.lbl_home_animalSpecies2.Text = "123456789123456789123456789123";
             this.lbl_home_animalSpecies2.Visible = false;
@@ -474,20 +447,18 @@ namespace ZooApp
             // 
             this.lbl_home_animalName2.AutoSize = true;
             this.lbl_home_animalName2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalName2.Location = new System.Drawing.Point(-4, 8);
-            this.lbl_home_animalName2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalName2.Location = new System.Drawing.Point(-2, 4);
             this.lbl_home_animalName2.Name = "lbl_home_animalName2";
-            this.lbl_home_animalName2.Size = new System.Drawing.Size(579, 37);
+            this.lbl_home_animalName2.Size = new System.Drawing.Size(309, 20);
             this.lbl_home_animalName2.TabIndex = 1;
             this.lbl_home_animalName2.Text = "123456789123456789123456789123";
             this.lbl_home_animalName2.Visible = false;
             // 
             // btn_home_feed2
             // 
-            this.btn_home_feed2.Location = new System.Drawing.Point(492, 52);
-            this.btn_home_feed2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_home_feed2.Location = new System.Drawing.Point(246, 27);
             this.btn_home_feed2.Name = "btn_home_feed2";
-            this.btn_home_feed2.Size = new System.Drawing.Size(152, 106);
+            this.btn_home_feed2.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed2.TabIndex = 0;
             this.btn_home_feed2.Text = "Feed";
             this.btn_home_feed2.UseVisualStyleBackColor = true;
@@ -500,20 +471,18 @@ namespace ZooApp
             this.panel_home_feeding1.Controls.Add(this.lbl_home_animalSpecies1);
             this.panel_home_feeding1.Controls.Add(this.lbl_home_animalName1);
             this.panel_home_feeding1.Controls.Add(this.btn_home_feed1);
-            this.panel_home_feeding1.Location = new System.Drawing.Point(12, 211);
-            this.panel_home_feeding1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_home_feeding1.Location = new System.Drawing.Point(6, 110);
             this.panel_home_feeding1.Name = "panel_home_feeding1";
-            this.panel_home_feeding1.Size = new System.Drawing.Size(650, 164);
+            this.panel_home_feeding1.Size = new System.Drawing.Size(325, 85);
             this.panel_home_feeding1.TabIndex = 2;
             // 
             // lbl_home_timeSinceFeed1
             // 
             this.lbl_home_timeSinceFeed1.AutoSize = true;
             this.lbl_home_timeSinceFeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_timeSinceFeed1.Location = new System.Drawing.Point(194, 83);
-            this.lbl_home_timeSinceFeed1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_timeSinceFeed1.Location = new System.Drawing.Point(97, 43);
             this.lbl_home_timeSinceFeed1.Name = "lbl_home_timeSinceFeed1";
-            this.lbl_home_timeSinceFeed1.Size = new System.Drawing.Size(171, 63);
+            this.lbl_home_timeSinceFeed1.Size = new System.Drawing.Size(87, 31);
             this.lbl_home_timeSinceFeed1.TabIndex = 5;
             this.lbl_home_timeSinceFeed1.Text = "24Hrs";
             this.lbl_home_timeSinceFeed1.Visible = false;
@@ -522,10 +491,9 @@ namespace ZooApp
             // 
             this.lbl_home_f1.AutoSize = true;
             this.lbl_home_f1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_f1.Location = new System.Drawing.Point(10, 83);
-            this.lbl_home_f1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_f1.Location = new System.Drawing.Point(5, 43);
             this.lbl_home_f1.Name = "lbl_home_f1";
-            this.lbl_home_f1.Size = new System.Drawing.Size(151, 37);
+            this.lbl_home_f1.Size = new System.Drawing.Size(76, 20);
             this.lbl_home_f1.TabIndex = 4;
             this.lbl_home_f1.Text = "Last Fed:";
             this.lbl_home_f1.Visible = false;
@@ -534,10 +502,9 @@ namespace ZooApp
             // 
             this.lbl_home_animalSpecies1.AutoSize = true;
             this.lbl_home_animalSpecies1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalSpecies1.Location = new System.Drawing.Point(6, 47);
-            this.lbl_home_animalSpecies1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalSpecies1.Location = new System.Drawing.Point(3, 24);
             this.lbl_home_animalSpecies1.Name = "lbl_home_animalSpecies1";
-            this.lbl_home_animalSpecies1.Size = new System.Drawing.Size(525, 36);
+            this.lbl_home_animalSpecies1.Size = new System.Drawing.Size(248, 18);
             this.lbl_home_animalSpecies1.TabIndex = 2;
             this.lbl_home_animalSpecies1.Text = "123456789123456789123456789123";
             this.lbl_home_animalSpecies1.Visible = false;
@@ -546,20 +513,18 @@ namespace ZooApp
             // 
             this.lbl_home_animalName1.AutoSize = true;
             this.lbl_home_animalName1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalName1.Location = new System.Drawing.Point(-4, 8);
-            this.lbl_home_animalName1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalName1.Location = new System.Drawing.Point(-2, 4);
             this.lbl_home_animalName1.Name = "lbl_home_animalName1";
-            this.lbl_home_animalName1.Size = new System.Drawing.Size(579, 37);
+            this.lbl_home_animalName1.Size = new System.Drawing.Size(309, 20);
             this.lbl_home_animalName1.TabIndex = 1;
             this.lbl_home_animalName1.Text = "123456789123456789123456789123";
             this.lbl_home_animalName1.Visible = false;
             // 
             // btn_home_feed1
             // 
-            this.btn_home_feed1.Location = new System.Drawing.Point(492, 52);
-            this.btn_home_feed1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_home_feed1.Location = new System.Drawing.Point(246, 27);
             this.btn_home_feed1.Name = "btn_home_feed1";
-            this.btn_home_feed1.Size = new System.Drawing.Size(152, 106);
+            this.btn_home_feed1.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed1.TabIndex = 0;
             this.btn_home_feed1.Text = "Feed";
             this.btn_home_feed1.UseVisualStyleBackColor = true;
@@ -572,20 +537,18 @@ namespace ZooApp
             this.panel_home_feeding0.Controls.Add(this.lbl_home_animalSpecies0);
             this.panel_home_feeding0.Controls.Add(this.lbl_home_animalName0);
             this.panel_home_feeding0.Controls.Add(this.btn_home_feed0);
-            this.panel_home_feeding0.Location = new System.Drawing.Point(12, 36);
-            this.panel_home_feeding0.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_home_feeding0.Location = new System.Drawing.Point(6, 19);
             this.panel_home_feeding0.Name = "panel_home_feeding0";
-            this.panel_home_feeding0.Size = new System.Drawing.Size(650, 164);
+            this.panel_home_feeding0.Size = new System.Drawing.Size(325, 85);
             this.panel_home_feeding0.TabIndex = 1;
             // 
             // lbl_home_timeSinceFeed0
             // 
             this.lbl_home_timeSinceFeed0.AutoSize = true;
             this.lbl_home_timeSinceFeed0.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_timeSinceFeed0.Location = new System.Drawing.Point(194, 81);
-            this.lbl_home_timeSinceFeed0.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_timeSinceFeed0.Location = new System.Drawing.Point(97, 42);
             this.lbl_home_timeSinceFeed0.Name = "lbl_home_timeSinceFeed0";
-            this.lbl_home_timeSinceFeed0.Size = new System.Drawing.Size(171, 63);
+            this.lbl_home_timeSinceFeed0.Size = new System.Drawing.Size(87, 31);
             this.lbl_home_timeSinceFeed0.TabIndex = 5;
             this.lbl_home_timeSinceFeed0.Text = "24Hrs";
             this.lbl_home_timeSinceFeed0.Visible = false;
@@ -594,10 +557,9 @@ namespace ZooApp
             // 
             this.lbl_home_f0.AutoSize = true;
             this.lbl_home_f0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_f0.Location = new System.Drawing.Point(10, 81);
-            this.lbl_home_f0.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_f0.Location = new System.Drawing.Point(5, 42);
             this.lbl_home_f0.Name = "lbl_home_f0";
-            this.lbl_home_f0.Size = new System.Drawing.Size(151, 37);
+            this.lbl_home_f0.Size = new System.Drawing.Size(76, 20);
             this.lbl_home_f0.TabIndex = 4;
             this.lbl_home_f0.Text = "Last Fed:";
             this.lbl_home_f0.Visible = false;
@@ -606,10 +568,9 @@ namespace ZooApp
             // 
             this.lbl_home_animalSpecies0.AutoSize = true;
             this.lbl_home_animalSpecies0.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalSpecies0.Location = new System.Drawing.Point(6, 47);
-            this.lbl_home_animalSpecies0.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalSpecies0.Location = new System.Drawing.Point(3, 24);
             this.lbl_home_animalSpecies0.Name = "lbl_home_animalSpecies0";
-            this.lbl_home_animalSpecies0.Size = new System.Drawing.Size(525, 36);
+            this.lbl_home_animalSpecies0.Size = new System.Drawing.Size(248, 18);
             this.lbl_home_animalSpecies0.TabIndex = 2;
             this.lbl_home_animalSpecies0.Text = "123456789123456789123456789123";
             this.lbl_home_animalSpecies0.Visible = false;
@@ -618,20 +579,18 @@ namespace ZooApp
             // 
             this.lbl_home_animalName0.AutoSize = true;
             this.lbl_home_animalName0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_home_animalName0.Location = new System.Drawing.Point(-4, 8);
-            this.lbl_home_animalName0.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbl_home_animalName0.Location = new System.Drawing.Point(-2, 4);
             this.lbl_home_animalName0.Name = "lbl_home_animalName0";
-            this.lbl_home_animalName0.Size = new System.Drawing.Size(579, 37);
+            this.lbl_home_animalName0.Size = new System.Drawing.Size(309, 20);
             this.lbl_home_animalName0.TabIndex = 1;
             this.lbl_home_animalName0.Text = "123456789123456789123456789123";
             this.lbl_home_animalName0.Visible = false;
             // 
             // btn_home_feed0
             // 
-            this.btn_home_feed0.Location = new System.Drawing.Point(492, 52);
-            this.btn_home_feed0.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_home_feed0.Location = new System.Drawing.Point(246, 27);
             this.btn_home_feed0.Name = "btn_home_feed0";
-            this.btn_home_feed0.Size = new System.Drawing.Size(152, 106);
+            this.btn_home_feed0.Size = new System.Drawing.Size(76, 55);
             this.btn_home_feed0.TabIndex = 0;
             this.btn_home_feed0.Tag = "";
             this.btn_home_feed0.Text = "Feed";
@@ -641,9 +600,8 @@ namespace ZooApp
             // lblStaffNameWelcome
             // 
             this.lblStaffNameWelcome.Location = new System.Drawing.Point(0, 0);
-            this.lblStaffNameWelcome.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblStaffNameWelcome.Name = "lblStaffNameWelcome";
-            this.lblStaffNameWelcome.Size = new System.Drawing.Size(200, 44);
+            this.lblStaffNameWelcome.Size = new System.Drawing.Size(100, 23);
             this.lblStaffNameWelcome.TabIndex = 7;
             // 
             // tabAnimal
@@ -668,11 +626,10 @@ namespace ZooApp
             this.tabAnimal.Controls.Add(this.txtLastCare);
             this.tabAnimal.Controls.Add(this.lblInterval);
             this.tabAnimal.Controls.Add(this.btnAddAnimal);
-            this.tabAnimal.Location = new System.Drawing.Point(8, 39);
-            this.tabAnimal.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabAnimal.Location = new System.Drawing.Point(4, 22);
             this.tabAnimal.Name = "tabAnimal";
-            this.tabAnimal.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabAnimal.Size = new System.Drawing.Size(704, 1184);
+            this.tabAnimal.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabAnimal.Size = new System.Drawing.Size(352, 614);
             this.tabAnimal.TabIndex = 1;
             this.tabAnimal.Text = "Animal";
             this.tabAnimal.UseVisualStyleBackColor = true;
@@ -680,31 +637,28 @@ namespace ZooApp
             // txtFeedingInterval
             // 
             this.txtFeedingInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFeedingInterval.Location = new System.Drawing.Point(260, 577);
-            this.txtFeedingInterval.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtFeedingInterval.Location = new System.Drawing.Point(130, 300);
             this.txtFeedingInterval.Name = "txtFeedingInterval";
             this.txtFeedingInterval.ReadOnly = true;
-            this.txtFeedingInterval.Size = new System.Drawing.Size(396, 44);
+            this.txtFeedingInterval.Size = new System.Drawing.Size(200, 26);
             this.txtFeedingInterval.TabIndex = 18;
             // 
             // lblAnimalTitle
             // 
             this.lblAnimalTitle.AutoSize = true;
             this.lblAnimalTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblAnimalTitle.Location = new System.Drawing.Point(174, 19);
-            this.lblAnimalTitle.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblAnimalTitle.Location = new System.Drawing.Point(87, 10);
             this.lblAnimalTitle.Name = "lblAnimalTitle";
-            this.lblAnimalTitle.Size = new System.Drawing.Size(374, 51);
+            this.lblAnimalTitle.Size = new System.Drawing.Size(187, 25);
             this.lblAnimalTitle.TabIndex = 0;
             this.lblAnimalTitle.Text = "Animal Information";
             // 
             // lblSelectAnimal
             // 
             this.lblSelectAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectAnimal.Location = new System.Drawing.Point(16, 102);
-            this.lblSelectAnimal.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblSelectAnimal.Location = new System.Drawing.Point(8, 53);
             this.lblSelectAnimal.Name = "lblSelectAnimal";
-            this.lblSelectAnimal.Size = new System.Drawing.Size(200, 44);
+            this.lblSelectAnimal.Size = new System.Drawing.Size(100, 23);
             this.lblSelectAnimal.TabIndex = 1;
             this.lblSelectAnimal.Text = "Select Animal:";
             // 
@@ -712,170 +666,153 @@ namespace ZooApp
             // 
             this.cbSelectAnimal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSelectAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbSelectAnimal.Location = new System.Drawing.Point(260, 92);
-            this.cbSelectAnimal.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbSelectAnimal.Location = new System.Drawing.Point(130, 48);
             this.cbSelectAnimal.Name = "cbSelectAnimal";
-            this.cbSelectAnimal.Size = new System.Drawing.Size(396, 45);
+            this.cbSelectAnimal.Size = new System.Drawing.Size(200, 28);
             this.cbSelectAnimal.TabIndex = 2;
             this.cbSelectAnimal.SelectedIndexChanged += new System.EventHandler(this.cbSelectAnimal_SelectedIndexChanged);
             // 
             // lblSpecies
             // 
             this.lblSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSpecies.Location = new System.Drawing.Point(12, 178);
-            this.lblSpecies.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblSpecies.Location = new System.Drawing.Point(6, 93);
             this.lblSpecies.Name = "lblSpecies";
-            this.lblSpecies.Size = new System.Drawing.Size(200, 44);
+            this.lblSpecies.Size = new System.Drawing.Size(100, 23);
             this.lblSpecies.TabIndex = 3;
             this.lblSpecies.Text = "Species:";
             // 
             // txtSpecies
             // 
             this.txtSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSpecies.Location = new System.Drawing.Point(260, 173);
-            this.txtSpecies.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtSpecies.Location = new System.Drawing.Point(130, 90);
             this.txtSpecies.Name = "txtSpecies";
             this.txtSpecies.ReadOnly = true;
-            this.txtSpecies.Size = new System.Drawing.Size(396, 44);
+            this.txtSpecies.Size = new System.Drawing.Size(200, 26);
             this.txtSpecies.TabIndex = 4;
             // 
             // lblAGE
             // 
             this.lblAGE.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAGE.Location = new System.Drawing.Point(12, 231);
-            this.lblAGE.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblAGE.Location = new System.Drawing.Point(6, 120);
             this.lblAGE.Name = "lblAGE";
-            this.lblAGE.Size = new System.Drawing.Size(228, 44);
+            this.lblAGE.Size = new System.Drawing.Size(114, 23);
             this.lblAGE.TabIndex = 5;
             this.lblAGE.Text = "Age:";
             // 
             // txtAge
             // 
             this.txtAge.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAge.Location = new System.Drawing.Point(260, 231);
-            this.txtAge.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtAge.Location = new System.Drawing.Point(130, 120);
             this.txtAge.Name = "txtAge";
             this.txtAge.ReadOnly = true;
-            this.txtAge.Size = new System.Drawing.Size(396, 44);
+            this.txtAge.Size = new System.Drawing.Size(200, 26);
             this.txtAge.TabIndex = 6;
             // 
             // lblSex
             // 
             this.lblSex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSex.Location = new System.Drawing.Point(12, 294);
-            this.lblSex.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblSex.Location = new System.Drawing.Point(6, 153);
             this.lblSex.Name = "lblSex";
-            this.lblSex.Size = new System.Drawing.Size(200, 44);
+            this.lblSex.Size = new System.Drawing.Size(100, 23);
             this.lblSex.TabIndex = 7;
             this.lblSex.Text = "Sex:";
             // 
             // txtSex
             // 
             this.txtSex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSex.Location = new System.Drawing.Point(260, 289);
-            this.txtSex.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtSex.Location = new System.Drawing.Point(130, 150);
             this.txtSex.Name = "txtSex";
             this.txtSex.ReadOnly = true;
-            this.txtSex.Size = new System.Drawing.Size(396, 44);
+            this.txtSex.Size = new System.Drawing.Size(200, 26);
             this.txtSex.TabIndex = 8;
             // 
             // lblEnclosure
             // 
             this.lblEnclosure.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnclosure.Location = new System.Drawing.Point(12, 358);
-            this.lblEnclosure.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblEnclosure.Location = new System.Drawing.Point(6, 186);
             this.lblEnclosure.Name = "lblEnclosure";
-            this.lblEnclosure.Size = new System.Drawing.Size(160, 39);
+            this.lblEnclosure.Size = new System.Drawing.Size(80, 20);
             this.lblEnclosure.TabIndex = 9;
             this.lblEnclosure.Text = "Enclosure:";
             // 
             // txtEnclosure
             // 
             this.txtEnclosure.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEnclosure.Location = new System.Drawing.Point(260, 347);
-            this.txtEnclosure.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtEnclosure.Location = new System.Drawing.Point(130, 180);
             this.txtEnclosure.Name = "txtEnclosure";
             this.txtEnclosure.ReadOnly = true;
-            this.txtEnclosure.Size = new System.Drawing.Size(396, 44);
+            this.txtEnclosure.Size = new System.Drawing.Size(200, 26);
             this.txtEnclosure.TabIndex = 10;
             // 
             // lblZone
             // 
             this.lblZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblZone.Location = new System.Drawing.Point(12, 416);
-            this.lblZone.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblZone.Location = new System.Drawing.Point(6, 216);
             this.lblZone.Name = "lblZone";
-            this.lblZone.Size = new System.Drawing.Size(160, 39);
+            this.lblZone.Size = new System.Drawing.Size(80, 20);
             this.lblZone.TabIndex = 11;
             this.lblZone.Text = "Zone:";
             // 
             // txtZone
             // 
             this.txtZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtZone.Location = new System.Drawing.Point(260, 403);
-            this.txtZone.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtZone.Location = new System.Drawing.Point(130, 210);
             this.txtZone.Name = "txtZone";
             this.txtZone.ReadOnly = true;
-            this.txtZone.Size = new System.Drawing.Size(396, 44);
+            this.txtZone.Size = new System.Drawing.Size(200, 26);
             this.txtZone.TabIndex = 12;
             // 
             // lblLastFed
             // 
             this.lblLastFed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastFed.Location = new System.Drawing.Point(12, 467);
-            this.lblLastFed.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLastFed.Location = new System.Drawing.Point(6, 243);
             this.lblLastFed.Name = "lblLastFed";
-            this.lblLastFed.Size = new System.Drawing.Size(200, 44);
+            this.lblLastFed.Size = new System.Drawing.Size(100, 23);
             this.lblLastFed.TabIndex = 13;
             this.lblLastFed.Text = "Last Fed:";
             // 
             // txtLastFed
             // 
             this.txtLastFed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLastFed.Location = new System.Drawing.Point(260, 461);
-            this.txtLastFed.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtLastFed.Location = new System.Drawing.Point(130, 240);
             this.txtLastFed.Name = "txtLastFed";
             this.txtLastFed.ReadOnly = true;
-            this.txtLastFed.Size = new System.Drawing.Size(396, 44);
+            this.txtLastFed.Size = new System.Drawing.Size(200, 26);
             this.txtLastFed.TabIndex = 14;
             // 
             // lblLastCare
             // 
             this.lblLastCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastCare.Location = new System.Drawing.Point(12, 525);
-            this.lblLastCare.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLastCare.Location = new System.Drawing.Point(6, 273);
             this.lblLastCare.Name = "lblLastCare";
-            this.lblLastCare.Size = new System.Drawing.Size(200, 44);
+            this.lblLastCare.Size = new System.Drawing.Size(100, 23);
             this.lblLastCare.TabIndex = 15;
             this.lblLastCare.Text = "Last Cared:";
             // 
             // txtLastCare
             // 
             this.txtLastCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLastCare.Location = new System.Drawing.Point(260, 519);
-            this.txtLastCare.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtLastCare.Location = new System.Drawing.Point(130, 270);
             this.txtLastCare.Name = "txtLastCare";
             this.txtLastCare.ReadOnly = true;
-            this.txtLastCare.Size = new System.Drawing.Size(396, 44);
+            this.txtLastCare.Size = new System.Drawing.Size(200, 26);
             this.txtLastCare.TabIndex = 16;
             // 
             // lblInterval
             // 
             this.lblInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInterval.Location = new System.Drawing.Point(12, 583);
-            this.lblInterval.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblInterval.Location = new System.Drawing.Point(6, 303);
             this.lblInterval.Name = "lblInterval";
-            this.lblInterval.Size = new System.Drawing.Size(260, 44);
+            this.lblInterval.Size = new System.Drawing.Size(130, 23);
             this.lblInterval.TabIndex = 17;
             this.lblInterval.Text = "Feeding Interval:";
             // 
             // btnAddAnimal
             // 
             this.btnAddAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAnimal.Location = new System.Drawing.Point(260, 666);
-            this.btnAddAnimal.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnAddAnimal.Location = new System.Drawing.Point(130, 346);
             this.btnAddAnimal.Name = "btnAddAnimal";
-            this.btnAddAnimal.Size = new System.Drawing.Size(400, 67);
+            this.btnAddAnimal.Size = new System.Drawing.Size(200, 35);
             this.btnAddAnimal.TabIndex = 19;
             this.btnAddAnimal.Text = "Add New Animal";
             this.btnAddAnimal.Click += new System.EventHandler(this.btnAddAnimal_Click);
@@ -893,10 +830,9 @@ namespace ZooApp
             this.tabPageEnclosure.Controls.Add(this.comboBox_Enclosure_Search);
             this.tabPageEnclosure.Controls.Add(this.label2);
             this.tabPageEnclosure.Controls.Add(this.textBox_Enclosure_Search);
-            this.tabPageEnclosure.Location = new System.Drawing.Point(8, 39);
-            this.tabPageEnclosure.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPageEnclosure.Location = new System.Drawing.Point(4, 22);
             this.tabPageEnclosure.Name = "tabPageEnclosure";
-            this.tabPageEnclosure.Size = new System.Drawing.Size(704, 1184);
+            this.tabPageEnclosure.Size = new System.Drawing.Size(352, 614);
             this.tabPageEnclosure.TabIndex = 3;
             this.tabPageEnclosure.Text = "Enclosure";
             this.tabPageEnclosure.UseVisualStyleBackColor = true;
@@ -905,20 +841,18 @@ namespace ZooApp
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(177, 208);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Location = new System.Drawing.Point(88, 108);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 37);
+            this.label3.Size = new System.Drawing.Size(58, 20);
             this.label3.TabIndex = 11;
             this.label3.Text = "Select:";
             // 
             // button_selectAllFeed
             // 
             this.button_selectAllFeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_selectAllFeed.Location = new System.Drawing.Point(298, 202);
-            this.button_selectAllFeed.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button_selectAllFeed.Location = new System.Drawing.Point(149, 105);
             this.button_selectAllFeed.Name = "button_selectAllFeed";
-            this.button_selectAllFeed.Size = new System.Drawing.Size(111, 50);
+            this.button_selectAllFeed.Size = new System.Drawing.Size(56, 26);
             this.button_selectAllFeed.TabIndex = 9;
             this.button_selectAllFeed.Text = "All";
             this.button_selectAllFeed.UseVisualStyleBackColor = true;
@@ -927,10 +861,9 @@ namespace ZooApp
             // button_selectNoneFeed
             // 
             this.button_selectNoneFeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_selectNoneFeed.Location = new System.Drawing.Point(422, 202);
-            this.button_selectNoneFeed.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button_selectNoneFeed.Location = new System.Drawing.Point(211, 105);
             this.button_selectNoneFeed.Name = "button_selectNoneFeed";
-            this.button_selectNoneFeed.Size = new System.Drawing.Size(111, 50);
+            this.button_selectNoneFeed.Size = new System.Drawing.Size(56, 26);
             this.button_selectNoneFeed.TabIndex = 10;
             this.button_selectNoneFeed.Text = "None";
             this.button_selectNoneFeed.UseVisualStyleBackColor = true;
@@ -940,10 +873,9 @@ namespace ZooApp
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 208);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(4, 108);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 37);
+            this.label1.Size = new System.Drawing.Size(77, 20);
             this.label1.TabIndex = 8;
             this.label1.Text = "Animals:";
             // 
@@ -951,10 +883,9 @@ namespace ZooApp
             // 
             this.button_feedGroup.Enabled = false;
             this.button_feedGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_feedGroup.Location = new System.Drawing.Point(544, 197);
-            this.button_feedGroup.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button_feedGroup.Location = new System.Drawing.Point(272, 102);
             this.button_feedGroup.Name = "button_feedGroup";
-            this.button_feedGroup.Size = new System.Drawing.Size(136, 50);
+            this.button_feedGroup.Size = new System.Drawing.Size(68, 26);
             this.button_feedGroup.TabIndex = 7;
             this.button_feedGroup.Text = "Feed";
             this.button_feedGroup.UseVisualStyleBackColor = true;
@@ -962,18 +893,17 @@ namespace ZooApp
             // 
             // vScrollBar_Enclosure
             // 
-            this.vScrollBar_Enclosure.Location = new System.Drawing.Point(644, 253);
+            this.vScrollBar_Enclosure.Location = new System.Drawing.Point(322, 132);
             this.vScrollBar_Enclosure.Name = "vScrollBar_Enclosure";
-            this.vScrollBar_Enclosure.Size = new System.Drawing.Size(25, 917);
+            this.vScrollBar_Enclosure.Size = new System.Drawing.Size(25, 477);
             this.vScrollBar_Enclosure.TabIndex = 6;
             this.vScrollBar_Enclosure.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Enclosure_Scroll);
             // 
             // panel_Enclosure_Animals
             // 
-            this.panel_Enclosure_Animals.Location = new System.Drawing.Point(8, 253);
-            this.panel_Enclosure_Animals.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel_Enclosure_Animals.Location = new System.Drawing.Point(4, 132);
             this.panel_Enclosure_Animals.Name = "panel_Enclosure_Animals";
-            this.panel_Enclosure_Animals.Size = new System.Drawing.Size(630, 922);
+            this.panel_Enclosure_Animals.Size = new System.Drawing.Size(315, 479);
             this.panel_Enclosure_Animals.TabIndex = 5;
             this.panel_Enclosure_Animals.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.panel_Enclosure_Animals_ControlAdded);
             this.panel_Enclosure_Animals.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.panel_Enclosure_Animals_ControlRemoved);
@@ -981,10 +911,9 @@ namespace ZooApp
             // button_Enclosure_Search
             // 
             this.button_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Enclosure_Search.Location = new System.Drawing.Point(550, 66);
-            this.button_Enclosure_Search.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button_Enclosure_Search.Location = new System.Drawing.Point(275, 34);
             this.button_Enclosure_Search.Name = "button_Enclosure_Search";
-            this.button_Enclosure_Search.Size = new System.Drawing.Size(136, 50);
+            this.button_Enclosure_Search.Size = new System.Drawing.Size(68, 26);
             this.button_Enclosure_Search.TabIndex = 3;
             this.button_Enclosure_Search.Text = "Find";
             this.button_Enclosure_Search.UseVisualStyleBackColor = true;
@@ -995,10 +924,9 @@ namespace ZooApp
             this.comboBox_Enclosure_Search.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox_Enclosure_Search.FormattingEnabled = true;
-            this.comboBox_Enclosure_Search.Location = new System.Drawing.Point(16, 127);
-            this.comboBox_Enclosure_Search.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.comboBox_Enclosure_Search.Location = new System.Drawing.Point(8, 66);
             this.comboBox_Enclosure_Search.Name = "comboBox_Enclosure_Search";
-            this.comboBox_Enclosure_Search.Size = new System.Drawing.Size(666, 45);
+            this.comboBox_Enclosure_Search.Size = new System.Drawing.Size(335, 28);
             this.comboBox_Enclosure_Search.TabIndex = 2;
             this.comboBox_Enclosure_Search.SelectedIndexChanged += new System.EventHandler(this.comboBox_Enclosure_Search_SelectedIndexChanged);
             // 
@@ -1006,20 +934,18 @@ namespace ZooApp
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(16, 22);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label2.Location = new System.Drawing.Point(8, 11);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(307, 37);
+            this.label2.Size = new System.Drawing.Size(161, 20);
             this.label2.TabIndex = 1;
             this.label2.Text = "Find An Enclosure:";
             // 
             // textBox_Enclosure_Search
             // 
             this.textBox_Enclosure_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Enclosure_Search.Location = new System.Drawing.Point(16, 66);
-            this.textBox_Enclosure_Search.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.textBox_Enclosure_Search.Location = new System.Drawing.Point(8, 34);
             this.textBox_Enclosure_Search.Name = "textBox_Enclosure_Search";
-            this.textBox_Enclosure_Search.Size = new System.Drawing.Size(516, 44);
+            this.textBox_Enclosure_Search.Size = new System.Drawing.Size(260, 26);
             this.textBox_Enclosure_Search.TabIndex = 0;
             // 
             // tabZone
@@ -1036,11 +962,10 @@ namespace ZooApp
             this.tabZone.Controls.Add(this.textBoxZoneSearch);
             this.tabZone.Controls.Add(this.panelZone1);
             this.tabZone.Controls.Add(this.btnAddZone);
-            this.tabZone.Location = new System.Drawing.Point(8, 39);
-            this.tabZone.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabZone.Location = new System.Drawing.Point(4, 22);
             this.tabZone.Name = "tabZone";
-            this.tabZone.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabZone.Size = new System.Drawing.Size(704, 1184);
+            this.tabZone.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabZone.Size = new System.Drawing.Size(352, 620);
             this.tabZone.TabIndex = 2;
             this.tabZone.Text = "Zone";
             this.tabZone.UseVisualStyleBackColor = true;
@@ -1050,10 +975,9 @@ namespace ZooApp
             this.panelZone6.Controls.Add(this.labelZoneAnimalsAttention6);
             this.panelZone6.Controls.Add(this.buttonSelectZone6);
             this.panelZone6.Controls.Add(this.labelZoneName6);
-            this.panelZone6.Location = new System.Drawing.Point(12, 848);
-            this.panelZone6.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelZone6.Location = new System.Drawing.Point(6, 441);
             this.panelZone6.Name = "panelZone6";
-            this.panelZone6.Size = new System.Drawing.Size(680, 136);
+            this.panelZone6.Size = new System.Drawing.Size(340, 71);
             this.panelZone6.TabIndex = 21;
             // 
             // labelZoneAnimalsAttention6
@@ -1061,19 +985,17 @@ namespace ZooApp
             this.labelZoneAnimalsAttention6.AutoSize = true;
             this.labelZoneAnimalsAttention6.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneAnimalsAttention6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneAnimalsAttention6.Location = new System.Drawing.Point(10, 81);
-            this.labelZoneAnimalsAttention6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneAnimalsAttention6.Location = new System.Drawing.Point(5, 42);
             this.labelZoneAnimalsAttention6.Name = "labelZoneAnimalsAttention6";
-            this.labelZoneAnimalsAttention6.Size = new System.Drawing.Size(536, 37);
+            this.labelZoneAnimalsAttention6.Size = new System.Drawing.Size(265, 20);
             this.labelZoneAnimalsAttention6.TabIndex = 2;
             this.labelZoneAnimalsAttention6.Text = "X ANIMALS NEEDING ATTENTION";
             // 
             // buttonSelectZone6
             // 
-            this.buttonSelectZone6.Location = new System.Drawing.Point(524, 9);
-            this.buttonSelectZone6.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSelectZone6.Location = new System.Drawing.Point(262, 5);
             this.buttonSelectZone6.Name = "buttonSelectZone6";
-            this.buttonSelectZone6.Size = new System.Drawing.Size(150, 44);
+            this.buttonSelectZone6.Size = new System.Drawing.Size(75, 23);
             this.buttonSelectZone6.TabIndex = 1;
             this.buttonSelectZone6.Text = "Select";
             this.buttonSelectZone6.UseVisualStyleBackColor = true;
@@ -1084,10 +1006,9 @@ namespace ZooApp
             this.labelZoneName6.AutoSize = true;
             this.labelZoneName6.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneName6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneName6.Location = new System.Drawing.Point(10, 8);
-            this.labelZoneName6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneName6.Location = new System.Drawing.Point(5, 4);
             this.labelZoneName6.Name = "labelZoneName6";
-            this.labelZoneName6.Size = new System.Drawing.Size(241, 44);
+            this.labelZoneName6.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName6.TabIndex = 0;
             this.labelZoneName6.Text = "ZONENAME";
             // 
@@ -1096,10 +1017,9 @@ namespace ZooApp
             this.panelZone5.Controls.Add(this.labelZoneAnimalsAttention5);
             this.panelZone5.Controls.Add(this.buttonSelectZone5);
             this.panelZone5.Controls.Add(this.labelZoneName5);
-            this.panelZone5.Location = new System.Drawing.Point(12, 700);
-            this.panelZone5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelZone5.Location = new System.Drawing.Point(6, 364);
             this.panelZone5.Name = "panelZone5";
-            this.panelZone5.Size = new System.Drawing.Size(680, 136);
+            this.panelZone5.Size = new System.Drawing.Size(340, 71);
             this.panelZone5.TabIndex = 20;
             // 
             // labelZoneAnimalsAttention5
@@ -1107,19 +1027,17 @@ namespace ZooApp
             this.labelZoneAnimalsAttention5.AutoSize = true;
             this.labelZoneAnimalsAttention5.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneAnimalsAttention5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneAnimalsAttention5.Location = new System.Drawing.Point(10, 81);
-            this.labelZoneAnimalsAttention5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneAnimalsAttention5.Location = new System.Drawing.Point(5, 42);
             this.labelZoneAnimalsAttention5.Name = "labelZoneAnimalsAttention5";
-            this.labelZoneAnimalsAttention5.Size = new System.Drawing.Size(536, 37);
+            this.labelZoneAnimalsAttention5.Size = new System.Drawing.Size(265, 20);
             this.labelZoneAnimalsAttention5.TabIndex = 2;
             this.labelZoneAnimalsAttention5.Text = "X ANIMALS NEEDING ATTENTION";
             // 
             // buttonSelectZone5
             // 
-            this.buttonSelectZone5.Location = new System.Drawing.Point(524, 9);
-            this.buttonSelectZone5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSelectZone5.Location = new System.Drawing.Point(262, 5);
             this.buttonSelectZone5.Name = "buttonSelectZone5";
-            this.buttonSelectZone5.Size = new System.Drawing.Size(150, 44);
+            this.buttonSelectZone5.Size = new System.Drawing.Size(75, 23);
             this.buttonSelectZone5.TabIndex = 1;
             this.buttonSelectZone5.Text = "Select";
             this.buttonSelectZone5.UseVisualStyleBackColor = true;
@@ -1130,10 +1048,9 @@ namespace ZooApp
             this.labelZoneName5.AutoSize = true;
             this.labelZoneName5.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneName5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneName5.Location = new System.Drawing.Point(10, 8);
-            this.labelZoneName5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneName5.Location = new System.Drawing.Point(5, 4);
             this.labelZoneName5.Name = "labelZoneName5";
-            this.labelZoneName5.Size = new System.Drawing.Size(241, 44);
+            this.labelZoneName5.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName5.TabIndex = 0;
             this.labelZoneName5.Text = "ZONENAME";
             // 
@@ -1142,10 +1059,9 @@ namespace ZooApp
             this.panelZone4.Controls.Add(this.labelZoneAnimalsAttention4);
             this.panelZone4.Controls.Add(this.buttonSelectZone4);
             this.panelZone4.Controls.Add(this.labelZoneName4);
-            this.panelZone4.Location = new System.Drawing.Point(12, 552);
-            this.panelZone4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelZone4.Location = new System.Drawing.Point(6, 287);
             this.panelZone4.Name = "panelZone4";
-            this.panelZone4.Size = new System.Drawing.Size(680, 136);
+            this.panelZone4.Size = new System.Drawing.Size(340, 71);
             this.panelZone4.TabIndex = 19;
             // 
             // labelZoneAnimalsAttention4
@@ -1153,19 +1069,17 @@ namespace ZooApp
             this.labelZoneAnimalsAttention4.AutoSize = true;
             this.labelZoneAnimalsAttention4.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneAnimalsAttention4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneAnimalsAttention4.Location = new System.Drawing.Point(10, 81);
-            this.labelZoneAnimalsAttention4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneAnimalsAttention4.Location = new System.Drawing.Point(5, 42);
             this.labelZoneAnimalsAttention4.Name = "labelZoneAnimalsAttention4";
-            this.labelZoneAnimalsAttention4.Size = new System.Drawing.Size(536, 37);
+            this.labelZoneAnimalsAttention4.Size = new System.Drawing.Size(265, 20);
             this.labelZoneAnimalsAttention4.TabIndex = 2;
             this.labelZoneAnimalsAttention4.Text = "X ANIMALS NEEDING ATTENTION";
             // 
             // buttonSelectZone4
             // 
-            this.buttonSelectZone4.Location = new System.Drawing.Point(524, 9);
-            this.buttonSelectZone4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSelectZone4.Location = new System.Drawing.Point(262, 5);
             this.buttonSelectZone4.Name = "buttonSelectZone4";
-            this.buttonSelectZone4.Size = new System.Drawing.Size(150, 44);
+            this.buttonSelectZone4.Size = new System.Drawing.Size(75, 23);
             this.buttonSelectZone4.TabIndex = 1;
             this.buttonSelectZone4.Text = "Select";
             this.buttonSelectZone4.UseVisualStyleBackColor = true;
@@ -1176,10 +1090,9 @@ namespace ZooApp
             this.labelZoneName4.AutoSize = true;
             this.labelZoneName4.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneName4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneName4.Location = new System.Drawing.Point(10, 8);
-            this.labelZoneName4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneName4.Location = new System.Drawing.Point(5, 4);
             this.labelZoneName4.Name = "labelZoneName4";
-            this.labelZoneName4.Size = new System.Drawing.Size(241, 44);
+            this.labelZoneName4.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName4.TabIndex = 0;
             this.labelZoneName4.Text = "ZONENAME";
             // 
@@ -1188,10 +1101,9 @@ namespace ZooApp
             this.panelZone3.Controls.Add(this.labelZoneAnimalsAttention3);
             this.panelZone3.Controls.Add(this.buttonSelectZone3);
             this.panelZone3.Controls.Add(this.labelZoneName3);
-            this.panelZone3.Location = new System.Drawing.Point(12, 403);
-            this.panelZone3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelZone3.Location = new System.Drawing.Point(6, 210);
             this.panelZone3.Name = "panelZone3";
-            this.panelZone3.Size = new System.Drawing.Size(680, 136);
+            this.panelZone3.Size = new System.Drawing.Size(340, 71);
             this.panelZone3.TabIndex = 18;
             // 
             // labelZoneAnimalsAttention3
@@ -1199,19 +1111,17 @@ namespace ZooApp
             this.labelZoneAnimalsAttention3.AutoSize = true;
             this.labelZoneAnimalsAttention3.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneAnimalsAttention3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneAnimalsAttention3.Location = new System.Drawing.Point(10, 81);
-            this.labelZoneAnimalsAttention3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneAnimalsAttention3.Location = new System.Drawing.Point(5, 42);
             this.labelZoneAnimalsAttention3.Name = "labelZoneAnimalsAttention3";
-            this.labelZoneAnimalsAttention3.Size = new System.Drawing.Size(536, 37);
+            this.labelZoneAnimalsAttention3.Size = new System.Drawing.Size(265, 20);
             this.labelZoneAnimalsAttention3.TabIndex = 2;
             this.labelZoneAnimalsAttention3.Text = "X ANIMALS NEEDING ATTENTION";
             // 
             // buttonSelectZone3
             // 
-            this.buttonSelectZone3.Location = new System.Drawing.Point(524, 9);
-            this.buttonSelectZone3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSelectZone3.Location = new System.Drawing.Point(262, 5);
             this.buttonSelectZone3.Name = "buttonSelectZone3";
-            this.buttonSelectZone3.Size = new System.Drawing.Size(150, 44);
+            this.buttonSelectZone3.Size = new System.Drawing.Size(75, 23);
             this.buttonSelectZone3.TabIndex = 1;
             this.buttonSelectZone3.Text = "Select";
             this.buttonSelectZone3.UseVisualStyleBackColor = true;
@@ -1222,10 +1132,9 @@ namespace ZooApp
             this.labelZoneName3.AutoSize = true;
             this.labelZoneName3.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneName3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneName3.Location = new System.Drawing.Point(10, 8);
-            this.labelZoneName3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneName3.Location = new System.Drawing.Point(5, 4);
             this.labelZoneName3.Name = "labelZoneName3";
-            this.labelZoneName3.Size = new System.Drawing.Size(241, 44);
+            this.labelZoneName3.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName3.TabIndex = 0;
             this.labelZoneName3.Text = "ZONENAME";
             // 
@@ -1234,10 +1143,9 @@ namespace ZooApp
             this.panelZone2.Controls.Add(this.labelZoneAnimalsAttention2);
             this.panelZone2.Controls.Add(this.buttonSelectZone2);
             this.panelZone2.Controls.Add(this.labelZoneName2);
-            this.panelZone2.Location = new System.Drawing.Point(12, 256);
-            this.panelZone2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelZone2.Location = new System.Drawing.Point(6, 133);
             this.panelZone2.Name = "panelZone2";
-            this.panelZone2.Size = new System.Drawing.Size(680, 136);
+            this.panelZone2.Size = new System.Drawing.Size(340, 71);
             this.panelZone2.TabIndex = 17;
             // 
             // labelZoneAnimalsAttention2
@@ -1245,19 +1153,17 @@ namespace ZooApp
             this.labelZoneAnimalsAttention2.AutoSize = true;
             this.labelZoneAnimalsAttention2.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneAnimalsAttention2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneAnimalsAttention2.Location = new System.Drawing.Point(10, 81);
-            this.labelZoneAnimalsAttention2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneAnimalsAttention2.Location = new System.Drawing.Point(5, 42);
             this.labelZoneAnimalsAttention2.Name = "labelZoneAnimalsAttention2";
-            this.labelZoneAnimalsAttention2.Size = new System.Drawing.Size(536, 37);
+            this.labelZoneAnimalsAttention2.Size = new System.Drawing.Size(265, 20);
             this.labelZoneAnimalsAttention2.TabIndex = 2;
             this.labelZoneAnimalsAttention2.Text = "X ANIMALS NEEDING ATTENTION";
             // 
             // buttonSelectZone2
             // 
-            this.buttonSelectZone2.Location = new System.Drawing.Point(524, 9);
-            this.buttonSelectZone2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSelectZone2.Location = new System.Drawing.Point(262, 5);
             this.buttonSelectZone2.Name = "buttonSelectZone2";
-            this.buttonSelectZone2.Size = new System.Drawing.Size(150, 44);
+            this.buttonSelectZone2.Size = new System.Drawing.Size(75, 23);
             this.buttonSelectZone2.TabIndex = 1;
             this.buttonSelectZone2.Text = "Select";
             this.buttonSelectZone2.UseVisualStyleBackColor = true;
@@ -1268,38 +1174,34 @@ namespace ZooApp
             this.labelZoneName2.AutoSize = true;
             this.labelZoneName2.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneName2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneName2.Location = new System.Drawing.Point(10, 8);
-            this.labelZoneName2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneName2.Location = new System.Drawing.Point(5, 4);
             this.labelZoneName2.Name = "labelZoneName2";
-            this.labelZoneName2.Size = new System.Drawing.Size(241, 44);
+            this.labelZoneName2.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName2.TabIndex = 0;
             this.labelZoneName2.Text = "ZONENAME";
             // 
             // labelZonePage
             // 
             this.labelZonePage.AutoSize = true;
-            this.labelZonePage.Location = new System.Drawing.Point(24, 61);
-            this.labelZonePage.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZonePage.Location = new System.Drawing.Point(12, 32);
             this.labelZonePage.Name = "labelZonePage";
-            this.labelZonePage.Size = new System.Drawing.Size(149, 25);
+            this.labelZonePage.Size = new System.Drawing.Size(75, 13);
             this.labelZonePage.TabIndex = 21;
             this.labelZonePage.Text = "Page Number:";
             // 
             // numericUpDownZonePage
             // 
-            this.numericUpDownZonePage.Location = new System.Drawing.Point(262, 58);
-            this.numericUpDownZonePage.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.numericUpDownZonePage.Location = new System.Drawing.Point(131, 30);
             this.numericUpDownZonePage.Name = "numericUpDownZonePage";
-            this.numericUpDownZonePage.Size = new System.Drawing.Size(114, 31);
+            this.numericUpDownZonePage.Size = new System.Drawing.Size(57, 20);
             this.numericUpDownZonePage.TabIndex = 20;
             this.numericUpDownZonePage.ValueChanged += new System.EventHandler(this.numericUpDownZonePage_ValueChanged);
             // 
             // buttonZoneSearch
             // 
-            this.buttonZoneSearch.Location = new System.Drawing.Point(542, 6);
-            this.buttonZoneSearch.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonZoneSearch.Location = new System.Drawing.Point(271, 3);
             this.buttonZoneSearch.Name = "buttonZoneSearch";
-            this.buttonZoneSearch.Size = new System.Drawing.Size(150, 44);
+            this.buttonZoneSearch.Size = new System.Drawing.Size(75, 23);
             this.buttonZoneSearch.TabIndex = 19;
             this.buttonZoneSearch.Text = "Search";
             this.buttonZoneSearch.UseVisualStyleBackColor = true;
@@ -1308,19 +1210,17 @@ namespace ZooApp
             // labelZoneSearch
             // 
             this.labelZoneSearch.AutoSize = true;
-            this.labelZoneSearch.Location = new System.Drawing.Point(16, 17);
-            this.labelZoneSearch.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneSearch.Location = new System.Drawing.Point(8, 9);
             this.labelZoneSearch.Name = "labelZoneSearch";
-            this.labelZoneSearch.Size = new System.Drawing.Size(232, 25);
+            this.labelZoneSearch.Size = new System.Drawing.Size(117, 13);
             this.labelZoneSearch.TabIndex = 18;
             this.labelZoneSearch.Text = "Search Zone by Name:";
             // 
             // textBoxZoneSearch
             // 
-            this.textBoxZoneSearch.Location = new System.Drawing.Point(262, 11);
-            this.textBoxZoneSearch.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.textBoxZoneSearch.Location = new System.Drawing.Point(131, 6);
             this.textBoxZoneSearch.Name = "textBoxZoneSearch";
-            this.textBoxZoneSearch.Size = new System.Drawing.Size(196, 31);
+            this.textBoxZoneSearch.Size = new System.Drawing.Size(100, 20);
             this.textBoxZoneSearch.TabIndex = 17;
             // 
             // panelZone1
@@ -1328,10 +1228,9 @@ namespace ZooApp
             this.panelZone1.Controls.Add(this.labelZoneAnimalsAttention1);
             this.panelZone1.Controls.Add(this.buttonSelectZone1);
             this.panelZone1.Controls.Add(this.labelZoneName1);
-            this.panelZone1.Location = new System.Drawing.Point(12, 108);
-            this.panelZone1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelZone1.Location = new System.Drawing.Point(6, 56);
             this.panelZone1.Name = "panelZone1";
-            this.panelZone1.Size = new System.Drawing.Size(680, 136);
+            this.panelZone1.Size = new System.Drawing.Size(340, 71);
             this.panelZone1.TabIndex = 16;
             // 
             // labelZoneAnimalsAttention1
@@ -1339,19 +1238,17 @@ namespace ZooApp
             this.labelZoneAnimalsAttention1.AutoSize = true;
             this.labelZoneAnimalsAttention1.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneAnimalsAttention1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneAnimalsAttention1.Location = new System.Drawing.Point(10, 81);
-            this.labelZoneAnimalsAttention1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneAnimalsAttention1.Location = new System.Drawing.Point(5, 42);
             this.labelZoneAnimalsAttention1.Name = "labelZoneAnimalsAttention1";
-            this.labelZoneAnimalsAttention1.Size = new System.Drawing.Size(536, 37);
+            this.labelZoneAnimalsAttention1.Size = new System.Drawing.Size(265, 20);
             this.labelZoneAnimalsAttention1.TabIndex = 2;
             this.labelZoneAnimalsAttention1.Text = "X ANIMALS NEEDING ATTENTION";
             // 
             // buttonSelectZone1
             // 
-            this.buttonSelectZone1.Location = new System.Drawing.Point(524, 9);
-            this.buttonSelectZone1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSelectZone1.Location = new System.Drawing.Point(262, 5);
             this.buttonSelectZone1.Name = "buttonSelectZone1";
-            this.buttonSelectZone1.Size = new System.Drawing.Size(150, 44);
+            this.buttonSelectZone1.Size = new System.Drawing.Size(75, 23);
             this.buttonSelectZone1.TabIndex = 1;
             this.buttonSelectZone1.Text = "Select";
             this.buttonSelectZone1.UseVisualStyleBackColor = true;
@@ -1362,31 +1259,28 @@ namespace ZooApp
             this.labelZoneName1.AutoSize = true;
             this.labelZoneName1.BackColor = System.Drawing.Color.Gainsboro;
             this.labelZoneName1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZoneName1.Location = new System.Drawing.Point(10, 8);
-            this.labelZoneName1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelZoneName1.Location = new System.Drawing.Point(5, 4);
             this.labelZoneName1.Name = "labelZoneName1";
-            this.labelZoneName1.Size = new System.Drawing.Size(241, 44);
+            this.labelZoneName1.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName1.TabIndex = 0;
             this.labelZoneName1.Text = "ZONENAME";
             // 
             // btnAddZone
             // 
             this.btnAddZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddZone.Location = new System.Drawing.Point(56, 1098);
-            this.btnAddZone.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnAddZone.Location = new System.Drawing.Point(28, 571);
             this.btnAddZone.Name = "btnAddZone";
-            this.btnAddZone.Size = new System.Drawing.Size(560, 67);
+            this.btnAddZone.Size = new System.Drawing.Size(280, 35);
             this.btnAddZone.TabIndex = 15;
             this.btnAddZone.Text = "Add New Zone";
             this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(720, 1231);
+            this.ClientSize = new System.Drawing.Size(360, 646);
             this.Controls.Add(this.tabControlMain);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "MainForm";
             this.Text = "ZOO APP";
             this.Load += new System.EventHandler(this.MainForm_Load);
