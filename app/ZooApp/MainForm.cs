@@ -307,17 +307,30 @@ namespace ZooApp
                 return;
             }
 
-            DataTable enclosureList = Queries.getEnclosuresByName(textBox_Enclosure_Search.Text);
+             populateEnclosureList_ComboBox_Enclosure_Search(Queries.getEnclosuresByName(textBox_Enclosure_Search.Text));          
+        }
 
+        /**<summary>
+         * Adds all the enclosures in the list too the combobox.
+         * 
+         * !! IMPORTANT !!
+         * 
+         * The list MUSTbe in the format [0]eid,[1]enclosure name.
+         * </summary>
+         * <param name="enclosureList">A DataTable of enclosures.</param>
+         */
+        private void populateEnclosureList_ComboBox_Enclosure_Search(DataTable enclosureList)
+        {
             EnclosureIdList.Clear();
             comboBox_Enclosure_Search.Items.Clear();
 
             comboBox_Enclosure_Search.Items.Add(enclosureList.Rows.Count.ToString() + " Enclosures Found");
+
             //Adds a spoof id so that when a real enclosure is selected, it matches it list position
             EnclosureIdList.Add(-1);
             comboBox_Enclosure_Search.SelectedIndex = 0;
 
-            for(int i = 0; i < enclosureList.Rows.Count; i++)
+            for (int i = 0; i < enclosureList.Rows.Count; i++)
             {
                 comboBox_Enclosure_Search.Items.Add(enclosureList.Rows[i][1].ToString() + " Enclosure");
                 EnclosureIdList.Add(int.Parse(enclosureList.Rows[i][0].ToString()));

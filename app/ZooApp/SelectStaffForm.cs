@@ -128,7 +128,7 @@ namespace ZooApp
             {
                 int staffIdInt;
 
-                if (usingMongo)
+                if (Queries.getDBType() == Queries.DBType.Mongo)
                 {
                     var selectedStaff = mongoStaffList[cbSelectStaff.SelectedIndex - 1];
                     staffIdInt = selectedStaff.Contains("sid") ? selectedStaff["sid"].AsInt32 : -1;

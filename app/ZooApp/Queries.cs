@@ -16,6 +16,10 @@ namespace ZooApp
     {
         private static DBType currentDB;
 
+        /**<summary>
+         * The Types of databases that the application can support.
+         * </summary>
+         */
         public enum DBType
         {
             Oracle = 0,
@@ -623,6 +627,13 @@ namespace ZooApp
             parameters.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
             parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
             return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+        }
+
+        public static void testQuerie()
+        {
+            List<MongoDB.Bson.BsonDocument> data = MongoDBHelper.FindAll("Staff");
+
+            int i = 0;
         }
     }
 }
