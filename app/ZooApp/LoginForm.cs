@@ -45,6 +45,9 @@ namespace ZooApp
 
                 if (SelectedDataset.Contains("MongoDB"))
                 {
+                    //Sets the currently used DB type in mongoDB.
+                    Queries.setDBType(1);
+
                     // MongoDB selected
                     MongoDBHelper.Initialize("Zoo");
                     var testData = MongoDBHelper.FindAll("Staff");
@@ -58,6 +61,8 @@ namespace ZooApp
                 }
                 else
                 {
+                    //Sets the currently used DBtype to Oracle.
+                    Queries.setDBType(0);
                     // Oracle selected
                     string prefix = SelectedDataset.Contains("M2L") ? "M2L" : "M2S";
                     DatabaseHelper.SetTablePrefix(prefix);
