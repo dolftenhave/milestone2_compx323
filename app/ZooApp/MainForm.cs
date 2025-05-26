@@ -316,6 +316,8 @@ namespace ZooApp
          * !! IMPORTANT !!
          * 
          * The list MUSTbe in the format [0]eid,[1]enclosure name.
+         * 
+         * If you are passing this in from another tab then you may want to set currentEnclosure to -1.
          * </summary>
          * <param name="enclosureList">A DataTable of enclosures.</param>
          */
