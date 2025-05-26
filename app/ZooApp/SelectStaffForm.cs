@@ -7,17 +7,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MongoDB.Bson;
 
 namespace ZooApp
 {
+    // <summary>
+    // Staff selection form that supports both Oracle and MongoDB.
+    // </summary>
     public partial class SelectStaffForm : Form
     {
         private DataTable staffList;
+        private List<BsonDocument> mongoStaffList;
+        private bool usingMongo;
         public SelectStaffForm()
         {
             InitializeComponent();
+            usingMongo = IsMongoSelected();
         }
 
+        // <summary>
+        // Checks if MongoDB was selected on login screen.
+        // @authors: Min Soe Htut
+        // </summary>
+        private bool IsMongoSelected()
+        {
+            return LoginForm.SelectedDataset != null && LoginForm.SelectedDataset.Contains("MongoDB");
+        }
+
+        // <summary>
+        // On form load, populate the staff dropdown.
+        // @authors: Min Soe Htut
+
+        // </summary>
         private void SelectStaffForm_Load(object sender, EventArgs e)
         {
             comboBoxSelectStaff_LoadStaffList();
@@ -27,16 +48,30 @@ namespace ZooApp
          * <summary>
          * Loads a list of all staff members into the combobox items
          * @author Dolf ten Have
+         * Min Soe Htut
          * </summary>
          */
         private void comboBoxSelectStaff_LoadStaffList()
         {
             cbSelectStaff.Items.Clear();
             cbSelectStaff.Items.Add("Select Your Name");
-            getStaff();
-            for (int i = 0; i < staffList.Rows.Count; i++)
+
+            if (usingMongo)
             {
-                cbSelectStaff.Items.Add(staffList.Rows[i][1]);
+                mongoStaffList = MongoDBHelper.FindAll("Staff");
+                foreach (var doc in mongoStaffList)
+                {
+                    string fullName = $"{doc["fName"]} {doc["lName"]}";
+                    cbSelectStaff.Items.Add(fullName);
+                }
+            }
+            else
+            {
+                getStaff();
+                for (int i = 0; i < staffList.Rows.Count; i++)
+                {
+                    cbSelectStaff.Items.Add(staffList.Rows[i]["Fullname"]);
+                }
             }
 
             cbSelectStaff.SelectedIndex = 0;
@@ -50,36 +85,30 @@ namespace ZooApp
         */
         private void getStaff()
         {
-            //!!!!!!!!!!!!!!!!!!!!!!!!!
-            //     THIS METHOD IS NOT FOR PUTTING DATA INTO THE COMBO BOX
-            //!!!!!!!!!!!!!!!!!!!!!!!!!
             String query = $"SELECT sid, fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
             staffList = DatabaseHelper.ExecuteQuery(query);
 
         }
 
-        /// <summary>
-        /// Handle the Add New Staff button click event.
-        /// Opens the AddStaffForm as a dialog.
-        /// @author Min Soe Htut
-        /// </summary>
+        // <summary>
+        // Opens AddStaffForm dialog and refreshes staff list after adding new staff.
+        // @author Min Soe Htut
+        // </summary>
         private void buttonAddStaff_Click(object sender, EventArgs e)
         {
             using (AddStaffForm form = new AddStaffForm())
             {
                 form.ShowDialog();
-
-                // Refresh the staff list after closing the form
                 comboBoxSelectStaff_LoadStaffList();
             }
         }
 
 
-        /// <summary>
-        /// Handle the Quit button click event.
-        /// Closes the application.
-        /// @author Min Soe Htut
-        /// </summary>
+        // <summary>
+        // Handle the Quit button click event.
+        // Closes the application.
+        // @author Min Soe Htut
+        // </summary>
         private void buttonQuit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -89,6 +118,7 @@ namespace ZooApp
          * <summary>
          * Checks if a staff member has been selected by the user. Otherwise an alert message is shown to notify the user to select their name.
          * @author Dolf ten Have
+         * Min Soe Htut
          * </summary>
          */
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -107,24 +137,42 @@ namespace ZooApp
             }
             try
             {
-                String staffId = staffList.Rows[cbSelectStaff.SelectedIndex - 1][0].ToString();
-                int staffIdInt = int.Parse(staffId);
+                int staffIdInt;
+
+                if (usingMongo)
+                {
+                    var selectedStaff = mongoStaffList[cbSelectStaff.SelectedIndex - 1];
+                    staffIdInt = selectedStaff.Contains("sid") ? selectedStaff["sid"].AsInt32 : -1;
+                }
+                else
+                {
+                    string staffId = staffList.Rows[cbSelectStaff.SelectedIndex - 1][0].ToString();
+                    staffIdInt = int.Parse(staffId);
+                }
+
                 this.Hide();
                 new MainForm(staffIdInt).ShowDialog();
                 this.Close();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);  
+                MessageBox.Show(ex.Message);
             }
             
             //Otherwise move to the next page
         }
 
+        /// <summary>
+        /// Opens the AddVetForm dialog to manage vet staff.
+        /// </summary>
         private void butUpdateVet_Click(object sender, EventArgs e)
         {
             new AddVetForm().ShowDialog();
         }
 
+        /// <summary>
+        /// Opens the AddZookeeperForm dialog to manage zookeeper staff.
+        /// </summary>
         private void butUpdateZooKeeper_Click(object sender, EventArgs e)
         {
             new AddZookeeperForm().ShowDialog();

@@ -67,10 +67,6 @@ namespace ZooApp
             return dt.Rows[0][0].ToString();
         }
 
-
-
-
-
         /**<summary>
          * Displays the list of animals that need feeding on the home page
          * 

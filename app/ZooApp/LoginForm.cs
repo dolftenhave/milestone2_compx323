@@ -6,38 +6,44 @@ using Oracle.ManagedDataAccess.Client;
 namespace ZooApp
 {
     /// <summary>
-    /// Login form that allows the user to choose between MongoDB and Oracle datasets.
-    /// @author Min Soe Htut
+    /// Login form allowing selection between Oracle and MongoDB datasets.
+    /// Initializes the appropriate connection depending on user choice.
     /// </summary>
+    /// @ author:Min Soe Htut
     public partial class LoginForm : Form
     {
+        /// <summary>
+        /// Holds the selected dataset so other forms can access it.
+        /// </summary>
+        public static string SelectedDataset { get; private set; }
+
         public LoginForm()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Populates the combo box with dataset options on form load.
+        /// Populates dataset options into the ComboBox when the form loads.
         /// </summary>
         private void LoginForm_Load(object sender, EventArgs e)
         {
             cbDataset.Items.Add("MongoDB Dataset");
             cbDataset.Items.Add("Small Dataset (M2S)");
             cbDataset.Items.Add("Large Dataset (M2L)");
-            cbDataset.SelectedIndex = 0; // MongoDB is default
+            cbDataset.SelectedIndex = 0; // Default to MongoDB
         }
 
         /// <summary>
-        /// Handles the connect button click event.
-        /// Connects to MongoDB or Oracle based on selected dataset.
+        /// Handles the Connect button click.
+        /// Initializes the selected database (MongoDB or Oracle).
         /// </summary>
         private void btnConnect_Click(object sender, EventArgs e)
         {
             try
             {
-                string selected = cbDataset.SelectedItem.ToString();
+                SelectedDataset = cbDataset.SelectedItem.ToString();
 
-                if (selected.Contains("MongoDB"))
+                if (SelectedDataset.Contains("MongoDB"))
                 {
                     // MongoDB selected
                     MongoDBHelper.Initialize("Zoo");
@@ -53,22 +59,22 @@ namespace ZooApp
                 else
                 {
                     // Oracle selected
-                    string prefix = selected.Contains("M2L") ? "M2L" : "M2S";
-
+                    string prefix = SelectedDataset.Contains("M2L") ? "M2L" : "M2S";
                     DatabaseHelper.SetTablePrefix(prefix);
+
                     string query = $"SELECT COUNT(*) FROM {DatabaseHelper.Table("ANIMAL")}";
                     DataTable dt = DatabaseHelper.ExecuteQuery(query);
                     int count = dt.Rows.Count > 0 ? Convert.ToInt32(dt.Rows[0][0]) : 0;
 
                     MessageBox.Show(
-                        $"{selected} loaded. {count} animals found.",
+                        $"{SelectedDataset} loaded. {count} animals found.",
                         "Info",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
                     );
                 }
 
-                // Proceed to next form
+                // Move to next form
                 this.Hide();
                 new SelectStaffForm().ShowDialog();
                 this.Close();
@@ -80,7 +86,7 @@ namespace ZooApp
         }
 
         /// <summary>
-        /// Displays a list of accessible Oracle tables.
+        /// Shows a list of accessible Oracle tables in a popup window.
         /// </summary>
         private void btnCheckTables_Click(object sender, EventArgs e)
         {
