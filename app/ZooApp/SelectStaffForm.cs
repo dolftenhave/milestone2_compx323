@@ -18,20 +18,9 @@ namespace ZooApp
     {
         private DataTable staffList;
         private List<BsonDocument> mongoStaffList;
-        private bool usingMongo;
         public SelectStaffForm()
         {
             InitializeComponent();
-            usingMongo = IsMongoSelected();
-        }
-
-        // <summary>
-        // Checks if MongoDB was selected on login screen.
-        // @authors: Min Soe Htut
-        // </summary>
-        private bool IsMongoSelected()
-        {
-            return LoginForm.SelectedDataset != null && LoginForm.SelectedDataset.Contains("MongoDB");
         }
 
         // <summary>
@@ -56,7 +45,7 @@ namespace ZooApp
             cbSelectStaff.Items.Clear();
             cbSelectStaff.Items.Add("Select Your Name");
 
-            if (usingMongo)
+            if (Queries.getDBType() == Queries.DBType.Mongo)
             {
                 mongoStaffList = MongoDBHelper.FindAll("Staff");
                 foreach (var doc in mongoStaffList)

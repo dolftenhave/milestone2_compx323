@@ -33,19 +33,6 @@ namespace ZooApp
             return GetCollection(collectionName).Find(new BsonDocument()).ToList();
         }
 
-        /**<summary>
-         * An internal method that converts the data returnd form the mongoDB collection to a DataTable.
-         * </summary>
-         * <param name="data">The IMongoDatabase results.</param>
-         * <returns>A DataTable containing all MongoDatabase data</returns>
-         */
-        private static DataTable toDataTable(IMongoDatabase data)
-        {
-            DataTable dt = new DataTable();
-            //TODO Dolf will implement.
-            return dt;
-        }
-
         public static void InsertDocument(string collectionName, BsonDocument document)
         {
             GetCollection(collectionName).InsertOne(document);
