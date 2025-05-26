@@ -14,6 +14,36 @@ namespace ZooApp
     /// </summary>
     internal static class Queries
     {
+        private static int DBTYPE = -1; //The database that is being used by the application.
+                                       // 0 for oracle and 1 for mongoDB
+
+        /**<summary>Sets the DBtype to the value passed in if the value is valid
+         * 0 for ORacle and 1 for mongoDB.
+         * If the type is invalid, the type is not set.
+         * Default is 0;
+         * </summary>
+         * <param name="dbType">The value conresponding with the dbType.</param>
+         */
+        public static void setDBType(int dbType)
+        {
+            if(dbType == 0 || dbType == 1)
+                dbType = dbType;
+        }
+
+        /**<summary>
+         * Gets the value of the DB type that the application is currently connected too.
+         * Will return -1 if the value has not been set.
+         * -1 = Not set.
+         * 0 = Oracle.
+         * 1 = MongoDB.
+         * </summary>
+         * <returns> An integer with the value of the current DB type.</returns>
+         */
+        public static int getDBType()
+        {
+            return DBTYPE;
+        }
+
         // Make sure to add the animal ID on to the end of this
         public static String ZookeepersQualifiedForAnimal =
             $"SELECT s.sid, s.lname, s.fname " +
