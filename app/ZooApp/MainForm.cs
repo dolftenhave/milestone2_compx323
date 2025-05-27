@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using static System.Net.WebRequestMethods;
 using System.Drawing;
+using Oracle.ManagedDataAccess.Client;
 
 /**<summary>
  * This is the main page of the application. Giving staff members access to everything they may need to do in the zoo
@@ -17,9 +18,11 @@ namespace ZooApp
         private int staffMemberId;
         private int staffRole; //0 for ZooKeeper and 1 for Vet
         private int currentEnclosure; // -1 if no enclosure is selected
+        private bool needToUpdate;
         private List<int> selectedAnimals; //A list of animals currently selected
         private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
         private List<int> EnclosureIdList; //Contains a list of id's of all the enclosures that have currently been searched for.
+        private List<String> ZoneNameList; //A list of the zones that are currently selected 
         
         // For Mongo
         private readonly bool usingMongo;
@@ -27,10 +30,12 @@ namespace ZooApp
         public MainForm(int staffMemberId)
         {
             currentEnclosure = -1;
+            needToUpdate = true;
             this.staffMemberId = staffMemberId;
             selectedAnimals= new List<int>();
             selectedAnimalsCheckboxList= new List<CheckBox>();
             EnclosureIdList= new List<int>();
+            ZoneNameList = new List<String>();
             InitializeComponent();
 
             // For Mongo
@@ -80,7 +85,9 @@ namespace ZooApp
          * </summary>
          */
         private void displayFeedingList()
-        {            
+        {
+            if (!needToUpdate) return;
+
             int remainingRows = 6;
 
             DataTable animals_notFed = Queries.getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
@@ -159,10 +166,14 @@ namespace ZooApp
             {
                 if (totalTime > FeedingInterval)
                 {
-                    panel.BackColor = System.Drawing.Color.Pink;
+                    panel.BackColor = Color.Pink;
                     totalTime -= FeedingInterval;
                     lblF.Text += "\nOverdue by:";
                     overDue = "!";
+                }
+                else
+                {
+                    panel.BackColor = Color.LightGreen;
                 }
 
 
@@ -183,7 +194,7 @@ namespace ZooApp
             else
             {
                 lblSinceFeed.Text = "Never!";
-                panel.BackColor = System.Drawing.Color.Pink;
+                panel.BackColor = Color.Pink;
             }
 
 
@@ -311,11 +322,11 @@ namespace ZooApp
         }
 
         /**<summary>
-         * Adds all the enclosures in the list too the combobox.
+         * Adds all the enclosures in the DataTable to the ComboBox.
          * 
          * !! IMPORTANT !!
          * 
-         * The list MUSTbe in the format [0]eid,[1]enclosure name.
+         * The list MUST be in the format [0]eid,[1]enclosure name.
          * 
          * If you are passing this in from another tab then you may want to set currentEnclosure to -1.
          * </summary>
@@ -492,14 +503,12 @@ namespace ZooApp
          */
         private void button_feedGroup_Click(object sender, EventArgs e)
         {
-            String animalList = "Feeding (aid): [";
-            for(int i = 0; i < selectedAnimals.Count - 1; i++)
-            {
-                animalList += selectedAnimals[i].ToString();
-                animalList += ",";
-            }
-            animalList += selectedAnimals[selectedAnimals.Count - 1].ToString() + "]";
-            MessageBox.Show(animalList);
+            FeedForm form = new FeedForm(selectedAnimals.ToArray(), staffMemberId);
+
+            // ShowDialog is blocking, so reload the enclosure animals afterwards
+            form.ShowDialog();
+            loadEnclosureAnimals();
+            needToUpdate = true;
         }
 
 
@@ -572,7 +581,7 @@ namespace ZooApp
             // Get the information for everything except latest feed/care
             // THIS DOES NOT TAKE INTO ACCOUNT THE ENCLOSURE NAME BEING ADDED IN FUTURE
             String animalName = cbSelectAnimal.SelectedItem.ToString();
-            String queryGeneralInfo = $"SELECT a.aid, a.feedinginterval, s.commonname, a.dob, a.sex, e.eid, z.name " +
+            String queryGeneralInfo = $"SELECT a.aid, a.feedinginterval, s.commonname, a.dob, a.sex, e.name as \"ename\", z.name " +
                 $"FROM {DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("ZONE")} z, " +
                 $"{DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} s " +
                 $"WHERE a.name = '{animalName}' " +
@@ -595,7 +604,7 @@ namespace ZooApp
             String animalAge = getAgeFromDob(DateTime.Parse(animalData.Rows[0]["dob"].ToString()));
             String animalSex = animalData.Rows[0]["sex"].ToString();
             // To change to enclosure NAME
-            String enclosureEID = animalData.Rows[0]["eid"].ToString();
+            String enclosureName = animalData.Rows[0]["ename"].ToString();
             String zoneName = animalData.Rows[0]["name"].ToString();
             String feedingInterval = animalData.Rows[0]["feedinginterval"].ToString() + " Hours";
 
@@ -625,7 +634,7 @@ namespace ZooApp
             txtSpecies.Text = speciesName;
             txtAge.Text = animalAge;
             txtSex.Text = animalSex;
-            txtEnclosure.Text = enclosureEID;
+            txtEnclosure.Text = enclosureName;
             txtZone.Text = zoneName;
             txtLastCare.Text = lastCared;
             txtLastFed.Text = lastFed;
@@ -667,10 +676,18 @@ namespace ZooApp
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
-                    $"WHERE name LIKE '%{textBoxZoneSearch.Text}%'";
+                    $"AND name LIKE '%{textBoxZoneSearch.Text}%'";
             }
 
             DataTable basicZoneInfo = DatabaseHelper.ExecuteQuery(initZoneDataQuery);
+
+            // Write result to the list of zone names
+            ZoneNameList = new List<String>();
+            for (int i = 0; i < basicZoneInfo.Rows.Count; i++)
+            {
+                ZoneNameList.Add(basicZoneInfo.Rows[i]["name"].ToString());
+            }
+            
             // WRITE SOMETHING FOR IF NO ZONE IS FOUND
 
             // Populate UI elements!
@@ -727,12 +744,13 @@ namespace ZooApp
         {
             int numBoxes = 6;
             // If search box contains nothing, then search all.
+            OracleParameter[] parameters = null;
             String countQuery;
             if (textBoxZoneSearch.Text != "")
             {
                 countQuery = $"SELECT COUNT(distinct name) as \"count\" " +
                 $"FROM {DatabaseHelper.Table("ZONE")} " +
-                $"WHERE name LIKE '%{textBoxZoneSearch.Text}%' " +
+                $"WHERE name LIKE '%:input%' " +
                 $"AND name IN (" +
                     $"SELECT z.name " +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
@@ -744,6 +762,11 @@ namespace ZooApp
                     $"AND sp.latinname = a.speciesname " +
                     $"AND a.enclosureID = e.eid " +
                     $"AND e.zonename = z.name)";
+
+                parameters = new OracleParameter[]
+                {
+                    new OracleParameter("input", OracleDbType.Varchar2, textBoxZoneSearch.Text, ParameterDirection.Input)
+                };
             }
             else
             {
@@ -762,14 +785,14 @@ namespace ZooApp
                     $"AND e.zonename = z.name)";
             }
 
-            DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
+            DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery, parameters);
             int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
             int numPages = ((totalCount - 1 )/ numBoxes) + 1;
          
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
             nud.Minimum = 1;
-            //nud.Maximum = numPages;
+            nud.Maximum = numPages;
         }
 
         /// <summary>
@@ -786,10 +809,33 @@ namespace ZooApp
 
         private void btnSelectZone_Click(object sender, EventArgs e)
         {
-            // will do the thing for enclosures... 
+            // 😊 get zone name
+            String btnText = ((Button)sender).Name;
+            int index = int.Parse(btnText.Substring(btnText.Length - 1)) - 1;
+            String zoneName = ZoneNameList[index];
+
+            // Make sure to set the current enclosure to -1!
+            currentEnclosure = -1;
+
+            // Get a DataTable with:
+            // [0] eid
+            // [1] eName
+            String query = $"SELECT distinct e.eid, e.name " +
+                $"FROM {DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} sp, " +
+                $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o, " +
+                $"{DatabaseHelper.Table("ANIMAL")} a " +
+                $"WHERE e.zoneName = '{ZoneNameList[index]}' " +
+                $"AND a.enclosureID = e.eid " +
+                $"AND a.speciesName = sp.latinname " +
+                $"AND sp.speciesgroup = o.sGroupName " +
+                $"AND o.staffID = '{staffMemberId}' ";
+
+            // Run query and populate the enclosure combobox
+            DataTable enclosuresToShow = DatabaseHelper.ExecuteQuery(query);
+            populateEnclosureList_ComboBox_Enclosure_Search(enclosuresToShow);
+
+            // Now switch tabs, combobox is populated. 
             tabControlMain.SelectedIndex = 2;
-            
-            // then put the zone enclosures in
         }
 
         private void btnAddFeed_Click(object sender, EventArgs e)
@@ -823,7 +869,6 @@ namespace ZooApp
         /// <param name="e"></param>
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             //return;
             // 0 = Home
             // 1 = Animal
@@ -833,13 +878,15 @@ namespace ZooApp
             switch (index)
             {
                 case 0:
-                    // Can implement Home tab logic here
+                    // Home Tab Logic
+                    displayFeedingList();
                     return;
                 case 1:
                     // Animal Tab Logic
                     populateAnimalComboBox();
                     return;
                 case 2:
+                    // Enclosure Tab Logic
                     initialiseEnclosure();
                     return;
                 case 3:

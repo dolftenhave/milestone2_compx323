@@ -124,7 +124,6 @@ namespace ZooApp
             this.labelZoneAnimalsAttention1 = new System.Windows.Forms.Label();
             this.buttonSelectZone1 = new System.Windows.Forms.Button();
             this.labelZoneName1 = new System.Windows.Forms.Label();
-            this.btnAddZone = new System.Windows.Forms.Button();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
@@ -169,8 +168,8 @@ namespace ZooApp
             this.tabHome.Controls.Add(this.lblStaffNameWelcome);
             this.tabHome.Location = new System.Drawing.Point(4, 22);
             this.tabHome.Name = "tabHome";
-            this.tabHome.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabHome.Size = new System.Drawing.Size(352, 456);
+            this.tabHome.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHome.Size = new System.Drawing.Size(352, 620);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
@@ -628,8 +627,8 @@ namespace ZooApp
             this.tabAnimal.Controls.Add(this.btnAddAnimal);
             this.tabAnimal.Location = new System.Drawing.Point(4, 22);
             this.tabAnimal.Name = "tabAnimal";
-            this.tabAnimal.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabAnimal.Size = new System.Drawing.Size(352, 614);
+            this.tabAnimal.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAnimal.Size = new System.Drawing.Size(352, 620);
             this.tabAnimal.TabIndex = 1;
             this.tabAnimal.Text = "Animal";
             this.tabAnimal.UseVisualStyleBackColor = true;
@@ -832,7 +831,7 @@ namespace ZooApp
             this.tabPageEnclosure.Controls.Add(this.textBox_Enclosure_Search);
             this.tabPageEnclosure.Location = new System.Drawing.Point(4, 22);
             this.tabPageEnclosure.Name = "tabPageEnclosure";
-            this.tabPageEnclosure.Size = new System.Drawing.Size(352, 614);
+            this.tabPageEnclosure.Size = new System.Drawing.Size(352, 620);
             this.tabPageEnclosure.TabIndex = 3;
             this.tabPageEnclosure.Text = "Enclosure";
             this.tabPageEnclosure.UseVisualStyleBackColor = true;
@@ -961,10 +960,9 @@ namespace ZooApp
             this.tabZone.Controls.Add(this.labelZoneSearch);
             this.tabZone.Controls.Add(this.textBoxZoneSearch);
             this.tabZone.Controls.Add(this.panelZone1);
-            this.tabZone.Controls.Add(this.btnAddZone);
             this.tabZone.Location = new System.Drawing.Point(4, 22);
             this.tabZone.Name = "tabZone";
-            this.tabZone.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabZone.Padding = new System.Windows.Forms.Padding(3);
             this.tabZone.Size = new System.Drawing.Size(352, 620);
             this.tabZone.TabIndex = 2;
             this.tabZone.Text = "Zone";
@@ -1265,16 +1263,6 @@ namespace ZooApp
             this.labelZoneName1.TabIndex = 0;
             this.labelZoneName1.Text = "ZONENAME";
             // 
-            // btnAddZone
-            // 
-            this.btnAddZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddZone.Location = new System.Drawing.Point(28, 571);
-            this.btnAddZone.Name = "btnAddZone";
-            this.btnAddZone.Size = new System.Drawing.Size(280, 35);
-            this.btnAddZone.TabIndex = 15;
-            this.btnAddZone.Text = "Add New Zone";
-            this.btnAddZone.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1351,7 +1339,6 @@ namespace ZooApp
         private System.Windows.Forms.Label lblInterval;
         private System.Windows.Forms.TextBox txtFeedingInterval;
         private System.Windows.Forms.Button btnAddAnimal;
-        private System.Windows.Forms.Button btnAddZone;
         private TabPage tabHome;
         private Label lblStaffName;
         private GroupBox groupBoxTODO;
