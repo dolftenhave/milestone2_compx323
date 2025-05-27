@@ -31,6 +31,7 @@ namespace ZooApp
         {
             isFirstChange = true;
             aids = a;
+            sid = s;
             InitializeComponent();
         }
 
@@ -107,26 +108,24 @@ namespace ZooApp
             decimal foodAmount = numericUpDownPerAnimal.Value;
 
             // Now we can make and execute the query.
-            String query = $"INSERT INTO {DatabaseHelper.Table("FEED")}(" +
-                $"staffID, animalID, dateTime, amount, foodType) VALUES ";
+            String queryStart = $"INSERT INTO {DatabaseHelper.Table("FEED")} VALUES ";
 
             // Add an insert for each animal id
             for (int i = 0; i < aids.Length; i++)
             {
-                query += $"('{sid}', '{aids[i]}', CURRENT_TIMESTAMP, '{foodAmount}', '{foodType}')";
-                if (i != aids.Length - 1) query += ", ";
+                String query = queryStart + $"({sid}, {aids[i]}, CURRENT_TIMESTAMP, {foodAmount}, '{foodType}')";
+                try
+                {
+                    DatabaseHelper.ExecuteNonQuery(query);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error with inputting feeding, please try again");
+                    this.Close();
+                }
             }
 
-            // Check that the feeding is done correctly
-            try
-            {
-                DatabaseHelper.ExecuteNonQuery(query);
-                MessageBox.Show("Successfully recorded feeding!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error with inputting feeding, please try again.");
-            }
+            MessageBox.Show("Successfully recorded feeding!");
 
             // And relinquish control back to the main form
             this.Close();
