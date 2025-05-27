@@ -499,14 +499,6 @@ namespace ZooApp
          */
         private void button_feedGroup_Click(object sender, EventArgs e)
         {
-            String animalList = "Feeding (aid): [";
-            for(int i = 0; i < selectedAnimals.Count - 1; i++)
-            {
-                animalList += selectedAnimals[i].ToString();
-                animalList += ",";
-            }
-            animalList += selectedAnimals[selectedAnimals.Count - 1].ToString() + "]";
-            MessageBox.Show(animalList);
             FeedForm form = new FeedForm(selectedAnimals.ToArray(), staffMemberId);
 
             // ShowDialog is blocking, so reload the enclosure animals afterwards
