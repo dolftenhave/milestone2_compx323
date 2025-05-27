@@ -25,6 +25,7 @@
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnCheckTables = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnCheckCollections = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -51,7 +52,7 @@
             // btnConnect
             // 
             this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(12, 502);
+            this.btnConnect.Location = new System.Drawing.Point(12, 456);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(336, 40);
             this.btnConnect.TabIndex = 2;
@@ -62,11 +63,11 @@
             // btnCheckTables
             // 
             this.btnCheckTables.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCheckTables.Location = new System.Drawing.Point(12, 548);
+            this.btnCheckTables.Location = new System.Drawing.Point(12, 502);
             this.btnCheckTables.Name = "btnCheckTables";
             this.btnCheckTables.Size = new System.Drawing.Size(336, 40);
             this.btnCheckTables.TabIndex = 3;
-            this.btnCheckTables.Text = "Check Accessible Tables";
+            this.btnCheckTables.Text = "Check Accessible Tables SQL";
             this.btnCheckTables.UseVisualStyleBackColor = true;
             this.btnCheckTables.Click += new System.EventHandler(this.btnCheckTables_Click);
             // 
@@ -81,9 +82,21 @@
             this.label1.Text = "Please Select the DataBase";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // btnCheckCollections
+            // 
+            this.btnCheckCollections.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCheckCollections.Location = new System.Drawing.Point(12, 548);
+            this.btnCheckCollections.Name = "btnCheckCollections";
+            this.btnCheckCollections.Size = new System.Drawing.Size(336, 40);
+            this.btnCheckCollections.TabIndex = 5;
+            this.btnCheckCollections.Text = "Check Accessible Collections";
+            this.btnCheckCollections.UseVisualStyleBackColor = true;
+            this.btnCheckCollections.Click += new System.EventHandler(this.btnCheckCollections_Click);
+            // 
             // LoginForm
             // 
             this.ClientSize = new System.Drawing.Size(360, 600);
+            this.Controls.Add(this.btnCheckCollections);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.cbDataset);
@@ -100,5 +113,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnCheckCollections;
     }
 }

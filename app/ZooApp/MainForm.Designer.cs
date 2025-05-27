@@ -62,6 +62,14 @@ namespace ZooApp
             this.btn_home_feed0 = new System.Windows.Forms.Button();
             this.lblStaffNameWelcome = new System.Windows.Forms.Label();
             this.tabAnimal = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtOrigin = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtWeight = new System.Windows.Forms.TextBox();
+            this.txtVets = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtZookeepers = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtFeedingInterval = new System.Windows.Forms.TextBox();
             this.lblAnimalTitle = new System.Windows.Forms.Label();
             this.lblSelectAnimal = new System.Windows.Forms.Label();
@@ -125,14 +133,6 @@ namespace ZooApp
             this.buttonSelectZone1 = new System.Windows.Forms.Button();
             this.labelZoneName1 = new System.Windows.Forms.Label();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.txtVets = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtZookeepers = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtOrigin = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtWeight = new System.Windows.Forms.TextBox();
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.groupBoxTODO.SuspendLayout();
@@ -648,6 +648,82 @@ namespace ZooApp
             this.tabAnimal.TabIndex = 1;
             this.tabAnimal.Text = "Animal";
             this.tabAnimal.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 184);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(114, 23);
+            this.label5.TabIndex = 38;
+            this.label5.Text = "Origin:";
+            // 
+            // txtOrigin
+            // 
+            this.txtOrigin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOrigin.Location = new System.Drawing.Point(130, 184);
+            this.txtOrigin.Name = "txtOrigin";
+            this.txtOrigin.ReadOnly = true;
+            this.txtOrigin.Size = new System.Drawing.Size(200, 26);
+            this.txtOrigin.TabIndex = 39;
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 152);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(114, 23);
+            this.label4.TabIndex = 36;
+            this.label4.Text = "Weight:";
+            // 
+            // txtWeight
+            // 
+            this.txtWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWeight.Location = new System.Drawing.Point(130, 152);
+            this.txtWeight.Name = "txtWeight";
+            this.txtWeight.ReadOnly = true;
+            this.txtWeight.Size = new System.Drawing.Size(200, 26);
+            this.txtWeight.TabIndex = 37;
+            // 
+            // txtVets
+            // 
+            this.txtVets.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVets.Location = new System.Drawing.Point(130, 430);
+            this.txtVets.Multiline = true;
+            this.txtVets.Name = "txtVets";
+            this.txtVets.ReadOnly = true;
+            this.txtVets.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtVets.Size = new System.Drawing.Size(200, 26);
+            this.txtVets.TabIndex = 35;
+            // 
+            // label7
+            // 
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(8, 398);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(112, 23);
+            this.label7.TabIndex = 34;
+            this.label7.Text = "Zookeepers :";
+            // 
+            // txtZookeepers
+            // 
+            this.txtZookeepers.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtZookeepers.Location = new System.Drawing.Point(130, 398);
+            this.txtZookeepers.Multiline = true;
+            this.txtZookeepers.Name = "txtZookeepers";
+            this.txtZookeepers.ReadOnly = true;
+            this.txtZookeepers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtZookeepers.Size = new System.Drawing.Size(200, 26);
+            this.txtZookeepers.TabIndex = 33;
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(6, 433);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 23);
+            this.label6.TabIndex = 32;
+            this.label6.Text = "Vets:";
             // 
             // txtFeedingInterval
             // 
@@ -1278,82 +1354,6 @@ namespace ZooApp
             this.labelZoneName1.Size = new System.Drawing.Size(128, 24);
             this.labelZoneName1.TabIndex = 0;
             this.labelZoneName1.Text = "ZONENAME";
-            // 
-            // txtVets
-            // 
-            this.txtVets.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVets.Location = new System.Drawing.Point(130, 430);
-            this.txtVets.Multiline = true;
-            this.txtVets.Name = "txtVets";
-            this.txtVets.ReadOnly = true;
-            this.txtVets.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtVets.Size = new System.Drawing.Size(200, 26);
-            this.txtVets.TabIndex = 35;
-            // 
-            // label7
-            // 
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(6, 433);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(130, 23);
-            this.label7.TabIndex = 34;
-            this.label7.Text = "Zookeepers :";
-            // 
-            // txtZookeepers
-            // 
-            this.txtZookeepers.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtZookeepers.Location = new System.Drawing.Point(130, 398);
-            this.txtZookeepers.Multiline = true;
-            this.txtZookeepers.Name = "txtZookeepers";
-            this.txtZookeepers.ReadOnly = true;
-            this.txtZookeepers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtZookeepers.Size = new System.Drawing.Size(200, 26);
-            this.txtZookeepers.TabIndex = 33;
-            // 
-            // label6
-            // 
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(6, 401);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(130, 23);
-            this.label6.TabIndex = 32;
-            this.label6.Text = "Vets:";
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(6, 184);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(114, 23);
-            this.label5.TabIndex = 38;
-            this.label5.Text = "Origin:";
-            // 
-            // txtOrigin
-            // 
-            this.txtOrigin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtOrigin.Location = new System.Drawing.Point(130, 184);
-            this.txtOrigin.Name = "txtOrigin";
-            this.txtOrigin.ReadOnly = true;
-            this.txtOrigin.Size = new System.Drawing.Size(200, 26);
-            this.txtOrigin.TabIndex = 39;
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(6, 152);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 23);
-            this.label4.TabIndex = 36;
-            this.label4.Text = "Weight:";
-            // 
-            // txtWeight
-            // 
-            this.txtWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWeight.Location = new System.Drawing.Point(130, 152);
-            this.txtWeight.Name = "txtWeight";
-            this.txtWeight.ReadOnly = true;
-            this.txtWeight.Size = new System.Drawing.Size(200, 26);
-            this.txtWeight.TabIndex = 37;
             // 
             // MainForm
             // 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
@@ -125,5 +127,47 @@ namespace ZooApp
                 MessageBox.Show("Error loading tables: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnCheckCollections_Click(object sender, EventArgs e)
+        {
+            // Step 1: List all collections
+            var client = new MongoClient("mongodb+srv://minsoehtut306:Minmin306htut1@cluster0.d7amife.mongodb.net/"); // or use your existing one
+            var database = client.GetDatabase("Zoo");
+            var collections = database.ListCollectionNames().ToList();
+
+            string output = "Collections in 'Zoo' DB:\n\n";
+            foreach (var name in collections)
+            {
+                output += name + "\n";
+            }
+
+            // Step 2: Look inside speciesGroup if it exists
+            if (collections.Contains("speciesGroup"))
+            {
+                var speciesGroupCollection = database.GetCollection<BsonDocument>("speciesGroup");
+                var documents = speciesGroupCollection.Find(new BsonDocument()).ToList();
+
+                if (documents.Count > 0)
+                {
+                    output += "\nDocuments in 'speciesGroup':\n";
+                    foreach (var doc in documents)
+                    {
+                        string name = doc.Contains("commonName") ? doc["commonName"].AsString : "(No commonName)";
+                        output += $"- {name}\n";
+                    }
+                }
+                else
+                {
+                    output += "\nNo documents found in 'speciesGroup'.";
+                }
+            }
+            else
+            {
+                output += "\n'speciesGroup' collection not found!";
+            }
+
+            MessageBox.Show(output);
+        }
+
     }
 }

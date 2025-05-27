@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ZooApp
 {
@@ -130,9 +131,11 @@ namespace ZooApp
 
                 if (Queries.getDBType() == Queries.DBType.Mongo)
                 {
+                    MongoDBHelper.Initialize("Zoo");
                     var selectedStaff = mongoStaffList[cbSelectStaff.SelectedIndex - 1];
                     staffIdInt = selectedStaff.Contains("sid") ? selectedStaff["sid"].AsInt32 : -1;
                 }
+
                 else
                 {
                     string staffId = staffList.Rows[cbSelectStaff.SelectedIndex - 1][0].ToString();
@@ -166,5 +169,6 @@ namespace ZooApp
         {
             new AddZookeeperForm().ShowDialog();
         }
+
     }
 }

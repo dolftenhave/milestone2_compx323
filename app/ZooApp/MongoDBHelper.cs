@@ -33,7 +33,7 @@ namespace ZooApp
             "Feed",
             "Staff",
             "Zone",
-            "SpeciesGroup"
+            "speciesGroup"
         };
 
         private static string getCollectionName(DBCollection collectionName)
@@ -41,7 +41,6 @@ namespace ZooApp
             return DBCollections[(int)collectionName];
         }
 
-        // Replace this with your actual connection string from Compass
         private static string connectionString = "mongodb+srv://minsoehtut306:Minmin306htut1@cluster0.d7amife.mongodb.net/";
 
         public static void Initialize(string dbName = "Zoo")
@@ -55,10 +54,6 @@ namespace ZooApp
             return database.GetCollection<BsonDocument>(getCollectionName(collectionName));
         }
 
-        public static List<BsonDocument> FindAll(DBCollection collectionName)
-        {
-            return GetCollection(collectionName).Find(new BsonDocument()).ToList();
-        }
 
         /**<summary>
          * Makes a query based on an aggrigation pipeline.
@@ -67,10 +62,11 @@ namespace ZooApp
          * <param name="pipeline">An array of BsonDocuments that make up the aggrication pipeline.</param>
          * <returns>A List of BsonDocuments.</returns>
          */
-        public static List<BsonDocument> AggrigateFind(DBCollection collectionName, BsonDocument[] pipeline)
+        public static List<BsonDocument> FindAll(DBCollection collectionName)
         {
-            return GetCollection(collectionName).Aggregate<BsonDocument>(pipeline).ToList();
+            return GetCollection(collectionName).Find(new BsonDocument()).ToList();
         }
+
 
         public static void InsertDocument(DBCollection collectionName, BsonDocument document)
         {
