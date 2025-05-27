@@ -166,10 +166,14 @@ namespace ZooApp
             {
                 if (totalTime > FeedingInterval)
                 {
-                    panel.BackColor = System.Drawing.Color.Pink;
+                    panel.BackColor = Color.Pink;
                     totalTime -= FeedingInterval;
                     lblF.Text += "\nOverdue by:";
                     overDue = "!";
+                }
+                else
+                {
+                    panel.BackColor = Color.LightGreen;
                 }
 
 
@@ -190,7 +194,7 @@ namespace ZooApp
             else
             {
                 lblSinceFeed.Text = "Never!";
-                panel.BackColor = System.Drawing.Color.Pink;
+                panel.BackColor = Color.Pink;
             }
 
 
@@ -865,7 +869,6 @@ namespace ZooApp
         /// <param name="e"></param>
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             //return;
             // 0 = Home
             // 1 = Animal
@@ -875,7 +878,7 @@ namespace ZooApp
             switch (index)
             {
                 case 0:
-                    // Can implement Home tab logic here
+                    // Home Tab Logic
                     displayFeedingList();
                     return;
                 case 1:
@@ -883,6 +886,7 @@ namespace ZooApp
                     populateAnimalComboBox();
                     return;
                 case 2:
+                    // Enclosure Tab Logic
                     initialiseEnclosure();
                     return;
                 case 3:
