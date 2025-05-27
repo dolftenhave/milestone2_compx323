@@ -14,6 +14,10 @@ namespace ZooApp
     {
         private static IMongoDatabase database;
 
+        /**<summary>
+         * Collection names for the DB app.
+         * </summary>
+         */
         public enum DBCollection
         {
             Care = 0,
@@ -23,6 +27,7 @@ namespace ZooApp
             SpeciesGroup = 4
         }
 
+        //All teh names of the collection in the app DB. Each index has a matching enum in DBCollection.
         private static readonly string[] DBCollections = new string[5]{
             "Care",
             "Feed",

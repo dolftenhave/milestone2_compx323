@@ -8,6 +8,7 @@ using System.Xml;
 using Oracle.ManagedDataAccess.Client;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Text.Json;
 
 namespace ZooApp
 {
@@ -600,31 +601,44 @@ namespace ZooApp
          */
         public static DataTable getEnclosureNameById(int eid)
         {
+            /**
             if (getDBType() == DBType.Oracle)
             {
+            */
                 String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = :eid";
                 List<OracleParameter> paramList = new List<OracleParameter>();
                 paramList.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
                 return DatabaseHelper.ExecuteQuery(query, paramList.ToArray());
+                /**
             }
             else
             {
                 DataTable dt = new DataTable();
 
-                new BsonArray
-                {
+                BsonDocument[] pipeline = new BsonDocument[]{ 
                     new BsonDocument("$match",
-                    new BsonDocument("enclosures.eid", 1)),
+                    new BsonDocument("enclosures.eid", eid)),
                     new BsonDocument("$unwind",
                     new BsonDocument("path", "$enclosures")),
                     new BsonDocument("$match",
-                    new BsonDocument("enclosures.eid", 1)),
+                    new BsonDocument("enclosures.eid", eid)),
                     new BsonDocument("$project",
                     new BsonDocument("enclosures.name", 1))
                 };
 
+                var bsonData = MongoDBHelper.AggrigateFind(MongoDBHelper.DBCollection.Zone, pipeline);
+
+                Console.WriteLine(bsonData.ElementAt(0)["enclosures.name"].ToString());
+
+
+                string name = bsonData.ElementAt(0)["name"].ToString();
+
+                dt.Columns.Add("name");
+                dt.Rows[0][0] = name; 
+
                 return dt;
             }
+                */
         }
 
         /**<summary>

@@ -50,7 +50,7 @@ namespace ZooApp
 
                     // MongoDB selected
                     MongoDBHelper.Initialize("Zoo");
-                    var testData = MongoDBHelper.FindAll("Staff");
+                    var testData = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Staff);
 
                     MessageBox.Show(
                         $"MongoDB Zoo database connected. {testData.Count} staff found.",

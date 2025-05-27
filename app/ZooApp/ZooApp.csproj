@@ -239,6 +239,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MongoDBHelper.cs" />
+    <Compile Include="POCO.cs" />
     <Compile Include="Queries.cs" />
     <Compile Include="Archive\SelectSpeciesForm.cs">
       <SubType>Form</SubType>
