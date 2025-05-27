@@ -47,7 +47,7 @@ namespace ZooApp
 
             if (Queries.getDBType() == Queries.DBType.Mongo)
             {
-                mongoStaffList = MongoDBHelper.FindAll("Staff");
+                mongoStaffList = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Staff);
                 foreach (var doc in mongoStaffList)
                 {
                     string fullName = $"{doc["fName"]} {doc["lName"]}";

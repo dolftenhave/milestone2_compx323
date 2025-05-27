@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Oracle.ManagedDataAccess.Client;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ZooApp
 {
@@ -598,10 +600,31 @@ namespace ZooApp
          */
         public static DataTable getEnclosureNameById(int eid)
         {
-            String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = :eid";
-            List<OracleParameter> paramList = new List<OracleParameter>();
-            paramList.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
-            return DatabaseHelper.ExecuteQuery(query, paramList.ToArray());
+            if (getDBType() == DBType.Oracle)
+            {
+                String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = :eid";
+                List<OracleParameter> paramList = new List<OracleParameter>();
+                paramList.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
+                return DatabaseHelper.ExecuteQuery(query, paramList.ToArray());
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+
+                new BsonArray
+                {
+                    new BsonDocument("$match",
+                    new BsonDocument("enclosures.eid", 1)),
+                    new BsonDocument("$unwind",
+                    new BsonDocument("path", "$enclosures")),
+                    new BsonDocument("$match",
+                    new BsonDocument("enclosures.eid", 1)),
+                    new BsonDocument("$project",
+                    new BsonDocument("enclosures.name", 1))
+                };
+
+                return dt;
+            }
         }
 
         /**<summary>
@@ -627,13 +650,6 @@ namespace ZooApp
             parameters.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
             parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
             return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
-        }
-
-        public static void testQuerie()
-        {
-            List<MongoDB.Bson.BsonDocument> data = MongoDBHelper.FindAll("Staff");
-
-            int i = 0;
         }
     }
 }
