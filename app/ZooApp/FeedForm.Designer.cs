@@ -110,6 +110,7 @@
             this.buttonEnter.TabIndex = 7;
             this.buttonEnter.Text = "Enter";
             this.buttonEnter.UseVisualStyleBackColor = true;
+            this.buttonEnter.Click += new System.EventHandler(this.buttonEnter_Click);
             // 
             // FeedForm
             // 

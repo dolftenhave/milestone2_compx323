@@ -502,8 +502,9 @@ namespace ZooApp
             }
             animalList += selectedAnimals[selectedAnimals.Count - 1].ToString() + "]";
             MessageBox.Show(animalList);
-            FeedForm form = new FeedForm(selectedAnimals.ToArray());
+            FeedForm form = new FeedForm(selectedAnimals.ToArray(), staffMemberId);
             form.ShowDialog();
+            loadEnclosureAnimals();
         }
 
 

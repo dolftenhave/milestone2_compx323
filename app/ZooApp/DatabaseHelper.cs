@@ -63,7 +63,7 @@ namespace ZooApp
 
 
         // Executes INSERT, UPDATE, or DELETE with parameters
-        public static void ExecuteNonQuery(string query, OracleParameter[] parameters)
+        public static void ExecuteNonQuery(string query, OracleParameter[] parameters = null)
         {
             using (OracleConnection conn = new OracleConnection(connectionString))
             {

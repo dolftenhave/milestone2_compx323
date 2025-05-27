@@ -17,13 +17,20 @@ namespace ZooApp
         private const decimal MAX = 99999.99M;
         // The aIDs of the animals to be fed
         private int[] aids;
+        private int sid;
         // Boolean to allow nuds to change each other
         private Boolean isFirstChange;
 
-        public FeedForm(int[] aid)
+
+        /// <summary>
+        /// Constructor for the feed form.
+        /// </summary>
+        /// <param name="a">Array of int Animal IDs</param>
+        /// <param name="s">int Staff ID</param>
+        public FeedForm(int[] a, int s)
         {
             isFirstChange = true;
-            aids = aid;
+            aids = a;
             InitializeComponent();
         }
 
@@ -73,6 +80,56 @@ namespace ZooApp
                 numericUpDownPerAnimal.Value = numericUpDownTotalAmount.Value / aids.Length;
             }
             isFirstChange = true;
+        }
+
+        private void buttonEnter_Click(object sender, EventArgs e)
+        {
+            // Check for errors in the string
+            String foodType = textBoxFoodType.Text;
+            if (!foodType.All(Char.IsLetter))
+            {
+                MessageBox.Show("Please enter only letters to the food type!");
+                textBoxFoodType.Clear();
+                return;
+            }
+            else if (foodType == "")
+            {
+                MessageBox.Show("Please enter a food type.");
+                return;
+            }
+            else if (foodType.Length > 30)
+            {
+                MessageBox.Show("Food type can only be 30 characters long!");
+                textBoxFoodType.Clear();
+                return;
+            }
+
+            decimal foodAmount = numericUpDownPerAnimal.Value;
+
+            // Now we can make and execute the query.
+            String query = $"INSERT INTO {DatabaseHelper.Table("FEED")}(" +
+                $"staffID, animalID, dateTime, amount, foodType) VALUES ";
+
+            // Add an insert for each animal id
+            for (int i = 0; i < aids.Length; i++)
+            {
+                query += $"('{sid}', '{aids[i]}', CURRENT_TIMESTAMP, '{foodAmount}', '{foodType}')";
+                if (i != aids.Length - 1) query += ", ";
+            }
+
+            // Check that the feeding is done correctly
+            try
+            {
+                DatabaseHelper.ExecuteNonQuery(query);
+                MessageBox.Show("Successfully recorded feeding!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error with inputting feeding, please try again.");
+            }
+
+            // And relinquish control back to the main form
+            this.Close();
         }
     }
 }
