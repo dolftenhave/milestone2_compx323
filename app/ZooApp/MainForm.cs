@@ -17,6 +17,7 @@ namespace ZooApp
         private int staffMemberId;
         private int staffRole; //0 for ZooKeeper and 1 for Vet
         private int currentEnclosure; // -1 if no enclosure is selected
+        private bool needToUpdate;
         private List<int> selectedAnimals; //A list of animals currently selected
         private List<CheckBox> selectedAnimalsCheckboxList; //contains a list of all checkboxes in the list so that it is easier to select and deselect all of them
         private List<int> EnclosureIdList; //Contains a list of id's of all the enclosures that have currently been searched for.
@@ -28,6 +29,7 @@ namespace ZooApp
         public MainForm(int staffMemberId)
         {
             currentEnclosure = -1;
+            needToUpdate = true;
             this.staffMemberId = staffMemberId;
             selectedAnimals= new List<int>();
             selectedAnimalsCheckboxList= new List<CheckBox>();
@@ -82,7 +84,9 @@ namespace ZooApp
          * </summary>
          */
         private void displayFeedingList()
-        {            
+        {
+            if (!needToUpdate) return;
+
             int remainingRows = 6;
 
             DataTable animals_notFed = Queries.getFeedingListForStaff_AnimalsNeverFed(remainingRows, staffMemberId);
@@ -507,6 +511,7 @@ namespace ZooApp
             // ShowDialog is blocking, so reload the enclosure animals afterwards
             form.ShowDialog();
             loadEnclosureAnimals();
+            needToUpdate = true;
         }
 
 
@@ -674,7 +679,7 @@ namespace ZooApp
             if (textBoxZoneSearch.Text != "")
             {
                 initZoneDataQuery +=
-                    $"WHERE name LIKE '%{textBoxZoneSearch.Text}%'";
+                    $"AND name LIKE '%{textBoxZoneSearch.Text}%'";
             }
 
             DataTable basicZoneInfo = DatabaseHelper.ExecuteQuery(initZoneDataQuery);
@@ -872,6 +877,7 @@ namespace ZooApp
             {
                 case 0:
                     // Can implement Home tab logic here
+                    displayFeedingList();
                     return;
                 case 1:
                     // Animal Tab Logic
