@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using static System.Net.WebRequestMethods;
 using System.Drawing;
 using Oracle.ManagedDataAccess.Client;
+using System.Linq;
+using MongoDB.Bson;
 
 /**<summary>
  * This is the main page of the application. Giving staff members access to everything they may need to do in the zoo
@@ -578,69 +580,192 @@ namespace ZooApp
 
         private void cbSelectAnimal_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Get the information for everything except latest feed/care
-            // THIS DOES NOT TAKE INTO ACCOUNT THE ENCLOSURE NAME BEING ADDED IN FUTURE
-            String animalName = cbSelectAnimal.SelectedItem.ToString();
-            String queryGeneralInfo = $"SELECT a.aid, a.feedinginterval, s.commonname, a.dob, a.sex, e.name as \"ename\", z.name " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("ZONE")} z, " +
-                $"{DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} s " +
-                $"WHERE a.name = '{animalName}' " +
-                $"AND a.enclosureid = e.eid " +
-                $"AND e.zonename = z.name " +
-                $"AND s.latinname = a.speciesname";
+            if (cbSelectAnimal.SelectedIndex == -1) return;
 
-            // Extract this information
-            DataTable animalData = DatabaseHelper.ExecuteQuery(queryGeneralInfo);
-            if (animalData == null)
+            string animalName = cbSelectAnimal.SelectedItem.ToString();
+
+            if (Queries.getDBType() == Queries.DBType.Oracle)
             {
-                MessageBox.Show("Error in loading animal data: none selected");
-                return;
+                // Oracle: Load full info including zone
+                string query = $@"
+        SELECT a.aid, a.name, a.dob, a.sex, a.weight, a.originCountry,
+               a.enclosureID, e.name AS enclosureName, z.name AS zoneName,
+               s.commonName AS speciesName, a.feedingInterval
+        FROM {DatabaseHelper.Table("ANIMAL")} a
+        JOIN {DatabaseHelper.Table("ENCLOSURE")} e ON a.enclosureID = e.eid
+        JOIN {DatabaseHelper.Table("ZONE")} z ON e.zoneName = z.name
+        JOIN {DatabaseHelper.Table("SPECIES")} s ON a.speciesName = s.latinName
+        WHERE a.name = :name";
+
+                OracleParameter[] param = { new OracleParameter("name", animalName) };
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, param);
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Animal not found.");
+                    return;
+                }
+
+                DataRow row = dt.Rows[0];
+                string aid = row["aid"].ToString();
+                string sex = row["sex"].ToString() == "M" ? "Male" : "Female";
+
+                txtSpecies.Text = row["speciesName"].ToString();
+                txtAge.Text = getAgeFromDob(Convert.ToDateTime(row["dob"]));
+                txtSex.Text = sex;
+                txtWeight.Text = row["weight"].ToString() + " kg";
+                txtOrigin.Text = row["originCountry"].ToString();
+                txtEnclosure.Text = row["enclosureName"].ToString();
+                txtZone.Text = row["zoneName"].ToString();
+                txtFeedingInterval.Text = row["feedingInterval"].ToString() + " Hours";
+
+                // Zookeepers
+                string zookeeperQuery = Queries.ZookeepersQualifiedForAnimal + $" AND a.aid = :aid";
+                OracleParameter[] zkParams = { new OracleParameter("aid", aid) };
+                DataTable zks = DatabaseHelper.ExecuteQuery(zookeeperQuery, zkParams);
+                txtZookeepers.Text = string.Join(", ", zks.AsEnumerable().Take(5)
+                    .Select(r => $"{r["fname"]} {r["lname"]}"));
+
+                // Vets
+                string vetQuery = $@"
+        SELECT DISTINCT s.fname, s.lname 
+        FROM {DatabaseHelper.Table("CARE")} c
+        JOIN {DatabaseHelper.Table("STAFF")} s ON c.staffID = s.sid
+        WHERE c.animalID = :aid";
+                DataTable vets = DatabaseHelper.ExecuteQuery(vetQuery, zkParams);
+                txtVets.Text = string.Join(", ", vets.AsEnumerable().Take(5)
+                    .Select(r => $"{r["fname"]} {r["lname"]}"));
+
+                // Last Fed and Cared: Days Ago
+                string lastFed = "Never Fed!";
+                string lastCare = "Never Cared!";
+
+                var feed = DatabaseHelper.ExecuteQuery($@"
+            SELECT datetime FROM {DatabaseHelper.Table("FEED")} 
+            WHERE animalID = :aid 
+            ORDER BY datetime DESC FETCH FIRST 1 ROWS ONLY", zkParams);
+
+                if (feed.Rows.Count > 0)
+                {
+                    DateTime dtFed = Convert.ToDateTime(feed.Rows[0]["datetime"]);
+                    lastFed = getDaysAgo(dtFed);
+                }
+
+                var care = DatabaseHelper.ExecuteQuery($@"
+            SELECT datetime FROM {DatabaseHelper.Table("CARE")} 
+            WHERE animalID = :aid 
+            ORDER BY datetime DESC FETCH FIRST 1 ROWS ONLY", zkParams);
+
+                if (care.Rows.Count > 0)
+                {
+                    DateTime dtCare = Convert.ToDateTime(care.Rows[0]["datetime"]);
+                    lastCare = getDaysAgo(dtCare);
+                }
+
+                txtLastFed.Text = lastFed;
+                txtLastCare.Text = lastCare;
             }
+            else
+            {
+                var speciesGroups = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.SpeciesGroup);
 
-            // Get the aid for better querying in the following queries
-            String aid = animalData.Rows[0]["aid"].ToString();
+                var selectedAnimalInfo = speciesGroups
+                    .SelectMany(group => group["species"].AsBsonArray
+                        .SelectMany(species => species["animals"].AsBsonArray
+                            .Select(a => new
+                            {
+                                animal = a,
+                                speciesName = species["commonName"].AsString,
+                                speciesGroup = group["commonName"].AsString
+                            })))
+                    .FirstOrDefault(x =>
+                        x.animal["name"].AsString == cbSelectAnimal.SelectedItem.ToString());
 
-            String speciesName = animalData.Rows[0]["commonname"].ToString();
-            String animalAge = getAgeFromDob(DateTime.Parse(animalData.Rows[0]["dob"].ToString()));
-            String animalSex = animalData.Rows[0]["sex"].ToString();
-            // To change to enclosure NAME
-            String enclosureName = animalData.Rows[0]["ename"].ToString();
-            String zoneName = animalData.Rows[0]["name"].ToString();
-            String feedingInterval = animalData.Rows[0]["feedinginterval"].ToString() + " Hours";
+                if (selectedAnimalInfo == null)
+                {
+                    return;
+                }
 
-            String lastFed = "Never Fed!";
-            String lastCared = "Never Cared!";
+                var animal = selectedAnimalInfo.animal;
+                var speciesName = selectedAnimalInfo.speciesName;
+                var speciesGroup = selectedAnimalInfo.speciesGroup;
 
-            String queryLastFeed = $"SELECT datetime " +
-                $"FROM {DatabaseHelper.Table("FEED")} " +
-                $"WHERE animalid = '{aid}' " +
-                $"ORDER BY datetime DESC " +
-                $"FETCH FIRST 1 ROWS ONLY";
+                txtSpecies.Text = speciesName;
 
-            String queryLastCare = $"SELECT datetime " +
-                $"FROM {DatabaseHelper.Table("CARE")} " +
-                $"WHERE animalid = '{aid}' " +
-                $"ORDER BY datetime DESC " +
-                $"FETCH FIRST 1 ROWS ONLY";
+                //  Age
+                DateTime dob = animal["dob"].ToUniversalTime().Date;
+                int age = DateTime.Now.Year - dob.Year;
+                if (DateTime.Now.DayOfYear < dob.DayOfYear)
+                    age--;
+                txtAge.Text = age.ToString();
 
-            animalData = DatabaseHelper.ExecuteQuery(queryLastCare);
-            if (animalData != null && animalData.Rows.Count != 0) lastCared = animalData.Rows[0]["datetime"].ToString();
+                txtSex.Text = animal["sex"].AsString == "M" ? "Male" : "Female";
+                txtWeight.Text = $"{animal["weight"]} kg";
+                txtOrigin.Text = animal["originCountry"].AsString;
+                txtFeedingInterval.Text = $"{animal["feedingInterval"]} Hours";
 
-            animalData = DatabaseHelper.ExecuteQuery(queryLastFeed);
-            if (animalData != null && animalData.Rows.Count != 0) lastFed = animalData.Rows[0]["datetime"].ToString();
+                //  Enclosure and Zone
+                txtEnclosure.Text = "Unknown";
+                txtZone.Text = "Unknown";
 
+                var zones = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Zone);
+                foreach (var zone in zones)
+                {
+                    foreach (var enclosure in zone["enclosures"].AsBsonArray)
+                    {
+                        if (!enclosure.AsBsonDocument.Contains("animals")) continue;
 
-            // And set the textbox values
-            txtSpecies.Text = speciesName;
-            txtAge.Text = animalAge;
-            txtSex.Text = animalSex;
-            txtEnclosure.Text = enclosureName;
-            txtZone.Text = zoneName;
-            txtLastCare.Text = lastCared;
-            txtLastFed.Text = lastFed;
-            txtFeedingInterval.Text = feedingInterval;
+                        foreach (var a in enclosure["animals"].AsBsonArray)
+                        {
+                            if (a["aid"].AsInt32 == animal["aid"].AsInt32)
+                            {
+                                txtEnclosure.Text = enclosure["name"].AsString;
+                                txtZone.Text = zone["name"].AsString;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // All staff
+                var allStaff = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Staff);
+
+                // Zookeepers from oversees
+                var overseeingStaffIds = allStaff
+                    .Where(s => s.Contains("oversees") &&
+                                s["oversees"].AsBsonArray.Any(o => o["latinName"].AsString == speciesGroup))
+                    .Select(s => s["sid"].AsInt32)
+                    .ToList();
+                var zookeeperNames = GetStaffNamesByIds(overseeingStaffIds).Take(5);
+                txtZookeepers.Text = string.Join(", ", zookeeperNames);
+
+                //  Vets from Care collection
+                var cares = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Care)
+                    .Where(c => c["animalID"].AsInt32 == animal["aid"].AsInt32)
+                    .ToList();
+
+                var vetIDs = cares.Select(c => c["staffID"].AsInt32).Distinct();
+                var vetNames = GetStaffNamesByIds(vetIDs).Take(5);
+                txtVets.Text = string.Join(", ", vetNames);
+
+                // Last Fed
+                var feeds = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Feed)
+                    .Where(f => f["animalID"].AsInt32 == animal["aid"].AsInt32)
+                    .OrderByDescending(f => f["datetime"])
+                    .ToList();
+                txtLastFed.Text = feeds.Count > 0
+                    ? feeds[0]["datetime"].ToLocalTime().ToString()
+                    : "Never Fed!";
+
+                // Last Care
+                var lastCare = cares
+                    .OrderByDescending(c => c["datetime"])
+                    .FirstOrDefault();
+                txtLastCare.Text = lastCare != null
+                    ? lastCare["datetime"].ToLocalTime().ToString()
+                    : "Never Cared!";
+            }
         }
-
         /// <summary>
         /// Method for populating the Zone UI with elements.
         /// Gets the current page from the NumericUpDown Control.
@@ -909,6 +1034,67 @@ namespace ZooApp
         private void numericUpDownZonePage_ValueChanged(object sender, EventArgs e)
         {
             populateZoneUIElements();
+        }
+
+        //mongo helper class
+        private List<BsonDocument> GetAllAnimalsFromMongo()
+        {
+            var allGroups = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.SpeciesGroup);
+            var animals = new List<BsonDocument>();
+
+            foreach (var group in allGroups)
+            {
+                if (!group.Contains("species") || !group["species"].IsBsonArray) continue;
+
+                var speciesArray = group["species"].AsBsonArray;
+                foreach (var speciesValue in speciesArray)
+                {
+                    var species = speciesValue.AsBsonDocument;
+
+                    if (!species.Contains("animals") || !species["animals"].IsBsonArray) continue;
+
+                    var speciesName = species["latinName"].AsString;
+                    var groupName = group["commonName"].AsString;
+                    var requiredBiome = species["requiredBiome"].AsString;
+
+                    var animalsArray = species["animals"].AsBsonArray;
+                    foreach (var animalValue in animalsArray)
+                    {
+                        var animal = animalValue.AsBsonDocument;
+                        if (!animal.Contains("name")) continue;
+
+                        var clone = animal.DeepClone().AsBsonDocument;
+                        clone.Add("speciesName", speciesName);
+                        clone.Add("speciesGroup", groupName);
+                        clone.Add("requiredBiome", requiredBiome);
+                        animals.Add(clone);
+                    }
+                }
+            }
+
+            if (animals.Count == 0)
+            {
+            }
+
+            return animals;
+        }
+
+        private string getDaysAgo(DateTime dateTime)
+        {
+            int days = (DateTime.Today - dateTime.Date).Days;
+            return days == 0 ? "Today" : $"{days} day(s) ago";
+        }
+        private List<string> GetStaffNamesByIds(IEnumerable<int> staffIds)
+        {
+            var allStaff = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Staff);
+
+            var staffNames = allStaff
+                .Where(s => staffIds.Contains(s["sid"].AsInt32))
+                .Select(s => $"{s["fName"]} {s["lName"]}")
+                .Distinct()
+                .ToList();
+
+            return staffNames;
         }
     }
 }

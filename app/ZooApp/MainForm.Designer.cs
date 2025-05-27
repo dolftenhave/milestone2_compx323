@@ -125,6 +125,14 @@ namespace ZooApp
             this.buttonSelectZone1 = new System.Windows.Forms.Button();
             this.labelZoneName1 = new System.Windows.Forms.Label();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.txtVets = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtZookeepers = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtOrigin = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtWeight = new System.Windows.Forms.TextBox();
             this.tabControlMain.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.groupBoxTODO.SuspendLayout();
@@ -605,6 +613,14 @@ namespace ZooApp
             // 
             // tabAnimal
             // 
+            this.tabAnimal.Controls.Add(this.label5);
+            this.tabAnimal.Controls.Add(this.txtOrigin);
+            this.tabAnimal.Controls.Add(this.label4);
+            this.tabAnimal.Controls.Add(this.txtWeight);
+            this.tabAnimal.Controls.Add(this.txtVets);
+            this.tabAnimal.Controls.Add(this.label7);
+            this.tabAnimal.Controls.Add(this.txtZookeepers);
+            this.tabAnimal.Controls.Add(this.label6);
             this.tabAnimal.Controls.Add(this.txtFeedingInterval);
             this.tabAnimal.Controls.Add(this.lblAnimalTitle);
             this.tabAnimal.Controls.Add(this.lblSelectAnimal);
@@ -636,7 +652,7 @@ namespace ZooApp
             // txtFeedingInterval
             // 
             this.txtFeedingInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFeedingInterval.Location = new System.Drawing.Point(130, 300);
+            this.txtFeedingInterval.Location = new System.Drawing.Point(130, 366);
             this.txtFeedingInterval.Name = "txtFeedingInterval";
             this.txtFeedingInterval.ReadOnly = true;
             this.txtFeedingInterval.Size = new System.Drawing.Size(200, 26);
@@ -710,7 +726,7 @@ namespace ZooApp
             // lblSex
             // 
             this.lblSex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSex.Location = new System.Drawing.Point(6, 153);
+            this.lblSex.Location = new System.Drawing.Point(6, 219);
             this.lblSex.Name = "lblSex";
             this.lblSex.Size = new System.Drawing.Size(100, 23);
             this.lblSex.TabIndex = 7;
@@ -719,7 +735,7 @@ namespace ZooApp
             // txtSex
             // 
             this.txtSex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSex.Location = new System.Drawing.Point(130, 150);
+            this.txtSex.Location = new System.Drawing.Point(130, 216);
             this.txtSex.Name = "txtSex";
             this.txtSex.ReadOnly = true;
             this.txtSex.Size = new System.Drawing.Size(200, 26);
@@ -728,7 +744,7 @@ namespace ZooApp
             // lblEnclosure
             // 
             this.lblEnclosure.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnclosure.Location = new System.Drawing.Point(6, 186);
+            this.lblEnclosure.Location = new System.Drawing.Point(6, 252);
             this.lblEnclosure.Name = "lblEnclosure";
             this.lblEnclosure.Size = new System.Drawing.Size(80, 20);
             this.lblEnclosure.TabIndex = 9;
@@ -737,7 +753,7 @@ namespace ZooApp
             // txtEnclosure
             // 
             this.txtEnclosure.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEnclosure.Location = new System.Drawing.Point(130, 180);
+            this.txtEnclosure.Location = new System.Drawing.Point(130, 246);
             this.txtEnclosure.Name = "txtEnclosure";
             this.txtEnclosure.ReadOnly = true;
             this.txtEnclosure.Size = new System.Drawing.Size(200, 26);
@@ -746,7 +762,7 @@ namespace ZooApp
             // lblZone
             // 
             this.lblZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblZone.Location = new System.Drawing.Point(6, 216);
+            this.lblZone.Location = new System.Drawing.Point(6, 282);
             this.lblZone.Name = "lblZone";
             this.lblZone.Size = new System.Drawing.Size(80, 20);
             this.lblZone.TabIndex = 11;
@@ -755,7 +771,7 @@ namespace ZooApp
             // txtZone
             // 
             this.txtZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtZone.Location = new System.Drawing.Point(130, 210);
+            this.txtZone.Location = new System.Drawing.Point(130, 276);
             this.txtZone.Name = "txtZone";
             this.txtZone.ReadOnly = true;
             this.txtZone.Size = new System.Drawing.Size(200, 26);
@@ -764,7 +780,7 @@ namespace ZooApp
             // lblLastFed
             // 
             this.lblLastFed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastFed.Location = new System.Drawing.Point(6, 243);
+            this.lblLastFed.Location = new System.Drawing.Point(6, 309);
             this.lblLastFed.Name = "lblLastFed";
             this.lblLastFed.Size = new System.Drawing.Size(100, 23);
             this.lblLastFed.TabIndex = 13;
@@ -773,7 +789,7 @@ namespace ZooApp
             // txtLastFed
             // 
             this.txtLastFed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLastFed.Location = new System.Drawing.Point(130, 240);
+            this.txtLastFed.Location = new System.Drawing.Point(130, 306);
             this.txtLastFed.Name = "txtLastFed";
             this.txtLastFed.ReadOnly = true;
             this.txtLastFed.Size = new System.Drawing.Size(200, 26);
@@ -782,7 +798,7 @@ namespace ZooApp
             // lblLastCare
             // 
             this.lblLastCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastCare.Location = new System.Drawing.Point(6, 273);
+            this.lblLastCare.Location = new System.Drawing.Point(6, 339);
             this.lblLastCare.Name = "lblLastCare";
             this.lblLastCare.Size = new System.Drawing.Size(100, 23);
             this.lblLastCare.TabIndex = 15;
@@ -791,7 +807,7 @@ namespace ZooApp
             // txtLastCare
             // 
             this.txtLastCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLastCare.Location = new System.Drawing.Point(130, 270);
+            this.txtLastCare.Location = new System.Drawing.Point(130, 336);
             this.txtLastCare.Name = "txtLastCare";
             this.txtLastCare.ReadOnly = true;
             this.txtLastCare.Size = new System.Drawing.Size(200, 26);
@@ -800,7 +816,7 @@ namespace ZooApp
             // lblInterval
             // 
             this.lblInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInterval.Location = new System.Drawing.Point(6, 303);
+            this.lblInterval.Location = new System.Drawing.Point(6, 369);
             this.lblInterval.Name = "lblInterval";
             this.lblInterval.Size = new System.Drawing.Size(130, 23);
             this.lblInterval.TabIndex = 17;
@@ -809,7 +825,7 @@ namespace ZooApp
             // btnAddAnimal
             // 
             this.btnAddAnimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAnimal.Location = new System.Drawing.Point(130, 346);
+            this.btnAddAnimal.Location = new System.Drawing.Point(130, 462);
             this.btnAddAnimal.Name = "btnAddAnimal";
             this.btnAddAnimal.Size = new System.Drawing.Size(200, 35);
             this.btnAddAnimal.TabIndex = 19;
@@ -1263,6 +1279,82 @@ namespace ZooApp
             this.labelZoneName1.TabIndex = 0;
             this.labelZoneName1.Text = "ZONENAME";
             // 
+            // txtVets
+            // 
+            this.txtVets.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVets.Location = new System.Drawing.Point(130, 430);
+            this.txtVets.Multiline = true;
+            this.txtVets.Name = "txtVets";
+            this.txtVets.ReadOnly = true;
+            this.txtVets.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtVets.Size = new System.Drawing.Size(200, 26);
+            this.txtVets.TabIndex = 35;
+            // 
+            // label7
+            // 
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(6, 433);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(130, 23);
+            this.label7.TabIndex = 34;
+            this.label7.Text = "Zookeepers :";
+            // 
+            // txtZookeepers
+            // 
+            this.txtZookeepers.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtZookeepers.Location = new System.Drawing.Point(130, 398);
+            this.txtZookeepers.Multiline = true;
+            this.txtZookeepers.Name = "txtZookeepers";
+            this.txtZookeepers.ReadOnly = true;
+            this.txtZookeepers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtZookeepers.Size = new System.Drawing.Size(200, 26);
+            this.txtZookeepers.TabIndex = 33;
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(6, 401);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 23);
+            this.label6.TabIndex = 32;
+            this.label6.Text = "Vets:";
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 184);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(114, 23);
+            this.label5.TabIndex = 38;
+            this.label5.Text = "Origin:";
+            // 
+            // txtOrigin
+            // 
+            this.txtOrigin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOrigin.Location = new System.Drawing.Point(130, 184);
+            this.txtOrigin.Name = "txtOrigin";
+            this.txtOrigin.ReadOnly = true;
+            this.txtOrigin.Size = new System.Drawing.Size(200, 26);
+            this.txtOrigin.TabIndex = 39;
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 152);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(114, 23);
+            this.label4.TabIndex = 36;
+            this.label4.Text = "Weight:";
+            // 
+            // txtWeight
+            // 
+            this.txtWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWeight.Location = new System.Drawing.Point(130, 152);
+            this.txtWeight.Name = "txtWeight";
+            this.txtWeight.ReadOnly = true;
+            this.txtWeight.Size = new System.Drawing.Size(200, 26);
+            this.txtWeight.TabIndex = 37;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1421,5 +1513,13 @@ namespace ZooApp
         private Label label3;
         private Button button_selectAllFeed;
         private Button button_selectNoneFeed;
+        private Label label5;
+        private TextBox txtOrigin;
+        private Label label4;
+        private TextBox txtWeight;
+        private TextBox txtVets;
+        private Label label7;
+        private TextBox txtZookeepers;
+        private Label label6;
     }
 }
