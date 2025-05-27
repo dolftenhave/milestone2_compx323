@@ -36,6 +36,7 @@
             this.numericUpDownTotalAmount = new System.Windows.Forms.NumericUpDown();
             this.textBoxFoodType = new System.Windows.Forms.TextBox();
             this.buttonEnter = new System.Windows.Forms.Button();
+            this.panelLink = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPerAnimal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTotalAmount)).BeginInit();
             this.SuspendLayout();
@@ -112,6 +113,13 @@
             this.buttonEnter.UseVisualStyleBackColor = true;
             this.buttonEnter.Click += new System.EventHandler(this.buttonEnter_Click);
             // 
+            // panelLink
+            // 
+            this.panelLink.Location = new System.Drawing.Point(125, 57);
+            this.panelLink.Name = "panelLink";
+            this.panelLink.Size = new System.Drawing.Size(52, 28);
+            this.panelLink.TabIndex = 8;
+            // 
             // FeedForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -125,6 +133,7 @@
             this.Controls.Add(this.labelPerAnimal);
             this.Controls.Add(this.labelTotalAmount);
             this.Controls.Add(this.labelTitle);
+            this.Controls.Add(this.panelLink);
             this.Name = "FeedForm";
             this.Text = "Feed";
             this.Load += new System.EventHandler(this.FeedForm_Load);
@@ -145,5 +154,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownTotalAmount;
         private System.Windows.Forms.TextBox textBoxFoodType;
         private System.Windows.Forms.Button buttonEnter;
+        private System.Windows.Forms.Panel panelLink;
     }
 }
