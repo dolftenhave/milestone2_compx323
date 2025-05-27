@@ -585,7 +585,7 @@ namespace ZooApp
             // Get the information for everything except latest feed/care
             // THIS DOES NOT TAKE INTO ACCOUNT THE ENCLOSURE NAME BEING ADDED IN FUTURE
             String animalName = cbSelectAnimal.SelectedItem.ToString();
-            String queryGeneralInfo = $"SELECT a.aid, a.feedinginterval, s.commonname, a.dob, a.sex, e.eid, z.name " +
+            String queryGeneralInfo = $"SELECT a.aid, a.feedinginterval, s.commonname, a.dob, a.sex, e.name as \"ename\", z.name " +
                 $"FROM {DatabaseHelper.Table("ANIMAL")} a, {DatabaseHelper.Table("ZONE")} z, " +
                 $"{DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} s " +
                 $"WHERE a.name = '{animalName}' " +
@@ -608,7 +608,7 @@ namespace ZooApp
             String animalAge = getAgeFromDob(DateTime.Parse(animalData.Rows[0]["dob"].ToString()));
             String animalSex = animalData.Rows[0]["sex"].ToString();
             // To change to enclosure NAME
-            String enclosureEID = animalData.Rows[0]["eid"].ToString();
+            String enclosureName = animalData.Rows[0]["ename"].ToString();
             String zoneName = animalData.Rows[0]["name"].ToString();
             String feedingInterval = animalData.Rows[0]["feedinginterval"].ToString() + " Hours";
 
@@ -638,7 +638,7 @@ namespace ZooApp
             txtSpecies.Text = speciesName;
             txtAge.Text = animalAge;
             txtSex.Text = animalSex;
-            txtEnclosure.Text = enclosureEID;
+            txtEnclosure.Text = enclosureName;
             txtZone.Text = zoneName;
             txtLastCare.Text = lastCared;
             txtLastFed.Text = lastFed;
