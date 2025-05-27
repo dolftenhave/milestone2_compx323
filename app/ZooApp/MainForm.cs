@@ -502,6 +502,8 @@ namespace ZooApp
             }
             animalList += selectedAnimals[selectedAnimals.Count - 1].ToString() + "]";
             MessageBox.Show(animalList);
+            FeedForm form = new FeedForm(selectedAnimals.ToArray());
+            form.ShowDialog();
         }
 
 
@@ -779,7 +781,7 @@ namespace ZooApp
             NumericUpDown nud = this.numericUpDownZonePage;
             nud.Value = 1;
             nud.Minimum = 1;
-            //nud.Maximum = numPages;
+            nud.Maximum = numPages;
         }
 
         /// <summary>
