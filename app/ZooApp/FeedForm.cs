@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Oracle.ManagedDataAccess.Client;
 
 namespace ZooApp
 {
@@ -110,10 +111,15 @@ namespace ZooApp
             // Now we can make and execute the query.
             String queryStart = $"INSERT INTO {DatabaseHelper.Table("FEED")} VALUES ";
 
+            OracleParameter[] parameters = new OracleParameter[] {
+                new OracleParameter("food", OracleDbType.Varchar2, foodType, ParameterDirection.Input)
+            };
+
             // Add an insert for each animal id
+            
             for (int i = 0; i < aids.Length; i++)
             {
-                String query = queryStart + $"({sid}, {aids[i]}, CURRENT_TIMESTAMP, {foodAmount}, '{foodType}')";
+                String query = queryStart + $"({sid}, {aids[i]}, CURRENT_TIMESTAMP, {foodAmount}, ':food')";
                 try
                 {
                     DatabaseHelper.ExecuteNonQuery(query);

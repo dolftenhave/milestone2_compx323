@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using static System.Net.WebRequestMethods;
 using System.Drawing;
+using Oracle.ManagedDataAccess.Client;
 
 /**<summary>
  * This is the main page of the application. Giving staff members access to everything they may need to do in the zoo
@@ -747,12 +748,13 @@ namespace ZooApp
         {
             int numBoxes = 6;
             // If search box contains nothing, then search all.
+            OracleParameter[] parameters = null;
             String countQuery;
             if (textBoxZoneSearch.Text != "")
             {
                 countQuery = $"SELECT COUNT(distinct name) as \"count\" " +
                 $"FROM {DatabaseHelper.Table("ZONE")} " +
-                $"WHERE name LIKE '%{textBoxZoneSearch.Text}%' " +
+                $"WHERE name LIKE '%:input%' " +
                 $"AND name IN (" +
                     $"SELECT z.name " +
                     $"FROM {DatabaseHelper.Table("ZONE")} z, {DatabaseHelper.Table("ENCLOSURE")} e, " +
@@ -764,6 +766,11 @@ namespace ZooApp
                     $"AND sp.latinname = a.speciesname " +
                     $"AND a.enclosureID = e.eid " +
                     $"AND e.zonename = z.name)";
+
+                parameters = new OracleParameter[]
+                {
+                    new OracleParameter("input", OracleDbType.Varchar2, textBoxZoneSearch.Text, ParameterDirection.Input)
+                };
             }
             else
             {
@@ -782,7 +789,7 @@ namespace ZooApp
                     $"AND e.zonename = z.name)";
             }
 
-            DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery);
+            DataTable countDt = DatabaseHelper.ExecuteQuery(countQuery, parameters);
             int totalCount = int.Parse(countDt.Rows[0]["count"].ToString());
             int numPages = ((totalCount - 1 )/ numBoxes) + 1;
          
