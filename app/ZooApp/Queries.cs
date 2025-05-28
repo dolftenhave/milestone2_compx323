@@ -809,7 +809,7 @@ namespace ZooApp
                         new BsonDocument("$regex", $"[a-zA-Z]*{name}[a-zA-Z]*")))
                 };
 
-                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Zone).Aggregate<BsonDocument>(pipeline).ToList();
 
                 DataTable dt = new DataTable();
 
@@ -861,7 +861,7 @@ namespace ZooApp
                     new BsonDocument("name", "$enclosures.name"))
                 };
 
-                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Zone).Aggregate<BsonDocument>(pipeline).ToList();
 
                 string name = data.ElementAt(0)["name"].ToString();
 
@@ -884,20 +884,146 @@ namespace ZooApp
          */
         public static DataTable getEnclosureAnimals(int sid, int eid)
         {
-            String query = $"SELECT a.aid, a.name, a.speciesName, f.datetime " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
-                $"WHERE enclosureID = :eid AND a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid ) " +
-                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) ";
-            List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
-            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+            if (currentDB == DBType.Oracle)
+            {
+                String query = $"SELECT a.aid, a.name, a.speciesName, f.datetime " +
+                    $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
+                    $"WHERE enclosureID = :eid AND a.aid IN " +
+                    $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                    $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                    $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                    $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid ) " +
+                    $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) ";
+                List<OracleParameter> parameters = new List<OracleParameter>();
+                parameters.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
+                parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
+                return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+            }
+            else
+            {
+                var pipeline = new[]
+                {
+                      new BsonDocument("$match",
+                        new BsonDocument("sid", sid)),
+                        new BsonDocument("$project",
+                        new BsonDocument("oversees", 1)),
+                        new BsonDocument("$lookup",
+                        new BsonDocument
+                            {
+                                { "from", "speciesGroup" },
+                                { "localField", "oversees.latinName" },
+                                { "foreignField", "latinName" },
+                                { "as", "speciesGroup" }
+                            }),
+                        new BsonDocument("$project",
+                        new BsonDocument
+                            {
+                                { "speciesGroup.species.commonName", 1 },
+                                { "speciesGroup.species.animals.aid", 1 },
+                                { "speciesGroup.species.animals.name", 1 },
+                                { "speciesGroup.species.animals.feedingInterval", 1 }
+                            }),
+                        new BsonDocument("$unwind",
+                        new BsonDocument
+                            {
+                                { "path", "$speciesGroup" },
+                                { "preserveNullAndEmptyArrays", true }
+                            }),
+                        new BsonDocument("$unwind",
+                        new BsonDocument
+                            {
+                                { "path", "$speciesGroup.species" },
+                                { "preserveNullAndEmptyArrays", true }
+                            }),
+                        new BsonDocument("$unwind",
+                        new BsonDocument
+                            {
+                                { "path", "$speciesGroup.species.animals" },
+                                { "preserveNullAndEmptyArrays", true }
+                            }),
+                        new BsonDocument("$lookup",
+                        new BsonDocument
+                            {
+                                { "from", "Feed" },
+                                { "localField", "speciesGroup.species.animals.aid" },
+                                { "foreignField", "animalID" },
+                                { "as", "Feed" }
+                            }),
+                        new BsonDocument("$match",
+                        new BsonDocument("$expr",
+                        new BsonDocument("$gt",
+                        new BsonArray
+                                    {
+                                        new BsonDocument("$size", "$Feed"),
+                                        0
+                                    }))),
+                        new BsonDocument("$project",
+                        new BsonDocument
+                            {
+                                { "aid", "$speciesGroup.species.animals.aid" },
+                                { "name", "$speciesGroup.species.animals.name" },
+                                { "commonName", "$speciesGroup.species.commonName" },
+                                { "datetime",
+                        new BsonDocument("$max", "$Feed.datetime") },
+                                { "feedingInterval", "$speciesGroup.species.feedingInterval" }
+                            }),
+                        new BsonDocument("$sort",
+                        new BsonDocument("datetime", 1)),
+                        new BsonDocument("$lookup",
+                        new BsonDocument
+                            {
+                                { "from", "Zone" },
+                                { "pipeline",
+                        new BsonArray
+                                {
+                                    new BsonDocument("$unwind",
+                                    new BsonDocument("path", "$enclosures")),
+                                    new BsonDocument("$match",
+                                    new BsonDocument("enclosures.eid", eid)),
+                                    new BsonDocument("$unwind",
+                                    new BsonDocument("path", "$enclosures.animal")),
+                                    new BsonDocument("$project",
+                                    new BsonDocument("animalID", "$enclosures.animal.aid"))
+                                } },
+                                { "as", "enclosure" }
+                            }),
+                        new BsonDocument("$unwind",
+                        new BsonDocument("path", "$enclosure")),
+                        new BsonDocument("$match",
+                        new BsonDocument("$expr",
+                        new BsonDocument("$eq",
+                        new BsonArray
+                                    {
+                                        "$aid",
+                                        "$enclosure.animalID"
+                                    }))),
+                        new BsonDocument("$project",
+                        new BsonDocument("enclosure", 0))
+                };
+
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("aid", typeof(int));
+                dt.Columns.Add("name", typeof(string));
+                dt.Columns.Add("commonName", typeof(string));
+                dt.Columns.Add("datetime",typeof(DateTime));
+
+                foreach (var animal in data)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr[0] = animal["aid"].AsInt32;
+                    dr[1] = animal["name"].AsString;
+                    dr[2] = animal["commonName"].AsString;
+                    dr[3] = animal["datetime"].AsBsonDateTime.ToUniversalTime();
+                    dt.Rows.Add(dr);
+                }
+
+                return dt;
+            }
         }
     }
 }
