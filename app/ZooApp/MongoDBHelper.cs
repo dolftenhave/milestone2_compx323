@@ -54,14 +54,12 @@ namespace ZooApp
             return database.GetCollection<BsonDocument>(getCollectionName(collectionName));
         }
 
+        public static IMongoDatabase getDatabase()
+        {
+            return database;
+        }
 
-        /**<summary>
-         * Makes a query based on an aggrigation pipeline.
-         * </summary>
-         * <param name="collecionName">The name of the collection that contains the document.</param>
-         * <param name="pipeline">An array of BsonDocuments that make up the aggrication pipeline.</param>
-         * <returns>A List of BsonDocuments.</returns>
-         */
+
         public static List<BsonDocument> FindAll(DBCollection collectionName)
         {
             return GetCollection(collectionName).Find(new BsonDocument()).ToList();

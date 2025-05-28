@@ -9,6 +9,8 @@ using Oracle.ManagedDataAccess.Client;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Text.Json;
+using ZooApp.POCO;
+using MongoDB.Bson.Serialization;
 
 namespace ZooApp
 {
@@ -557,24 +559,134 @@ namespace ZooApp
          */
         public static DataTable getFeedingListForStaff_AnimalsNeverFed(int rows, int sid)
         {
-            String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
-                $"WHERE a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid) " +
-                // All the animals that are not in the feeding table
-                $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
-                $"FETCH FIRST :nrows ROWS ONLY";
+            if (currentDB == DBType.Oracle)
+            {
+                String query = $"SELECT a.aid, a.name, s3.commonName, a.feedingInterval " +
+                    $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
+                    $"WHERE a.aid IN " +
+                    $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                    $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                    $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                    $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid) " +
+                    // All the animals that are not in the feeding table
+                    $"AND a.aid NOT IN (SELECT DISTINCT animalID FROM {DatabaseHelper.Table("FEED")})" +
+                    $"FETCH FIRST :nrows ROWS ONLY";
 
-            List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.Input));
+                List<OracleParameter> parameters = new List<OracleParameter>();
+                parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
+                parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.Input));
+                return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+            }
+            else
+            {
+                //Gets the staff member that matches the staffID
+                var matchSID = Builders<Staff>.Filter.Eq(s => s.sid, sid);
 
-            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+
+
+                var pipelineStr = @"
+                   [
+                      {
+                        $match:
+                          {
+                            sid:" + sid + @" 
+                          }
+                      },
+                      {
+                        $project:
+                          {
+                            oversees: 1
+                          }
+                      },
+                      {
+                        $lookup:
+                          {
+                            from: 'SpeciesGroup',
+                            localField: 'oversees.latinName',
+                            foreignField: 'latinName',
+                            as: 'SpeciesGroup'
+                          }
+                      },
+                      {
+                        $project:
+                          {
+                            'SpeciesGroup.species.commonName': 1,
+                            'SpeciesGroup.species.animals.aid': 1,
+                            'SpeciesGroup.species.animals.name': 1,
+                            'SpeciesGroup.species.animals.feedingInterval': 1
+                          }
+                      },
+                      {
+                        $unwind:
+                          {
+                            path: '$SpeciesGroup',
+                            preserveNullAndEmptyArrays: true
+                          }
+                      },
+                      {
+                        $unwind:
+                          {
+                            path: '$SpeciesGroup.species',
+                            preserveNullAndEmptyArrays: true
+                          }
+                      },
+                      {
+                        $unwind:
+                          {
+                            path: '$SpeciesGroup.species.animals',
+                            preserveNullAndEmptyArrays: true
+                          }
+                      },
+                      {
+                        $lookup:
+                          {
+                            from: 'Feed',
+                            localField:
+                              'SpeciesGroup.species.animals.aid',
+                            foreignField: 'animalID',
+                            as: 'Feed'
+                          }
+                      },
+                      {
+                        $match:
+                          {
+                            $expr: {
+                              $eq: [
+                                0,
+                                {
+                                  $size: '$Feed'
+                                }
+                              ]
+                            }
+                          }
+                      },
+                      {
+                        $project:
+                          {
+                            SpeciesGroup: 1
+                          }
+                      }
+                   ]
+                ";
+
+
+                PipelineDefinition<NoPipelineInput, SpeciesGroup> pipeline = BsonSerializer.Deserialize<BsonArray>(pipelineStr).Select(x => x.AsBsonDocument).ToArray();
+                var data = MongoDBHelper.getDatabase().Aggregate<SpeciesGroup>(pipeline).ToList();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("aid", typeof(int));
+                dt.Columns.Add("name", typeof(string));
+                dt.Columns.Add("commonName", typeof (string));
+                dt.Columns.Add("feedingInterval", typeof(int));
+
+
+
+                return dt;
+            }
+
         }
 
         /**<summary>

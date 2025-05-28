@@ -163,7 +163,6 @@ namespace ZooApp
             Button btnFeed = (Button)this.Controls.Find($"btn_home_feed{n}", true)[0];
             Panel panel = (Panel)this.Controls.Find($"panel_home_feeding{n}", true)[0];
 
-            //TODO implement calculateFeedTimeString
             if (totalTime != -1)
             {
                 if (totalTime > FeedingInterval)
