@@ -526,25 +526,127 @@ namespace ZooApp
         */
         public static DataTable getFeedingListForStaff(int rows, int sid)
         {
-            String query = $"SELECT a.aid, a.name, s3.commonName, f.datetime, a.feedingInterval " +
-                $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
-                $"WHERE a.aid IN " +
-                $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
-                $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
-                $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
-                $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid) " +
-                $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) " +
-                $"ORDER BY f.dateTime ASC NULLS FIRST " +
-                $"FETCH FIRST :nrows ROWS ONLY";
 
-            List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
-            parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.Input));
+            if (currentDB == DBType.Oracle)
+            {
+                String query = $"SELECT a.aid, a.name, s3.commonName, f.datetime, a.feedingInterval " +
+                    $"FROM {DatabaseHelper.Table("ANIMAL")} a " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("FEED")} f ON a.aid = f.animalid " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("SPECIES")} s3 ON a.speciesName = s3.latinName " +
+                    $"WHERE a.aid IN " +
+                    $"(SELECT a2.aid FROM {DatabaseHelper.Table("STAFF")} s2 " +
+                    $"LEFT OUTER JOIN {DatabaseHelper.Table("OVERSEES")} o2 ON s2.SID = o2.staffID " +
+                    $"JOIN {DatabaseHelper.Table("SPECIESGROUP")} sg2 ON o2.sGroupName = sg2.latinName " +
+                    $"JOIN {DatabaseHelper.Table("SPECIES")} s2 ON s2.speciesGroup = sg2.latinName " +
+                    $"JOIN {DatabaseHelper.Table("ANIMAL")} a2 ON a2.speciesName = s2.latinName WHERE s2.sid = :sid) " +
+                    $"AND f.dateTime = (SELECT MAX(dateTime) FROM {DatabaseHelper.Table("FEED")} f2 WHERE a.aid = f2.animalid) " +
+                    $"ORDER BY f.dateTime ASC NULLS FIRST " +
+                    $"FETCH FIRST :nrows ROWS ONLY";
 
-            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+                List<OracleParameter> parameters = new List<OracleParameter>();
+                parameters.Add(new OracleParameter("sid", OracleDbType.Int32, sid, ParameterDirection.Input));
+                parameters.Add(new OracleParameter("nrows", OracleDbType.Int32, rows, ParameterDirection.Input));
+
+                return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+
+            }
+            else
+            {
+                var pipeline = new[]
+                {
+                    new BsonDocument("$match",
+                    new BsonDocument("sid", sid)),
+                    new BsonDocument("$project",
+                    new BsonDocument("oversees", 1)),
+                    new BsonDocument("$lookup",
+                    new BsonDocument
+                        {
+                            { "from", "speciesGroup" },
+                            { "localField", "oversees.latinName" },
+                            { "foreignField", "latinName" },
+                            { "as", "speciesGroup" }
+                        }),
+                    new BsonDocument("$project",
+                    new BsonDocument
+                        {
+                            { "speciesGroup.species.commonName", 1 },
+                            { "speciesGroup.species.animals.aid", 1 },
+                            { "speciesGroup.species.animals.name", 1 },
+                            { "speciesGroup.species.animals.feedingInterval", 1 }
+                        }),
+                    new BsonDocument("$unwind",
+                    new BsonDocument
+                        {
+                            { "path", "$speciesGroup" },
+                            { "preserveNullAndEmptyArrays", true }
+                        }),
+                    new BsonDocument("$unwind",
+                    new BsonDocument
+                        {
+                            { "path", "$speciesGroup.species" },
+                            { "preserveNullAndEmptyArrays", true }
+                        }),
+                    new BsonDocument("$unwind",
+                    new BsonDocument
+                        {
+                            { "path", "$speciesGroup.species.animals" },
+                            { "preserveNullAndEmptyArrays", true }
+                        }),
+                    new BsonDocument("$lookup",
+                    new BsonDocument
+                        {
+                            { "from", "Feed" },
+                            { "localField", "speciesGroup.species.animals.aid" },
+                            { "foreignField", "animalID" },
+                            { "as", "Feed" }
+                        }),
+                    new BsonDocument("$match",
+                    new BsonDocument("$expr",
+                    new BsonDocument("$gt",
+                    new BsonArray
+                                {
+                                    new BsonDocument("$size", "$Feed"),
+                                    0
+                                }))),
+                    new BsonDocument("$project",
+                    new BsonDocument
+                        {
+                            { "aid", "$speciesGroup.species.animals.aid" },
+                            { "name", "$speciesGroup.species.animals.name" },
+                            { "commonName", "$speciesGroup.species.commonName" },
+                            { "datetime",
+                    new BsonDocument("$max", "$Feed.datetime") },
+                            { "feedingInterval", "$speciesGroup.species.animals.feedingInterval" }
+                        }),
+                    new BsonDocument("$sort",
+                    new BsonDocument("datetime", 1)),
+                    new BsonDocument("$limit", rows)
+                };
+
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("aid", typeof(int));
+                dt.Columns.Add("name", typeof(string));
+                dt.Columns.Add("commonName", typeof(string));
+                dt.Columns.Add("datetime", typeof(DateTime));
+                dt.Columns.Add("feedingInterval", typeof(int));
+
+                foreach (var animal in data)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr[0] = animal["aid"].AsInt32;
+                    dr[1] = animal["name"].AsString;
+                    dr[2] = animal["commonName"].AsString;
+                    dr[3] = animal["datetime"].AsBsonDateTime.ToUniversalTime();
+                    dr[4] = animal["feedingInterval"].AsInt32;
+                    dt.Rows.Add(dr);
+                }
+
+                return dt;
+
+            }
         }
 
         /**<summary>
@@ -581,99 +683,74 @@ namespace ZooApp
             }
             else
             {
-                //Gets the staff member that matches the staffID
-                var matchSID = Builders<Staff>.Filter.Eq(s => s.sid, sid);
-
-
-
-                var pipelineStr = @"
-                   [
-                      {
-                        $match:
-                          {
-                            sid:" + sid + @" 
-                          }
-                      },
-                      {
-                        $project:
-                          {
-                            oversees: 1
-                          }
-                      },
-                      {
-                        $lookup:
-                          {
-                            from: 'SpeciesGroup',
-                            localField: 'oversees.latinName',
-                            foreignField: 'latinName',
-                            as: 'SpeciesGroup'
-                          }
-                      },
-                      {
-                        $project:
-                          {
-                            'SpeciesGroup.species.commonName': 1,
-                            'SpeciesGroup.species.animals.aid': 1,
-                            'SpeciesGroup.species.animals.name': 1,
-                            'SpeciesGroup.species.animals.feedingInterval': 1
-                          }
-                      },
-                      {
-                        $unwind:
-                          {
-                            path: '$SpeciesGroup',
-                            preserveNullAndEmptyArrays: true
-                          }
-                      },
-                      {
-                        $unwind:
-                          {
-                            path: '$SpeciesGroup.species',
-                            preserveNullAndEmptyArrays: true
-                          }
-                      },
-                      {
-                        $unwind:
-                          {
-                            path: '$SpeciesGroup.species.animals',
-                            preserveNullAndEmptyArrays: true
-                          }
-                      },
-                      {
-                        $lookup:
-                          {
-                            from: 'Feed',
-                            localField:
-                              'SpeciesGroup.species.animals.aid',
-                            foreignField: 'animalID',
-                            as: 'Feed'
-                          }
-                      },
-                      {
-                        $match:
-                          {
-                            $expr: {
-                              $eq: [
-                                0,
+                var pipeline = new[]
+                {
+                new BsonDocument("$match",
+                    new BsonDocument("sid", sid)),
+                    new BsonDocument("$project",
+                    new BsonDocument("oversees", 1)),
+                    new BsonDocument("$lookup",
+                    new BsonDocument
+                        {
+                            { "from", "speciesGroup" },
+                            { "localField", "oversees.latinName" },
+                            { "foreignField", "latinName" },
+                            { "as", "speciesGroup" }
+                        }),
+                    new BsonDocument("$project",
+                    new BsonDocument
+                        {
+                            { "speciesGroup.species.commonName", 1 },
+                            { "speciesGroup.species.animals.aid", 1 },
+                            { "speciesGroup.species.animals.name", 1 },
+                            { "speciesGroup.species.animals.feedingInterval", 1 }
+                        }),
+                    new BsonDocument("$unwind",
+                    new BsonDocument
+                        {
+                            { "path", "$speciesGroup" },
+                            { "preserveNullAndEmptyArrays", true }
+                        }),
+                    new BsonDocument("$unwind",
+                    new BsonDocument
+                        {
+                            { "path", "$speciesGroup.species" },
+                            { "preserveNullAndEmptyArrays", true }
+                        }),
+                    new BsonDocument("$unwind",
+                    new BsonDocument
+                        {
+                            { "path", "$speciesGroup.species.animals" },
+                            { "preserveNullAndEmptyArrays", true }
+                        }),
+                    new BsonDocument("$lookup",
+                    new BsonDocument
+                        {
+                            { "from", "Feed" },
+                            { "localField", "speciesGroup.species.animals.aid" },
+                            { "foreignField", "animalID" },
+                            { "as", "Feed" }
+                        }),
+                    new BsonDocument("$match",
+                    new BsonDocument("$expr",
+                    new BsonDocument("$eq",
+                    new BsonArray
                                 {
-                                  $size: '$Feed'
-                                }
-                              ]
-                            }
-                          }
-                      },
-                      {
-                        $project:
-                          {
-                            SpeciesGroup: 1
-                          }
-                      }
-                   ]
-                ";
+                                    0,
+                                    new BsonDocument("$size", "$Feed")
+                                }))),
+                    new BsonDocument("$project",
+                    new BsonDocument
+                        {
+                            { "aid", "$speciesGroup.species.animals.aid" },
+                            { "name", "$speciesGroup.species.animals.name" },
+                            { "commonName", "$speciesGroup.species.commonName" },
+                            { "feedingInterval", "$speciesGroup.species.animals.feedingInterval" }
+                        }),
+                    new BsonDocument("$limit", rows)
+                };
 
-
-                PipelineDefinition<NoPipelineInput, SpeciesGroup> pipeline = BsonSerializer.Deserialize<BsonArray>(pipelineStr).Select(x => x.AsBsonDocument).ToArray();
-                //var data = MongoDBHelper.getDatabase().Aggregate<SpeciesGroup>(pipeline).ToList();
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
 
                 DataTable dt = new DataTable();
 
@@ -682,7 +759,15 @@ namespace ZooApp
                 dt.Columns.Add("commonName", typeof (string));
                 dt.Columns.Add("feedingInterval", typeof(int));
 
-
+                foreach(var animal in data)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr[0] = animal["aid"].AsInt32;
+                    dr[1] = animal["name"].AsString;
+                    dr[2] = animal["commonName"].AsString;
+                    dr[3] = animal["feedingInterval"].AsInt32;
+                    dt.Rows.Add(dr);
+                }
 
                 return dt;
             }
@@ -697,10 +782,50 @@ namespace ZooApp
          */
         public static DataTable getEnclosuresByName(string name)
         {
-            String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :name";
-            List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("name", OracleDbType.Varchar2, $"%{name}%", ParameterDirection.Input));
-            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+                if (getDBType() == DBType.Oracle) { 
+                String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :name";
+                List<OracleParameter> parameters = new List<OracleParameter>();
+                parameters.Add(new OracleParameter("name", OracleDbType.Varchar2, $"%{name}%", ParameterDirection.Input));
+                return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+            }
+            else
+            {
+                BsonDocument[] pipeline = new[]
+                {
+                     new BsonDocument("$unwind",
+                        new BsonDocument
+                            {
+                                { "path", "$enclosures" },
+                                { "preserveNullAndEmptyArrays", true }
+                            }),
+                        new BsonDocument("$project",
+                            new BsonDocument
+                            {
+                                { "eid", "$enclosures.eid" },
+                                { "name", "$enclosures.name" }
+                            }),
+                        new BsonDocument("$match",
+                        new BsonDocument("name",
+                        new BsonDocument("$regex", $"[a-zA-Z]*{name}[a-zA-Z]*")))
+                };
+
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("eid", typeof(int));
+                dt.Columns.Add("name", typeof(string));
+
+                foreach (var animal in data)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr[0] = animal["eid"].AsInt32;
+                    dr[1] = animal["name"].AsString;
+                    dt.Rows.Add(dr);
+                }
+
+                return dt;
+            }
         }
 
         /**<summary>
@@ -713,44 +838,41 @@ namespace ZooApp
          */
         public static DataTable getEnclosureNameById(int eid)
         {
-            /**
+            
             if (getDBType() == DBType.Oracle)
             {
-            */
+            
                 String query = $"SELECT name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE eid = :eid";
                 List<OracleParameter> paramList = new List<OracleParameter>();
                 paramList.Add(new OracleParameter("eid", OracleDbType.Int32, eid, ParameterDirection.Input));
                 return DatabaseHelper.ExecuteQuery(query, paramList.ToArray());
-                /**
+                
             }
             else
             {
                 DataTable dt = new DataTable();
 
-                BsonDocument[] pipeline = new BsonDocument[]{ 
-                    new BsonDocument("$match",
-                    new BsonDocument("enclosures.eid", eid)),
+                BsonDocument[] pipeline = new BsonDocument[]{
                     new BsonDocument("$unwind",
                     new BsonDocument("path", "$enclosures")),
                     new BsonDocument("$match",
                     new BsonDocument("enclosures.eid", eid)),
                     new BsonDocument("$project",
-                    new BsonDocument("enclosures.name", 1))
+                    new BsonDocument("name", "$enclosures.name"))
                 };
 
-                var bsonData = MongoDBHelper.AggrigateFind(MongoDBHelper.DBCollection.Zone, pipeline);
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
 
-                Console.WriteLine(bsonData.ElementAt(0)["enclosures.name"].ToString());
-
-
-                string name = bsonData.ElementAt(0)["name"].ToString();
+                string name = data.ElementAt(0)["name"].ToString();
 
                 dt.Columns.Add("name");
-                dt.Rows[0][0] = name; 
+                DataRow dr = dt.NewRow();
+                dr[0] = name;
+                dt.Rows.Add(dr);
 
                 return dt;
             }
-                */
+                
         }
 
         /**<summary>
