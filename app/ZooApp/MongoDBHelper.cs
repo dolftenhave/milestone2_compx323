@@ -98,6 +98,33 @@ namespace ZooApp
                 .ToList();
         }
 
+        public static (string enclosureName, string zoneName) GetEnclosureZoneByAnimalId(int aid)
+        {
+            var pipeline = new[]
+            {
+        new BsonDocument("$match", new BsonDocument("enclosures.animal.aid", aid)),
+        new BsonDocument("$unwind", "$enclosures"),
+        new BsonDocument("$unwind", "$enclosures.animal"),
+        new BsonDocument("$match", new BsonDocument("enclosures.animal.aid", aid)),
+        new BsonDocument("$project", new BsonDocument
+        {
+            { "zoneName", "$name" },
+            { "enclosureName", "$enclosures.name" }
+        })
+    };
+
+            var result = GetCollection(DBCollection.Zone)
+                .Aggregate<BsonDocument>(pipeline)
+                .FirstOrDefault();
+
+            if (result != null)
+            {
+                return (result["enclosureName"].AsString, result["zoneName"].AsString);
+            }
+
+            return ("Unknown", "Unknown");
+        }
+
     }
 }
 

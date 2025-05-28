@@ -673,7 +673,7 @@ namespace ZooApp
 
 
                 PipelineDefinition<NoPipelineInput, SpeciesGroup> pipeline = BsonSerializer.Deserialize<BsonArray>(pipelineStr).Select(x => x.AsBsonDocument).ToArray();
-                var data = MongoDBHelper.getDatabase().Aggregate<SpeciesGroup>(pipeline).ToList();
+                //var data = MongoDBHelper.getDatabase().Aggregate<SpeciesGroup>(pipeline).ToList();
 
                 DataTable dt = new DataTable();
 

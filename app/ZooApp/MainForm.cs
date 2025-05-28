@@ -677,7 +677,7 @@ namespace ZooApp
                 txtLastFed.Text = lastFed;
                 txtLastCare.Text = lastCare;
             }
-            else // Mongo
+            else // MongoDB
             {
                 var allAnimals = GetAllAnimalsFromMongo();
                 var selectedAnimal = allAnimals.FirstOrDefault(a => a["name"].AsString == animalName);
@@ -688,35 +688,20 @@ namespace ZooApp
                     return;
                 }
 
+                var aid = selectedAnimal["animal_id"].AsInt32;
+
+                // Populate fields from flat structure
                 txtSpecies.Text = selectedAnimal["speciesCommon"].AsString;
                 txtAge.Text = getAgeFromDob(selectedAnimal["dob"].ToUniversalTime());
                 txtSex.Text = selectedAnimal["sex"].AsString == "M" ? "Male" : "Female";
                 txtWeight.Text = selectedAnimal["weight"] + " kg";
                 txtOrigin.Text = selectedAnimal["originCountry"].AsString;
                 txtFeedingInterval.Text = selectedAnimal["feedingInterval"] + " Hours";
-                txtEnclosure.Text = "Unknown";
-                txtZone.Text = "Unknown";
 
-                // Find Enclosure/Zone by ID match
-                var aid = selectedAnimal["animal_id"].AsInt32;
-                var zones = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Zone);
-                foreach (var zone in zones)
-                {
-                    foreach (var enclosure in zone["enclosures"].AsBsonArray)
-                    {
-                        if (!enclosure.AsBsonDocument.Contains("animals")) continue;
-
-                        foreach (var a in enclosure["animals"].AsBsonArray)
-                        {
-                            if (a["aid"].AsInt32 == aid)
-                            {
-                                txtEnclosure.Text = enclosure["name"].AsString;
-                                txtZone.Text = zone["name"].AsString;
-                                break;
-                            }
-                        }
-                    }
-                }
+                // New: Enclosure + Zone via aggregation
+                var (enclosureName, zoneName) = MongoDBHelper.GetEnclosureZoneByAnimalId(aid);
+                txtEnclosure.Text = enclosureName;
+                txtZone.Text = zoneName;
 
                 // Zookeepers
                 var speciesGroup = selectedAnimal["groupCommon"].AsString;
@@ -733,11 +718,13 @@ namespace ZooApp
                 var vetIds = cares.Select(c => c["staffID"].AsInt32).Distinct();
                 txtVets.Text = string.Join(", ", GetStaffNamesByIds(vetIds).Take(5));
 
+                // Feeding
                 var feeds = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Feed)
                     .Where(f => f["animalID"].AsInt32 == aid)
                     .OrderByDescending(f => f["datetime"]);
                 txtLastFed.Text = feeds.Any() ? getDaysAgo(feeds.First()["datetime"].ToLocalTime()) : "Never Fed!";
 
+                // Care
                 var lastCare = cares.OrderByDescending(c => c["datetime"]).FirstOrDefault();
                 txtLastCare.Text = lastCare != null ? getDaysAgo(lastCare["datetime"].ToLocalTime()) : "Never Cared!";
             }
