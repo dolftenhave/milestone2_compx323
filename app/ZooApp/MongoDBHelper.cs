@@ -27,13 +27,14 @@ namespace ZooApp
             SpeciesGroup = 4
         }
 
-        //All teh names of the collection in the app DB. Each index has a matching enum in DBCollection.
+        //All the names of the collection in the app DB. Each index has a matching enum in DBCollection.
         private static readonly string[] DBCollections = new string[5]{
             "Care",
             "Feed",
             "Staff",
             "Zone",
             "speciesGroup"
+            //"SpeciesGroup"
         };
 
         private static string getCollectionName(DBCollection collectionName)
@@ -41,7 +42,8 @@ namespace ZooApp
             return DBCollections[(int)collectionName];
         }
 
-        private static string connectionString = "mongodb+srv://minsoehtut306:Minmin306htut1@cluster0.d7amife.mongodb.net/";
+        //private static string connectionString = "mongodb+srv://minsoehtut306:Minmin306htut1@cluster0.d7amife.mongodb.net/";
+        private static string connectionString = "mongodb+srv://jc550:Y5GtOClNE7DOcJkc@cluster0.isdeesz.mongodb.net/";
 
         public static void Initialize(string dbName = "Zoo")
         {
@@ -123,6 +125,36 @@ namespace ZooApp
             }
 
             return ("Unknown", "Unknown");
+        }
+
+        public static List<(int enclosureID, string enclosureName)> GetEnclosuresFromZoneName(string zoneName)
+        {
+            var pipeline = new[]
+            {
+                new BsonDocument("$match",
+                new BsonDocument("name", "Africa")),
+                new BsonDocument("$unwind",
+                new BsonDocument("path", "$enclosures"))
+            };
+
+            var results = GetCollection(DBCollection.Zone)
+                .Aggregate<BsonDocument>(pipeline)
+                .ToList();
+
+            if (results != null)
+            {
+                List<(int, string)> toReturn = new List<(int, string)>();
+
+                foreach (BsonDocument b in results)
+                {
+                    BsonElement test = b.GetElement("enclosures");
+                    toReturn.Add(((int, string))((b["enclosures.eid"].AsInt32), (b["enclosures.name"].AsString)));
+                }
+
+                return toReturn;
+            }
+
+            return null;
         }
 
     }

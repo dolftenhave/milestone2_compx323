@@ -906,22 +906,38 @@ namespace ZooApp
 
             // Make sure to set the current enclosure to -1!
             currentEnclosure = -1;
+            DataTable enclosuresToShow;
 
-            // Get a DataTable with:
-            // [0] eid
-            // [1] eName
-            String query = $"SELECT distinct e.eid, e.name " +
-                $"FROM {DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} sp, " +
-                $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o, " +
-                $"{DatabaseHelper.Table("ANIMAL")} a " +
-                $"WHERE e.zoneName = '{ZoneNameList[index]}' " +
-                $"AND a.enclosureID = e.eid " +
-                $"AND a.speciesName = sp.latinname " +
-                $"AND sp.speciesgroup = o.sGroupName " +
-                $"AND o.staffID = '{staffMemberId}' ";
+            // If using mongo:
+            if (usingMongo)
+            {
+                List<(int, string)> enclosures = MongoDBHelper.GetEnclosuresFromZoneName(zoneName);
+                enclosuresToShow = new DataTable();
+                enclosuresToShow.Columns.Add("eid", typeof(int));
+                enclosuresToShow.Columns.Add("name", typeof(string));
+                foreach ((int, string) enc in enclosures)
+                {
+                    enclosures.Add(enc);
+                }
+            }
+            else
+            {
+                // Get a DataTable with:
+                // [0] eid
+                // [1] eName
+                String query = $"SELECT distinct e.eid, e.name " +
+                    $"FROM {DatabaseHelper.Table("ENCLOSURE")} e, {DatabaseHelper.Table("SPECIES")} sp, " +
+                    $"{DatabaseHelper.Table("SPECIESGROUP")} sg, {DatabaseHelper.Table("OVERSEES")} o, " +
+                    $"{DatabaseHelper.Table("ANIMAL")} a " +
+                    $"WHERE e.zoneName = '{ZoneNameList[index]}' " +
+                    $"AND a.enclosureID = e.eid " +
+                    $"AND a.speciesName = sp.latinname " +
+                    $"AND sp.speciesgroup = o.sGroupName " +
+                    $"AND o.staffID = '{staffMemberId}' ";
 
-            // Run query and populate the enclosure combobox
-            DataTable enclosuresToShow = DatabaseHelper.ExecuteQuery(query);
+                enclosuresToShow = DatabaseHelper.ExecuteQuery(query);
+            }
+
             populateEnclosureList_ComboBox_Enclosure_Search(enclosuresToShow);
 
             // Now switch tabs, combobox is populated. 
