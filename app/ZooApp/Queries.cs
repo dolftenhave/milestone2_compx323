@@ -555,7 +555,7 @@ namespace ZooApp
                 var pipeline = new[]
                 {
                     new BsonDocument("$match",
-                    new BsonDocument("sid", 1)),
+                    new BsonDocument("sid", sid)),
                     new BsonDocument("$project",
                     new BsonDocument("oversees", 1)),
                     new BsonDocument("$lookup",
@@ -686,7 +686,7 @@ namespace ZooApp
                 var pipeline = new[]
                 {
                 new BsonDocument("$match",
-                    new BsonDocument("sid", 1)),
+                    new BsonDocument("sid", sid)),
                     new BsonDocument("$project",
                     new BsonDocument("oversees", 1)),
                     new BsonDocument("$lookup",
@@ -782,10 +782,50 @@ namespace ZooApp
          */
         public static DataTable getEnclosuresByName(string name)
         {
-            String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :name";
-            List<OracleParameter> parameters = new List<OracleParameter>();
-            parameters.Add(new OracleParameter("name", OracleDbType.Varchar2, $"%{name}%", ParameterDirection.Input));
-            return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+                if (getDBType() == DBType.Oracle) { 
+                String query = $"SELECT eid, name FROM {DatabaseHelper.Table("ENCLOSURE")} WHERE name LIKE :name";
+                List<OracleParameter> parameters = new List<OracleParameter>();
+                parameters.Add(new OracleParameter("name", OracleDbType.Varchar2, $"%{name}%", ParameterDirection.Input));
+                return DatabaseHelper.ExecuteQuery(query, parameters.ToArray());
+            }
+            else
+            {
+                BsonDocument[] pipeline = new[]
+                {
+                     new BsonDocument("$unwind",
+                        new BsonDocument
+                            {
+                                { "path", "$enclosures" },
+                                { "preserveNullAndEmptyArrays", true }
+                            }),
+                        new BsonDocument("$project",
+                            new BsonDocument
+                            {
+                                { "eid", "$enclosures.eid" },
+                                { "name", "$enclosures.name" }
+                            }),
+                        new BsonDocument("$match",
+                        new BsonDocument("name",
+                        new BsonDocument("$regex", $"[a-zA-Z]*{name}[a-zA-Z]*")))
+                };
+
+                var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("eid", typeof(int));
+                dt.Columns.Add("name", typeof(string));
+
+                foreach (var animal in data)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr[0] = animal["eid"].AsInt32;
+                    dr[1] = animal["name"].AsString;
+                    dt.Rows.Add(dr);
+                }
+
+                return dt;
+            }
         }
 
         /**<summary>
@@ -812,15 +852,13 @@ namespace ZooApp
             {
                 DataTable dt = new DataTable();
 
-                BsonDocument[] pipeline = new BsonDocument[]{ 
-                    new BsonDocument("$match",
-                    new BsonDocument("enclosures.eid", eid)),
+                BsonDocument[] pipeline = new BsonDocument[]{
                     new BsonDocument("$unwind",
                     new BsonDocument("path", "$enclosures")),
                     new BsonDocument("$match",
                     new BsonDocument("enclosures.eid", eid)),
                     new BsonDocument("$project",
-                    new BsonDocument("enclosures.name", 1))
+                    new BsonDocument("name", "$enclosures.name"))
                 };
 
                 var data = MongoDBHelper.GetCollection(MongoDBHelper.DBCollection.Staff).Aggregate<BsonDocument>(pipeline).ToList();
