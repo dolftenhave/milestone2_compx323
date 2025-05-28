@@ -678,42 +678,28 @@ namespace ZooApp
                 txtLastFed.Text = lastFed;
                 txtLastCare.Text = lastCare;
             }
-            else
+            else // Mongo
             {
-                var speciesGroups = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.SpeciesGroup);
+                var allAnimals = GetAllAnimalsFromMongo();
+                var selectedAnimal = allAnimals.FirstOrDefault(a => a["name"].AsString == animalName);
 
-                var selectedAnimalInfo = speciesGroups
-                    .SelectMany(group => group["species"].AsBsonArray
-                        .SelectMany(species => species["animals"].AsBsonArray
-                            .Where(a => a["name"].AsString == animalName)
-                            .Select(a => new
-                            {
-                                animal = a,
-                                speciesName = species["commonName"].AsString,
-                                speciesGroup = group["commonName"].AsString
-                            })))
-                    .FirstOrDefault();
-
-                if (selectedAnimalInfo == null)
+                if (selectedAnimal == null)
                 {
                     MessageBox.Show("Animal not found.");
                     return;
                 }
 
-                var animal = selectedAnimalInfo.animal;
-                var speciesName = selectedAnimalInfo.speciesName;
-                var speciesGroup = selectedAnimalInfo.speciesGroup;
-
-                txtSpecies.Text = speciesName;
-                txtAge.Text = getAgeFromDob(animal["dob"].ToUniversalTime());
-                txtSex.Text = animal["sex"].AsString == "M" ? "Male" : "Female";
-                txtWeight.Text = animal["weight"] + " kg";
-                txtOrigin.Text = animal["originCountry"].AsString;
-                txtFeedingInterval.Text = animal["feedingInterval"] + " Hours";
-
+                txtSpecies.Text = selectedAnimal["speciesCommon"].AsString;
+                txtAge.Text = getAgeFromDob(selectedAnimal["dob"].ToUniversalTime());
+                txtSex.Text = selectedAnimal["sex"].AsString == "M" ? "Male" : "Female";
+                txtWeight.Text = selectedAnimal["weight"] + " kg";
+                txtOrigin.Text = selectedAnimal["originCountry"].AsString;
+                txtFeedingInterval.Text = selectedAnimal["feedingInterval"] + " Hours";
                 txtEnclosure.Text = "Unknown";
                 txtZone.Text = "Unknown";
 
+                // Find Enclosure/Zone by ID match
+                var aid = selectedAnimal["animal_id"].AsInt32;
                 var zones = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Zone);
                 foreach (var zone in zones)
                 {
@@ -723,7 +709,7 @@ namespace ZooApp
 
                         foreach (var a in enclosure["animals"].AsBsonArray)
                         {
-                            if (a["aid"].AsInt32 == animal["aid"].AsInt32)
+                            if (a["aid"].AsInt32 == aid)
                             {
                                 txtEnclosure.Text = enclosure["name"].AsString;
                                 txtZone.Text = zone["name"].AsString;
@@ -734,6 +720,7 @@ namespace ZooApp
                 }
 
                 // Zookeepers
+                var speciesGroup = selectedAnimal["groupCommon"].AsString;
                 var allStaff = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Staff);
                 var keeperIds = allStaff
                     .Where(s => s.Contains("oversees") &&
@@ -741,20 +728,21 @@ namespace ZooApp
                     .Select(s => s["sid"].AsInt32);
                 txtZookeepers.Text = string.Join(", ", GetStaffNamesByIds(keeperIds).Take(5));
 
-                // Vets (Care records)
+                // Vets
                 var cares = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Care)
-                    .Where(c => c["animalID"].AsInt32 == animal["aid"].AsInt32);
+                    .Where(c => c["animalID"].AsInt32 == aid);
                 var vetIds = cares.Select(c => c["staffID"].AsInt32).Distinct();
                 txtVets.Text = string.Join(", ", GetStaffNamesByIds(vetIds).Take(5));
 
                 var feeds = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.Feed)
-                    .Where(f => f["animalID"].AsInt32 == animal["aid"].AsInt32)
+                    .Where(f => f["animalID"].AsInt32 == aid)
                     .OrderByDescending(f => f["datetime"]);
                 txtLastFed.Text = feeds.Any() ? getDaysAgo(feeds.First()["datetime"].ToLocalTime()) : "Never Fed!";
 
                 var lastCare = cares.OrderByDescending(c => c["datetime"]).FirstOrDefault();
                 txtLastCare.Text = lastCare != null ? getDaysAgo(lastCare["datetime"].ToLocalTime()) : "Never Cared!";
             }
+
         }
 
         /// <summary>
@@ -1030,39 +1018,7 @@ namespace ZooApp
         //mongo helper class
         private List<BsonDocument> GetAllAnimalsFromMongo()
         {
-            var allGroups = MongoDBHelper.FindAll(MongoDBHelper.DBCollection.SpeciesGroup);
-            var animals = new List<BsonDocument>();
-
-            foreach (var group in allGroups)
-            {
-                if (!group.Contains("species") || !group["species"].IsBsonArray) continue;
-
-                var speciesArray = group["species"].AsBsonArray;
-
-                foreach (var speciesItem in speciesArray)
-                {
-                    var species = speciesItem.AsBsonDocument;
-
-                    if (!species.Contains("animals") || !species["animals"].IsBsonArray) continue;
-
-                    var speciesName = species["latinName"].AsString;
-                    var groupName = group["commonName"].AsString;
-                    var requiredBiome = species["requiredBiome"].AsString;
-
-                    foreach (var animalItem in species["animals"].AsBsonArray)
-                    {
-                        var animal = animalItem.AsBsonDocument;
-
-                        var clone = animal.DeepClone().AsBsonDocument;
-                        clone.Add("speciesName", speciesName);
-                        clone.Add("speciesGroup", groupName);
-                        clone.Add("requiredBiome", requiredBiome);
-
-                        animals.Add(clone);
-                    }
-                }
-
-            }
+            var animals = MongoDBHelper.AggregateSpeciesAnimals();
 
             if (animals.Count == 0)
             {
@@ -1071,6 +1027,7 @@ namespace ZooApp
 
             return animals;
         }
+
 
         private string getDaysAgo(DateTime dt)
         {

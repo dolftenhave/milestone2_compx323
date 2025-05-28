@@ -72,6 +72,34 @@ namespace ZooApp
         {
             GetCollection(collectionName).InsertOne(document);
         }
+
+        public static List<BsonDocument> AggregateSpeciesAnimals()
+        {
+            var pipeline = new[]
+            {
+        new BsonDocument("$unwind", "$species"),
+        new BsonDocument("$unwind", "$species.animals"),
+        new BsonDocument("$project", new BsonDocument
+        {
+            { "animal_id", "$species.animals.aid" },
+            { "name", "$species.animals.name" },
+            { "sex", "$species.animals.sex" },
+            { "feedingInterval", "$species.animals.feedingInterval" },
+            { "weight", "$species.animals.weight" },
+            { "originCountry", "$species.animals.originCountry" },
+            { "dob", "$species.animals.dob" },
+            { "speciesName", "$species.latinName" },
+            { "speciesCommon", "$species.commonName" },
+            { "requiredBiome", "$species.requiredBiome" },
+            { "groupCommon", "$commonName" },
+        })
+    };
+
+            return GetCollection(DBCollection.SpeciesGroup)
+                .Aggregate<BsonDocument>(pipeline)
+                .ToList();
+        }
+
     }
 }
 
