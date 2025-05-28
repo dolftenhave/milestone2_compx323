@@ -1063,10 +1063,7 @@ namespace ZooApp
          */
         private void tabMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(((TabControl)sender).SelectedTab.Name == tabFeed.Name)
-            {
-                getStaff();
-            }
+            return;
         }
 
         /**
@@ -1074,14 +1071,7 @@ namespace ZooApp
          */
         private void getStaff()
         {
-            String query = $"SELECT fname || ' ' || lname AS \"Fullname\" FROM {DatabaseHelper.Table("STAFF")}";
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-
-            for(int i = 0; i < dt.Rows.Count; i++)
-            {
-                //For some reason this is in the format [row, Column]????
-                cb_feed_staffPicker.Items.Add(dt.Rows[i][0]);
-            }
+            return;
         }
     }
 }
