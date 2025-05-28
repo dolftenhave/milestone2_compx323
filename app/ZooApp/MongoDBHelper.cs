@@ -98,6 +98,68 @@ namespace ZooApp
                 .ToList();
         }
 
+        public static (string enclosureName, string zoneName) GetEnclosureZoneByAnimalId(int aid)
+        {
+            var pipeline = new[]
+            {
+        new BsonDocument("$match", new BsonDocument("enclosures.animal.aid", aid)),
+        new BsonDocument("$unwind", "$enclosures"),
+        new BsonDocument("$unwind", "$enclosures.animal"),
+        new BsonDocument("$match", new BsonDocument("enclosures.animal.aid", aid)),
+        new BsonDocument("$project", new BsonDocument
+        {
+            { "zoneName", "$name" },
+            { "enclosureName", "$enclosures.name" }
+        })
+    };
+
+            var result = GetCollection(DBCollection.Zone)
+                .Aggregate<BsonDocument>(pipeline)
+                .FirstOrDefault();
+
+            if (result != null)
+            {
+                return (result["enclosureName"].AsString, result["zoneName"].AsString);
+            }
+
+            return ("Unknown", "Unknown");
+        }
+
+        public static List<string> GetZookeeperNamesByGroup(string groupLatinName)
+        {
+            var allStaff = FindAll(DBCollection.Staff);
+
+            var keeperIds = allStaff
+                .Where(s => s.Contains("oversees") &&
+                            s["oversees"].AsBsonArray
+                                .Any(o => o["latinName"].AsString == groupLatinName))
+                .Select(s => s["sid"].AsInt32)
+                .Distinct();
+
+            return GetStaffNamesByIds(keeperIds);
+        }
+
+        public static List<string> GetVetNamesByAnimalId(int aid)
+        {
+            var cares = FindAll(DBCollection.Care)
+                .Where(c => c["animalID"].AsInt32 == aid);
+
+            var vetIds = cares
+                .Select(c => c["staffID"].AsInt32)
+                .Distinct();
+
+            return GetStaffNamesByIds(vetIds);
+        }
+        public static List<string> GetStaffNamesByIds(IEnumerable<int> staffIds)
+        {
+            var allStaff = FindAll(DBCollection.Staff);
+
+            return allStaff
+                .Where(s => staffIds.Contains(s["sid"].AsInt32))
+                .Select(s => $"{s["fName"]} {s["lName"]}")
+                .Distinct()
+                .ToList();
+        }
     }
 }
 
