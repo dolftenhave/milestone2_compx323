@@ -125,6 +125,41 @@ namespace ZooApp
             return ("Unknown", "Unknown");
         }
 
+        public static List<string> GetZookeeperNamesByGroup(string groupLatinName)
+        {
+            var allStaff = FindAll(DBCollection.Staff);
+
+            var keeperIds = allStaff
+                .Where(s => s.Contains("oversees") &&
+                            s["oversees"].AsBsonArray
+                                .Any(o => o["latinName"].AsString == groupLatinName))
+                .Select(s => s["sid"].AsInt32)
+                .Distinct();
+
+            return GetStaffNamesByIds(keeperIds);
+        }
+
+        public static List<string> GetVetNamesByAnimalId(int aid)
+        {
+            var cares = FindAll(DBCollection.Care)
+                .Where(c => c["animalID"].AsInt32 == aid);
+
+            var vetIds = cares
+                .Select(c => c["staffID"].AsInt32)
+                .Distinct();
+
+            return GetStaffNamesByIds(vetIds);
+        }
+        public static List<string> GetStaffNamesByIds(IEnumerable<int> staffIds)
+        {
+            var allStaff = FindAll(DBCollection.Staff);
+
+            return allStaff
+                .Where(s => staffIds.Contains(s["sid"].AsInt32))
+                .Select(s => $"{s["fName"]} {s["lName"]}")
+                .Distinct()
+                .ToList();
+        }
     }
 }
 
