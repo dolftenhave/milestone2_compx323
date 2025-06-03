@@ -42,8 +42,8 @@ namespace ZooApp
             return DBCollections[(int)collectionName];
         }
 
-        private static string connectionString = "mongodb+srv://minsoehtut306:Minmin306htut1@cluster0.d7amife.mongodb.net/";
-        //private static string connectionString = "mongodb+srv://jc550:Y5GtOClNE7DOcJkc@cluster0.isdeesz.mongodb.net/";
+		//TODO: Add your own connection string
+        private static string connectionString = "";
 
         public static void Initialize(string dbName = "Zoo")
         {
